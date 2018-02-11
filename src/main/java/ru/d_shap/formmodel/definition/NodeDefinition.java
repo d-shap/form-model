@@ -19,9 +19,14 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.formmodel.definition;
 
+/**
+ * Base class for form definition elements.
+ *
+ * @author Dmitry Shapovalov
+ */
 public class NodeDefinition {
 
-    public NodeDefinition() {
+    NodeDefinition() {
         super();
     }
 
