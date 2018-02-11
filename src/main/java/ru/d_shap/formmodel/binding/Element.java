@@ -19,10 +19,10 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.formmodel.binding;
 
-import ru.d_shap.formmodel.definition.ElementDefinition;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import ru.d_shap.formmodel.definition.ElementDefinition;
 
 public final class Element<T extends BindingObject> {
 
