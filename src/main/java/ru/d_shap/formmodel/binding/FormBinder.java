@@ -1,9 +1,13 @@
 package ru.d_shap.formmodel.binding;
 
-import ru.d_shap.formmodel.definition.*;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import ru.d_shap.formmodel.definition.ElementDefinition;
+import ru.d_shap.formmodel.definition.FormDefinition;
+import ru.d_shap.formmodel.definition.FormDefinitions;
+import ru.d_shap.formmodel.definition.FormReferenceDefinition;
+import ru.d_shap.formmodel.definition.NodeDefinition;
 
 public final class FormBinder {
 
@@ -11,7 +15,7 @@ public final class FormBinder {
         super();
     }
 
-    public static <T extends BindingObject> Form<T> bind(final FormDefinitions formDefinitions, String formId, final Binder<T> binder) {
+    public static <T extends BindingObject> Form<T> bind(final FormDefinitions formDefinitions, final String formId, final Binder<T> binder) {
         binder.init();
 
         Form<T> form = new Form<>();
@@ -29,7 +33,7 @@ public final class FormBinder {
         return createNodeDefinitionBindings(formDefinitions, null, nodeDefinitions, binder);
     }
 
-    private static <T extends BindingObject> List<Element<T>> createNodeDefinitionBindings(final FormDefinitions formDefinitions, final T parent, List<NodeDefinition> nodeDefinitions, final Binder<T> binder) {
+    private static <T extends BindingObject> List<Element<T>> createNodeDefinitionBindings(final FormDefinitions formDefinitions, final T parent, final List<NodeDefinition> nodeDefinitions, final Binder<T> binder) {
         List<Element<T>> elements = new ArrayList<>();
         for (NodeDefinition nodeDefinition : nodeDefinitions) {
             if (nodeDefinition instanceof ElementDefinition) {

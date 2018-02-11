@@ -1,19 +1,25 @@
 package ru.d_shap.formmodel.loader;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
-import ru.d_shap.formmodel.definition.*;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.List;
+import ru.d_shap.formmodel.definition.ElementDefinition;
+import ru.d_shap.formmodel.definition.ElementDefinitionType;
+import ru.d_shap.formmodel.definition.FormDefinition;
+import ru.d_shap.formmodel.definition.FormReferenceDefinition;
+import ru.d_shap.formmodel.definition.NodeDefinition;
 
 public final class FormDefinitionLoader {
 
@@ -31,7 +37,7 @@ public final class FormDefinitionLoader {
 
     private static FormDefinition createFormDefinition(final Document document) {
         Element element = document.getDocumentElement();
-        if (element.getNodeName().equals("form")) {
+        if ("form".equals(element.getNodeName())) {
             String id = element.getAttribute("id");
             FormDefinition formDefinition = new FormDefinition(id);
             processChildNodes(element, formDefinition.getNodeDefinitions());
@@ -47,11 +53,11 @@ public final class FormDefinitionLoader {
             Node childNode = childNodes.item(i);
             if (childNode instanceof Element) {
                 Element childElement = (Element) childNode;
-                if (childElement.getNodeName().equals("element")) {
+                if ("element".equals(childElement.getNodeName())) {
                     ElementDefinition childElementDefinition = createElementDefinition(childElement);
                     nodeDefinitions.add(childElementDefinition);
                 }
-                if (childElement.getNodeName().equals("form")) {
+                if ("form".equals(childElement.getNodeName())) {
                     FormReferenceDefinition childFormReferenceDefinition = createFormReferenceDefinition(childElement);
                     nodeDefinitions.add(childFormReferenceDefinition);
                 }

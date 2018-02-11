@@ -1,14 +1,16 @@
 package ru.d_shap.formmodel.loader;
 
-import org.xml.sax.SAXException;
-import ru.d_shap.formmodel.definition.FormDefinition;
-import ru.d_shap.formmodel.definition.FormDefinitions;
-
-import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
+
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.xml.sax.SAXException;
+
+import ru.d_shap.formmodel.definition.FormDefinition;
+import ru.d_shap.formmodel.definition.FormDefinitions;
 
 public final class FormDefinitionsLoader {
 
@@ -26,7 +28,7 @@ public final class FormDefinitionsLoader {
         return formDefinitions;
     }
 
-    private static void processDirectory(final File file, FormDefinitions formDefinitions) throws ParserConfigurationException, SAXException, IOException {
+    private static void processDirectory(final File file, final FormDefinitions formDefinitions) throws ParserConfigurationException, SAXException, IOException {
         File[] childFiles = file.listFiles(new Filter());
         if (childFiles != null) {
             for (File childFile : childFiles) {
@@ -39,7 +41,7 @@ public final class FormDefinitionsLoader {
         }
     }
 
-    private static void processFile(final File file, FormDefinitions formDefinitions) throws ParserConfigurationException, SAXException, IOException {
+    private static void processFile(final File file, final FormDefinitions formDefinitions) throws ParserConfigurationException, SAXException, IOException {
         try (FileInputStream fileInputStream = new FileInputStream(file)) {
             FormDefinition formDefinition = FormDefinitionLoader.load(fileInputStream);
             formDefinitions.getFormDefinitions().put(formDefinition.getId(), formDefinition);
@@ -53,7 +55,7 @@ public final class FormDefinitionsLoader {
         }
 
         @Override
-        public boolean accept(File dir, String name) {
+        public boolean accept(final File dir, final String name) {
             return name.toLowerCase().endsWith(".xml");
         }
 

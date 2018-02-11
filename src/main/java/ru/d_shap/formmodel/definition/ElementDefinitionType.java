@@ -18,7 +18,7 @@ public enum ElementDefinitionType {
         _attrValue = attrValue;
     }
 
-    public static ElementDefinitionType getElementDefinitionType(String attrValue) {
+    public static ElementDefinitionType getElementDefinitionType(final String attrValue) {
         for (ElementDefinitionType elementDefinitionType : values()) {
             if (elementDefinitionType._attrValue.equals(attrValue)) {
                 return elementDefinitionType;
