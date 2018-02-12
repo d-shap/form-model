@@ -36,7 +36,7 @@ public enum ElementDefinitionType {
 
     FORBIDDEN("forbidden");
 
-    private static final ElementDefinitionType DEFAULT = MANDATORY;
+    public static final ElementDefinitionType DEFAULT = MANDATORY;
 
     private final String _attributeValue;
 
@@ -50,7 +50,7 @@ public enum ElementDefinitionType {
                 return elementDefinitionType;
             }
         }
-        return DEFAULT;
+        return null;
     }
 
 }
