@@ -20,7 +20,7 @@
 package ru.d_shap.formmodel.definition;
 
 /**
- * Base class for the form definition elements.
+ * Base class for all form definition elements.
  *
  * @author Dmitry Shapovalov
  */
