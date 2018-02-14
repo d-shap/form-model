@@ -20,36 +20,61 @@
 package ru.d_shap.formmodel.definition;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
+/**
+ * Form definition.
+ *
+ * @author Dmitry Shapovalov
+ */
 public final class FormDefinition {
+
+    static final String ELEMENT_NAME = "form";
+
+    static final String ATTRIBUTE_ID = "id";
+
+    static final String ATTRIBUTE_FRAME = "frame";
 
     private final String _id;
 
+    private final String _frame;
+
     private final List<NodeDefinition> _nodeDefinitions;
 
-    public FormDefinition(final String id) {
+    FormDefinition(final String id, final String frame, final List<NodeDefinition> nodeDefinitions) {
         super();
         _id = id;
-        _nodeDefinitions = new ArrayList<>();
+        _frame = frame;
+        List<NodeDefinition> nodeDefinitionsCopy = new ArrayList<>(nodeDefinitions);
+        _nodeDefinitions = Collections.unmodifiableList(nodeDefinitionsCopy);
     }
 
+    /**
+     * Get the form ID.
+     *
+     * @return the form ID.
+     */
     public String getId() {
         return _id;
     }
 
-    public List<NodeDefinition> getNodeDefinitions() {
-        return _nodeDefinitions;
+    /**
+     * Get the form frame.
+     *
+     * @return the form frame.
+     */
+    public String getFrame() {
+        return _frame;
     }
 
-    @Override
-    public String toString() {
-        StringBuilder result = new StringBuilder();
-        result.append("FORM: {");
-        result.append("id=").append(_id).append(",");
-        result.append("nodes=").append(_nodeDefinitions);
-        result.append("}");
-        return result.toString();
+    /**
+     * Get the form's node definitions.
+     *
+     * @return the form's node definitions.
+     */
+    public List<NodeDefinition> getNodeDefinitions() {
+        return _nodeDefinitions;
     }
 
 }
