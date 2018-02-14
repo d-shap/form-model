@@ -83,7 +83,7 @@ public final class FormBinder {
     }
 
     private static <T extends BindingObject> List<Element<T>> createFormReferenceDefinitionBindings(final FormDefinitions formDefinitions, final T parent, final FormReferenceDefinition formReferenceDefinition, final Binder<T> binder) {
-        String formId = formReferenceDefinition.getRefId();
+        String formId = formReferenceDefinition.getReferenceId();
         FormDefinition formDefinition = formDefinitions.getFormDefinitions().get(formId);
         List<NodeDefinition> nodeDefinitions = formDefinition.getNodeDefinitions();
         return createNodeDefinitionBindings(formDefinitions, parent, nodeDefinitions, binder);
