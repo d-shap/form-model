@@ -20,7 +20,7 @@
 package ru.d_shap.formmodel.definition;
 
 /**
- * Type of element occurrence.
+ * Element definition type.
  *
  * @author Dmitry Shapovalov
  */
@@ -36,15 +36,19 @@ public enum ElementDefinitionType {
 
     FORBIDDEN("forbidden");
 
-    public static final ElementDefinitionType DEFAULT = MANDATORY;
-
     private final String _attributeValue;
 
     ElementDefinitionType(final String attributeValue) {
         _attributeValue = attributeValue;
     }
 
-    public static ElementDefinitionType getElementDefinitionType(final String attributeValue) {
+    /**
+     * Get the element definition type for the specified attribute value.
+     *
+     * @param attributeValue the specified attribute value.
+     * @return the element definition type.
+     */
+    static ElementDefinitionType getElementDefinitionType(final String attributeValue) {
         for (ElementDefinitionType elementDefinitionType : values()) {
             if (elementDefinitionType._attributeValue.equals(attributeValue)) {
                 return elementDefinitionType;
