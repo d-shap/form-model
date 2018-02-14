@@ -20,9 +20,23 @@
 package ru.d_shap.formmodel.definition;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
+/**
+ * Element definition.
+ *
+ * @author Dmitry Shapovalov
+ */
 public final class ElementDefinition extends NodeDefinition {
+
+    static final String ELEMENT_NAME = "element";
+
+    static final String ATTRIBUTE_ID = "id";
+
+    static final String ATTRIBUTE_LOOKUP = "lookup";
+
+    static final String ATTRIBUTE_TYPE = "type";
 
     private final String _id;
 
@@ -32,44 +46,49 @@ public final class ElementDefinition extends NodeDefinition {
 
     private final List<NodeDefinition> _childNodeDefinitions;
 
-    public ElementDefinition(final String id, final String lookup, final ElementDefinitionType elementDefinitionType) {
+    ElementDefinition(final String id, final String lookup, final ElementDefinitionType elementDefinitionType, final List<NodeDefinition> childNodeDefinitions) {
         super();
         _id = id;
         _lookup = lookup;
         _elementDefinitionType = elementDefinitionType;
-        _childNodeDefinitions = new ArrayList<>();
+        List<NodeDefinition> childNodeDefinitionsCopy = new ArrayList<>(childNodeDefinitions);
+        _childNodeDefinitions = Collections.unmodifiableList(childNodeDefinitionsCopy);
     }
 
+    /**
+     * Get the element ID.
+     *
+     * @return the element ID.
+     */
     public String getId() {
         return _id;
     }
 
+    /**
+     * Get the element lookup string.
+     *
+     * @return the element lookup string.
+     */
     public String getLookup() {
         return _lookup;
     }
 
+    /**
+     * Get the element definition type.
+     *
+     * @return the element definition type.
+     */
     public ElementDefinitionType getElementDefinitionType() {
         return _elementDefinitionType;
     }
 
+    /**
+     * Get the element's child node definitions.
+     *
+     * @return the element's child node definitions.
+     */
     public List<NodeDefinition> getChildNodeDefinitions() {
         return _childNodeDefinitions;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder result = new StringBuilder();
-        result.append("ELEMENT: {");
-        if (_id != null) {
-            result.append("id=").append(_id).append(",");
-        }
-        result.append("lookup=").append(_lookup).append(",");
-        result.append("type=").append(_elementDefinitionType);
-        if (!_childNodeDefinitions.isEmpty()) {
-            result.append(",nodes=").append(_childNodeDefinitions);
-        }
-        result.append("}");
-        return result.toString();
     }
 
 }
