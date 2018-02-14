@@ -19,29 +19,42 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.formmodel.definition;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Form definitions.
+ *
+ * @author Dmitry Shapovalov
+ */
 public final class FormDefinitions {
 
     private final Map<String, FormDefinition> _formDefinitions;
 
-    public FormDefinitions() {
+    FormDefinitions(final Map<String, FormDefinition> formDefinitions) {
         super();
-        _formDefinitions = new HashMap<>();
+        Map<String, FormDefinition> formDefinitionsCopy = new HashMap<>(formDefinitions);
+        _formDefinitions = Collections.unmodifiableMap(formDefinitionsCopy);
     }
 
+    /**
+     * Get the form definitions.
+     *
+     * @return the form definitions.
+     */
     public Map<String, FormDefinition> getFormDefinitions() {
         return _formDefinitions;
     }
 
-    @Override
-    public String toString() {
-        StringBuilder result = new StringBuilder();
-        result.append("FORMS: {");
-        result.append("forms=").append(_formDefinitions);
-        result.append("}");
-        return result.toString();
+    /**
+     * Get the form definition for the specified form definition ID.
+     *
+     * @param formId the specified form definition ID.
+     * @return the form definition.
+     */
+    public FormDefinition getFormDefinition(final String formId) {
+        return _formDefinitions.get(formId);
     }
 
 }
