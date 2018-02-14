@@ -19,26 +19,31 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.formmodel.definition;
 
+/**
+ * Form reference definition class.
+ *
+ * @author Dmitry Shapovalov
+ */
 public final class FormReferenceDefinition extends NodeDefinition {
 
-    private final String _refId;
+    static final String ELEMENT_NAME = "form";
 
-    public FormReferenceDefinition(final String refId) {
+    static final String ATTRIBUTE_REFERENCE_ID = "refid";
+
+    private final String _referenceId;
+
+    FormReferenceDefinition(final String referenceId) {
         super();
-        _refId = refId;
+        _referenceId = referenceId;
     }
 
-    public String getRefId() {
-        return _refId;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder result = new StringBuilder();
-        result.append("FORM REFERENCE: {");
-        result.append("refid=").append(_refId);
-        result.append("}");
-        return result.toString();
+    /**
+     * Get the form reference ID.
+     *
+     * @return the form reference ID.
+     */
+    public String getReferenceId() {
+        return _referenceId;
     }
 
 }
