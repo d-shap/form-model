@@ -28,36 +28,61 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.xml.sax.SAXException;
-
+/**
+ * Form definitions loader.
+ *
+ * @author Dmitry Shapovalov
+ */
 public final class FormDefinitionsLoader {
 
     private FormDefinitionsLoader() {
         super();
     }
 
-    public static FormDefinitions load(final File file) throws ParserConfigurationException, SAXException, IOException {
-        List<FormDefinition> formDefinitions = new ArrayList<>();
-        if (file.isDirectory()) {
-            processDirectory(file, formDefinitions);
-        } else {
-            processFile(file, formDefinitions);
-        }
-        Map<String, FormDefinition> formDefinitionsMap = new HashMap<>();
-        for (FormDefinition formDefinition : formDefinitions) {
-            formDefinitionsMap.put(formDefinition.getId(), formDefinition);
-        }
-        return new FormDefinitions(formDefinitionsMap);
+    /**
+     * Load the form definitions from the specified source.
+     *
+     * @param file the root directory to search for the form model sources.
+     * @return the loaded form definitions.
+     */
+    public static FormDefinitions load(final File file) {
+        return load(file, new DefaultFilter());
     }
 
-    private static void processDirectory(final File file, final List<FormDefinition> formDefinitions) throws ParserConfigurationException, SAXException, IOException {
-        File[] childFiles = file.listFiles(new Filter());
+    /**
+     * Load the form definitions from the specified source.
+     *
+     * @param file           the root directory to search for the form model sources.
+     * @param filenameFilter the model source filter.
+     * @return the loaded form definitions.
+     */
+    public static FormDefinitions load(final File file, final FilenameFilter filenameFilter) {
+        List<FormDefinition> allFormDefinitions = new ArrayList<>();
+        if (file.isDirectory()) {
+            processDirectory(file, filenameFilter, allFormDefinitions);
+        } else {
+            processFile(file, allFormDefinitions);
+        }
+
+        Map<String, FormDefinition> formDefinitionsMap = new HashMap<>();
+        for (FormDefinition formDefinition : allFormDefinitions) {
+            String formId = formDefinition.getId();
+            if (formDefinitionsMap.containsKey(formId)) {
+                throw new FormModelValidationException("Form id is not unique: " + formId);
+            }
+            formDefinitionsMap.put(formId, formDefinition);
+        }
+        FormDefinitions formDefinitions = new FormDefinitions(formDefinitionsMap);
+        FormModelValidator.validateFormReferences(formDefinitions);
+        return formDefinitions;
+    }
+
+    private static void processDirectory(final File file, final FilenameFilter filenameFilter, final List<FormDefinition> formDefinitions) {
+        File[] childFiles = file.listFiles(filenameFilter);
         if (childFiles != null) {
             for (File childFile : childFiles) {
                 if (childFile.isDirectory()) {
-                    processDirectory(childFile, formDefinitions);
+                    processDirectory(childFile, filenameFilter, formDefinitions);
                 } else {
                     processFile(childFile, formDefinitions);
                 }
@@ -65,22 +90,31 @@ public final class FormDefinitionsLoader {
         }
     }
 
-    private static void processFile(final File file, final List<FormDefinition> formDefinitions) throws ParserConfigurationException, SAXException, IOException {
-        try (FileInputStream fileInputStream = new FileInputStream(file)) {
-            FormDefinition formDefinition = FormDefinitionLoader.load(fileInputStream);
-            formDefinitions.add(formDefinition);
+    private static void processFile(final File file, final List<FormDefinition> formDefinitions) {
+        try {
+            try (FileInputStream fileInputStream = new FileInputStream(file)) {
+                FormDefinition formDefinition = FormDefinitionLoader.load(fileInputStream, file);
+                formDefinitions.add(formDefinition);
+            }
+        } catch (IOException ex) {
+            throw new FormModelLoadException(ex);
         }
     }
 
-    private static final class Filter implements FilenameFilter {
+    /**
+     * Default file filter.
+     *
+     * @author Dmitry Shapovalov
+     */
+    private static final class DefaultFilter implements FilenameFilter {
 
-        Filter() {
+        DefaultFilter() {
             super();
         }
 
         @Override
         public boolean accept(final File dir, final String name) {
-            return name.toLowerCase().endsWith(".xml");
+            return name.endsWith(".xml");
         }
 
     }
