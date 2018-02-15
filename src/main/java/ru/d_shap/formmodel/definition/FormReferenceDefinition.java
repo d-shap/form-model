@@ -20,7 +20,7 @@
 package ru.d_shap.formmodel.definition;
 
 /**
- * Form reference definition class.
+ * Form reference definition.
  *
  * @author Dmitry Shapovalov
  */
