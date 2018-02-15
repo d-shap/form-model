@@ -21,7 +21,11 @@ package ru.d_shap.formmodel.definition;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Element definition.
@@ -38,19 +42,33 @@ public final class ElementDefinition extends NodeDefinition {
 
     static final String ATTRIBUTE_TYPE = "type";
 
+    static final Set<String> ATTRIBUTE_NAMES;
+
+    static {
+        Set<String> attributeNames = new HashSet<>();
+        attributeNames.add(ATTRIBUTE_ID);
+        attributeNames.add(ATTRIBUTE_LOOKUP);
+        attributeNames.add(ATTRIBUTE_TYPE);
+        ATTRIBUTE_NAMES = Collections.unmodifiableSet(attributeNames);
+    }
+
     private final String _id;
 
     private final String _lookup;
 
     private final ElementDefinitionType _elementDefinitionType;
 
+    private final Map<String, String> _additionalAttributes;
+
     private final List<NodeDefinition> _childNodeDefinitions;
 
-    ElementDefinition(final String id, final String lookup, final ElementDefinitionType elementDefinitionType, final List<NodeDefinition> childNodeDefinitions) {
+    ElementDefinition(final String id, final String lookup, final ElementDefinitionType elementDefinitionType, final Map<String, String> additionalAttributes, final List<NodeDefinition> childNodeDefinitions) {
         super();
         _id = id;
         _lookup = lookup;
         _elementDefinitionType = elementDefinitionType;
+        Map<String, String> additionalAttributesCopy = new HashMap<>(additionalAttributes);
+        _additionalAttributes = Collections.unmodifiableMap(additionalAttributesCopy);
         List<NodeDefinition> childNodeDefinitionsCopy = new ArrayList<>(childNodeDefinitions);
         _childNodeDefinitions = Collections.unmodifiableList(childNodeDefinitionsCopy);
     }
@@ -80,6 +98,15 @@ public final class ElementDefinition extends NodeDefinition {
      */
     public ElementDefinitionType getElementDefinitionType() {
         return _elementDefinitionType;
+    }
+
+    /**
+     * Get the element's additional attributes.
+     *
+     * @return the element's additional attributes.
+     */
+    public Map<String, String> getAdditionalAttributes() {
+        return _additionalAttributes;
     }
 
     /**

@@ -21,7 +21,11 @@ package ru.d_shap.formmodel.definition;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Form definition.
@@ -34,20 +38,30 @@ public final class FormDefinition {
 
     static final String ATTRIBUTE_ID = "id";
 
-    static final String ATTRIBUTE_FRAME = "frame";
+    static final Set<String> ATTRIBUTE_NAMES;
+
+    static {
+        Set<String> attributeNames = new HashSet<>();
+        attributeNames.add(ATTRIBUTE_ID);
+        ATTRIBUTE_NAMES = Collections.unmodifiableSet(attributeNames);
+    }
 
     private final String _id;
 
-    private final String _frame;
+    private final Map<String, String> _additionalAttributes;
 
     private final List<NodeDefinition> _nodeDefinitions;
 
-    FormDefinition(final String id, final String frame, final List<NodeDefinition> nodeDefinitions) {
+    private final Object _source;
+
+    FormDefinition(final String id, final Map<String, String> additionalAttributes, final List<NodeDefinition> nodeDefinitions, final Object source) {
         super();
         _id = id;
-        _frame = frame;
+        Map<String, String> additionalAttributesCopy = new HashMap<>(additionalAttributes);
+        _additionalAttributes = Collections.unmodifiableMap(additionalAttributesCopy);
         List<NodeDefinition> nodeDefinitionsCopy = new ArrayList<>(nodeDefinitions);
         _nodeDefinitions = Collections.unmodifiableList(nodeDefinitionsCopy);
+        _source = source;
     }
 
     /**
@@ -60,12 +74,12 @@ public final class FormDefinition {
     }
 
     /**
-     * Get the form frame.
+     * Get the form's additional attributes.
      *
-     * @return the form frame.
+     * @return the form's additional attributes.
      */
-    public String getFrame() {
-        return _frame;
+    public Map<String, String> getAdditionalAttributes() {
+        return _additionalAttributes;
     }
 
     /**
@@ -75,6 +89,15 @@ public final class FormDefinition {
      */
     public List<NodeDefinition> getNodeDefinitions() {
         return _nodeDefinitions;
+    }
+
+    /**
+     * Get the form's source.
+     *
+     * @return the form's source.
+     */
+    public Object getSource() {
+        return _source;
     }
 
 }
