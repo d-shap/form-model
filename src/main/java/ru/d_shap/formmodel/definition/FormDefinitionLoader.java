@@ -22,7 +22,10 @@ package ru.d_shap.formmodel.definition;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -30,6 +33,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
@@ -40,7 +44,7 @@ import org.xml.sax.SAXException;
  *
  * @author Dmitry Shapovalov
  */
-public final class FormDefinitionLoader {
+final class FormDefinitionLoader {
 
     private static final DocumentBuilderFactory DOCUMENT_BUILDER_FACTORY = DocumentBuilderFactory.newInstance();
 
@@ -48,44 +52,61 @@ public final class FormDefinitionLoader {
         super();
     }
 
-    public static FormDefinition load(final InputStream inputStream) throws ParserConfigurationException, SAXException, IOException {
+    /**
+     * Load the form definition from the specified source.
+     *
+     * @param inputStream stream with form definition.
+     * @param source      the specified source.
+     * @return the loaded form definition.
+     */
+    static FormDefinition load(final InputStream inputStream, final Object source) {
         try {
-            DocumentBuilder builder = DOCUMENT_BUILDER_FACTORY.newDocumentBuilder();
-            InputSource inputSource = new InputSource(inputStream);
-            Document document = builder.parse(inputSource);
-            return createFormDefinition(document);
-        } finally {
-            inputStream.close();
+            try {
+                DocumentBuilder builder = DOCUMENT_BUILDER_FACTORY.newDocumentBuilder();
+                InputSource inputSource = new InputSource(inputStream);
+                Document document = builder.parse(inputSource);
+                return createFormDefinition(document, source);
+            } finally {
+                inputStream.close();
+            }
+        } catch (ParserConfigurationException ex) {
+            throw new FormModelLoadException(ex);
+        } catch (IOException ex) {
+            throw new FormModelLoadException(ex);
+        } catch (SAXException ex) {
+            throw new FormModelLoadException(ex);
         }
     }
 
-    private static FormDefinition createFormDefinition(final Document document) {
+    private static FormDefinition createFormDefinition(final Document document, final Object source) {
         Element element = document.getDocumentElement();
         if (FormDefinition.ELEMENT_NAME.equals(element.getNodeName())) {
             String id = getAttributeValue(element, FormDefinition.ATTRIBUTE_ID);
-            String frame = getAttributeValue(element, FormDefinition.ATTRIBUTE_FRAME);
+            if (id == null) {
+                throw new FormModelValidationException("Form ID is not defined");
+            }
+            Map<String, String> additionalAttributes = getAdditionalAttributes(element, FormDefinition.ATTRIBUTE_NAMES);
             List<NodeDefinition> nodeDefinitions = getNodeDefinitions(element);
-            FormDefinition formDefinition = new FormDefinition(id, frame, nodeDefinitions);
-            return formDefinition;
+            return new FormDefinition(id, additionalAttributes, nodeDefinitions, source);
         } else {
-            return null;
+            throw new FormModelValidationException("Wrong root element: " + element.getNodeName());
         }
     }
 
     private static List<NodeDefinition> getNodeDefinitions(final Element element) {
-        NodeList childNodes = element.getChildNodes();
         List<NodeDefinition> nodeDefinitions = new ArrayList<>();
+        NodeList childNodes = element.getChildNodes();
         for (int i = 0; i < childNodes.getLength(); i++) {
             Node childNode = childNodes.item(i);
             if (childNode instanceof Element) {
                 Element childElement = (Element) childNode;
                 if (ElementDefinition.ELEMENT_NAME.equals(childElement.getNodeName())) {
-                    ElementDefinition childElementDefinition = createElementDefinition(childElement);
-                    nodeDefinitions.add(childElementDefinition);
+                    NodeDefinition nodeDefinition = createElementDefinition(childElement);
+                    nodeDefinitions.add(nodeDefinition);
                 }
                 if (FormReferenceDefinition.ELEMENT_NAME.equals(childElement.getNodeName())) {
-                    FormReferenceDefinition childFormReferenceDefinition = createFormReferenceDefinition(childElement);
-                    nodeDefinitions.add(childFormReferenceDefinition);
+                    NodeDefinition nodeDefinition = createFormReferenceDefinition(childElement);
+                    nodeDefinitions.add(nodeDefinition);
                 }
             }
         }
@@ -96,17 +117,25 @@ public final class FormDefinitionLoader {
         String id = getAttributeValue(element, ElementDefinition.ATTRIBUTE_ID);
         String lookup = getAttributeValue(element, ElementDefinition.ATTRIBUTE_LOOKUP);
         String type = getAttributeValue(element, ElementDefinition.ATTRIBUTE_TYPE);
-        ElementDefinitionType elementDefinitionType = ElementDefinitionType.getElementDefinitionType(type);
-        if (elementDefinitionType == null) {
+        ElementDefinitionType elementDefinitionType;
+        if (type == null) {
             elementDefinitionType = ElementDefinitionType.MANDATORY;
+        } else {
+            elementDefinitionType = ElementDefinitionType.getElementDefinitionType(type);
+            if (elementDefinitionType == null) {
+                throw new FormModelValidationException("Wrong form definition type: " + type);
+            }
         }
+        Map<String, String> additionalAttributes = getAdditionalAttributes(element, ElementDefinition.ATTRIBUTE_NAMES);
         List<NodeDefinition> childNodeDefinitions = getNodeDefinitions(element);
-        ElementDefinition elementDefinition = new ElementDefinition(id, lookup, elementDefinitionType, childNodeDefinitions);
-        return elementDefinition;
+        return new ElementDefinition(id, lookup, elementDefinitionType, additionalAttributes, childNodeDefinitions);
     }
 
     private static FormReferenceDefinition createFormReferenceDefinition(final Element element) {
         String referenceId = getAttributeValue(element, FormReferenceDefinition.ATTRIBUTE_REFERENCE_ID);
+        if (referenceId == null) {
+            throw new FormModelValidationException("Form reference id is null");
+        }
         return new FormReferenceDefinition(referenceId);
     }
 
@@ -116,6 +145,20 @@ public final class FormDefinitionLoader {
         } else {
             return null;
         }
+    }
+
+    private static Map<String, String> getAdditionalAttributes(final Element element, final Set<String> skipAttributeNames) {
+        Map<String, String> additionalAttributes = new HashMap<>();
+        NamedNodeMap namedNodeMap = element.getAttributes();
+        for (int i = 0; i < namedNodeMap.getLength(); i++) {
+            Node node = namedNodeMap.item(i);
+            String attributeName = node.getNodeName();
+            if (!skipAttributeNames.contains(attributeName)) {
+                String attributeValue = node.getNodeValue();
+                additionalAttributes.put(attributeName, attributeValue);
+            }
+        }
+        return additionalAttributes;
     }
 
 }
