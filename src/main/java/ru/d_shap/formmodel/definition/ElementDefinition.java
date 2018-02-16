@@ -102,18 +102,18 @@ public final class ElementDefinition extends NodeDefinition {
     }
 
     /**
-     * Check if the lookup string is defined or not.
+     * Check if the element's lookup string is defined or not.
      *
-     * @return true if the lookup string is defined, false otherwise.
+     * @return true if the element's lookup string is defined, false otherwise.
      */
     public boolean isLookupDefined() {
         return _lookup != null;
     }
 
     /**
-     * Get the lookup string.
+     * Get the element's lookup string.
      *
-     * @return the lookup string.
+     * @return the element's lookup string.
      */
     public String getLookup() {
         return _lookup;
@@ -156,12 +156,22 @@ public final class ElementDefinition extends NodeDefinition {
     }
 
     /**
-     * Get the element definition type.
+     * Get the element's definition type.
      *
-     * @return the element definition type.
+     * @return the element's definition type.
      */
     public ElementDefinitionType getElementDefinitionType() {
         return _elementDefinitionType;
+    }
+
+    /**
+     * Get the element's additional attribute value for the specified additional attribute name.
+     *
+     * @param additionalAttributeName the specified additional attribute name.
+     * @return the element's additional attribute value.
+     */
+    public String getAdditionalAttribute(final String additionalAttributeName) {
+        return _additionalAttributes.get(additionalAttributeName);
     }
 
     /**
@@ -171,16 +181,6 @@ public final class ElementDefinition extends NodeDefinition {
      */
     public Map<String, String> getAdditionalAttributes() {
         return _additionalAttributes;
-    }
-
-    /**
-     * Get additional attribute value for the specified additional attribute name.
-     *
-     * @param additionalAttributeName the specified additional attribute name.
-     * @return additional attribute value.
-     */
-    public String getAdditionalAttribute(final String additionalAttributeName) {
-        return _additionalAttributes.get(additionalAttributeName);
     }
 
     /**
