@@ -27,9 +27,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamSource;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
+import javax.xml.validation.Validator;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -48,6 +54,10 @@ final class FormDefinitionLoader {
 
     private static final DocumentBuilderFactory DOCUMENT_BUILDER_FACTORY = DocumentBuilderFactory.newInstance();
 
+    private static final SchemaFactory SCHEMA_FACTORY = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+
+    private static final String SCHEMA_LOCATION = "ru/d_shap/formmodel/definition/formmodel.xsd";
+
     private FormDefinitionLoader() {
         super();
     }
@@ -65,6 +75,13 @@ final class FormDefinitionLoader {
                 DocumentBuilder builder = DOCUMENT_BUILDER_FACTORY.newDocumentBuilder();
                 InputSource inputSource = new InputSource(inputStream);
                 Document document = builder.parse(inputSource);
+
+                InputStream schemaInputStream = FormDefinitionLoader.class.getClassLoader().getResourceAsStream(SCHEMA_LOCATION);
+                Schema schema = SCHEMA_FACTORY.newSchema(new StreamSource(schemaInputStream));
+
+                Validator validator = schema.newValidator();
+                validator.validate(new DOMSource(document));
+
                 return createFormDefinition(document, source);
             } finally {
                 inputStream.close();
