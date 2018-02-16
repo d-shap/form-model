@@ -120,6 +120,42 @@ public final class ElementDefinition extends NodeDefinition {
     }
 
     /**
+     * Check if the element is mandatory or not.
+     *
+     * @return true if the element is mandatory, false otherwise.
+     */
+    public boolean isMandatory() {
+        return _elementDefinitionType == ElementDefinitionType.MANDATORY || _elementDefinitionType == ElementDefinitionType.MANDATORY_MULTIPLE;
+    }
+
+    /**
+     * Check if the element is optional or not.
+     *
+     * @return true if the element is optional, false otherwise.
+     */
+    public boolean isOptional() {
+        return _elementDefinitionType == ElementDefinitionType.OPTIONAL || _elementDefinitionType == ElementDefinitionType.OPTIONAL_MULTIPLE;
+    }
+
+    /**
+     * Check if the element is forbidden or not.
+     *
+     * @return true if the element is forbidden, false otherwise.
+     */
+    public boolean isForbidden() {
+        return _elementDefinitionType == ElementDefinitionType.FORBIDDEN;
+    }
+
+    /**
+     * Check if the element is multiple or not.
+     *
+     * @return true if the element is multiple, false otherwise.
+     */
+    public boolean isMultiple() {
+        return _elementDefinitionType == ElementDefinitionType.MANDATORY_MULTIPLE || _elementDefinitionType == ElementDefinitionType.OPTIONAL_MULTIPLE;
+    }
+
+    /**
      * Get the element definition type.
      *
      * @return the element definition type.
