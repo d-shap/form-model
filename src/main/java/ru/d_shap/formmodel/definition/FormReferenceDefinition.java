@@ -20,7 +20,13 @@
 package ru.d_shap.formmodel.definition;
 
 /**
- * Form reference definition.
+ * <p>
+ * Abstraction for the form reference definition.
+ * </p>
+ * <p>
+ * Form reference is a link to another form, defined elsewhere. Current form definition includes all
+ * element definitions of the referenced form.
+ * </p>
  *
  * @author Dmitry Shapovalov
  */
