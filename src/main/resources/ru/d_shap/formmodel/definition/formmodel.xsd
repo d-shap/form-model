@@ -7,6 +7,7 @@
             <xs:element name="form" type="FormReferenceType" />
         </xs:choice>
         <xs:attribute name="id" type="xs:string" use="required" />
+        <xs:anyAttribute />
     </xs:complexType>
     <xs:complexType name="ElementType">
         <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -16,6 +17,7 @@
         <xs:attribute name="id" type="xs:string" />
         <xs:attribute name="lookup" type="xs:string" />
         <xs:attribute name="type" type="ElementTypeType" />
+        <xs:anyAttribute />
     </xs:complexType>
     <xs:complexType name="FormReferenceType">
         <xs:attribute name="refid" type="xs:string" use="required" />
