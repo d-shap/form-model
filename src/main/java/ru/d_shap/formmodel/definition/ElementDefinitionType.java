@@ -20,7 +20,12 @@
 package ru.d_shap.formmodel.definition;
 
 /**
+ * <p>
  * Element definition type.
+ * </p>
+ * <p>
+ * This is the element occurrence in the binding form.
+ * </p>
  *
  * @author Dmitry Shapovalov
  */
