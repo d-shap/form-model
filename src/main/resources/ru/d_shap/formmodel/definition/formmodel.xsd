@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="form" type="FormType" />
+    <xs:complexType name="FormType">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="element" type="ElementType" />
+            <xs:element name="form" type="FormReferenceType" />
+        </xs:choice>
+        <xs:attribute name="id" type="xs:string" use="required" />
+    </xs:complexType>
+    <xs:complexType name="ElementType">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="element" type="ElementType" />
+            <xs:element name="form" type="FormReferenceType" />
+        </xs:choice>
+        <xs:attribute name="id" type="xs:string" />
+        <xs:attribute name="lookup" type="xs:string" />
+        <xs:attribute name="type" type="ElementTypeType" />
+    </xs:complexType>
+    <xs:complexType name="FormReferenceType">
+        <xs:attribute name="refid" type="xs:string" use="required" />
+    </xs:complexType>
+    <xs:simpleType name="ElementTypeType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="mandatory" />
+            <xs:enumeration value="mandatory multiple" />
+            <xs:enumeration value="optional" />
+            <xs:enumeration value="optional multiple" />
+            <xs:enumeration value="forbidden" />
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>
