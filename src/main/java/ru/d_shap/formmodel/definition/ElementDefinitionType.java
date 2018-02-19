@@ -47,12 +47,6 @@ public enum ElementDefinitionType {
         _attributeValue = attributeValue;
     }
 
-    /**
-     * Get the element definition type for the specified attribute value.
-     *
-     * @param attributeValue the specified attribute value.
-     * @return the element definition type.
-     */
     static ElementDefinitionType getElementDefinitionType(final String attributeValue) {
         for (ElementDefinitionType elementDefinitionType : values()) {
             if (elementDefinitionType._attributeValue.equals(attributeValue)) {
