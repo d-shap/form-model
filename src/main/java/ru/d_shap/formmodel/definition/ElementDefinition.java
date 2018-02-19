@@ -32,12 +32,12 @@ import java.util.Set;
  * Abstraction for the element definition.
  * </p>
  * <p>
- * Element definition is a meaningful element of the form. This can be buttons or hyperlinks, text edit
- * fields or areas, menus or menu items, labels and so on.
+ * Element is a meaningful part of the form. This can be buttons or hyperlinks, text edit fields or
+ * text areas, menus or labels, and so on. Element definitions describe this elements.
  * </p>
  * <p>
- * Binded element can be used to access properties (for example, the text edit field value) or to perform
- * actions (for example, to press the button).
+ * Binded element can be used to access properties (for example, the value of the text edit field) or
+ * to perform actions (for example, to press the button).
  * </p>
  *
  * @author Dmitry Shapovalov
@@ -181,6 +181,36 @@ public final class ElementDefinition extends NodeDefinition {
      */
     public Map<String, String> getAdditionalAttributes() {
         return _additionalAttributes;
+    }
+
+    /**
+     * Get the element's child element definitions.
+     *
+     * @return the element's child element definitions.
+     */
+    public List<ElementDefinition> getChildElementDefinitions() {
+        List<ElementDefinition> childElementDefinitions = new ArrayList<>();
+        for (NodeDefinition childNodeDefinition : _childNodeDefinitions) {
+            if (childNodeDefinition instanceof ElementDefinition) {
+                childElementDefinitions.add((ElementDefinition) childNodeDefinition);
+            }
+        }
+        return childElementDefinitions;
+    }
+
+    /**
+     * Get the element's child form reference definitions.
+     *
+     * @return the element's child form reference definitions.
+     */
+    public List<FormReferenceDefinition> getChildFormReferenceDefinitions() {
+        List<FormReferenceDefinition> childFormReferenceDefinitions = new ArrayList<>();
+        for (NodeDefinition childNodeDefinition : _childNodeDefinitions) {
+            if (childNodeDefinition instanceof FormReferenceDefinition) {
+                childFormReferenceDefinitions.add((FormReferenceDefinition) childNodeDefinition);
+            }
+        }
+        return childFormReferenceDefinitions;
     }
 
     /**
