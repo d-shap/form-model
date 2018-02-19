@@ -24,8 +24,11 @@ package ru.d_shap.formmodel.definition;
  * Abstraction for the form reference definition.
  * </p>
  * <p>
- * Form reference is a link to another form, defined elsewhere. Current form definition includes all
- * element definitions of the referenced form.
+ * Form reference is a link to another form, defined elsewhere. Form definition, containing the form
+ * reference definition, contains all element definitions of the referenced form definition.
+ * </p>
+ * <p>
+ * Binded form reference can be used to access the binded elements, defined in the referenced form.
  * </p>
  *
  * @author Dmitry Shapovalov
