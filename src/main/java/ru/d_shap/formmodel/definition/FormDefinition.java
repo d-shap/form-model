@@ -28,7 +28,15 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Form definition.
+ * <p>
+ * Abstraction for the form definition.
+ * </p>
+ * <p>
+ * Form is a set of elements. Form is used to obtain inputs from the user and to output the results.
+ * </p>
+ * <p>
+ * Binded form can be used to access the binded elements, defined in this form.
+ * </p>
  *
  * @author Dmitry Shapovalov
  */
@@ -38,12 +46,12 @@ public final class FormDefinition {
 
     static final String ATTRIBUTE_ID = "id";
 
-    static final Set<String> ATTRIBUTE_NAMES;
+    static final Set<String> DEFINED_ATTRIBUTE_NAMES;
 
     static {
         Set<String> attributeNames = new HashSet<>();
         attributeNames.add(ATTRIBUTE_ID);
-        ATTRIBUTE_NAMES = Collections.unmodifiableSet(attributeNames);
+        DEFINED_ATTRIBUTE_NAMES = Collections.unmodifiableSet(attributeNames);
     }
 
     private final String _id;
@@ -65,12 +73,22 @@ public final class FormDefinition {
     }
 
     /**
-     * Get the form ID.
+     * Get the form's ID.
      *
-     * @return the form ID.
+     * @return the form's ID.
      */
     public String getId() {
         return _id;
+    }
+
+    /**
+     * Get the form's additional attribute value for the specified additional attribute name.
+     *
+     * @param additionalAttributeName the specified additional attribute name.
+     * @return the form's additional attribute value.
+     */
+    public String getAdditionalAttribute(final String additionalAttributeName) {
+        return _additionalAttributes.get(additionalAttributeName);
     }
 
     /**
@@ -80,6 +98,36 @@ public final class FormDefinition {
      */
     public Map<String, String> getAdditionalAttributes() {
         return _additionalAttributes;
+    }
+
+    /**
+     * Get the form's element definitions.
+     *
+     * @return the form's element definitions.
+     */
+    public List<ElementDefinition> getElementDefinitions() {
+        List<ElementDefinition> elementDefinitions = new ArrayList<>();
+        for (NodeDefinition nodeDefinition : _nodeDefinitions) {
+            if (nodeDefinition instanceof ElementDefinition) {
+                elementDefinitions.add((ElementDefinition) nodeDefinition);
+            }
+        }
+        return elementDefinitions;
+    }
+
+    /**
+     * Get the form's form reference definitions.
+     *
+     * @return the form's form reference definitions.
+     */
+    public List<FormReferenceDefinition> getFormReferenceDefinitions() {
+        List<FormReferenceDefinition> formReferenceDefinitions = new ArrayList<>();
+        for (NodeDefinition nodeDefinition : _nodeDefinitions) {
+            if (nodeDefinition instanceof FormReferenceDefinition) {
+                formReferenceDefinitions.add((FormReferenceDefinition) nodeDefinition);
+            }
+        }
+        return formReferenceDefinitions;
     }
 
     /**
@@ -98,6 +146,47 @@ public final class FormDefinition {
      */
     public Object getSource() {
         return _source;
+    }
+
+    /**
+     * Get all form definitions, referenced from this form definition.
+     *
+     * @param formDefinitions all form definitions.
+     * @return all form definitions, referenced from this form definition.
+     */
+    public List<FormDefinition> getAllReferencedFormDefinitions(final FormDefinitions formDefinitions) {
+        List<FormDefinition> allReferencedFormDefinitions = new ArrayList<>();
+        addReferencedFormDefinitions(formDefinitions, this, allReferencedFormDefinitions);
+        return allReferencedFormDefinitions;
+    }
+
+    private void addReferencedFormDefinitions(final FormDefinitions formDefinitions, final FormDefinition formDefinition, final List<FormDefinition> allReferencedFormDefinitions) {
+        allReferencedFormDefinitions.add(formDefinition);
+        List<FormReferenceDefinition> formReferenceDefinitions = getFormReferenceDefinitions();
+        for (FormReferenceDefinition formReferenceDefinition : formReferenceDefinitions) {
+            String referenceId = formReferenceDefinition.getReferenceId();
+            FormDefinition referencedFormDefinition = formDefinitions.getFormDefinition(referenceId);
+            addReferencedFormDefinitions(formDefinitions, referencedFormDefinition, allReferencedFormDefinitions);
+        }
+    }
+
+    /**
+     * Get additional attribute values of all form definitions, referenced from this form definition,
+     * for the specified additional attribute name.
+     *
+     * @param formDefinitions         all form definitions.
+     * @param additionalAttributeName the specified additional attribute name.
+     * @return additional attribute values of all form definitions, referenced from this form definition.
+     */
+    public Set<String> getAllAdditionalAttributes(final FormDefinitions formDefinitions, final String additionalAttributeName) {
+        Set<String> additionalAttributes = new HashSet<>();
+        for (FormDefinition formDefinition : getAllReferencedFormDefinitions(formDefinitions)) {
+            String additionalAttribute = formDefinition.getAdditionalAttribute(additionalAttributeName);
+            if (additionalAttribute != null) {
+                additionalAttributes.add(additionalAttributeName);
+            }
+        }
+        return additionalAttributes;
     }
 
 }
