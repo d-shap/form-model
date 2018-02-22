@@ -37,22 +37,36 @@ public final class FormReferenceDefinition extends NodeDefinition {
 
     static final String ELEMENT_NAME = "form";
 
-    static final String ATTRIBUTE_REFERENCE_ID = "refid";
+    static final String ATTRIBUTE_REFERENCED_FORM_ID = "refid";
 
-    private final String _referenceId;
+    private final String _referencedFormId;
 
-    FormReferenceDefinition(final String referenceId) {
+    FormReferenceDefinition(final String referencedFormId) {
         super();
-        _referenceId = referenceId;
+        _referencedFormId = referencedFormId;
+    }
+
+    @Override
+    void setChildNodesFormDefinitions() {
+        // No child nodes
     }
 
     /**
-     * Get the form reference ID.
+     * Get the referenced form ID.
      *
-     * @return the form reference ID.
+     * @return the referenced form ID.
      */
-    public String getReferenceId() {
-        return _referenceId;
+    public String getReferencedFormId() {
+        return _referencedFormId;
+    }
+
+    /**
+     * Get the referenced form definition.
+     *
+     * @return the referenced form definition.
+     */
+    public FormDefinition getReferencedFormDefinition() {
+        return getFormDefinition(_referencedFormId);
     }
 
 }
