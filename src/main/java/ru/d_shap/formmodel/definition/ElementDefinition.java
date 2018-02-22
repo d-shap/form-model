@@ -50,7 +50,7 @@ public final class ElementDefinition extends NodeDefinition {
 
     static final String ATTRIBUTE_LOOKUP = "lookup";
 
-    static final String ATTRIBUTE_TYPE = "type";
+    static final String ATTRIBUTE_ELEMENT_DEFINITION_TYPE = "type";
 
     static final Set<String> DEFINED_ATTRIBUTE_NAMES;
 
@@ -58,7 +58,7 @@ public final class ElementDefinition extends NodeDefinition {
         Set<String> attributeNames = new HashSet<>();
         attributeNames.add(ATTRIBUTE_ID);
         attributeNames.add(ATTRIBUTE_LOOKUP);
-        attributeNames.add(ATTRIBUTE_TYPE);
+        attributeNames.add(ATTRIBUTE_ELEMENT_DEFINITION_TYPE);
         DEFINED_ATTRIBUTE_NAMES = Collections.unmodifiableSet(attributeNames);
     }
 
@@ -70,17 +70,24 @@ public final class ElementDefinition extends NodeDefinition {
 
     private final Map<String, String> _additionalAttributes;
 
-    private final List<NodeDefinition> _childNodeDefinitions;
+    private final List<NodeDefinition> _nodeDefinitions;
 
-    ElementDefinition(final String id, final String lookup, final ElementDefinitionType elementDefinitionType, final Map<String, String> additionalAttributes, final List<NodeDefinition> childNodeDefinitions) {
+    ElementDefinition(final String id, final String lookup, final ElementDefinitionType elementDefinitionType, final Map<String, String> additionalAttributes, final List<NodeDefinition> nodeDefinitions) {
         super();
         _id = id;
         _lookup = lookup;
         _elementDefinitionType = elementDefinitionType;
         Map<String, String> additionalAttributesCopy = new HashMap<>(additionalAttributes);
         _additionalAttributes = Collections.unmodifiableMap(additionalAttributesCopy);
-        List<NodeDefinition> childNodeDefinitionsCopy = new ArrayList<>(childNodeDefinitions);
-        _childNodeDefinitions = Collections.unmodifiableList(childNodeDefinitionsCopy);
+        List<NodeDefinition> nodeDefinitionsCopy = new ArrayList<>(nodeDefinitions);
+        _nodeDefinitions = Collections.unmodifiableList(nodeDefinitionsCopy);
+    }
+
+    @Override
+    void setChildNodesFormDefinitions() {
+        for (NodeDefinition nodeDefinition : _nodeDefinitions) {
+            setFormDefinitions(nodeDefinition);
+        }
     }
 
     /**
@@ -189,13 +196,7 @@ public final class ElementDefinition extends NodeDefinition {
      * @return the element's child element definitions.
      */
     public List<ElementDefinition> getChildElementDefinitions() {
-        List<ElementDefinition> childElementDefinitions = new ArrayList<>();
-        for (NodeDefinition childNodeDefinition : _childNodeDefinitions) {
-            if (childNodeDefinition instanceof ElementDefinition) {
-                childElementDefinitions.add((ElementDefinition) childNodeDefinition);
-            }
-        }
-        return childElementDefinitions;
+        return getElementDefinitions(_nodeDefinitions);
     }
 
     /**
@@ -204,13 +205,34 @@ public final class ElementDefinition extends NodeDefinition {
      * @return the element's child form reference definitions.
      */
     public List<FormReferenceDefinition> getChildFormReferenceDefinitions() {
-        List<FormReferenceDefinition> childFormReferenceDefinitions = new ArrayList<>();
-        for (NodeDefinition childNodeDefinition : _childNodeDefinitions) {
-            if (childNodeDefinition instanceof FormReferenceDefinition) {
-                childFormReferenceDefinitions.add((FormReferenceDefinition) childNodeDefinition);
-            }
-        }
-        return childFormReferenceDefinitions;
+        return getFormReferenceDefinitions(_nodeDefinitions);
+    }
+
+    /**
+     * Get the element's descendant form reference definitions.
+     *
+     * @return the element's descendant form reference definitions.
+     */
+    public List<FormReferenceDefinition> getDescendantFormReferenceDefinitions() {
+        return getAllFormReferenceDefinitions(_nodeDefinitions);
+    }
+
+    /**
+     * Get the element's child form definitions.
+     *
+     * @return the element's child form definitions.
+     */
+    public Set<FormDefinition> getChildFormDefinitions() {
+        return getFormDefinitions(_nodeDefinitions);
+    }
+
+    /**
+     * Get the element's descendant form definitions.
+     *
+     * @return the element's descendant form definitions.
+     */
+    public Set<FormDefinition> getDescendantFormDefinitions() {
+        return getAllFormDefinitions(_nodeDefinitions);
     }
 
     /**
@@ -219,7 +241,7 @@ public final class ElementDefinition extends NodeDefinition {
      * @return the element's child node definitions.
      */
     public List<NodeDefinition> getChildNodeDefinitions() {
-        return _childNodeDefinitions;
+        return _nodeDefinitions;
     }
 
 }
