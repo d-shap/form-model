@@ -19,42 +19,53 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.formmodel.definition;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
- * Form definitions.
+ * <p>
+ * Abstraction for the form definitions.
+ * </p>
+ * <p>
+ * This is a set of form definition objects.
+ * </p>
  *
  * @author Dmitry Shapovalov
  */
 public final class FormDefinitions {
 
-    private final Map<String, FormDefinition> _formDefinitions;
+    private final Map<String, FormDefinition> _formIdToFormDefinitionMap;
+
+    private final List<FormDefinition> _formDefinitions;
 
     FormDefinitions(final Map<String, FormDefinition> formDefinitions) {
         super();
-        Map<String, FormDefinition> formDefinitionsCopy = new HashMap<>(formDefinitions);
-        _formDefinitions = Collections.unmodifiableMap(formDefinitionsCopy);
+        Map<String, FormDefinition> formIdToFormDefinitionMapCopy = new HashMap<>(formDefinitions);
+        _formIdToFormDefinitionMap = Collections.unmodifiableMap(formIdToFormDefinitionMapCopy);
+        List<FormDefinition> formDefinitionsCopy = new ArrayList<>(formDefinitions.values());
+        _formDefinitions = Collections.unmodifiableList(formDefinitionsCopy);
     }
 
     /**
-     * Get the form definitions.
+     * Get the form definition for the specified form ID.
      *
-     * @return the form definitions.
-     */
-    public Map<String, FormDefinition> getFormDefinitions() {
-        return _formDefinitions;
-    }
-
-    /**
-     * Get the form definition for the specified form definition ID.
-     *
-     * @param formId the specified form definition ID.
+     * @param formId the specified form ID.
      * @return the form definition.
      */
     public FormDefinition getFormDefinition(final String formId) {
-        return _formDefinitions.get(formId);
+        FormDefinition formDefinition = _formIdToFormDefinitionMap.get(formId);
+        if (formDefinition == null) {
+            throw new UndefinedFormDefinitionException(formId);
+        } else {
+            return formDefinition;
+        }
+    }
+
+    List<FormDefinition> getFormDefinitions() {
+        return _formDefinitions;
     }
 
 }
