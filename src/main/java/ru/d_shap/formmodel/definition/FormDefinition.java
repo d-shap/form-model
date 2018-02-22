@@ -40,7 +40,7 @@ import java.util.Set;
  *
  * @author Dmitry Shapovalov
  */
-public final class FormDefinition {
+public final class FormDefinition extends NodeDefinition {
 
     static final String ELEMENT_NAME = "form";
 
@@ -72,6 +72,13 @@ public final class FormDefinition {
         _source = source;
     }
 
+    @Override
+    void setChildNodesFormDefinitions() {
+        for (NodeDefinition nodeDefinition : _nodeDefinitions) {
+            setFormDefinitions(nodeDefinition);
+        }
+    }
+
     /**
      * Get the form's ID.
      *
@@ -101,41 +108,56 @@ public final class FormDefinition {
     }
 
     /**
-     * Get the form's element definitions.
+     * Get the form's child element definitions.
      *
-     * @return the form's element definitions.
+     * @return the form's child element definitions.
      */
-    public List<ElementDefinition> getElementDefinitions() {
-        List<ElementDefinition> elementDefinitions = new ArrayList<>();
-        for (NodeDefinition nodeDefinition : _nodeDefinitions) {
-            if (nodeDefinition instanceof ElementDefinition) {
-                elementDefinitions.add((ElementDefinition) nodeDefinition);
-            }
-        }
-        return elementDefinitions;
+    public List<ElementDefinition> getChildElementDefinitions() {
+        return getElementDefinitions(_nodeDefinitions);
     }
 
     /**
-     * Get the form's form reference definitions.
+     * Get the form's child form reference definitions.
      *
-     * @return the form's form reference definitions.
+     * @return the form's child form reference definitions.
      */
-    public List<FormReferenceDefinition> getFormReferenceDefinitions() {
-        List<FormReferenceDefinition> formReferenceDefinitions = new ArrayList<>();
-        for (NodeDefinition nodeDefinition : _nodeDefinitions) {
-            if (nodeDefinition instanceof FormReferenceDefinition) {
-                formReferenceDefinitions.add((FormReferenceDefinition) nodeDefinition);
-            }
-        }
-        return formReferenceDefinitions;
+    public List<FormReferenceDefinition> getChildFormReferenceDefinitions() {
+        return getFormReferenceDefinitions(_nodeDefinitions);
     }
 
     /**
-     * Get the form's node definitions.
+     * Get the form's descendant form reference definitions.
      *
-     * @return the form's node definitions.
+     * @return the form's descendant form reference definitions.
      */
-    public List<NodeDefinition> getNodeDefinitions() {
+    public List<FormReferenceDefinition> getDescendantFormReferenceDefinitions() {
+        return getAllFormReferenceDefinitions(_nodeDefinitions);
+    }
+
+    /**
+     * Get the form's child form definitions.
+     *
+     * @return the form's child form definitions.
+     */
+    public Set<FormDefinition> getChildFormDefinitions() {
+        return getFormDefinitions(_nodeDefinitions);
+    }
+
+    /**
+     * Get the form's descendant form definitions.
+     *
+     * @return the form's descendant form definitions.
+     */
+    public Set<FormDefinition> getDescendantFormDefinitions() {
+        return getAllFormDefinitions(_nodeDefinitions);
+    }
+
+    /**
+     * Get the form's child node definitions.
+     *
+     * @return the form's child node definitions.
+     */
+    public List<NodeDefinition> getChildNodeDefinitions() {
         return _nodeDefinitions;
     }
 
@@ -146,47 +168,6 @@ public final class FormDefinition {
      */
     public Object getSource() {
         return _source;
-    }
-
-    /**
-     * Get all form definitions, referenced from this form definition.
-     *
-     * @param formDefinitions all form definitions.
-     * @return all form definitions, referenced from this form definition.
-     */
-    public List<FormDefinition> getAllReferencedFormDefinitions(final FormDefinitions formDefinitions) {
-        List<FormDefinition> allReferencedFormDefinitions = new ArrayList<>();
-        addReferencedFormDefinitions(formDefinitions, this, allReferencedFormDefinitions);
-        return allReferencedFormDefinitions;
-    }
-
-    private void addReferencedFormDefinitions(final FormDefinitions formDefinitions, final FormDefinition formDefinition, final List<FormDefinition> allReferencedFormDefinitions) {
-        allReferencedFormDefinitions.add(formDefinition);
-        List<FormReferenceDefinition> formReferenceDefinitions = getFormReferenceDefinitions();
-        for (FormReferenceDefinition formReferenceDefinition : formReferenceDefinitions) {
-            String referenceId = formReferenceDefinition.getReferenceId();
-            FormDefinition referencedFormDefinition = formDefinitions.getFormDefinition(referenceId);
-            addReferencedFormDefinitions(formDefinitions, referencedFormDefinition, allReferencedFormDefinitions);
-        }
-    }
-
-    /**
-     * Get additional attribute values of all form definitions, referenced from this form definition,
-     * for the specified additional attribute name.
-     *
-     * @param formDefinitions         all form definitions.
-     * @param additionalAttributeName the specified additional attribute name.
-     * @return additional attribute values of all form definitions, referenced from this form definition.
-     */
-    public Set<String> getAllAdditionalAttributes(final FormDefinitions formDefinitions, final String additionalAttributeName) {
-        Set<String> additionalAttributes = new HashSet<>();
-        for (FormDefinition formDefinition : getAllReferencedFormDefinitions(formDefinitions)) {
-            String additionalAttribute = formDefinition.getAdditionalAttribute(additionalAttributeName);
-            if (additionalAttribute != null) {
-                additionalAttributes.add(additionalAttributeName);
-            }
-        }
-        return additionalAttributes;
     }
 
 }
