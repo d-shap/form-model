@@ -33,7 +33,7 @@ public class FormModelException extends RuntimeException {
      *
      * @param message exception message.
      */
-    public FormModelException(final String message) {
+    protected FormModelException(final String message) {
         super(message);
     }
 
@@ -43,7 +43,7 @@ public class FormModelException extends RuntimeException {
      * @param message   exception message.
      * @param throwable cause exception.
      */
-    public FormModelException(final String message, final Throwable throwable) {
+    protected FormModelException(final String message, final Throwable throwable) {
         super(message, throwable);
     }
 
