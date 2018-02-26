@@ -52,11 +52,18 @@ import org.xml.sax.SAXException;
  */
 final class FormDefinitionLoader {
 
-    private static final DocumentBuilderFactory DOCUMENT_BUILDER_FACTORY = DocumentBuilderFactory.newInstance();
+    private static final DocumentBuilderFactory DOCUMENT_BUILDER_FACTORY;
+
+    static {
+        DOCUMENT_BUILDER_FACTORY = DocumentBuilderFactory.newInstance();
+        DOCUMENT_BUILDER_FACTORY.setNamespaceAware(true);
+    }
 
     private static final SchemaFactory SCHEMA_FACTORY = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 
-    private static final String SCHEMA_LOCATION = "ru/d_shap/formmodel/definition/formmodel.xsd";
+    private static final String CLASS_PATH = FormDefinitionLoader.class.getPackage().getName().replaceAll("\\.", "/");
+
+    private static final String SCHEMA_LOCATION = CLASS_PATH + "/formmodel.xsd";
 
     private FormDefinitionLoader() {
         super();
@@ -87,11 +94,11 @@ final class FormDefinitionLoader {
                 inputStream.close();
             }
         } catch (ParserConfigurationException ex) {
-            throw new FormModelLoadException(ex);
+            throw new FormDefinitionLoadException(ex);
         } catch (IOException ex) {
-            throw new FormModelLoadException(ex);
+            throw new FormDefinitionLoadException(ex);
         } catch (SAXException ex) {
-            throw new FormModelLoadException(ex);
+            throw new FormDefinitionLoadException(ex);
         }
     }
 
@@ -100,17 +107,17 @@ final class FormDefinitionLoader {
         if (FormDefinition.ELEMENT_NAME.equals(element.getNodeName())) {
             String id = getAttributeValue(element, FormDefinition.ATTRIBUTE_ID);
             if (id == null) {
-                throw new FormModelValidationException("Form ID is not defined");
+                throw new FormDefinitionValidationException("Form ID is not defined", source);
             }
-            Map<String, String> additionalAttributes = getAdditionalAttributes(element, FormDefinition.ATTRIBUTE_NAMES);
-            List<NodeDefinition> nodeDefinitions = getNodeDefinitions(element);
+            Map<String, String> additionalAttributes = getAdditionalAttributes(element, FormDefinition.DEFINED_ATTRIBUTE_NAMES);
+            List<NodeDefinition> nodeDefinitions = getNodeDefinitions(element, source);
             return new FormDefinition(id, additionalAttributes, nodeDefinitions, source);
         } else {
-            throw new FormModelValidationException("Wrong root element: " + element.getNodeName());
+            throw new FormDefinitionValidationException("Wrong root element: " + element.getNodeName(), source);
         }
     }
 
-    private static List<NodeDefinition> getNodeDefinitions(final Element element) {
+    private static List<NodeDefinition> getNodeDefinitions(final Element element, final Object source) {
         List<NodeDefinition> nodeDefinitions = new ArrayList<>();
         NodeList childNodes = element.getChildNodes();
         for (int i = 0; i < childNodes.getLength(); i++) {
@@ -118,11 +125,11 @@ final class FormDefinitionLoader {
             if (childNode instanceof Element) {
                 Element childElement = (Element) childNode;
                 if (ElementDefinition.ELEMENT_NAME.equals(childElement.getNodeName())) {
-                    NodeDefinition nodeDefinition = createElementDefinition(childElement);
+                    NodeDefinition nodeDefinition = createElementDefinition(childElement, source);
                     nodeDefinitions.add(nodeDefinition);
                 }
                 if (FormReferenceDefinition.ELEMENT_NAME.equals(childElement.getNodeName())) {
-                    NodeDefinition nodeDefinition = createFormReferenceDefinition(childElement);
+                    NodeDefinition nodeDefinition = createFormReferenceDefinition(childElement, source);
                     nodeDefinitions.add(nodeDefinition);
                 }
             }
@@ -130,28 +137,28 @@ final class FormDefinitionLoader {
         return nodeDefinitions;
     }
 
-    private static ElementDefinition createElementDefinition(final Element element) {
+    private static ElementDefinition createElementDefinition(final Element element, final Object source) {
         String id = getAttributeValue(element, ElementDefinition.ATTRIBUTE_ID);
         String lookup = getAttributeValue(element, ElementDefinition.ATTRIBUTE_LOOKUP);
-        String type = getAttributeValue(element, ElementDefinition.ATTRIBUTE_TYPE);
+        String type = getAttributeValue(element, ElementDefinition.ATTRIBUTE_ELEMENT_DEFINITION_TYPE);
         ElementDefinitionType elementDefinitionType;
         if (type == null) {
             elementDefinitionType = ElementDefinitionType.MANDATORY;
         } else {
             elementDefinitionType = ElementDefinitionType.getElementDefinitionType(type);
             if (elementDefinitionType == null) {
-                throw new FormModelValidationException("Wrong form definition type: " + type);
+                throw new FormDefinitionValidationException("Wrong form definition type: " + type, source);
             }
         }
-        Map<String, String> additionalAttributes = getAdditionalAttributes(element, ElementDefinition.ATTRIBUTE_NAMES);
-        List<NodeDefinition> childNodeDefinitions = getNodeDefinitions(element);
+        Map<String, String> additionalAttributes = getAdditionalAttributes(element, ElementDefinition.DEFINED_ATTRIBUTE_NAMES);
+        List<NodeDefinition> childNodeDefinitions = getNodeDefinitions(element, source);
         return new ElementDefinition(id, lookup, elementDefinitionType, additionalAttributes, childNodeDefinitions);
     }
 
-    private static FormReferenceDefinition createFormReferenceDefinition(final Element element) {
-        String referenceId = getAttributeValue(element, FormReferenceDefinition.ATTRIBUTE_REFERENCE_ID);
+    private static FormReferenceDefinition createFormReferenceDefinition(final Element element, final Object source) {
+        String referenceId = getAttributeValue(element, FormReferenceDefinition.ATTRIBUTE_REFERENCED_FORM_ID);
         if (referenceId == null) {
-            throw new FormModelValidationException("Form reference id is null");
+            throw new FormDefinitionValidationException("Form reference id is null", source);
         }
         return new FormReferenceDefinition(referenceId);
     }
