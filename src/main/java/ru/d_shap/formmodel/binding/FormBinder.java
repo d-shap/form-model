@@ -38,64 +38,97 @@ import ru.d_shap.formmodel.definition.NodeDefinition;
  */
 public abstract class FormBinder<F extends BindedForm<E, B>, E extends BindedElement<B>, B> {
 
+    private final FormDefinitions _formDefinitions;
+
     /**
      * Create new object.
+     *
+     * @param formDefinitions the form definitions.
      */
-    protected FormBinder() {
+    protected FormBinder(final FormDefinitions formDefinitions) {
         super();
+        _formDefinitions = formDefinitions;
+    }
+
+    /**
+     * Get the form definition for the specified form ID.
+     *
+     * @param formId the specified form ID.
+     * @return the form definition.
+     */
+    protected final FormDefinition getFormDefinition(final String formId) {
+        return _formDefinitions.getFormDefinition(formId);
     }
 
     /**
      * Bind the form definition with the form instance.
      *
-     * @param formDefinitions the form definitions.
-     * @param formId          the form ID.
+     * @param formId the form ID.
      * @return the form instance.
      */
-    protected final F doBind(final FormDefinitions formDefinitions, final String formId) {
-        init(formDefinitions, formId);
-        FormDefinition formDefinition = formDefinitions.getFormDefinitions().get(formId);
+    protected final F doBind(final String formId) {
+        init(formId);
+        FormDefinition formDefinition = _formDefinitions.getFormDefinition(formId);
         F bindedForm = getBindedFormInstance(formDefinition);
-        List<NodeDefinition> nodeDefinitions = formDefinition.getNodeDefinitions();
-        List<BindedNode> bindedNodes = getBindedNodes(formDefinitions, null, nodeDefinitions);
+        List<NodeDefinition> nodeDefinitions = formDefinition.getChildNodeDefinitions();
+        List<NodeDefinition> parentNodeDefinitions = new ArrayList<>();
+        parentNodeDefinitions.add(formDefinition);
+        List<BindedNode> bindedNodes = getBindedNodes(null, nodeDefinitions, parentNodeDefinitions);
         bindedForm.getBindedNodes().addAll(bindedNodes);
         return bindedForm;
     }
 
-    private List<BindedNode> getBindedNodes(final FormDefinitions formDefinitions, final E parentBindedElement, final List<NodeDefinition> nodeDefinitions) {
+    private List<BindedNode> getBindedNodes(final E parentBindedElement, final List<NodeDefinition> nodeDefinitions, final List<NodeDefinition> parentNodeDefinitions) {
         List<BindedNode> bindedNodes = new ArrayList<>();
         for (NodeDefinition nodeDefinition : nodeDefinitions) {
             if (nodeDefinition instanceof ElementDefinition) {
-                List<E> bindedElements = createBindedElements(formDefinitions, parentBindedElement, (ElementDefinition) nodeDefinition);
+                List<E> bindedElements = createBindedElements(parentBindedElement, (ElementDefinition) nodeDefinition, parentNodeDefinitions);
                 bindedNodes.addAll(bindedElements);
             }
             if (nodeDefinition instanceof FormReferenceDefinition) {
-                BindedFormReference bindedFormReference = createBindedFormReference(formDefinitions, parentBindedElement, (FormReferenceDefinition) nodeDefinition);
+                BindedFormReference bindedFormReference = createBindedFormReference(parentBindedElement, (FormReferenceDefinition) nodeDefinition, parentNodeDefinitions);
                 bindedNodes.add(bindedFormReference);
             }
         }
         return bindedNodes;
     }
 
-    private List<E> createBindedElements(final FormDefinitions formDefinitions, final E parentBindedElement, final ElementDefinition elementDefinition) {
+    private List<E> createBindedElements(final E parentBindedElement, final ElementDefinition elementDefinition, final List<NodeDefinition> parentNodeDefinitions) {
         String lookup = elementDefinition.getLookup();
         List<B> bindingObjects = getBindingObjectInstances(parentBindedElement, lookup);
+
+        List<NodeDefinition> parentNodeDefinitionsCopy = new ArrayList<>(parentNodeDefinitions);
+        parentNodeDefinitionsCopy.add(elementDefinition);
+
+        if (elementDefinition.isMandatory() && !elementDefinition.isMultiple() && bindingObjects.isEmpty()) {
+            throw new BindingException(BindingExceptionType.MANDATORY_ELEMENT_NOT_PRESENT, parentNodeDefinitionsCopy);
+        }
+        if (elementDefinition.isMandatory() && !elementDefinition.isMultiple() && bindingObjects.size() > 1) {
+            throw new BindingException(BindingExceptionType.MANDATORY_ELEMENT_MULTIPLE_PRESENT, parentNodeDefinitionsCopy);
+        }
+        if (elementDefinition.isMandatory() && elementDefinition.isMultiple() && bindingObjects.isEmpty()) {
+            throw new BindingException(BindingExceptionType.MANDATORY_MULTIPLE_ELEMENT_NOT_PRESENT, parentNodeDefinitionsCopy);
+        }
+        if (elementDefinition.isForbidden() && !bindingObjects.isEmpty()) {
+            throw new BindingException(BindingExceptionType.FORBIDDEN_ELEMENT_PRESENT, parentNodeDefinitionsCopy);
+        }
 
         List<E> bindedElements = new ArrayList<>();
         for (B bindingObject : bindingObjects) {
             E bindedElement = getBindedElementInstance(elementDefinition, bindingObject);
-            List<BindedNode> bindedNodes = getBindedNodes(formDefinitions, bindedElement, elementDefinition.getChildNodeDefinitions());
+            List<BindedNode> bindedNodes = getBindedNodes(bindedElement, elementDefinition.getChildNodeDefinitions(), parentNodeDefinitionsCopy);
             bindedElement.getChildBindedNodes().addAll(bindedNodes);
             bindedElements.add(bindedElement);
         }
         return bindedElements;
     }
 
-    private BindedFormReference createBindedFormReference(final FormDefinitions formDefinitions, final E parentBindedElement, final FormReferenceDefinition formReferenceDefinition) {
-        String formId = formReferenceDefinition.getReferenceId();
-        FormDefinition formDefinition = formDefinitions.getFormDefinitions().get(formId);
+    private BindedFormReference createBindedFormReference(final E parentBindedElement, final FormReferenceDefinition formReferenceDefinition, final List<NodeDefinition> parentNodeDefinitions) {
+        FormDefinition formDefinition = formReferenceDefinition.getReferencedFormDefinition();
         BindedFormReference bindedFormReference = getBindedFormReferenceInstance(formDefinition);
-        List<BindedNode> bindedNodes = getBindedNodes(formDefinitions, parentBindedElement, formDefinition.getNodeDefinitions());
+        List<NodeDefinition> parentNodeDefinitionsCopy = new ArrayList<>(parentNodeDefinitions);
+        parentNodeDefinitionsCopy.add(formDefinition);
+        List<BindedNode> bindedNodes = getBindedNodes(parentBindedElement, formDefinition.getChildNodeDefinitions(), parentNodeDefinitionsCopy);
         bindedFormReference.getChildBindedNodes().addAll(bindedNodes);
         return bindedFormReference;
     }
@@ -103,10 +136,9 @@ public abstract class FormBinder<F extends BindedForm<E, B>, E extends BindedEle
     /**
      * Init form binder to perform bindings.
      *
-     * @param formDefinitions the form definitions.
-     * @param formId          the form ID.
+     * @param formId the form ID.
      */
-    protected abstract void init(FormDefinitions formDefinitions, String formId);
+    protected abstract void init(String formId);
 
     /**
      * Create the binded form instance.
