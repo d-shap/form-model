@@ -68,12 +68,16 @@ public final class FormDefinitionsLoader {
         for (FormDefinition formDefinition : allFormDefinitions) {
             String formId = formDefinition.getId();
             if (formDefinitionsMap.containsKey(formId)) {
-                throw new FormModelValidationException("Form id is not unique: " + formId);
+                throw new DuplicateFormDefinitionException(formId, formDefinition.getSource(), formDefinitionsMap.get(formId).getSource());
             }
             formDefinitionsMap.put(formId, formDefinition);
         }
+        FormDefinitionValidator.validateFormReferences(formDefinitionsMap);
+
         FormDefinitions formDefinitions = new FormDefinitions(formDefinitionsMap);
-        FormModelValidator.validateFormReferences(formDefinitions);
+        for (FormDefinition formDefinition : formDefinitions.getFormDefinitions()) {
+            formDefinition.setFormDefinitions(formDefinitions);
+        }
         return formDefinitions;
     }
 
@@ -97,7 +101,7 @@ public final class FormDefinitionsLoader {
                 formDefinitions.add(formDefinition);
             }
         } catch (IOException ex) {
-            throw new FormModelLoadException(ex);
+            throw new FormDefinitionLoadException(ex);
         }
     }
 
