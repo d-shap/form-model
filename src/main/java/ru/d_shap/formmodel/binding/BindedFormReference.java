@@ -19,49 +19,56 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.formmodel.binding;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import ru.d_shap.formmodel.definition.FormDefinition;
+import ru.d_shap.formmodel.definition.FormReferenceDefinition;
 
 /**
- * Binded form reference.
+ * Abstraction for the binded form reference.
  *
+ * @param <E> generic type of the binded element.
+ * @param <R> generic type of the binded form reference.
+ * @param <B> generic type of the binding data.
  * @author Dmitry Shapovalov
  */
-public final class BindedFormReference extends BindedNode {
+public class BindedFormReference<E extends BindedElement<E, R, B>, R extends BindedFormReference<E, R, B>, B> extends BindedNode<E, R, B> {
 
-    private final FormDefinition _formDefinition;
-
-    private final List<BindedNode> _childBindedNodes;
+    private final FormReferenceDefinition _formReferenceDefinition;
 
     /**
      * Create new object.
      *
-     * @param formDefinition the form definition.
+     * @param formReferenceDefinition the form reference definition.
      */
-    BindedFormReference(final FormDefinition formDefinition) {
+    protected BindedFormReference(final FormReferenceDefinition formReferenceDefinition) {
         super();
-        _formDefinition = formDefinition;
-        _childBindedNodes = new ArrayList<>();
+        _formReferenceDefinition = formReferenceDefinition;
     }
 
     /**
-     * Get the form definition.
+     * Get the referenced form ID.
      *
-     * @return the form definition.
+     * @return the referenced form ID.
      */
-    public FormDefinition getFormDefinition() {
-        return _formDefinition;
+    public final String getReferencedFormId() {
+        return _formReferenceDefinition.getReferencedFormId();
     }
 
     /**
-     * Get the child binded nodes.
+     * Get the referenced form definition.
      *
-     * @return the child binded nodes.
+     * @return the referenced form definition.
      */
-    public List<BindedNode> getChildBindedNodes() {
-        return _childBindedNodes;
+    public final FormDefinition getReferencedFormDefinition() {
+        return _formReferenceDefinition.getReferencedFormDefinition();
+    }
+
+    /**
+     * Get the form reference definition.
+     *
+     * @return the form reference definition.
+     */
+    public final FormReferenceDefinition getFormReferenceDefinition() {
+        return _formReferenceDefinition;
     }
 
 }

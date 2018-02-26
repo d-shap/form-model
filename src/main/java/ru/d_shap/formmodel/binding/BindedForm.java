@@ -19,23 +19,19 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.formmodel.binding;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import ru.d_shap.formmodel.definition.FormDefinition;
 
 /**
- * Binded form.
+ * Abstraction for the binded form.
  *
- * @param <E> binded element type.
- * @param <B> binding object type.
+ * @param <E> generic type of the binded element.
+ * @param <R> generic type of the binded form reference.
+ * @param <B> generic type of the binding data.
  * @author Dmitry Shapovalov
  */
-public class BindedForm<E extends BindedElement<B>, B> {
+public class BindedForm<E extends BindedElement<E, R, B>, R extends BindedFormReference<E, R, B>, B> extends BindedNode<E, R, B> {
 
     private final FormDefinition _formDefinition;
-
-    private final List<BindedNode> _bindedNodes;
 
     /**
      * Create new object.
@@ -45,7 +41,15 @@ public class BindedForm<E extends BindedElement<B>, B> {
     protected BindedForm(final FormDefinition formDefinition) {
         super();
         _formDefinition = formDefinition;
-        _bindedNodes = new ArrayList<>();
+    }
+
+    /**
+     * Get the form's ID.
+     *
+     * @return the form's ID.
+     */
+    public final String getId() {
+        return _formDefinition.getId();
     }
 
     /**
@@ -55,97 +59,6 @@ public class BindedForm<E extends BindedElement<B>, B> {
      */
     public final FormDefinition getFormDefinition() {
         return _formDefinition;
-    }
-
-    /**
-     * Get the form binded nodes.
-     *
-     * @return the form binded nodes.
-     */
-    public final List<BindedNode> getBindedNodes() {
-        return _bindedNodes;
-    }
-
-    /**
-     * Get the first binded element with the specified id.
-     *
-     * @param id the specified id.
-     * @return the first binded element.
-     */
-    public final E getBindedElement(final String id) {
-        List<E> bindedElements = getBindedElements(id);
-        if (bindedElements.isEmpty()) {
-            return null;
-        } else {
-            return bindedElements.get(0);
-        }
-    }
-
-    /**
-     * Get the binded elements with the specified id.
-     *
-     * @param id the specified id.
-     * @return the binded elements.
-     */
-    public final List<E> getBindedElements(final String id) {
-        GetBindedElementsByIdVisitor<E, B> visitor = new GetBindedElementsByIdVisitor<>(id);
-        visit(visitor);
-        return visitor._bindedElements;
-    }
-
-    /**
-     * Visit every binded node with the specified visitor.
-     *
-     * @param bindedNodeVisitor the specified visitor.
-     */
-    public final void visit(final BindedNodeVisitor bindedNodeVisitor) {
-        visit(_bindedNodes, bindedNodeVisitor);
-    }
-
-    private void visit(final List<BindedNode> bindedNodes, final BindedNodeVisitor bindedNodeVisitor) {
-        for (BindedNode bindedNode : bindedNodes) {
-            bindedNodeVisitor.visit(bindedNode);
-            if (bindedNode instanceof BindedElement) {
-                List<BindedNode> childBindedNodes = ((BindedElement<?>) bindedNode).getChildBindedNodes();
-                visit(childBindedNodes, bindedNodeVisitor);
-            }
-            if (bindedNode instanceof BindedFormReference) {
-                List<BindedNode> childBindedNodes = ((BindedFormReference) bindedNode).getChildBindedNodes();
-                visit(childBindedNodes, bindedNodeVisitor);
-            }
-        }
-    }
-
-    /**
-     * Binded node visitor to get the binded elements with the specified id.
-     *
-     * @param <E> binded element type.
-     * @param <B> binding object type.
-     * @author Dmitry Shapovalov
-     */
-    private static final class GetBindedElementsByIdVisitor<E extends BindedElement<B>, B> implements BindedNodeVisitor {
-
-        private final String _id;
-
-        private final List<E> _bindedElements;
-
-        GetBindedElementsByIdVisitor(final String id) {
-            super();
-            _id = id;
-            _bindedElements = new ArrayList<>();
-        }
-
-        @Override
-        @SuppressWarnings("unchecked")
-        public void visit(final BindedNode bindedNode) {
-            if (bindedNode instanceof BindedElement) {
-                String id = ((BindedElement<?>) bindedNode).getId();
-                if (id != null && id.equals(_id)) {
-                    _bindedElements.add((E) bindedNode);
-                }
-            }
-        }
-
     }
 
 }

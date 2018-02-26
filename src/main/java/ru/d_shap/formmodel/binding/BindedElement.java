@@ -19,42 +19,38 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.formmodel.binding;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import ru.d_shap.formmodel.definition.ElementDefinition;
 
 /**
- * Binded element.
+ * Abstraction for the binded element.
  *
- * @param <B> binding object type.
+ * @param <E> generic type of the binded element.
+ * @param <R> generic type of the binded form reference.
+ * @param <B> generic type of the binding data.
  * @author Dmitry Shapovalov
  */
-public class BindedElement<B> extends BindedNode {
+public class BindedElement<E extends BindedElement<E, R, B>, R extends BindedFormReference<E, R, B>, B> extends BindedNode<E, R, B> {
 
     private final ElementDefinition _elementDefinition;
 
-    private final B _bindingObject;
-
-    private final List<BindedNode> _childBindedNodes;
+    private final B _bindingData;
 
     /**
      * Create new object.
      *
      * @param elementDefinition the element definition.
-     * @param bindingObject     the binding object.
+     * @param bindingData       the binding data.
      */
-    protected BindedElement(final ElementDefinition elementDefinition, final B bindingObject) {
+    protected BindedElement(final ElementDefinition elementDefinition, final B bindingData) {
         super();
         _elementDefinition = elementDefinition;
-        _bindingObject = bindingObject;
-        _childBindedNodes = new ArrayList<>();
+        _bindingData = bindingData;
     }
 
     /**
-     * Get the element ID.
+     * Get the element's ID.
      *
-     * @return the element ID.
+     * @return the element's ID.
      */
     public final String getId() {
         return _elementDefinition.getId();
@@ -70,21 +66,12 @@ public class BindedElement<B> extends BindedNode {
     }
 
     /**
-     * Get the binding object.
+     * Get the binding data.
      *
-     * @return the binding object.
+     * @return the binding data.
      */
-    public final B getBindingObject() {
-        return _bindingObject;
-    }
-
-    /**
-     * Get the child binded nodes.
-     *
-     * @return the child binded nodes.
-     */
-    public final List<BindedNode> getChildBindedNodes() {
-        return _childBindedNodes;
+    public final B getBindingData() {
+        return _bindingData;
     }
 
 }

@@ -20,17 +20,20 @@
 package ru.d_shap.formmodel.binding;
 
 /**
- * Binded node visitor.
+ * Visitor for the binded nodes.
  *
+ * @param <E> generic type of the binded element.
+ * @param <R> generic type of the binded form reference.
+ * @param <B> generic type of the binding data.
  * @author Dmitry Shapovalov
  */
-public interface BindedNodeVisitor {
+public interface BindedNodeVisitor<E extends BindedElement<E, R, B>, R extends BindedFormReference<E, R, B>, B> {
 
     /**
      * Visit the binded node.
      *
      * @param bindedNode the binded node.
      */
-    void visit(BindedNode bindedNode);
+    void visit(BindedNode<E, R, B> bindedNode);
 
 }
