@@ -24,24 +24,26 @@ import java.util.List;
 import ru.d_shap.formmodel.FormModelException;
 import ru.d_shap.formmodel.definition.ElementDefinition;
 import ru.d_shap.formmodel.definition.FormDefinition;
+import ru.d_shap.formmodel.definition.FormReferenceDefinition;
 import ru.d_shap.formmodel.definition.NodeDefinition;
 
 /**
- * Exception is thrown when the actual form can not be binded to the form definition.
+ * Exception is thrown when the actual form can not be binded.
  *
  * @author Dmitry Shapovalov
  */
-public final class BindingException extends FormModelException {
+public final class FormBindingException extends FormModelException {
 
     private static final long serialVersionUID = 1L;
 
-    BindingException(final BindingExceptionType bindingErrorType, final List<NodeDefinition> nodeDefinitions) {
-        super(createErrorMessage(bindingErrorType, nodeDefinitions));
+    FormBindingException(final FormBindingExceptionType formBindingExceptionType, final FormBindingPath formBindingPath) {
+        super(createErrorMessage(formBindingExceptionType, formBindingPath));
     }
 
-    private static String createErrorMessage(final BindingExceptionType bindingErrorType, final List<NodeDefinition> nodeDefinitions) {
+    private static String createErrorMessage(final FormBindingExceptionType formBindingExceptionType, final FormBindingPath formBindingPath) {
         StringBuilder errorMessage = new StringBuilder();
-        errorMessage.append(bindingErrorType).append(": ");
+        errorMessage.append(formBindingExceptionType).append(": ");
+        List<NodeDefinition> nodeDefinitions = formBindingPath.getNodeDefinitions();
         boolean first = true;
         for (NodeDefinition nodeDefinition : nodeDefinitions) {
             if (first) {
@@ -52,6 +54,9 @@ public final class BindingException extends FormModelException {
 
             if (nodeDefinition instanceof ElementDefinition) {
                 errorMessage.append("[E id=").append(((ElementDefinition) nodeDefinition).getId()).append("]");
+            }
+            if (nodeDefinition instanceof FormReferenceDefinition) {
+                errorMessage.append("[F id=").append(((FormReferenceDefinition) nodeDefinition).getReferencedFormId()).append("]");
             }
             if (nodeDefinition instanceof FormDefinition) {
                 errorMessage.append("[F id=").append(((FormDefinition) nodeDefinition).getId()).append("]");

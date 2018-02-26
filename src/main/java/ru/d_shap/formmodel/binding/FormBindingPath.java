@@ -19,19 +19,35 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.formmodel.binding;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import ru.d_shap.formmodel.definition.NodeDefinition;
+
 /**
- * Binding exception type.
+ * Class contains the full path to the binding element.
  *
  * @author Dmitry Shapovalov
  */
-public enum BindingExceptionType {
+final class FormBindingPath {
 
-    MANDATORY_ELEMENT_NOT_PRESENT,
+    private final List<NodeDefinition> _nodeDefinitions;
 
-    MANDATORY_ELEMENT_MULTIPLE_PRESENT,
+    FormBindingPath(final NodeDefinition nodeDefinition) {
+        super();
+        _nodeDefinitions = new ArrayList<>();
+        _nodeDefinitions.add(nodeDefinition);
+    }
 
-    MANDATORY_MULTIPLE_ELEMENT_NOT_PRESENT,
+    FormBindingPath(final FormBindingPath formBindingPath, final NodeDefinition nodeDefinition) {
+        super();
+        _nodeDefinitions = new ArrayList<>();
+        _nodeDefinitions.addAll(formBindingPath._nodeDefinitions);
+        _nodeDefinitions.add(nodeDefinition);
+    }
 
-    FORBIDDEN_ELEMENT_PRESENT
+    List<NodeDefinition> getNodeDefinitions() {
+        return _nodeDefinitions;
+    }
 
 }
