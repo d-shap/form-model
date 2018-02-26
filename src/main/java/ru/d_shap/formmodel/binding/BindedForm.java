@@ -67,18 +67,6 @@ public class BindedForm<E extends BindedElement<B>, B> {
     }
 
     /**
-     * Get the binded elements with the specified id.
-     *
-     * @param id the specified id.
-     * @return the binded elements.
-     */
-    public final List<E> getBindedElements(final String id) {
-        GetBindedElementsByIdVisitor<E, B> visitor = new GetBindedElementsByIdVisitor<>(id);
-        visit(visitor);
-        return visitor._bindedElements;
-    }
-
-    /**
      * Get the first binded element with the specified id.
      *
      * @param id the specified id.
@@ -91,6 +79,18 @@ public class BindedForm<E extends BindedElement<B>, B> {
         } else {
             return bindedElements.get(0);
         }
+    }
+
+    /**
+     * Get the binded elements with the specified id.
+     *
+     * @param id the specified id.
+     * @return the binded elements.
+     */
+    public final List<E> getBindedElements(final String id) {
+        GetBindedElementsByIdVisitor<E, B> visitor = new GetBindedElementsByIdVisitor<>(id);
+        visit(visitor);
+        return visitor._bindedElements;
     }
 
     /**
