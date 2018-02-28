@@ -20,8 +20,8 @@
 package ru.d_shap.formmodel.definition;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.io.FileInputStream;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,20 +46,20 @@ public final class FormDefinitionsLoader {
      * @return the loaded form definitions.
      */
     public static FormDefinitions load(final File file) {
-        return load(file, new DefaultFilter());
+        return load(file, new DefaultFileFilter());
     }
 
     /**
      * Load the form definitions from the specified source.
      *
-     * @param file           the root directory to search for the form model sources.
-     * @param filenameFilter the model source filter.
+     * @param file       the root directory to search for the form model sources.
+     * @param fileFilter the model source filter.
      * @return the loaded form definitions.
      */
-    public static FormDefinitions load(final File file, final FilenameFilter filenameFilter) {
+    public static FormDefinitions load(final File file, final FileFilter fileFilter) {
         List<FormDefinition> allFormDefinitions = new ArrayList<>();
         if (file.isDirectory()) {
-            processDirectory(file, filenameFilter, allFormDefinitions);
+            processDirectory(file, fileFilter, allFormDefinitions);
         } else {
             processFile(file, allFormDefinitions);
         }
@@ -81,12 +81,12 @@ public final class FormDefinitionsLoader {
         return formDefinitions;
     }
 
-    private static void processDirectory(final File file, final FilenameFilter filenameFilter, final List<FormDefinition> formDefinitions) {
-        File[] childFiles = file.listFiles(filenameFilter);
+    private static void processDirectory(final File file, final FileFilter fileFilter, final List<FormDefinition> formDefinitions) {
+        File[] childFiles = file.listFiles(fileFilter);
         if (childFiles != null) {
             for (File childFile : childFiles) {
                 if (childFile.isDirectory()) {
-                    processDirectory(childFile, filenameFilter, formDefinitions);
+                    processDirectory(childFile, fileFilter, formDefinitions);
                 } else {
                     processFile(childFile, formDefinitions);
                 }
@@ -110,15 +110,15 @@ public final class FormDefinitionsLoader {
      *
      * @author Dmitry Shapovalov
      */
-    private static final class DefaultFilter implements FilenameFilter {
+    private static final class DefaultFileFilter implements FileFilter {
 
-        DefaultFilter() {
+        DefaultFileFilter() {
             super();
         }
 
         @Override
-        public boolean accept(final File dir, final String name) {
-            return name.endsWith(".xml");
+        public boolean accept(final File file) {
+            return file.isDirectory() || file.getName().endsWith(".xml");
         }
 
     }
