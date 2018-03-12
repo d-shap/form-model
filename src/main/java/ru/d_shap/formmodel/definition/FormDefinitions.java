@@ -41,11 +41,18 @@ public final class FormDefinitions {
 
     private final List<FormDefinition> _formDefinitions;
 
-    FormDefinitions(final Map<String, FormDefinition> formDefinitions) {
+    FormDefinitions(final List<FormDefinition> formDefinitions) {
         super();
-        Map<String, FormDefinition> formIdToFormDefinitionMapCopy = new HashMap<>(formDefinitions);
-        _formIdToFormDefinitionMap = Collections.unmodifiableMap(formIdToFormDefinitionMapCopy);
-        List<FormDefinition> formDefinitionsCopy = new ArrayList<>(formDefinitions.values());
+        Map<String, FormDefinition> formIdToFormDefinitionMap = new HashMap<>();
+        for (FormDefinition formDefinition : formDefinitions) {
+            String formId = formDefinition.getId();
+            if (formIdToFormDefinitionMap.containsKey(formId)) {
+                throw new DuplicateFormDefinitionException(formId, formDefinition.getSource(), formIdToFormDefinitionMap.get(formId).getSource());
+            }
+            formIdToFormDefinitionMap.put(formId, formDefinition);
+        }
+        _formIdToFormDefinitionMap = Collections.unmodifiableMap(formIdToFormDefinitionMap);
+        List<FormDefinition> formDefinitionsCopy = new ArrayList<>(formDefinitions);
         _formDefinitions = Collections.unmodifiableList(formDefinitionsCopy);
     }
 

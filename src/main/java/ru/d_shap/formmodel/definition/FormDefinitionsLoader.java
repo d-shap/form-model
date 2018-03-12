@@ -74,7 +74,7 @@ public final class FormDefinitionsLoader {
         }
         FormDefinitionValidator.validateFormReferences(formDefinitionsMap);
 
-        FormDefinitions formDefinitions = new FormDefinitions(formDefinitionsMap);
+        FormDefinitions formDefinitions = new FormDefinitions(allFormDefinitions);
         for (FormDefinition formDefinition : formDefinitions.getFormDefinitions()) {
             formDefinition.setFormDefinitions(formDefinitions);
         }
