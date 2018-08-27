@@ -60,6 +60,7 @@ public final class FormDefinitions {
      * Get the form definition for the specified form ID.
      *
      * @param formId the specified form ID.
+     *
      * @return the form definition.
      */
     public FormDefinition getFormDefinition(final String formId) {

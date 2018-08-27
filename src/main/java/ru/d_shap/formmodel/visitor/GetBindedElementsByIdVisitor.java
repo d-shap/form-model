@@ -33,6 +33,7 @@ import ru.d_shap.formmodel.binding.BindedNodeVisitor;
  * @param <E> generic type of the binded element.
  * @param <R> generic type of the binded form reference.
  * @param <B> generic type of the binding data.
+ *
  * @author Dmitry Shapovalov
  */
 public final class GetBindedElementsByIdVisitor<E extends BindedElement<E, R, B>, R extends BindedFormReference<E, R, B>, B> implements BindedNodeVisitor<E, R, B> {

@@ -92,6 +92,7 @@ public final class FormDefinition extends NodeDefinition {
      * Get the form's additional attribute value for the specified additional attribute name.
      *
      * @param additionalAttributeName the specified additional attribute name.
+     *
      * @return the form's additional attribute value.
      */
     public String getAdditionalAttribute(final String additionalAttributeName) {

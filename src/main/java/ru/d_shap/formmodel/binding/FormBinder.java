@@ -35,6 +35,7 @@ import ru.d_shap.formmodel.definition.NodeDefinition;
  * @param <E> generic type of the binded element.
  * @param <R> generic type of the binded form reference.
  * @param <B> generic type of the binding data.
+ *
  * @author Dmitry Shapovalov
  */
 public abstract class FormBinder<F extends BindedForm<E, R, B>, E extends BindedElement<E, R, B>, R extends BindedFormReference<E, R, B>, B> {
@@ -55,6 +56,7 @@ public abstract class FormBinder<F extends BindedForm<E, R, B>, E extends Binded
      * Get the form definition for the specified form ID.
      *
      * @param formId the specified form ID.
+     *
      * @return the form definition.
      */
     protected final FormDefinition getFormDefinition(final String formId) {
@@ -65,6 +67,7 @@ public abstract class FormBinder<F extends BindedForm<E, R, B>, E extends Binded
      * Bind the actual form.
      *
      * @param formId the form ID.
+     *
      * @return the binded form.
      */
     protected final F doBind(final String formId) {
@@ -134,6 +137,7 @@ public abstract class FormBinder<F extends BindedForm<E, R, B>, E extends Binded
      * Create the binded form instance.
      *
      * @param formDefinition the form definition.
+     *
      * @return the binded form instance.
      */
     protected abstract F createBindedFormInstance(FormDefinition formDefinition);
@@ -143,6 +147,7 @@ public abstract class FormBinder<F extends BindedForm<E, R, B>, E extends Binded
      *
      * @param parentBindedElement the parent binded element.
      * @param lookup              the lookup string.
+     *
      * @return the binding data instances.
      */
     protected abstract List<B> createBindingDataInstances(E parentBindedElement, String lookup);
@@ -152,6 +157,7 @@ public abstract class FormBinder<F extends BindedForm<E, R, B>, E extends Binded
      *
      * @param elementDefinition the element definition.
      * @param bindingData       the binding data.
+     *
      * @return the binded element instance.
      */
     protected abstract E createBindedElementInstance(ElementDefinition elementDefinition, B bindingData);
@@ -160,6 +166,7 @@ public abstract class FormBinder<F extends BindedForm<E, R, B>, E extends Binded
      * Create the binded form reference instance.
      *
      * @param formReferenceDefinition the form reference definition.
+     *
      * @return the binded form reference instance.
      */
     protected abstract R createBindedFormReferenceInstance(FormReferenceDefinition formReferenceDefinition);

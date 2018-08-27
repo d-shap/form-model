@@ -28,6 +28,7 @@ import ru.d_shap.formmodel.definition.FormReferenceDefinition;
  * @param <E> generic type of the binded element.
  * @param <R> generic type of the binded form reference.
  * @param <B> generic type of the binding data.
+ *
  * @author Dmitry Shapovalov
  */
 public class BindedFormReference<E extends BindedElement<E, R, B>, R extends BindedFormReference<E, R, B>, B> extends BindedNode<E, R, B> {

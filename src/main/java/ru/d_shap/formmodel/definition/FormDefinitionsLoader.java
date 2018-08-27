@@ -43,6 +43,7 @@ public final class FormDefinitionsLoader {
      * Load the form definitions from the specified source.
      *
      * @param file the root directory to search for the form model sources.
+     *
      * @return the loaded form definitions.
      */
     public static FormDefinitions load(final File file) {
@@ -54,6 +55,7 @@ public final class FormDefinitionsLoader {
      *
      * @param file       the root directory to search for the form model sources.
      * @param fileFilter the model source filter.
+     *
      * @return the loaded form definitions.
      */
     public static FormDefinitions load(final File file, final FileFilter fileFilter) {

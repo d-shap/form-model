@@ -74,6 +74,7 @@ final class FormDefinitionLoader {
      *
      * @param inputStream stream with form definition.
      * @param source      the specified source.
+     *
      * @return the loaded form definition.
      */
     static FormDefinition load(final InputStream inputStream, final Object source) {

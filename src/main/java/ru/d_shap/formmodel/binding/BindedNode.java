@@ -30,6 +30,7 @@ import ru.d_shap.formmodel.visitor.GetBindedElementsByIdVisitor;
  * @param <E> generic type of the binded element.
  * @param <R> generic type of the binded form reference.
  * @param <B> generic type of the binding data.
+ *
  * @author Dmitry Shapovalov
  */
 public class BindedNode<E extends BindedElement<E, R, B>, R extends BindedFormReference<E, R, B>, B> {
@@ -54,6 +55,7 @@ public class BindedNode<E extends BindedElement<E, R, B>, R extends BindedFormRe
      * Get the child binded elements.
      *
      * @param expandFormReferences true to get binded elements from child form references, false otherwise.
+     *
      * @return the child binded elements.
      */
     @SuppressWarnings("unchecked")
@@ -100,6 +102,7 @@ public class BindedNode<E extends BindedElement<E, R, B>, R extends BindedFormRe
      * Get the first binded element with the specified element's ID.
      *
      * @param id the specified element's ID.
+     *
      * @return the first binded element.
      */
     public final E lookupBindedElement(final String id) {
@@ -115,6 +118,7 @@ public class BindedNode<E extends BindedElement<E, R, B>, R extends BindedFormRe
      * Get all binded elements with the specified element's ID.
      *
      * @param id the specified element's ID.
+     *
      * @return all binded elements.
      */
     public final List<E> lookupBindedElements(final String id) {

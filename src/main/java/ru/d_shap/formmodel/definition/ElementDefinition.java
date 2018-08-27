@@ -175,6 +175,7 @@ public final class ElementDefinition extends NodeDefinition {
      * Get the element's additional attribute value for the specified additional attribute name.
      *
      * @param additionalAttributeName the specified additional attribute name.
+     *
      * @return the element's additional attribute value.
      */
     public String getAdditionalAttribute(final String additionalAttributeName) {
