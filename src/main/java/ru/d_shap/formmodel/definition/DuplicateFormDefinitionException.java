@@ -22,7 +22,7 @@ package ru.d_shap.formmodel.definition;
 import ru.d_shap.formmodel.FormModelException;
 
 /**
- * Exception is thrown when different form definitions have the same form ID.
+ * Exception is thrown when the different form definitions have the same form ID.
  *
  * @author Dmitry Shapovalov
  */
@@ -33,11 +33,11 @@ public final class DuplicateFormDefinitionException extends FormModelException {
     /**
      * Create new object.
      *
-     * @param formId  the form's ID.
+     * @param formId  the form ID.
      * @param source1 the first form's source.
      * @param source2 the second form's source.
      */
-    DuplicateFormDefinitionException(final String formId, final Object source1, final Object source2) {
+    public DuplicateFormDefinitionException(final String formId, final Object source1, final Object source2) {
         super("Duplicate form definition: " + formId + " [" + source1 + "] [" + source2 + "]");
     }
 
