@@ -20,12 +20,7 @@
 package ru.d_shap.formmodel.definition.model;
 
 /**
- * <p>
- * Element type.
- * </p>
- * <p>
- * This is the element occurrence in the binding form.
- * </p>
+ * Element type defines element occurrence in the binding form.
  *
  * @author Dmitry Shapovalov
  */
@@ -47,7 +42,7 @@ public enum ElementType {
         _attributeValue = attributeValue;
     }
 
-    static ElementType getElementType(final String attributeValue) {
+    public static ElementType getElementType(final String attributeValue) {
         for (ElementType elementType : values()) {
             if (elementType._attributeValue.equals(attributeValue)) {
                 return elementType;
