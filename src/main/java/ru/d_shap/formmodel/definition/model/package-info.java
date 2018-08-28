@@ -19,7 +19,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 /**
  * <p>
- * Form definition elements.
+ * Form definition model.
  * </p>
  */
-package ru.d_shap.formmodel.definition;
+package ru.d_shap.formmodel.definition.model;
