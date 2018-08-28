@@ -20,7 +20,7 @@
 package ru.d_shap.formmodel.definition.model;
 
 /**
- * Element definition type defines element occurrence in the binding form.
+ * Element definition type defines element occurrence in the binded form.
  *
  * @author Dmitry Shapovalov
  */
