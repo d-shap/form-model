@@ -20,11 +20,11 @@
 package ru.d_shap.formmodel.definition.model;
 
 /**
- * Element definition type defines element occurrence in the binded form.
+ * Cardinality definition defines node occurrence in the binded form.
  *
  * @author Dmitry Shapovalov
  */
-public enum ElementDefinitionType {
+public enum CardinalityDefinition {
 
     REQUIRED("required"),
 
@@ -36,23 +36,23 @@ public enum ElementDefinitionType {
 
     PROHIBITED("prohibited");
 
-    private final String _attributeValue;
+    private final String _cardinality;
 
-    ElementDefinitionType(final String attributeValue) {
-        _attributeValue = attributeValue;
+    CardinalityDefinition(final String cardinality) {
+        _cardinality = cardinality;
     }
 
     /**
-     * Get the element definition type for the specified attribute value.
+     * Get the cardinality definition for the specified cardinality.
      *
-     * @param attributeValue the specified attribute value.
+     * @param cardinality the specified cardinality.
      *
-     * @return the element definition type.
+     * @return the cardinality definition.
      */
-    public static ElementDefinitionType getElementDefinitionType(final String attributeValue) {
-        for (ElementDefinitionType elementDefinitionType : values()) {
-            if (elementDefinitionType._attributeValue.equals(attributeValue)) {
-                return elementDefinitionType;
+    public static CardinalityDefinition getCardinalityDefinition(final String cardinality) {
+        for (CardinalityDefinition cardinalityDefinition : values()) {
+            if (cardinalityDefinition._cardinality.equals(cardinality)) {
+                return cardinalityDefinition;
             }
         }
         return null;
