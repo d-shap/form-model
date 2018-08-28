@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Node list definition contains a list of child node definitions.
+ * Node list definition contains a list of the child node definitions.
  *
  * @author Dmitry Shapovalov
  */
