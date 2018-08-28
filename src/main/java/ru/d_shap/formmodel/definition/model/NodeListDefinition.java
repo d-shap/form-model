@@ -27,33 +27,20 @@ import java.util.List;
  *
  * @author Dmitry Shapovalov
  */
-public final class NodeListDefinition {
+final class NodeListDefinition {
 
     private final List<NodeDefinition> _nodeDefinitions;
 
-    /**
-     * Create new object.
-     */
-    public NodeListDefinition() {
+    NodeListDefinition() {
         super();
         _nodeDefinitions = new ArrayList<>();
     }
 
-    /**
-     * Add the specified node definition to the node list definition.
-     *
-     * @param nodeDefinition the specified node definition.
-     */
-    public void addNodeDefinition(final NodeDefinition nodeDefinition) {
+    void addNodeDefinition(final NodeDefinition nodeDefinition) {
         _nodeDefinitions.add(nodeDefinition);
     }
 
-    /**
-     * Get all child node definitions, that are the element definitions.
-     *
-     * @return the child element definitions.
-     */
-    public List<ElementDefinition> getElementDefinitions() {
+    List<ElementDefinition> getElementDefinitions() {
         List<ElementDefinition> elementDefinitions = new ArrayList<>();
         for (NodeDefinition nodeDefinition : _nodeDefinitions) {
             if (nodeDefinition instanceof ElementDefinition) {
@@ -63,12 +50,7 @@ public final class NodeListDefinition {
         return elementDefinitions;
     }
 
-    /**
-     * Get all child node definitions, that are the choice definitions.
-     *
-     * @return the child choice definitions.
-     */
-    public List<ChoiceDefinition> getChoiceDefinitions() {
+    List<ChoiceDefinition> getChoiceDefinitions() {
         List<ChoiceDefinition> choiceDefinitions = new ArrayList<>();
         for (NodeDefinition nodeDefinition : _nodeDefinitions) {
             if (nodeDefinition instanceof ChoiceDefinition) {
@@ -78,12 +60,7 @@ public final class NodeListDefinition {
         return choiceDefinitions;
     }
 
-    /**
-     * Get all child node definitions, that are the form reference definitions.
-     *
-     * @return the child form reference definitions.
-     */
-    public List<FormReferenceDefinition> getFormReferenceDefinitions() {
+    List<FormReferenceDefinition> getFormReferenceDefinitions() {
         List<FormReferenceDefinition> formReferenceDefinitions = new ArrayList<>();
         for (NodeDefinition nodeDefinition : _nodeDefinitions) {
             if (nodeDefinition instanceof FormReferenceDefinition) {
