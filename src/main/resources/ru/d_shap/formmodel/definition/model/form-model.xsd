@@ -2,53 +2,52 @@
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://d-shap.ru/schema/form-model" targetNamespace="http://d-shap.ru/schema/form-model" elementFormDefault="qualified">
     <xs:element name="form" type="tns:FormType" />
     <xs:complexType name="FormType">
-        <xs:sequence>
-            <xs:choice minOccurs="0" maxOccurs="unbounded">
-                <xs:element name="element" type="tns:ElementType" />
-                <xs:element name="choice" type="tns:ChoiceType" />
-                <xs:element name="form" type="tns:FormReferenceType" />
-            </xs:choice>
-            <xs:any namespace="##other" minOccurs="0" maxOccurs="unbounded" processContents="skip" />
-        </xs:sequence>
-        <xs:attribute name="id" type="xs:string" use="required" />
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="element" type="tns:ElementType" />
+            <xs:element name="choice" type="tns:ChoiceType" />
+            <xs:element name="form" type="tns:FormReferenceType" />
+            <xs:any namespace="##other" processContents="skip" />
+        </xs:choice>
+        <xs:attribute name="group" type="xs:string" />
+        <xs:attribute name="id" type="xs:string" />
         <xs:anyAttribute processContents="skip" />
     </xs:complexType>
     <xs:complexType name="ElementType">
-        <xs:sequence>
-            <xs:choice minOccurs="0" maxOccurs="unbounded">
-                <xs:element name="element" type="tns:ElementType" />
-                <xs:element name="choice" type="tns:ChoiceType" />
-                <xs:element name="form" type="tns:FormReferenceType" />
-            </xs:choice>
-            <xs:element name="attribute" minOccurs="0" maxOccurs="unbounded" type="tns:AttributeType" />
-            <xs:any namespace="##other" minOccurs="0" maxOccurs="unbounded" processContents="skip" />
-        </xs:sequence>
-        <xs:attribute name="id" type="xs:string" use="required" />
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="attribute" type="tns:AttributeType" />
+            <xs:element name="element" type="tns:ElementType" />
+            <xs:element name="choice" type="tns:ChoiceType" />
+            <xs:element name="form" type="tns:FormReferenceType" />
+            <xs:any namespace="##other" processContents="skip" />
+        </xs:choice>
+        <xs:attribute name="id" type="xs:string" />
         <xs:attribute name="lookup" type="xs:string" />
-        <xs:attribute name="type" type="tns:ElementTypeType" />
+        <xs:attribute name="type" type="tns:CardinalityType" />
         <xs:anyAttribute processContents="skip" />
     </xs:complexType>
     <xs:complexType name="ChoiceType">
-        <xs:sequence>
-            <xs:element name="element" minOccurs="0" maxOccurs="unbounded" type="tns:ElementType" />
-            <xs:any namespace="##other" minOccurs="0" maxOccurs="unbounded" processContents="skip" />
-        </xs:sequence>
-        <xs:attribute name="id" type="xs:string" use="required" />
-        <xs:attribute name="type" type="tns:ElementTypeType" />
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="element" type="tns:ElementType" />
+            <xs:any namespace="##other" processContents="skip" />
+        </xs:choice>
+        <xs:attribute name="id" type="xs:string" />
+        <xs:attribute name="type" type="tns:CardinalityType" />
         <xs:anyAttribute processContents="skip" />
     </xs:complexType>
     <xs:complexType name="FormReferenceType">
-        <xs:sequence>
-            <xs:any namespace="##other" minOccurs="0" maxOccurs="unbounded" processContents="skip" />
-        </xs:sequence>
-        <xs:attribute name="refid" type="xs:string" use="required" />
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:any namespace="##other" processContents="skip" />
+        </xs:choice>
+        <xs:attribute name="group" type="xs:string" />
+        <xs:attribute name="id" type="xs:string" />
         <xs:anyAttribute processContents="skip" />
     </xs:complexType>
     <xs:complexType name="AttributeType">
-        <xs:attribute name="id" type="xs:string" use="required" />
-        <xs:attribute name="lookup" type="xs:string" use="required" />
+        <xs:attribute name="id" type="xs:string" />
+        <xs:attribute name="lookup" type="xs:string" />
+        <xs:anyAttribute processContents="skip" />
     </xs:complexType>
-    <xs:simpleType name="ElementTypeType">
+    <xs:simpleType name="CardinalityType">
         <xs:restriction base="xs:string">
             <xs:enumeration value="required" />
             <xs:enumeration value="required+" />
