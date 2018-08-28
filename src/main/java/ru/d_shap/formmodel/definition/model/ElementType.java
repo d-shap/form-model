@@ -17,11 +17,11 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-package ru.d_shap.formmodel.definition;
+package ru.d_shap.formmodel.definition.model;
 
 /**
  * <p>
- * Element definition type.
+ * Element type.
  * </p>
  * <p>
  * This is the element occurrence in the binding form.
@@ -29,28 +29,28 @@ package ru.d_shap.formmodel.definition;
  *
  * @author Dmitry Shapovalov
  */
-public enum ElementDefinitionType {
+public enum ElementType {
 
-    MANDATORY("mandatory"),
+    REQUIRED("required"),
 
-    MANDATORY_MULTIPLE("mandatory multiple"),
+    REQUIRED_MULTIPLE("required+"),
 
     OPTIONAL("optional"),
 
-    OPTIONAL_MULTIPLE("optional multiple"),
+    OPTIONAL_MULTIPLE("optional+"),
 
-    FORBIDDEN("forbidden");
+    PROHIBITED("prohibited");
 
     private final String _attributeValue;
 
-    ElementDefinitionType(final String attributeValue) {
+    ElementType(final String attributeValue) {
         _attributeValue = attributeValue;
     }
 
-    static ElementDefinitionType getElementDefinitionType(final String attributeValue) {
-        for (ElementDefinitionType elementDefinitionType : values()) {
-            if (elementDefinitionType._attributeValue.equals(attributeValue)) {
-                return elementDefinitionType;
+    static ElementType getElementType(final String attributeValue) {
+        for (ElementType elementType : values()) {
+            if (elementType._attributeValue.equals(attributeValue)) {
+                return elementType;
             }
         }
         return null;
