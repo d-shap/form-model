@@ -18,8 +18,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 /**
- * <p>
  * Form definition model.
- * </p>
  */
 package ru.d_shap.formmodel.definition.model;
