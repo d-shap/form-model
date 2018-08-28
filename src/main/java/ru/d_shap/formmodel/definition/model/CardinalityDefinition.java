@@ -20,7 +20,7 @@
 package ru.d_shap.formmodel.definition.model;
 
 /**
- * Cardinality definition defines node occurrence in the binded form.
+ * Cardinality definition defines the binded element occurrence in the binded form.
  *
  * @author Dmitry Shapovalov
  */
