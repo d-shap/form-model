@@ -24,7 +24,7 @@ package ru.d_shap.formmodel.definition.model;
  *
  * @author Dmitry Shapovalov
  */
-public enum ElementType {
+public enum ElementDefinitionType {
 
     REQUIRED("required"),
 
@@ -38,14 +38,14 @@ public enum ElementType {
 
     private final String _attributeValue;
 
-    ElementType(final String attributeValue) {
+    ElementDefinitionType(final String attributeValue) {
         _attributeValue = attributeValue;
     }
 
-    public static ElementType getElementType(final String attributeValue) {
-        for (ElementType elementType : values()) {
-            if (elementType._attributeValue.equals(attributeValue)) {
-                return elementType;
+    public static ElementDefinitionType getElementDefinitionType(final String attributeValue) {
+        for (ElementDefinitionType elementDefinitionType : values()) {
+            if (elementDefinitionType._attributeValue.equals(attributeValue)) {
+                return elementDefinitionType;
             }
         }
         return null;
