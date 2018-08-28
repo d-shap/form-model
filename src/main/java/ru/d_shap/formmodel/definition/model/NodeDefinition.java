@@ -20,35 +20,10 @@
 package ru.d_shap.formmodel.definition.model;
 
 /**
- * Node definition is the base class for all form definition elements.
+ * Node definition marker interface.
  *
  * @author Dmitry Shapovalov
  */
-public class NodeDefinition {
-
-    private final FormDefinitions _formDefinitions;
-
-    private final NodeListDefinition _nodeListDefinition;
-
-    private final AnyDefinition _anyDefinition;
-
-    NodeDefinition(final FormDefinitions formDefinitions) {
-        super();
-        _formDefinitions = formDefinitions;
-        _nodeListDefinition = new NodeListDefinition();
-        _anyDefinition = new AnyDefinition();
-    }
-
-    final FormDefinitions getFormDefinitions() {
-        return _formDefinitions;
-    }
-
-    final NodeListDefinition getNodeListDefinition() {
-        return _nodeListDefinition;
-    }
-
-    final AnyDefinition getAnyDefinition() {
-        return _anyDefinition;
-    }
+public interface NodeDefinition {
 
 }
