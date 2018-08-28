@@ -20,24 +20,42 @@
 package ru.d_shap.formmodel.definition.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
- * Node list definition contains a list of the child node definitions.
+ * Node data contains all the data needed to bind the element.
  *
  * @author Dmitry Shapovalov
  */
-final class NodeListDefinition {
+final class NodeData {
 
     private final List<NodeDefinition> _nodeDefinitions;
 
-    NodeListDefinition() {
+    private final List<AttributeDefinition> _attributeDefinitions;
+
+    private final Map<String, String> _otherAttributes;
+
+    NodeData() {
         super();
         _nodeDefinitions = new ArrayList<>();
+        _attributeDefinitions = new ArrayList<>();
+        _otherAttributes = new HashMap<>();
     }
 
     void addNodeDefinition(final NodeDefinition nodeDefinition) {
         _nodeDefinitions.add(nodeDefinition);
+    }
+
+    void addAttributeDefinition(final AttributeDefinition attributeDefinition) {
+        _attributeDefinitions.add(attributeDefinition);
+    }
+
+    void addOtherAttribute(final String attributeName, final String attributeValue) {
+        _otherAttributes.put(attributeName, attributeValue);
     }
 
     List<ElementDefinition> getElementDefinitions() {
@@ -68,6 +86,28 @@ final class NodeListDefinition {
             }
         }
         return formReferenceDefinitions;
+    }
+
+    List<OtherNodeDefinition> getOtherNodeDefinitions() {
+        List<OtherNodeDefinition> otherNodeDefinitions = new ArrayList<>();
+        for (NodeDefinition nodeDefinition : _nodeDefinitions) {
+            if (nodeDefinition instanceof OtherNodeDefinition) {
+                otherNodeDefinitions.add((OtherNodeDefinition) nodeDefinition);
+            }
+        }
+        return otherNodeDefinitions;
+    }
+
+    List<AttributeDefinition> getAttributeDefinitions() {
+        return new ArrayList<>(_attributeDefinitions);
+    }
+
+    Set<String> getOtherAttributeNames() {
+        return new HashSet<>(_otherAttributes.keySet());
+    }
+
+    String getOtherAttributeValue(final String otherAttributeName) {
+        return _otherAttributes.get(otherAttributeName);
     }
 
 }
