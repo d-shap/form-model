@@ -63,7 +63,7 @@ final class FormDefinitionLoader {
 
     private static final String CLASS_PATH = FormDefinitionLoader.class.getPackage().getName().replaceAll("\\.", "/");
 
-    private static final String SCHEMA_LOCATION = CLASS_PATH + "/formmodel.xsd";
+    private static final String SCHEMA_LOCATION = CLASS_PATH + "/form-model.xsd";
 
     private FormDefinitionLoader() {
         super();
