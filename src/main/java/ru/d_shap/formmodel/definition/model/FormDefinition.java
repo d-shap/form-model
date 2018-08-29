@@ -68,7 +68,7 @@ public final class FormDefinition implements NodeDefinition {
         super();
         _group = group;
         _id = id;
-        _nodeData = new NodeData(nodeDefinitions, null, otherAttributes);
+        _nodeData = new NodeData(null, nodeDefinitions, otherAttributes);
         _source = source;
     }
 
