@@ -52,23 +52,12 @@ final class FormDefinitionKey {
         if (!(other instanceof FormDefinitionKey)) {
             return false;
         }
-        FormDefinitionKey otherKey = (FormDefinitionKey) other;
-        if (_group == null && otherKey._group != null) {
-            return false;
-        }
-        if (_group != null && !_group.equals(otherKey._group)) {
-            return false;
-        }
-        return _id.equals(otherKey._id);
+        return _group.equals(((FormDefinitionKey) other)._group) && _id.equals(((FormDefinitionKey) other)._id);
     }
 
     @Override
     public int hashCode() {
-        int result = _id.hashCode();
-        if (_group != null) {
-            result = result * 13 + _group.hashCode();
-        }
-        return result;
+        return _group.hashCode() * 13 + _id.hashCode();
     }
 
 }
