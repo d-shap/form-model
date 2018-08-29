@@ -35,7 +35,15 @@ public final class FormDefinitionNotFoundException extends FormDefinitionExcepti
      * @param id    the form's ID.
      */
     public FormDefinitionNotFoundException(final String group, final String id) {
-        super("Form definition is undefined: " + group + "@" + id);
+        super(getMessage(group, id));
+    }
+
+    private static String getMessage(final String group, final String id) {
+        if (group == null) {
+            return "Form definition is undefined: @" + id;
+        } else {
+            return "Form definition is undefined: " + group + "@" + id;
+        }
     }
 
 }
