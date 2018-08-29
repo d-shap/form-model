@@ -30,34 +30,47 @@ public final class AttributeDefinition {
 
     private final String _lookup;
 
+    private final CardinalityDefinition _cardinality;
+
     /**
      * Create new object.
      *
-     * @param id     the attribute ID.
-     * @param lookup the lookup string.
+     * @param id          the attribute's ID.
+     * @param lookup      the attribute's lookup string.
+     * @param cardinality the attribute's cardinality.
      */
-    public AttributeDefinition(final String id, final String lookup) {
+    public AttributeDefinition(final String id, final String lookup, final CardinalityDefinition cardinality) {
         super();
         _id = id;
         _lookup = lookup;
+        _cardinality = cardinality;
     }
 
     /**
-     * Get the attribute ID.
+     * Get the attribute's ID.
      *
-     * @return the attribute ID.
+     * @return the attribute's ID.
      */
     public String getId() {
         return _id;
     }
 
     /**
-     * Get the lookup string.
+     * Get the attribute's lookup string.
      *
-     * @return the lookup string.
+     * @return the attribute's lookup string.
      */
     public String getLookup() {
         return _lookup;
+    }
+
+    /**
+     * Get the attribute's cardinality.
+     *
+     * @return the attribute's cardinality.
+     */
+    public CardinalityDefinition getCardinality() {
+        return _cardinality;
     }
 
 }
