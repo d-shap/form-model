@@ -20,7 +20,7 @@
 package ru.d_shap.formmodel.definition.model;
 
 /**
- * Attribute definition defines the attribute mapping for the binded element.
+ * Attribute definition defines the element's attribute mapping.
  *
  * @author Dmitry Shapovalov
  */
