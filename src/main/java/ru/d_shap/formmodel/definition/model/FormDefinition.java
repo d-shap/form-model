@@ -66,7 +66,11 @@ public final class FormDefinition implements NodeDefinition {
      */
     public FormDefinition(final String group, final String id, final List<NodeDefinition> nodeDefinitions, final Map<String, String> otherAttributes, final String source) {
         super();
-        _group = group;
+        if (group == null) {
+            _group = "";
+        } else {
+            _group = group;
+        }
         _id = id;
         _nodeData = new NodeData(null, nodeDefinitions, otherAttributes);
         _source = source;
