@@ -45,6 +45,7 @@
     <xs:complexType name="AttributeType">
         <xs:attribute name="id" type="xs:string" />
         <xs:attribute name="lookup" type="xs:string" />
+        <xs:attribute name="type" type="tns:CardinalityType" />
         <xs:anyAttribute processContents="skip" />
     </xs:complexType>
     <xs:simpleType name="CardinalityType">
