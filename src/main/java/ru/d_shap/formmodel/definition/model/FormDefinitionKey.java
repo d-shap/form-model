@@ -24,7 +24,7 @@ package ru.d_shap.formmodel.definition.model;
  *
  * @author Dmitry Shapovalov
  */
-final class FormDefinitionKey {
+public final class FormDefinitionKey {
 
     private final String _group;
 
@@ -40,11 +40,21 @@ final class FormDefinitionKey {
         _id = id;
     }
 
-    String getGroup() {
+    /**
+     * Get the form's group.
+     *
+     * @return the form's group.
+     */
+    public String getGroup() {
         return _group;
     }
 
-    String getId() {
+    /**
+     * Get the form's ID.
+     *
+     * @return the form's ID.
+     */
+    public String getId() {
         return _id;
     }
 
