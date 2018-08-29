@@ -40,9 +40,9 @@ public final class FormDefinitionNotFoundException extends FormDefinitionExcepti
 
     private static String getMessage(final String group, final String id) {
         if (group == null) {
-            return "Form definition is undefined: @" + id;
+            return "Form definition not found: @" + id;
         } else {
-            return "Form definition is undefined: " + group + "@" + id;
+            return "Form definition not found: " + group + "@" + id;
         }
     }
 
