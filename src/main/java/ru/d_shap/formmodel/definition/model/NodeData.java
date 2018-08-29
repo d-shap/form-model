@@ -33,6 +33,8 @@ import java.util.Set;
  */
 final class NodeData {
 
+    private final List<AttributeDefinition> _attributeDefinitions;
+
     private final List<ElementDefinition> _elementDefinitions;
 
     private final List<ChoiceDefinition> _choiceDefinitions;
@@ -41,14 +43,15 @@ final class NodeData {
 
     private final List<OtherNodeDefinition> _otherNodeDefinitions;
 
-    private final List<AttributeDefinition> _attributeDefinitions;
-
     private final Map<String, String> _otherAttributes;
 
-    private final Set<String> _otherAttributeNames;
-
-    NodeData(final List<NodeDefinition> nodeDefinitions, final List<AttributeDefinition> attributeDefinitions, final Map<String, String> otherAttributes) {
+    NodeData(final List<AttributeDefinition> attributeDefinitions, final List<NodeDefinition> nodeDefinitions, final Map<String, String> otherAttributes) {
         super();
+        if (attributeDefinitions == null) {
+            _attributeDefinitions = Collections.unmodifiableList(new ArrayList<AttributeDefinition>());
+        } else {
+            _attributeDefinitions = Collections.unmodifiableList(new ArrayList<>(attributeDefinitions));
+        }
         List<ElementDefinition> elementDefinitions = new ArrayList<>();
         List<ChoiceDefinition> choiceDefinitions = new ArrayList<>();
         List<FormReferenceDefinition> formReferenceDefinitions = new ArrayList<>();
@@ -73,17 +76,15 @@ final class NodeData {
         _choiceDefinitions = Collections.unmodifiableList(choiceDefinitions);
         _formReferenceDefinitions = Collections.unmodifiableList(formReferenceDefinitions);
         _otherNodeDefinitions = Collections.unmodifiableList(otherNodeDefinitions);
-        if (attributeDefinitions == null) {
-            _attributeDefinitions = Collections.unmodifiableList(new ArrayList<AttributeDefinition>());
-        } else {
-            _attributeDefinitions = Collections.unmodifiableList(new ArrayList<>(attributeDefinitions));
-        }
         if (otherAttributes == null) {
             _otherAttributes = Collections.unmodifiableMap(new HashMap<String, String>());
         } else {
             _otherAttributes = Collections.unmodifiableMap(new HashMap<>(otherAttributes));
         }
-        _otherAttributeNames = Collections.unmodifiableSet(_otherAttributes.keySet());
+    }
+
+    List<AttributeDefinition> getAttributeDefinitions() {
+        return _attributeDefinitions;
     }
 
     List<ElementDefinition> getElementDefinitions() {
@@ -102,12 +103,8 @@ final class NodeData {
         return _otherNodeDefinitions;
     }
 
-    List<AttributeDefinition> getAttributeDefinitions() {
-        return _attributeDefinitions;
-    }
-
     Set<String> getOtherAttributeNames() {
-        return _otherAttributeNames;
+        return _otherAttributes.keySet();
     }
 
     String getOtherAttributeValue(final String otherAttributeName) {
