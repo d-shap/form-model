@@ -32,7 +32,11 @@ final class FormDefinitionKey {
 
     FormDefinitionKey(final String group, final String id) {
         super();
-        _group = group;
+        if (group == null) {
+            _group = "";
+        } else {
+            _group = group;
+        }
         _id = id;
     }
 
