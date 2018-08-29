@@ -19,24 +19,23 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.formmodel.definition;
 
-import ru.d_shap.formmodel.FormModelException;
-
 /**
- * Exception is thrown when the form definition is undefined.
+ * Exception is thrown when the form definition is not found.
  *
  * @author Dmitry Shapovalov
  */
-public final class UndefinedFormDefinitionException extends FormModelException {
+public final class FormDefinitionNotFoundException extends FormDefinitionException {
 
     private static final long serialVersionUID = 1L;
 
     /**
      * Create new object.
      *
-     * @param formId the form's ID.
+     * @param group the form's group.
+     * @param id    the form's ID.
      */
-    UndefinedFormDefinitionException(final String formId) {
-        super("Form definition is undefined: " + formId);
+    public FormDefinitionNotFoundException(final String group, final String id) {
+        super("Form definition is undefined: " + group + "@" + id);
     }
 
 }
