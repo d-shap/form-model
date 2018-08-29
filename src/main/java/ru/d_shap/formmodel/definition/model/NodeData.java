@@ -20,8 +20,8 @@
 package ru.d_shap.formmodel.definition.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -33,77 +33,81 @@ import java.util.Set;
  */
 final class NodeData {
 
-    private final List<NodeDefinition> _nodeDefinitions;
+    private final List<ElementDefinition> _elementDefinitions;
+
+    private final List<ChoiceDefinition> _choiceDefinitions;
+
+    private final List<FormReferenceDefinition> _formReferenceDefinitions;
+
+    private final List<OtherNodeDefinition> _otherNodeDefinitions;
 
     private final List<AttributeDefinition> _attributeDefinitions;
 
     private final Map<String, String> _otherAttributes;
 
-    NodeData() {
+    private final Set<String> _otherAttributeNames;
+
+    NodeData(final List<NodeDefinition> nodeDefinitions, final List<AttributeDefinition> attributeDefinitions, final Map<String, String> otherAttributes) {
         super();
-        _nodeDefinitions = new ArrayList<>();
-        _attributeDefinitions = new ArrayList<>();
-        _otherAttributes = new HashMap<>();
-    }
-
-    void addNodeDefinition(final NodeDefinition nodeDefinition) {
-        _nodeDefinitions.add(nodeDefinition);
-    }
-
-    void addAttributeDefinition(final AttributeDefinition attributeDefinition) {
-        _attributeDefinitions.add(attributeDefinition);
-    }
-
-    void addOtherAttribute(final String attributeName, final String attributeValue) {
-        _otherAttributes.put(attributeName, attributeValue);
+        List<ElementDefinition> elementDefinitions = new ArrayList<>();
+        List<ChoiceDefinition> choiceDefinitions = new ArrayList<>();
+        List<FormReferenceDefinition> formReferenceDefinitions = new ArrayList<>();
+        List<OtherNodeDefinition> otherNodeDefinitions = new ArrayList<>();
+        if (nodeDefinitions != null) {
+            for (NodeDefinition nodeDefinition : nodeDefinitions) {
+                if (nodeDefinition instanceof ElementDefinition) {
+                    elementDefinitions.add((ElementDefinition) nodeDefinition);
+                }
+                if (nodeDefinition instanceof ChoiceDefinition) {
+                    choiceDefinitions.add((ChoiceDefinition) nodeDefinition);
+                }
+                if (nodeDefinition instanceof FormReferenceDefinition) {
+                    formReferenceDefinitions.add((FormReferenceDefinition) nodeDefinition);
+                }
+                if (nodeDefinition instanceof OtherNodeDefinition) {
+                    otherNodeDefinitions.add((OtherNodeDefinition) nodeDefinition);
+                }
+            }
+        }
+        _elementDefinitions = Collections.unmodifiableList(elementDefinitions);
+        _choiceDefinitions = Collections.unmodifiableList(choiceDefinitions);
+        _formReferenceDefinitions = Collections.unmodifiableList(formReferenceDefinitions);
+        _otherNodeDefinitions = Collections.unmodifiableList(otherNodeDefinitions);
+        if (attributeDefinitions == null) {
+            _attributeDefinitions = Collections.unmodifiableList(new ArrayList<AttributeDefinition>());
+        } else {
+            _attributeDefinitions = Collections.unmodifiableList(new ArrayList<>(attributeDefinitions));
+        }
+        if (otherAttributes == null) {
+            _otherAttributes = Collections.unmodifiableMap(new HashMap<String, String>());
+        } else {
+            _otherAttributes = Collections.unmodifiableMap(new HashMap<>(otherAttributes));
+        }
+        _otherAttributeNames = Collections.unmodifiableSet(_otherAttributes.keySet());
     }
 
     List<ElementDefinition> getElementDefinitions() {
-        List<ElementDefinition> elementDefinitions = new ArrayList<>();
-        for (NodeDefinition nodeDefinition : _nodeDefinitions) {
-            if (nodeDefinition instanceof ElementDefinition) {
-                elementDefinitions.add((ElementDefinition) nodeDefinition);
-            }
-        }
-        return elementDefinitions;
+        return _elementDefinitions;
     }
 
     List<ChoiceDefinition> getChoiceDefinitions() {
-        List<ChoiceDefinition> choiceDefinitions = new ArrayList<>();
-        for (NodeDefinition nodeDefinition : _nodeDefinitions) {
-            if (nodeDefinition instanceof ChoiceDefinition) {
-                choiceDefinitions.add((ChoiceDefinition) nodeDefinition);
-            }
-        }
-        return choiceDefinitions;
+        return _choiceDefinitions;
     }
 
     List<FormReferenceDefinition> getFormReferenceDefinitions() {
-        List<FormReferenceDefinition> formReferenceDefinitions = new ArrayList<>();
-        for (NodeDefinition nodeDefinition : _nodeDefinitions) {
-            if (nodeDefinition instanceof FormReferenceDefinition) {
-                formReferenceDefinitions.add((FormReferenceDefinition) nodeDefinition);
-            }
-        }
-        return formReferenceDefinitions;
+        return _formReferenceDefinitions;
     }
 
     List<OtherNodeDefinition> getOtherNodeDefinitions() {
-        List<OtherNodeDefinition> otherNodeDefinitions = new ArrayList<>();
-        for (NodeDefinition nodeDefinition : _nodeDefinitions) {
-            if (nodeDefinition instanceof OtherNodeDefinition) {
-                otherNodeDefinitions.add((OtherNodeDefinition) nodeDefinition);
-            }
-        }
-        return otherNodeDefinitions;
+        return _otherNodeDefinitions;
     }
 
     List<AttributeDefinition> getAttributeDefinitions() {
-        return new ArrayList<>(_attributeDefinitions);
+        return _attributeDefinitions;
     }
 
     Set<String> getOtherAttributeNames() {
-        return new HashSet<>(_otherAttributes.keySet());
+        return _otherAttributeNames;
     }
 
     String getOtherAttributeValue(final String otherAttributeName) {
