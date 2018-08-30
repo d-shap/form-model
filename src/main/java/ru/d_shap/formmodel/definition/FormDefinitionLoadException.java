@@ -25,14 +25,12 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
-import ru.d_shap.formmodel.FormModelException;
-
 /**
  * Exception is thrown when the form definition can not be loaded.
  *
  * @author Dmitry Shapovalov
  */
-public final class FormDefinitionLoadException extends FormModelException {
+public final class FormDefinitionLoadException extends FormDefinitionException {
 
     private static final long serialVersionUID = 1L;
 
@@ -41,7 +39,7 @@ public final class FormDefinitionLoadException extends FormModelException {
      *
      * @param exception cause exception.
      */
-    FormDefinitionLoadException(final ParserConfigurationException exception) {
+    public FormDefinitionLoadException(final IOException exception) {
         super("Form definition can not be loaded", exception);
     }
 
@@ -50,7 +48,7 @@ public final class FormDefinitionLoadException extends FormModelException {
      *
      * @param exception cause exception.
      */
-    FormDefinitionLoadException(final IOException exception) {
+    public FormDefinitionLoadException(final ParserConfigurationException exception) {
         super("Form definition can not be loaded", exception);
     }
 
@@ -59,7 +57,7 @@ public final class FormDefinitionLoadException extends FormModelException {
      *
      * @param exception cause exception.
      */
-    FormDefinitionLoadException(final SAXException exception) {
+    public FormDefinitionLoadException(final SAXException exception) {
         super("Form definition can not be loaded", exception);
     }
 
