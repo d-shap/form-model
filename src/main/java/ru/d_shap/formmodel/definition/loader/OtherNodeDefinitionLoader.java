@@ -30,6 +30,13 @@ import ru.d_shap.formmodel.definition.model.OtherNodeDefinition;
  */
 public interface OtherNodeDefinitionLoader {
 
+    /**
+     * Create the other node definition for the specified XML element.
+     *
+     * @param element the specified XML element.
+     *
+     * @return the other node definition.
+     */
     OtherNodeDefinition createOtherNodeDefinition(Element element);
 
 }
