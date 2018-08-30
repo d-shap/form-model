@@ -40,7 +40,11 @@ public final class FormDefinitionValidationException extends FormDefinitionExcep
     }
 
     private static String getFullMessage(final List<String> messages) {
-        return "";
+        String fullMessage = "Form definition is not valid:";
+        for (String message : messages) {
+            fullMessage += "\n    " + message;
+        }
+        return fullMessage;
     }
 
 }
