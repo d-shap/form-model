@@ -19,25 +19,28 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.formmodel.definition;
 
-import ru.d_shap.formmodel.FormModelException;
+import java.util.List;
 
 /**
  * Exception is thrown when the form definition is not valid.
  *
  * @author Dmitry Shapovalov
  */
-public final class FormDefinitionValidationException extends FormModelException {
+public final class FormDefinitionValidationException extends FormDefinitionException {
 
     private static final long serialVersionUID = 1L;
 
     /**
      * Create new object.
      *
-     * @param message exception message.
-     * @param source  the form's source.
+     * @param messages validation messages.
      */
-    FormDefinitionValidationException(final String message, final Object source) {
-        super(message + " [" + source + "]");
+    public FormDefinitionValidationException(final List<String> messages) {
+        super(getFullMessage(messages));
+    }
+
+    private static String getFullMessage(final List<String> messages) {
+        return "";
     }
 
 }
