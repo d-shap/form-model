@@ -33,17 +33,17 @@ import ru.d_shap.formmodel.definition.validator.FormDefinitionsValidator;
  */
 public final class FormDefinitions {
 
-    private final Map<FormDefinitionKey, FormDefinition> _formDefinitions;
-
     private final Map<FormDefinitionKey, String> _formSources;
+
+    private final Map<FormDefinitionKey, FormDefinition> _formDefinitions;
 
     /**
      * Create new object.
      */
     public FormDefinitions() {
         super();
-        _formDefinitions = new HashMap<>();
         _formSources = new HashMap<>();
+        _formDefinitions = new HashMap<>();
     }
 
     /**
@@ -55,8 +55,8 @@ public final class FormDefinitions {
         FormDefinitionsValidator.validate(new HashMap<>(_formSources), formDefinitions);
         for (FormDefinition formDefinition : formDefinitions) {
             FormDefinitionKey formDefinitionKey = new FormDefinitionKey(formDefinition.getGroup(), formDefinition.getId());
-            _formDefinitions.put(formDefinitionKey, formDefinition);
             _formSources.put(formDefinitionKey, formDefinition.getSource());
+            _formDefinitions.put(formDefinitionKey, formDefinition);
         }
     }
 
