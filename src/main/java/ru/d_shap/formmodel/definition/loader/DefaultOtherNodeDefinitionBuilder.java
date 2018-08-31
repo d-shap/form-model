@@ -29,12 +29,12 @@ import ru.d_shap.formmodel.definition.model.OtherNodeDefinition;
  *
  * @author Dmitry Shapovalov
  */
-public final class DefaultOtherNodeDefinitionBuilder implements OtherNodeDefinitionBuilder {
+final class DefaultOtherNodeDefinitionBuilder implements OtherNodeDefinitionBuilder {
 
     /**
      * Create new object.
      */
-    public DefaultOtherNodeDefinitionBuilder() {
+    DefaultOtherNodeDefinitionBuilder() {
         super();
     }
 
