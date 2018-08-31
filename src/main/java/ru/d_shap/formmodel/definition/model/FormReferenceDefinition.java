@@ -47,6 +47,12 @@ public final class FormReferenceDefinition implements NodeDefinition {
         ATTRIBUTE_NAMES = Collections.unmodifiableSet(attributeNames);
     }
 
+    public static final Set<String> CHILD_ELEMENT_NAMES;
+
+    static {
+        CHILD_ELEMENT_NAMES = Collections.unmodifiableSet(new HashSet<String>());
+    }
+
     private final String _group;
 
     private final String _id;
@@ -69,7 +75,7 @@ public final class FormReferenceDefinition implements NodeDefinition {
             _group = group;
         }
         _id = id;
-        _nodeData = new NodeData(null, nodeDefinitions, otherAttributes);
+        _nodeData = new NodeData(nodeDefinitions, otherAttributes);
     }
 
     /**
