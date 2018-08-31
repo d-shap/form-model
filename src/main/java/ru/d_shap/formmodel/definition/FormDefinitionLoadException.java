@@ -19,12 +19,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.formmodel.definition;
 
-import java.io.IOException;
-
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.xml.sax.SAXException;
-
 /**
  * Exception is thrown when the form definition can not be loaded.
  *
@@ -37,11 +31,10 @@ public final class FormDefinitionLoadException extends FormDefinitionException {
     /**
      * Create new object.
      *
-     * @param message   exception message.
-     * @param exception cause exception.
+     * @param message exception message.
      */
-    public FormDefinitionLoadException(final String message, final IOException exception) {
-        super(message, exception);
+    public FormDefinitionLoadException(final String message) {
+        super(message);
     }
 
     /**
@@ -50,17 +43,7 @@ public final class FormDefinitionLoadException extends FormDefinitionException {
      * @param message   exception message.
      * @param exception cause exception.
      */
-    public FormDefinitionLoadException(final String message, final ParserConfigurationException exception) {
-        super(message, exception);
-    }
-
-    /**
-     * Create new object.
-     *
-     * @param message   exception message.
-     * @param exception cause exception.
-     */
-    public FormDefinitionLoadException(final String message, final SAXException exception) {
+    public FormDefinitionLoadException(final String message, final Exception exception) {
         super(message, exception);
     }
 
