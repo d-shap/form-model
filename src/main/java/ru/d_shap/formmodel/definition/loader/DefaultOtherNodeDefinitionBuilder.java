@@ -25,21 +25,21 @@ import ru.d_shap.formmodel.definition.model.DefaultOtherNodeDefinition;
 import ru.d_shap.formmodel.definition.model.OtherNodeDefinition;
 
 /**
- * Default loader for the other node definition.
+ * Default builder for the other node definition.
  *
  * @author Dmitry Shapovalov
  */
-public final class DefaultOtherNodeDefinitionLoader implements OtherNodeDefinitionLoader {
+public final class DefaultOtherNodeDefinitionBuilder implements OtherNodeDefinitionBuilder {
 
     /**
      * Create new object.
      */
-    public DefaultOtherNodeDefinitionLoader() {
+    public DefaultOtherNodeDefinitionBuilder() {
         super();
     }
 
     @Override
-    public OtherNodeDefinition createOtherNodeDefinition(final Element element) {
+    public OtherNodeDefinition createOtherNodeDefinition(final Element element, final FormModelElementBuilder formModelElementBuilder) {
         return new DefaultOtherNodeDefinition(element);
     }
 
