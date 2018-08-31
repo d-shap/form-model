@@ -50,6 +50,17 @@ public final class ElementDefinition implements NodeDefinition {
         ATTRIBUTE_NAMES = Collections.unmodifiableSet(attributeNames);
     }
 
+    private static final Set<String> CHILD_ELEMENT_NAMES;
+
+    static {
+        Set<String> childElementNames = new HashSet<>();
+        childElementNames.add(AttributeDefinition.ELEMENT_NAME);
+        childElementNames.add(ELEMENT_NAME);
+        childElementNames.add(ChoiceDefinition.ELEMENT_NAME);
+        childElementNames.add(FormReferenceDefinition.ELEMENT_NAME);
+        CHILD_ELEMENT_NAMES = Collections.unmodifiableSet(childElementNames);
+    }
+
     private final String _id;
 
     private final String _lookup;
@@ -64,16 +75,15 @@ public final class ElementDefinition implements NodeDefinition {
      * @param id                    the element's ID.
      * @param lookup                the element's lookup string.
      * @param cardinalityDefinition the element's cardinality.
-     * @param attributeDefinitions  the element's attribute definitions.
      * @param nodeDefinitions       the element's node definitions.
      * @param otherAttributes       the element's other attributes.
      */
-    public ElementDefinition(final String id, final String lookup, final CardinalityDefinition cardinalityDefinition, final List<AttributeDefinition> attributeDefinitions, final List<NodeDefinition> nodeDefinitions, final Map<String, String> otherAttributes) {
+    public ElementDefinition(final String id, final String lookup, final CardinalityDefinition cardinalityDefinition, final List<NodeDefinition> nodeDefinitions, final Map<String, String> otherAttributes) {
         super();
         _id = id;
         _lookup = lookup;
         _cardinalityDefinition = cardinalityDefinition;
-        _nodeData = new NodeData(attributeDefinitions, nodeDefinitions, otherAttributes);
+        _nodeData = new NodeData(nodeDefinitions, otherAttributes);
     }
 
     /**
