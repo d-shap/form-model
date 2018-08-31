@@ -21,6 +21,8 @@ package ru.d_shap.formmodel.definition.model;
 
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -28,7 +30,7 @@ import java.util.Set;
  *
  * @author Dmitry Shapovalov
  */
-public final class AttributeDefinition {
+public final class AttributeDefinition implements NodeDefinition {
 
     public static final String ELEMENT_NAME = "attribute";
 
@@ -48,11 +50,19 @@ public final class AttributeDefinition {
         ATTRIBUTE_NAMES = Collections.unmodifiableSet(attributeNames);
     }
 
+    private static final Set<String> CHILD_ELEMENT_NAMES;
+
+    static {
+        CHILD_ELEMENT_NAMES = Collections.unmodifiableSet(new HashSet<String>());
+    }
+
     private final String _id;
 
     private final String _lookup;
 
     private final CardinalityDefinition _cardinalityDefinition;
+
+    private final NodeData _nodeData;
 
     /**
      * Create new object.
@@ -60,12 +70,15 @@ public final class AttributeDefinition {
      * @param id                    the attribute's ID.
      * @param lookup                the attribute's lookup string.
      * @param cardinalityDefinition the attribute's cardinality.
+     * @param nodeDefinitions       the attribute's node definitions.
+     * @param otherAttributes       the attribute's other attributes.
      */
-    public AttributeDefinition(final String id, final String lookup, final CardinalityDefinition cardinalityDefinition) {
+    public AttributeDefinition(final String id, final String lookup, final CardinalityDefinition cardinalityDefinition, final List<NodeDefinition> nodeDefinitions, final Map<String, String> otherAttributes) {
         super();
         _id = id;
         _lookup = lookup;
         _cardinalityDefinition = cardinalityDefinition;
+        _nodeData = new NodeData(nodeDefinitions, otherAttributes);
     }
 
     /**
@@ -93,6 +106,35 @@ public final class AttributeDefinition {
      */
     public CardinalityDefinition getCardinalityDefinition() {
         return _cardinalityDefinition;
+    }
+
+    /**
+     * Get the attribute's other node definitions.
+     *
+     * @return the attribute's other node definitions.
+     */
+    public List<OtherNodeDefinition> getOtherNodeDefinitions() {
+        return _nodeData.getOtherNodeDefinitions();
+    }
+
+    /**
+     * Get the attribute's other attribute names.
+     *
+     * @return the attribute's other attribute names.
+     */
+    public Set<String> getOtherAttributeNames() {
+        return _nodeData.getOtherAttributeNames();
+    }
+
+    /**
+     * Get the attribute's other attribute value for the specified other attribute name.
+     *
+     * @param otherAttributeName the specified other attribute name.
+     *
+     * @return the attribute's other attribute value.
+     */
+    public String getOtherAttributeValue(final String otherAttributeName) {
+        return _nodeData.getOtherAttributeValue(otherAttributeName);
     }
 
 }
