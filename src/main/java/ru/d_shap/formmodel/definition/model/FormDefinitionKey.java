@@ -30,7 +30,22 @@ public final class FormDefinitionKey {
 
     private final String _id;
 
-    FormDefinitionKey(final String group, final String id) {
+    /**
+     * Create new object.
+     *
+     * @param formDefinition the form definition.
+     */
+    public FormDefinitionKey(final FormDefinition formDefinition) {
+        this(formDefinition.getGroup(), formDefinition.getId());
+    }
+
+    /**
+     * Create new object.
+     *
+     * @param group the form's group.
+     * @param id    the form's ID.
+     */
+    public FormDefinitionKey(final String group, final String id) {
         super();
         if (group == null) {
             _group = "";
