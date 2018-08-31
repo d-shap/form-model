@@ -47,6 +47,14 @@ public final class ChoiceDefinition implements NodeDefinition {
         ATTRIBUTE_NAMES = Collections.unmodifiableSet(attributeNames);
     }
 
+    private static final Set<String> CHILD_ELEMENT_NAMES;
+
+    static {
+        Set<String> childElementNames = new HashSet<>();
+        childElementNames.add(ElementDefinition.ELEMENT_NAME);
+        CHILD_ELEMENT_NAMES = Collections.unmodifiableSet(childElementNames);
+    }
+
     private final String _id;
 
     private final CardinalityDefinition _cardinalityDefinition;
@@ -65,7 +73,7 @@ public final class ChoiceDefinition implements NodeDefinition {
         super();
         _id = id;
         _cardinalityDefinition = cardinalityDefinition;
-        _nodeData = new NodeData(null, nodeDefinitions, otherAttributes);
+        _nodeData = new NodeData(nodeDefinitions, otherAttributes);
     }
 
     /**
