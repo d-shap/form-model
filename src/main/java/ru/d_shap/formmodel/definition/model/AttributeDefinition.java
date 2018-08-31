@@ -19,12 +19,34 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.formmodel.definition.model;
 
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Attribute definition defines the element's attribute mapping.
  *
  * @author Dmitry Shapovalov
  */
 public final class AttributeDefinition {
+
+    public static final String ELEMENT_NAME = "attribute";
+
+    public static final String ATTRIBUTE_ID = "id";
+
+    public static final String ATTRIBUTE_LOOKUP = "lookup";
+
+    public static final String ATTRIBUTE_TYPE = "type";
+
+    public static final Set<String> ATTRIBUTE_NAMES;
+
+    static {
+        Set<String> attributeNames = new HashSet<>();
+        attributeNames.add(ATTRIBUTE_ID);
+        attributeNames.add(ATTRIBUTE_LOOKUP);
+        attributeNames.add(ATTRIBUTE_TYPE);
+        ATTRIBUTE_NAMES = Collections.unmodifiableSet(attributeNames);
+    }
 
     private final String _id;
 
