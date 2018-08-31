@@ -37,28 +37,40 @@ public final class FormDefinitionLoadException extends FormDefinitionException {
     /**
      * Create new object.
      *
-     * @param exception cause exception.
+     * @param message exception message.
      */
-    public FormDefinitionLoadException(final IOException exception) {
-        super("Form definition can not be loaded", exception);
+    public FormDefinitionLoadException(final String message) {
+        super(message);
     }
 
     /**
      * Create new object.
      *
+     * @param message   exception message.
      * @param exception cause exception.
      */
-    public FormDefinitionLoadException(final ParserConfigurationException exception) {
-        super("Form definition can not be loaded", exception);
+    public FormDefinitionLoadException(final String message, final IOException exception) {
+        super(message, exception);
     }
 
     /**
      * Create new object.
      *
+     * @param message   exception message.
      * @param exception cause exception.
      */
-    public FormDefinitionLoadException(final SAXException exception) {
-        super("Form definition can not be loaded", exception);
+    public FormDefinitionLoadException(final String message, final ParserConfigurationException exception) {
+        super(message, exception);
+    }
+
+    /**
+     * Create new object.
+     *
+     * @param message   exception message.
+     * @param exception cause exception.
+     */
+    public FormDefinitionLoadException(final String message, final SAXException exception) {
+        super(message, exception);
     }
 
 }
