@@ -21,6 +21,7 @@ package ru.d_shap.formmodel.definition.loader;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -75,9 +76,9 @@ final class FormDefinitionLoader implements FormModelElementBuilder {
         SCHEMA_FACTORY = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
     }
 
-    private static final String CLASS_PATH = FormDefinition.class.getPackage().getName().replaceAll("\\.", "/");
+    private static final String SCHEMA_PARENT_FOLDER = FormDefinition.class.getPackage().getName().replaceAll("\\.", "/");
 
-    private static final String SCHEMA_LOCATION = CLASS_PATH + "/form-model.xsd";
+    private static final String SCHEMA_LOCATION = SCHEMA_PARENT_FOLDER + "/form-model.xsd";
 
     private final Validator _validator;
 
@@ -87,21 +88,17 @@ final class FormDefinitionLoader implements FormModelElementBuilder {
 
     FormDefinitionLoader(final List<OtherNodeDefinitionBuilder> otherNodeDefinitionBuilders) {
         super();
-        InputStream inputStream = getClass().getClassLoader().getResourceAsStream(SCHEMA_LOCATION);
-        _validator = createValidator(inputStream);
+        URL url = getClass().getClassLoader().getResource(SCHEMA_LOCATION);
+        _validator = createValidator(url);
         _otherNodeDefinitionBuilders = new ArrayList<>(otherNodeDefinitionBuilders);
         _defaultOtherNodeDefinitionBuilder = new DefaultOtherNodeDefinitionBuilder();
     }
 
-    Validator createValidator(final InputStream inputStream) {
+    Validator createValidator(final URL url) {
         try {
-            try {
+            try (InputStream inputStream = url.openStream()) {
                 Schema schema = SCHEMA_FACTORY.newSchema(new StreamSource(inputStream));
                 return schema.newValidator();
-            } finally {
-                if (inputStream != null) {
-                    inputStream.close();
-                }
             }
         } catch (IOException | SAXException ex) {
             throw new FormDefinitionLoadException("Failed to load schema", ex);
