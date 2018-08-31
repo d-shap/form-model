@@ -116,12 +116,11 @@ public interface FormModelElementBuilder {
     /**
      * Create the choice definition for the specified XML element.
      *
-     * @param element                      the specified XML element.
-     * @param defaultCardinalityDefinition default choice definition's cardinality.
+     * @param element the specified XML element.
      *
      * @return the choice definition.
      */
-    ChoiceDefinition createChoiceDefinition(Element element, CardinalityDefinition defaultCardinalityDefinition);
+    ChoiceDefinition createChoiceDefinition(Element element);
 
     /**
      * Create the form reference definition for the specified XML element.
