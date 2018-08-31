@@ -50,7 +50,7 @@ public final class AttributeDefinition implements NodeDefinition {
         ATTRIBUTE_NAMES = Collections.unmodifiableSet(attributeNames);
     }
 
-    private static final Set<String> CHILD_ELEMENT_NAMES;
+    public static final Set<String> CHILD_ELEMENT_NAMES;
 
     static {
         CHILD_ELEMENT_NAMES = Collections.unmodifiableSet(new HashSet<String>());
