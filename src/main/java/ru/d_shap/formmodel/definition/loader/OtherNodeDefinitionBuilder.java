@@ -24,19 +24,20 @@ import org.w3c.dom.Element;
 import ru.d_shap.formmodel.definition.model.OtherNodeDefinition;
 
 /**
- * Loader for the other node definition.
+ * Builder for the other node definition.
  *
  * @author Dmitry Shapovalov
  */
-public interface OtherNodeDefinitionLoader {
+public interface OtherNodeDefinitionBuilder {
 
     /**
      * Create the other node definition for the specified XML element.
      *
-     * @param element the specified XML element.
+     * @param element                 the specified XML element.
+     * @param formModelElementBuilder form model element builder.
      *
      * @return the other node definition.
      */
-    OtherNodeDefinition createOtherNodeDefinition(Element element);
+    OtherNodeDefinition createOtherNodeDefinition(Element element, FormModelElementBuilder formModelElementBuilder);
 
 }
