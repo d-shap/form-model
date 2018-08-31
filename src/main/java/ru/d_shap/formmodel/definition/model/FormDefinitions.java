@@ -54,7 +54,7 @@ public final class FormDefinitions {
     public void addFormDefinitions(final List<FormDefinition> formDefinitions) {
         FormDefinitionsValidator.validate(new HashMap<>(_formSources), formDefinitions);
         for (FormDefinition formDefinition : formDefinitions) {
-            FormDefinitionKey formDefinitionKey = new FormDefinitionKey(formDefinition.getGroup(), formDefinition.getId());
+            FormDefinitionKey formDefinitionKey = new FormDefinitionKey(formDefinition);
             _formSources.put(formDefinitionKey, formDefinition.getSource());
             _formDefinitions.put(formDefinitionKey, formDefinition);
         }
