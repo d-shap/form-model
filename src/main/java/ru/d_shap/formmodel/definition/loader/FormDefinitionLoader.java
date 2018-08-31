@@ -81,15 +81,15 @@ final class FormDefinitionLoader implements FormModelElementBuilder {
 
     private final Validator _validator;
 
-    private final List<OtherNodeDefinitionBuilder> _otherNodeDefinitionLoaders;
+    private final List<OtherNodeDefinitionBuilder> _otherNodeDefinitionBuilders;
 
     private final OtherNodeDefinitionBuilder _defaultOtherNodeDefinitionBuilder;
 
-    FormDefinitionLoader(final List<OtherNodeDefinitionBuilder> otherNodeDefinitionLoaders) {
+    FormDefinitionLoader(final List<OtherNodeDefinitionBuilder> otherNodeDefinitionBuilders) {
         super();
         InputStream inputStream = getClass().getClassLoader().getResourceAsStream(SCHEMA_LOCATION);
         _validator = createValidator(inputStream);
-        _otherNodeDefinitionLoaders = new ArrayList<>(otherNodeDefinitionLoaders);
+        _otherNodeDefinitionBuilders = new ArrayList<>(otherNodeDefinitionBuilders);
         _defaultOtherNodeDefinitionBuilder = new DefaultOtherNodeDefinitionBuilder();
     }
 
@@ -210,19 +210,22 @@ final class FormDefinitionLoader implements FormModelElementBuilder {
         for (int i = 0; i < childNodes.getLength(); i++) {
             Node childNode = childNodes.item(i);
             if (childNode instanceof Element) {
-                Element childElement = (Element) childNode;
-                if (NAMESPACE.equals(childElement.getNamespaceURI())) {
-                    if (childElementNames.contains(childElement.getLocalName())) {
-                        addNodeDefinition(childElement, defaultCardinalityDefinition, nodeDefinitions);
-                    } else {
-                        throw new FormDefinitionLoadException("Wrong child element: " + childElement.getLocalName());
-                    }
-                } else {
-                    addOtherNodeDefinition(childElement, nodeDefinitions);
-                }
+                processChildElement((Element) childNode, defaultCardinalityDefinition, childElementNames, nodeDefinitions);
             }
         }
         return nodeDefinitions;
+    }
+
+    private void processChildElement(final Element element, final CardinalityDefinition defaultCardinalityDefinition, final Set<String> childElementNames, final List<NodeDefinition> nodeDefinitions) {
+        if (NAMESPACE.equals(element.getNamespaceURI())) {
+            if (childElementNames.contains(element.getLocalName())) {
+                addNodeDefinition(element, defaultCardinalityDefinition, nodeDefinitions);
+            } else {
+                throw new FormDefinitionLoadException("Wrong child element: " + element.getLocalName());
+            }
+        } else {
+            addOtherNodeDefinition(element, nodeDefinitions);
+        }
     }
 
     private void addNodeDefinition(final Element element, final CardinalityDefinition defaultCardinalityDefinition, final List<NodeDefinition> nodeDefinitions) {
@@ -245,7 +248,7 @@ final class FormDefinitionLoader implements FormModelElementBuilder {
     }
 
     private void addOtherNodeDefinition(final Element element, final List<NodeDefinition> nodeDefinitions) {
-        for (OtherNodeDefinitionBuilder otherNodeDefinitionBuilder : _otherNodeDefinitionLoaders) {
+        for (OtherNodeDefinitionBuilder otherNodeDefinitionBuilder : _otherNodeDefinitionBuilders) {
             OtherNodeDefinition otherNodeDefinition = otherNodeDefinitionBuilder.createOtherNodeDefinition(element, this);
             if (otherNodeDefinition != null) {
                 nodeDefinitions.add(otherNodeDefinition);
@@ -262,10 +265,11 @@ final class FormDefinitionLoader implements FormModelElementBuilder {
         for (int i = 0; i < namedNodeMap.getLength(); i++) {
             Node node = namedNodeMap.item(i);
             String attributeName = node.getLocalName();
-            if (!skipAttributeNames.contains(attributeName)) {
-                String attributeValue = node.getNodeValue();
-                additionalAttributes.put(attributeName, attributeValue);
+            if (skipAttributeNames.contains(attributeName)) {
+                continue;
             }
+            String attributeValue = node.getNodeValue();
+            additionalAttributes.put(attributeName, attributeValue);
         }
         return additionalAttributes;
     }
