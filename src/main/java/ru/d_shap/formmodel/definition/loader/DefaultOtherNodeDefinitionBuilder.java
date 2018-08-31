@@ -39,7 +39,7 @@ final class DefaultOtherNodeDefinitionBuilder implements OtherNodeDefinitionBuil
     }
 
     @Override
-    public OtherNodeDefinition createOtherNodeDefinition(final Element element, final FormModelElementBuilder formModelElementBuilder) {
+    public OtherNodeDefinition createOtherNodeDefinition(final Element element, final FormModelDefinitionBuilder formModelDefinitionBuilder) {
         return new DefaultOtherNodeDefinition(element);
     }
 

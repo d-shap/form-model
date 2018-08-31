@@ -35,7 +35,7 @@ import ru.d_shap.formmodel.definition.model.FormReferenceDefinition;
  *
  * @author Dmitry Shapovalov
  */
-public interface FormModelElementBuilder {
+public interface FormModelDefinitionBuilder {
 
     String NAMESPACE = "http://d-shap.ru/schema/form-model";
 

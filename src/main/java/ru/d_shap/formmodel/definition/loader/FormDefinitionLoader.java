@@ -61,7 +61,7 @@ import ru.d_shap.formmodel.definition.model.OtherNodeDefinition;
  *
  * @author Dmitry Shapovalov
  */
-final class FormDefinitionLoader implements FormModelElementBuilder {
+final class FormDefinitionLoader implements FormModelDefinitionBuilder {
 
     private static final DocumentBuilderFactory DOCUMENT_BUILDER_FACTORY;
 
