@@ -19,11 +19,18 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.formmodel.definition.validator;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import ru.d_shap.formmodel.definition.FormDefinitionValidationException;
+import ru.d_shap.formmodel.definition.model.ElementDefinition;
 import ru.d_shap.formmodel.definition.model.FormDefinition;
 import ru.d_shap.formmodel.definition.model.FormDefinitionKey;
+import ru.d_shap.formmodel.definition.model.FormReferenceDefinition;
 
 /**
  * Form definitions validator validates form definitions.
@@ -43,7 +50,45 @@ public final class FormDefinitionsValidator {
      * @param formDefinitions the specified form definitions.
      */
     public static void validate(final Map<FormDefinitionKey, String> formSources, final List<FormDefinition> formDefinitions) {
+        for (FormDefinition formDefinition : formDefinitions) {
+            FormDefinitionKey formDefinitionKey = new FormDefinitionKey(formDefinition);
+            if (formSources.containsKey(formDefinitionKey)) {
+                throw new FormDefinitionValidationException(Collections.singletonList("Duplicate form"));
+            }
+        }
 
+        Set<FormDefinitionKey> allFormDefinitionKeys = new HashSet<>(formSources.keySet());
+        for (FormDefinition formDefinition : formDefinitions) {
+            FormDefinitionKey formDefinitionKey = new FormDefinitionKey(formDefinition);
+            allFormDefinitionKeys.add(formDefinitionKey);
+        }
+
+        List<FormDefinitionKey> references = new ArrayList<>();
+        for (FormDefinition formDefinition : formDefinitions) {
+            for (FormReferenceDefinition formReferenceDefinition : formDefinition.getFormReferenceDefinitions()) {
+                FormDefinitionKey formDefinitionKey = new FormDefinitionKey(formReferenceDefinition);
+                references.add(formDefinitionKey);
+            }
+            for (ElementDefinition elementDefinition : formDefinition.getElementDefinitions()) {
+                addFormReferences(elementDefinition, references);
+            }
+        }
+
+        for (FormDefinitionKey formDefinitionKey : references) {
+            if (!allFormDefinitionKeys.contains(formDefinitionKey)) {
+                throw new FormDefinitionValidationException(Collections.singletonList("unresolved reference"));
+            }
+        }
+    }
+
+    private static void addFormReferences(final ElementDefinition elementDefinition, final List<FormDefinitionKey> references) {
+        for (FormReferenceDefinition formReferenceDefinition : elementDefinition.getFormReferenceDefinitions()) {
+            FormDefinitionKey formDefinitionKey = new FormDefinitionKey(formReferenceDefinition);
+            references.add(formDefinitionKey);
+        }
+        for (ElementDefinition childElementDefinition : elementDefinition.getElementDefinitions()) {
+            addFormReferences(childElementDefinition, references);
+        }
     }
 
 }
