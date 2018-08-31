@@ -45,7 +45,6 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import ru.d_shap.formmodel.definition.FormDefinitionBuildException;
 import ru.d_shap.formmodel.definition.FormDefinitionLoadException;
 import ru.d_shap.formmodel.definition.model.AttributeDefinition;
 import ru.d_shap.formmodel.definition.model.CardinalityDefinition;
@@ -84,17 +83,19 @@ final class FormDefinitionLoader implements FormModelElementBuilder {
 
     private final List<OtherNodeDefinitionBuilder> _otherNodeDefinitionLoaders;
 
+    private final OtherNodeDefinitionBuilder _defaultOtherNodeDefinitionBuilder;
+
     FormDefinitionLoader(final List<OtherNodeDefinitionBuilder> otherNodeDefinitionLoaders) {
         super();
-        _validator = createValidator(SCHEMA_LOCATION);
+        InputStream inputStream = getClass().getClassLoader().getResourceAsStream(SCHEMA_LOCATION);
+        _validator = createValidator(inputStream);
         _otherNodeDefinitionLoaders = new ArrayList<>(otherNodeDefinitionLoaders);
+        _defaultOtherNodeDefinitionBuilder = new DefaultOtherNodeDefinitionBuilder();
     }
 
-    Validator createValidator(final String schemaLocation) {
+    Validator createValidator(final InputStream inputStream) {
         try {
-            InputStream inputStream = null;
             try {
-                inputStream = FormDefinitionLoader.class.getClassLoader().getResourceAsStream(schemaLocation);
                 Schema schema = SCHEMA_FACTORY.newSchema(new StreamSource(inputStream));
                 return schema.newValidator();
             } finally {
@@ -102,21 +103,11 @@ final class FormDefinitionLoader implements FormModelElementBuilder {
                     inputStream.close();
                 }
             }
-        } catch (IOException ex) {
-            throw new FormDefinitionLoadException("", ex);
-        } catch (SAXException ex) {
-            throw new FormDefinitionLoadException("", ex);
+        } catch (IOException | SAXException ex) {
+            throw new FormDefinitionLoadException("Failed to load schema", ex);
         }
     }
 
-    /**
-     * Load the form definition from the specified source.
-     *
-     * @param inputSource the specified source.
-     * @param source      the specified source ID.
-     *
-     * @return the form definition
-     */
     FormDefinition load(final InputSource inputSource, final String source) {
         try {
             DocumentBuilder builder = DOCUMENT_BUILDER_FACTORY.newDocumentBuilder();
@@ -124,31 +115,27 @@ final class FormDefinitionLoader implements FormModelElementBuilder {
             _validator.validate(new DOMSource(document));
             Element element = document.getDocumentElement();
             return createFormDefinition(element, source);
-        } catch (ParserConfigurationException ex) {
-            throw new FormDefinitionLoadException("", ex);
-        } catch (IOException ex) {
-            throw new FormDefinitionLoadException("", ex);
-        } catch (SAXException ex) {
-            throw new FormDefinitionLoadException("", ex);
+        } catch (ParserConfigurationException | IOException | SAXException ex) {
+            throw new FormDefinitionLoadException("Failed to load form definition", ex);
         }
     }
 
     @Override
     public FormDefinition createFormDefinition(final Element element, final String source) {
-        if (element.getNamespaceURI().equals(NAMESPACE) && element.getLocalName().equals(FORM_DEFINITION_ELEMENT_NAME)) {
+        if (NAMESPACE.equals(element.getNamespaceURI()) && FORM_DEFINITION_ELEMENT_NAME.equals(element.getLocalName())) {
             String group = getAttributeValue(element, FORM_DEFINITION_ATTRIBUTE_GROUP);
             String id = getAttributeValue(element, FORM_DEFINITION_ATTRIBUTE_ID);
             List<NodeDefinition> nodeDefinitions = getNodeDefinitions(element, CardinalityDefinition.REQUIRED, FORM_DEFINITION_CHILD_ELEMENT_NAMES);
             Map<String, String> otherAttributes = getOtherAttributes(element, FORM_DEFINITION_ATTRIBUTE_NAMES);
             return new FormDefinition(group, id, nodeDefinitions, otherAttributes, source);
         } else {
-            throw new FormDefinitionBuildException("");
+            throw new FormDefinitionLoadException("Form definition element is not valid");
         }
     }
 
     @Override
     public ElementDefinition createElementDefinition(final Element element, final CardinalityDefinition defaultCardinalityDefinition) {
-        if (element.getNamespaceURI().equals(NAMESPACE) && element.getLocalName().equals(ELEMENT_DEFINITION_ELEMENT_NAME)) {
+        if (NAMESPACE.equals(element.getNamespaceURI()) && ELEMENT_DEFINITION_ELEMENT_NAME.equals(element.getLocalName())) {
             String id = getAttributeValue(element, ELEMENT_DEFINITION_ATTRIBUTE_ID);
             String lookup = getAttributeValue(element, ELEMENT_DEFINITION_ATTRIBUTE_LOOKUP);
             CardinalityDefinition cardinalityDefinition = getCardinalityDefinition(element, ELEMENT_DEFINITION_ATTRIBUTE_TYPE, defaultCardinalityDefinition);
@@ -156,39 +143,39 @@ final class FormDefinitionLoader implements FormModelElementBuilder {
             Map<String, String> otherAttributes = getOtherAttributes(element, ELEMENT_DEFINITION_ATTRIBUTE_NAMES);
             return new ElementDefinition(id, lookup, cardinalityDefinition, nodeDefinitions, otherAttributes);
         } else {
-            throw new FormDefinitionBuildException("");
+            throw new FormDefinitionLoadException("Element definition element is not valid");
         }
     }
 
     @Override
     public ChoiceDefinition createChoiceDefinition(final Element element) {
-        if (element.getNamespaceURI().equals(NAMESPACE) && element.getLocalName().equals(CHOICE_DEFINITION_ELEMENT_NAME)) {
+        if (NAMESPACE.equals(element.getNamespaceURI()) && CHOICE_DEFINITION_ELEMENT_NAME.equals(element.getLocalName())) {
             String id = getAttributeValue(element, CHOICE_DEFINITION_ATTRIBUTE_ID);
             CardinalityDefinition cardinalityDefinition = getCardinalityDefinition(element, CHOICE_DEFINITION_ATTRIBUTE_TYPE, CardinalityDefinition.REQUIRED);
             List<NodeDefinition> nodeDefinitions = getNodeDefinitions(element, CardinalityDefinition.OPTIONAL, CHOICE_DEFINITION_CHILD_ELEMENT_NAMES);
             Map<String, String> otherAttributes = getOtherAttributes(element, CHOICE_DEFINITION_ATTRIBUTE_NAMES);
             return new ChoiceDefinition(id, cardinalityDefinition, nodeDefinitions, otherAttributes);
         } else {
-            throw new FormDefinitionBuildException("");
+            throw new FormDefinitionLoadException("Choice definition element is not valid");
         }
     }
 
     @Override
     public FormReferenceDefinition createFormReferenceDefinition(final Element element) {
-        if (element.getNamespaceURI().equals(NAMESPACE) && element.getLocalName().equals(FORM_REFERENCE_DEFINITION_ELEMENT_NAME)) {
+        if (NAMESPACE.equals(element.getNamespaceURI()) && FORM_REFERENCE_DEFINITION_ELEMENT_NAME.equals(element.getLocalName())) {
             String group = getAttributeValue(element, FORM_REFERENCE_DEFINITION_ATTRIBUTE_GROUP);
             String id = getAttributeValue(element, FORM_REFERENCE_DEFINITION_ATTRIBUTE_ID);
             List<NodeDefinition> nodeDefinitions = getNodeDefinitions(element, null, FORM_REFERENCE_DEFINITION_CHILD_ELEMENT_NAMES);
             Map<String, String> otherAttributes = getOtherAttributes(element, FORM_REFERENCE_DEFINITION_ATTRIBUTE_NAMES);
             return new FormReferenceDefinition(group, id, nodeDefinitions, otherAttributes);
         } else {
-            throw new FormDefinitionBuildException("");
+            throw new FormDefinitionLoadException("Form reference definition element is not valid");
         }
     }
 
     @Override
     public AttributeDefinition createAttributeDefinition(final Element element) {
-        if (element.getNamespaceURI().equals(NAMESPACE) && element.getLocalName().equals(ATTRIBUTE_DEFINITION_ELEMENT_NAME)) {
+        if (NAMESPACE.equals(element.getNamespaceURI()) && ATTRIBUTE_DEFINITION_ELEMENT_NAME.equals(element.getLocalName())) {
             String id = getAttributeValue(element, ATTRIBUTE_DEFINITION_ATTRIBUTE_ID);
             String lookup = getAttributeValue(element, ATTRIBUTE_DEFINITION_ATTRIBUTE_LOOKUP);
             CardinalityDefinition cardinalityDefinition = getCardinalityDefinition(element, ATTRIBUTE_DEFINITION_ATTRIBUTE_TYPE, CardinalityDefinition.REQUIRED);
@@ -196,7 +183,7 @@ final class FormDefinitionLoader implements FormModelElementBuilder {
             Map<String, String> otherAttributes = getOtherAttributes(element, ATTRIBUTE_DEFINITION_ATTRIBUTE_NAMES);
             return new AttributeDefinition(id, lookup, cardinalityDefinition, nodeDefinitions, otherAttributes);
         } else {
-            throw new FormDefinitionBuildException("");
+            throw new FormDefinitionLoadException("Attribute definition element is not valid");
         }
     }
 
@@ -208,27 +195,27 @@ final class FormDefinitionLoader implements FormModelElementBuilder {
         }
     }
 
-    private CardinalityDefinition getCardinalityDefinition(final Element element, final String attributeName, final CardinalityDefinition defaultValue) {
+    private CardinalityDefinition getCardinalityDefinition(final Element element, final String attributeName, final CardinalityDefinition defaultCardinalityDefinition) {
         String attributeValue = getAttributeValue(element, attributeName);
         if (attributeValue == null) {
-            return defaultValue;
+            return defaultCardinalityDefinition;
         } else {
             return CardinalityDefinition.getCardinalityDefinition(attributeValue);
         }
     }
 
-    private List<NodeDefinition> getNodeDefinitions(final Element element, final CardinalityDefinition defaultCardinalityDefinition, final Set<String> validElementNames) {
+    private List<NodeDefinition> getNodeDefinitions(final Element element, final CardinalityDefinition defaultCardinalityDefinition, final Set<String> childElementNames) {
         List<NodeDefinition> nodeDefinitions = new ArrayList<>();
         NodeList childNodes = element.getChildNodes();
         for (int i = 0; i < childNodes.getLength(); i++) {
             Node childNode = childNodes.item(i);
             if (childNode instanceof Element) {
                 Element childElement = (Element) childNode;
-                if (childElement.getNamespaceURI().equals(NAMESPACE)) {
-                    if (validElementNames.contains(childElement.getLocalName())) {
+                if (NAMESPACE.equals(childElement.getNamespaceURI())) {
+                    if (childElementNames.contains(childElement.getLocalName())) {
                         addNodeDefinition(childElement, defaultCardinalityDefinition, nodeDefinitions);
                     } else {
-                        throw new FormDefinitionBuildException("");
+                        throw new FormDefinitionLoadException("Wrong child element: " + childElement.getLocalName());
                     }
                 } else {
                     addOtherNodeDefinition(childElement, nodeDefinitions);
@@ -265,7 +252,7 @@ final class FormDefinitionLoader implements FormModelElementBuilder {
                 return;
             }
         }
-        OtherNodeDefinition otherNodeDefinition = new DefaultOtherNodeDefinitionBuilder().createOtherNodeDefinition(element, this);
+        OtherNodeDefinition otherNodeDefinition = _defaultOtherNodeDefinitionBuilder.createOtherNodeDefinition(element, this);
         nodeDefinitions.add(otherNodeDefinition);
     }
 
