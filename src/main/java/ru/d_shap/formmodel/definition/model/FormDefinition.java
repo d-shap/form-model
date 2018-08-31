@@ -47,6 +47,16 @@ public final class FormDefinition implements NodeDefinition {
         ATTRIBUTE_NAMES = Collections.unmodifiableSet(attributeNames);
     }
 
+    private static final Set<String> CHILD_ELEMENT_NAMES;
+
+    static {
+        Set<String> childElementNames = new HashSet<>();
+        childElementNames.add(ElementDefinition.ELEMENT_NAME);
+        childElementNames.add(ChoiceDefinition.ELEMENT_NAME);
+        childElementNames.add(FormReferenceDefinition.ELEMENT_NAME);
+        CHILD_ELEMENT_NAMES = Collections.unmodifiableSet(childElementNames);
+    }
+
     private final String _group;
 
     private final String _id;
@@ -72,7 +82,7 @@ public final class FormDefinition implements NodeDefinition {
             _group = group;
         }
         _id = id;
-        _nodeData = new NodeData(null, nodeDefinitions, otherAttributes);
+        _nodeData = new NodeData(nodeDefinitions, otherAttributes);
         _source = source;
     }
 
