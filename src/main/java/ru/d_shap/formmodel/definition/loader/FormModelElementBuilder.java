@@ -47,6 +47,8 @@ public interface FormModelElementBuilder {
 
     Set<String> FORM_DEFINITION_ATTRIBUTE_NAMES = FormDefinition.ATTRIBUTE_NAMES;
 
+    Set<String> FORM_DEFINITION_CHILD_ELEMENT_NAMES = FormDefinition.CHILD_ELEMENT_NAMES;
+
     String ELEMENT_DEFINITION_ELEMENT_NAME = ElementDefinition.ELEMENT_NAME;
 
     String ELEMENT_DEFINITION_ATTRIBUTE_ID = ElementDefinition.ATTRIBUTE_ID;
@@ -57,6 +59,8 @@ public interface FormModelElementBuilder {
 
     Set<String> ELEMENT_DEFINITION_ATTRIBUTE_NAMES = ElementDefinition.ATTRIBUTE_NAMES;
 
+    Set<String> ELEMENT_DEFINITION_CHILD_ELEMENT_NAMES = ElementDefinition.CHILD_ELEMENT_NAMES;
+
     String CHOICE_DEFINITION_ELEMENT_NAME = ChoiceDefinition.ELEMENT_NAME;
 
     String CHOICE_DEFINITION_ATTRIBUTE_ID = ChoiceDefinition.ATTRIBUTE_ID;
@@ -65,6 +69,8 @@ public interface FormModelElementBuilder {
 
     Set<String> CHOICE_DEFINITION_ATTRIBUTE_NAMES = ChoiceDefinition.ATTRIBUTE_NAMES;
 
+    Set<String> CHOICE_DEFINITION_CHILD_ELEMENT_NAMES = ChoiceDefinition.CHILD_ELEMENT_NAMES;
+
     String FORM_REFERENCE_DEFINITION_ELEMENT_NAME = FormReferenceDefinition.ELEMENT_NAME;
 
     String FORM_REFERENCE_DEFINITION_ATTRIBUTE_GROUP = FormReferenceDefinition.ATTRIBUTE_GROUP;
@@ -72,6 +78,8 @@ public interface FormModelElementBuilder {
     String FORM_REFERENCE_DEFINITION_ATTRIBUTE_ID = FormReferenceDefinition.ATTRIBUTE_ID;
 
     Set<String> FORM_REFERENCE_DEFINITION_ATTRIBUTE_NAMES = FormReferenceDefinition.ATTRIBUTE_NAMES;
+
+    Set<String> FORM_REFERENCE_DEFINITION_CHILD_ELEMENT_NAMES = FormReferenceDefinition.CHILD_ELEMENT_NAMES;
 
     String ATTRIBUTE_DEFINITION_ELEMENT_NAME = AttributeDefinition.ELEMENT_NAME;
 
@@ -82,6 +90,8 @@ public interface FormModelElementBuilder {
     String ATTRIBUTE_DEFINITION_ATTRIBUTE_TYPE = AttributeDefinition.ATTRIBUTE_TYPE;
 
     Set<String> ATTRIBUTE_DEFINITION_ATTRIBUTE_NAMES = AttributeDefinition.ATTRIBUTE_NAMES;
+
+    Set<String> ATTRIBUTE_DEFINITION_CHILD_ELEMENT_NAMES = AttributeDefinition.CHILD_ELEMENT_NAMES;
 
     /**
      * Create the form definition for the specified XML element.
