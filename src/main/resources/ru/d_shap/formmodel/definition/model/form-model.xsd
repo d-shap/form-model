@@ -43,6 +43,9 @@
         <xs:anyAttribute processContents="skip" />
     </xs:complexType>
     <xs:complexType name="AttributeType">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:any namespace="##other" processContents="skip" />
+        </xs:choice>
         <xs:attribute name="id" type="xs:string" />
         <xs:attribute name="lookup" type="xs:string" />
         <xs:attribute name="type" type="tns:CardinalityType" />
