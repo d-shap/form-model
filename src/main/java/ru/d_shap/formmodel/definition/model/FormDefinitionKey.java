@@ -42,6 +42,15 @@ public final class FormDefinitionKey {
     /**
      * Create new object.
      *
+     * @param formReferenceDefinition the form reference definition.
+     */
+    public FormDefinitionKey(final FormReferenceDefinition formReferenceDefinition) {
+        this(formReferenceDefinition.getGroup(), formReferenceDefinition.getId());
+    }
+
+    /**
+     * Create new object.
+     *
      * @param group the form's group.
      * @param id    the form's ID.
      */
