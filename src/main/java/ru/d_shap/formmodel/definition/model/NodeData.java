@@ -45,19 +45,18 @@ final class NodeData {
 
     private final Map<String, String> _otherAttributes;
 
-    NodeData(final List<AttributeDefinition> attributeDefinitions, final List<NodeDefinition> nodeDefinitions, final Map<String, String> otherAttributes) {
+    NodeData(final List<NodeDefinition> nodeDefinitions, final Map<String, String> otherAttributes) {
         super();
-        if (attributeDefinitions == null) {
-            _attributeDefinitions = Collections.unmodifiableList(new ArrayList<AttributeDefinition>());
-        } else {
-            _attributeDefinitions = Collections.unmodifiableList(new ArrayList<>(attributeDefinitions));
-        }
+        List<AttributeDefinition> attributeDefinitions = new ArrayList<>();
         List<ElementDefinition> elementDefinitions = new ArrayList<>();
         List<ChoiceDefinition> choiceDefinitions = new ArrayList<>();
         List<FormReferenceDefinition> formReferenceDefinitions = new ArrayList<>();
         List<OtherNodeDefinition> otherNodeDefinitions = new ArrayList<>();
         if (nodeDefinitions != null) {
             for (NodeDefinition nodeDefinition : nodeDefinitions) {
+                if (nodeDefinition instanceof AttributeDefinition) {
+                    attributeDefinitions.add((AttributeDefinition) nodeDefinition);
+                }
                 if (nodeDefinition instanceof ElementDefinition) {
                     elementDefinitions.add((ElementDefinition) nodeDefinition);
                 }
@@ -72,6 +71,7 @@ final class NodeData {
                 }
             }
         }
+        _attributeDefinitions = Collections.unmodifiableList(attributeDefinitions);
         _elementDefinitions = Collections.unmodifiableList(elementDefinitions);
         _choiceDefinitions = Collections.unmodifiableList(choiceDefinitions);
         _formReferenceDefinitions = Collections.unmodifiableList(formReferenceDefinitions);
