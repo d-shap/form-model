@@ -19,11 +19,20 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.formmodel.definition.model;
 
+import org.w3c.dom.Element;
+
 /**
  * Other node definition interface.
  *
  * @author Dmitry Shapovalov
  */
 public interface OtherNodeDefinition extends NodeDefinition {
+
+    /**
+     * Get the XML element of the other node definition.
+     *
+     * @return the XML element of the other node definition.
+     */
+    Element getElement();
 
 }
