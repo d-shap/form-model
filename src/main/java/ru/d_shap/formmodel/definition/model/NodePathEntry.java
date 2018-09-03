@@ -20,7 +20,7 @@
 package ru.d_shap.formmodel.definition.model;
 
 /**
- * Node path entry.
+ * Single path entry within the node path.
  *
  * @author Dmitry Shapovalov
  */
