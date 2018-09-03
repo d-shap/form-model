@@ -25,7 +25,7 @@ import java.util.List;
 import ru.d_shap.formmodel.definition.Messages;
 
 /**
- * Node path in the form definition.
+ * Path of the nodes within the form definition.
  *
  * @author Dmitry Shapovalov
  */
@@ -46,7 +46,7 @@ public final class NodePath {
     }
 
     /**
-     * Create new object
+     * Create new object.
      *
      * @param nodeDefinition the node definition.
      */
@@ -55,9 +55,9 @@ public final class NodePath {
     }
 
     /**
-     * Create new object
+     * Create new object.
      *
-     * @param nodePath       current node path.
+     * @param nodePath       the parent node path.
      * @param representation the string representation of the node definition.
      */
     public NodePath(final NodePath nodePath, final String representation) {
@@ -68,9 +68,9 @@ public final class NodePath {
     }
 
     /**
-     * Create new object
+     * Create new object.
      *
-     * @param nodePath       current node path.
+     * @param nodePath       the parent node path.
      * @param nodeDefinition the node definition.
      */
     public NodePath(final NodePath nodePath, final NodeDefinition nodeDefinition) {
