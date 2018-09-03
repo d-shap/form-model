@@ -141,7 +141,14 @@ final class FormDefinitionValidator implements FormModelDefinitionValidator {
 
     @Override
     public void validate(final NodeDefinition parentNodeDefinition, final FormReferenceDefinition formReferenceDefinition, final NodePath nodePath) {
+        NodePath currentNodePath = new NodePath(nodePath, formReferenceDefinition);
 
+        validateGroup(formReferenceDefinition.getGroup(), currentNodePath);
+        validateId(formReferenceDefinition.getId(), currentNodePath);
+        validateValidFormReference(formReferenceDefinition, currentNodePath);
+        for (OtherNodeDefinition childOtherNodeDefinition : formReferenceDefinition.getOtherNodeDefinitions()) {
+            validate(formReferenceDefinition, childOtherNodeDefinition, currentNodePath);
+        }
     }
 
     @Override
@@ -188,6 +195,11 @@ final class FormDefinitionValidator implements FormModelDefinitionValidator {
 
     private void validateUniqueNodeIds(final List<String> nodeIds, final NodePath nodePath) {
 
+    }
+
+    private void validateValidFormReference(final FormReferenceDefinition formReferenceDefinition, final NodePath nodePath) {
+        FormDefinitionKey formDefinitionKey = new FormDefinitionKey(formReferenceDefinition);
+        _allFormDefinitionKeys.contains(formDefinitionKey);
     }
 
     private boolean isEmptyString(final String str) {
