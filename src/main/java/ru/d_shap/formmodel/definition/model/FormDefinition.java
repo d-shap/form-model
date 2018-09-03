@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import ru.d_shap.formmodel.definition.Messages;
+import ru.d_shap.formmodel.Messages;
 
 /**
  * Node definition to define the form.

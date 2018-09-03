@@ -21,7 +21,7 @@ package ru.d_shap.formmodel.definition.model;
 
 import org.w3c.dom.Element;
 
-import ru.d_shap.formmodel.definition.Messages;
+import ru.d_shap.formmodel.Messages;
 
 /**
  * Default implementation of the other node definition.

@@ -22,7 +22,7 @@ package ru.d_shap.formmodel.definition.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import ru.d_shap.formmodel.definition.Messages;
+import ru.d_shap.formmodel.Messages;
 
 /**
  * Path of the nodes within the form definition.
