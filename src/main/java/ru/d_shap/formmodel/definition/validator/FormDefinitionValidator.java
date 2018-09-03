@@ -28,6 +28,7 @@ import ru.d_shap.formmodel.definition.model.ElementDefinition;
 import ru.d_shap.formmodel.definition.model.FormDefinition;
 import ru.d_shap.formmodel.definition.model.FormReferenceDefinition;
 import ru.d_shap.formmodel.definition.model.NodePath;
+import ru.d_shap.formmodel.definition.model.OtherNodeDefinition;
 
 /**
  * Validator for the form definition.
@@ -38,8 +39,6 @@ final class FormDefinitionValidator implements FormModelDefinitionValidator {
 
     private final List<OtherNodeDefinitionValidator> _otherNodeDefinitionValidators;
 
-    private final OtherNodeDefinitionValidator _defaultOtherNodeDefinitionValidator;
-
     FormDefinitionValidator(final List<OtherNodeDefinitionValidator> otherNodeDefinitionValidators) {
         super();
         if (otherNodeDefinitionValidators == null) {
@@ -47,12 +46,31 @@ final class FormDefinitionValidator implements FormModelDefinitionValidator {
         } else {
             _otherNodeDefinitionValidators = new ArrayList<>(otherNodeDefinitionValidators);
         }
-        _defaultOtherNodeDefinitionValidator = new DefaultOtherNodeDefinitionValidator();
     }
 
     @Override
     public void validate(final FormDefinition formDefinition, final NodePath nodePath) {
+        NodePath currentNodePath = new NodePath(nodePath, formDefinition);
 
+        validateGroup(formDefinition.getGroup(), currentNodePath);
+        validateId(formDefinition.getId(), currentNodePath);
+        validateSource(formDefinition.getSource(), currentNodePath);
+        List<String> childNodeIds = new ArrayList<>();
+        for (ElementDefinition elementDefinition : formDefinition.getElementDefinitions()) {
+            validate(elementDefinition, currentNodePath);
+            childNodeIds.add(elementDefinition.getId());
+        }
+        for (ChoiceDefinition choiceDefinition : formDefinition.getChoiceDefinitions()) {
+            validate(choiceDefinition, currentNodePath);
+            childNodeIds.add(choiceDefinition.getId());
+        }
+        for (FormReferenceDefinition formReferenceDefinition : formDefinition.getFormReferenceDefinitions()) {
+            validate(formReferenceDefinition, currentNodePath);
+        }
+        for (OtherNodeDefinition otherNodeDefinition : formDefinition.getOtherNodeDefinitions()) {
+            validate(otherNodeDefinition, currentNodePath);
+        }
+        validateUniqueNodeIds(childNodeIds, currentNodePath);
     }
 
     @Override
@@ -73,6 +91,40 @@ final class FormDefinitionValidator implements FormModelDefinitionValidator {
     @Override
     public void validate(final AttributeDefinition attributeDefinition, final NodePath nodePath) {
 
+    }
+
+    private void validate(final OtherNodeDefinition otherNodeDefinition, final NodePath nodePath) {
+        for (OtherNodeDefinitionValidator otherNodeDefinitionValidator : _otherNodeDefinitionValidators) {
+            otherNodeDefinitionValidator.validate(otherNodeDefinition, this, nodePath);
+        }
+    }
+
+    private void validateGroup(final String group, final NodePath nodePath) {
+
+    }
+
+    private void validateId(final String id, final NodePath nodePath) {
+
+    }
+
+    private void validateSource(final String source, final NodePath nodePath) {
+
+    }
+
+    private void validateUniqueNodeIds(final List<String> nodeIds, final NodePath nodePath) {
+
+    }
+
+    private boolean isEmptyString(final String str) {
+        if (str == null) {
+            return true;
+        }
+        for (int i = 0; i < str.length(); i++) {
+            if (!Character.isWhitespace(str.charAt(i))) {
+                return false;
+            }
+        }
+        return true;
     }
 
 }
