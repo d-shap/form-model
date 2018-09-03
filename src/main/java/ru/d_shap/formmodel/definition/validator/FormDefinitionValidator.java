@@ -20,13 +20,16 @@
 package ru.d_shap.formmodel.definition.validator;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import ru.d_shap.formmodel.definition.model.AttributeDefinition;
 import ru.d_shap.formmodel.definition.model.CardinalityDefinition;
 import ru.d_shap.formmodel.definition.model.ChoiceDefinition;
 import ru.d_shap.formmodel.definition.model.ElementDefinition;
 import ru.d_shap.formmodel.definition.model.FormDefinition;
+import ru.d_shap.formmodel.definition.model.FormDefinitionKey;
 import ru.d_shap.formmodel.definition.model.FormReferenceDefinition;
 import ru.d_shap.formmodel.definition.model.NodeDefinition;
 import ru.d_shap.formmodel.definition.model.NodePath;
@@ -39,10 +42,17 @@ import ru.d_shap.formmodel.definition.model.OtherNodeDefinition;
  */
 final class FormDefinitionValidator implements FormModelDefinitionValidator {
 
+    private final Set<FormDefinitionKey> _allFormDefinitionKeys;
+
     private final List<OtherNodeDefinitionValidator> _otherNodeDefinitionValidators;
 
-    FormDefinitionValidator(final List<OtherNodeDefinitionValidator> otherNodeDefinitionValidators) {
+    FormDefinitionValidator(final Set<FormDefinitionKey> allFormDefinitionKeys, final List<OtherNodeDefinitionValidator> otherNodeDefinitionValidators) {
         super();
+        if (allFormDefinitionKeys == null) {
+            _allFormDefinitionKeys = new HashSet<>();
+        } else {
+            _allFormDefinitionKeys = new HashSet<>(allFormDefinitionKeys);
+        }
         if (otherNodeDefinitionValidators == null) {
             _otherNodeDefinitionValidators = new ArrayList<>();
         } else {
@@ -79,17 +89,22 @@ final class FormDefinitionValidator implements FormModelDefinitionValidator {
     public void validate(final NodeDefinition parentNodeDefinition, final ElementDefinition elementDefinition, final NodePath nodePath) {
         NodePath currentNodePath = new NodePath(nodePath, elementDefinition);
 
-        validateId(elementDefinition.getId(), currentNodePath);
+        if (parentNodeDefinition instanceof ChoiceDefinition) {
+            validateEmptyId(elementDefinition.getId(), currentNodePath);
+        } else {
+            validateId(elementDefinition.getId(), currentNodePath);
+        }
         validateLookup(elementDefinition.getLookup(), currentNodePath);
         if (parentNodeDefinition instanceof ChoiceDefinition) {
             validateCardinalityDefinition(elementDefinition.getCardinalityDefinition(), currentNodePath, CardinalityDefinition.OPTIONAL);
         } else {
-            validateCardinalityDefinition(elementDefinition.getCardinalityDefinition(), currentNodePath);
-        }
-        for (AttributeDefinition attributeDefinition : elementDefinition.getAttributeDefinitions()) {
-            validate(elementDefinition, attributeDefinition, currentNodePath);
+            validateCardinalityDefinition(elementDefinition.getCardinalityDefinition(), currentNodePath, CardinalityDefinition.values());
         }
         List<String> childNodeIds = new ArrayList<>();
+        for (AttributeDefinition childAttributeDefinition : elementDefinition.getAttributeDefinitions()) {
+            validate(elementDefinition, childAttributeDefinition, currentNodePath);
+            childNodeIds.add(childAttributeDefinition.getId());
+        }
         for (ElementDefinition childElementDefinition : elementDefinition.getElementDefinitions()) {
             validate(elementDefinition, childElementDefinition, currentNodePath);
             childNodeIds.add(childElementDefinition.getId());
@@ -109,7 +124,19 @@ final class FormDefinitionValidator implements FormModelDefinitionValidator {
 
     @Override
     public void validate(final NodeDefinition parentNodeDefinition, final ChoiceDefinition choiceDefinition, final NodePath nodePath) {
+        NodePath currentNodePath = new NodePath(nodePath, choiceDefinition);
 
+        validateId(choiceDefinition.getId(), currentNodePath);
+        validateCardinalityDefinition(choiceDefinition.getCardinalityDefinition(), currentNodePath, CardinalityDefinition.values());
+        List<String> childNodeIds = new ArrayList<>();
+        for (ElementDefinition childElementDefinition : choiceDefinition.getElementDefinitions()) {
+            validate(choiceDefinition, childElementDefinition, currentNodePath);
+            childNodeIds.add(childElementDefinition.getId());
+        }
+        validateUniqueNodeIds(childNodeIds, currentNodePath);
+        for (OtherNodeDefinition childOtherNodeDefinition : choiceDefinition.getOtherNodeDefinitions()) {
+            validate(choiceDefinition, childOtherNodeDefinition, currentNodePath);
+        }
     }
 
     @Override
@@ -136,6 +163,10 @@ final class FormDefinitionValidator implements FormModelDefinitionValidator {
     }
 
     private void validateGroup(final String group, final NodePath nodePath) {
+
+    }
+
+    private void validateEmptyId(final String id, final NodePath nodePath) {
 
     }
 
