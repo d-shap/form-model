@@ -20,7 +20,6 @@
 package ru.d_shap.formmodel.definition.validator;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -53,7 +52,7 @@ public final class FormDefinitionsValidator {
         for (FormDefinition formDefinition : formDefinitions) {
             FormDefinitionKey formDefinitionKey = new FormDefinitionKey(formDefinition);
             if (formSources.containsKey(formDefinitionKey)) {
-                throw new FormDefinitionValidationException(Collections.singletonList("Duplicate form"));
+                throw new FormDefinitionValidationException("Duplicate form");
             }
         }
 
@@ -76,7 +75,7 @@ public final class FormDefinitionsValidator {
 
         for (FormDefinitionKey formDefinitionKey : references) {
             if (!allFormDefinitionKeys.contains(formDefinitionKey)) {
-                throw new FormDefinitionValidationException(Collections.singletonList("unresolved reference"));
+                throw new FormDefinitionValidationException("unresolved reference");
             }
         }
     }
