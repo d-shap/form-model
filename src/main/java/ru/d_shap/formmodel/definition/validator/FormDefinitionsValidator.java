@@ -52,7 +52,7 @@ public final class FormDefinitionsValidator {
         for (FormDefinition formDefinition : formDefinitions) {
             FormDefinitionKey formDefinitionKey = new FormDefinitionKey(formDefinition);
             if (formSources.containsKey(formDefinitionKey)) {
-                throw new FormDefinitionValidationException("Duplicate form");
+                throw new FormDefinitionValidationException("Duplicate form", null);
             }
         }
 
@@ -75,7 +75,7 @@ public final class FormDefinitionsValidator {
 
         for (FormDefinitionKey formDefinitionKey : references) {
             if (!allFormDefinitionKeys.contains(formDefinitionKey)) {
-                throw new FormDefinitionValidationException("unresolved reference");
+                throw new FormDefinitionValidationException("unresolved reference", null);
             }
         }
     }
