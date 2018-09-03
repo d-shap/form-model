@@ -19,8 +19,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.formmodel.definition;
 
-import java.util.List;
-
 /**
  * Exception is thrown when the form definition is not valid.
  *
@@ -33,18 +31,10 @@ public final class FormDefinitionValidationException extends FormDefinitionExcep
     /**
      * Create new object.
      *
-     * @param messages validation messages.
+     * @param message exception message.
      */
-    public FormDefinitionValidationException(final List<String> messages) {
-        super(getFullMessage(messages));
-    }
-
-    private static String getFullMessage(final List<String> messages) {
-        String fullMessage = "Form definition is not valid:";
-        for (String message : messages) {
-            fullMessage += "\n    " + message;
-        }
-        return fullMessage;
+    public FormDefinitionValidationException(final String message) {
+        super(message);
     }
 
 }
