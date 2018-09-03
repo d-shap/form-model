@@ -145,4 +145,43 @@ public final class Messages {
 
     }
 
+    /**
+     * Helper class to create parser configuration exception messages.
+     *
+     * @author Dmitry Shapovalov
+     */
+    public static final class Configuration {
+
+        private Configuration() {
+            super();
+        }
+
+    }
+
+    /**
+     * Helper class to create validation exception messages.
+     *
+     * @author Dmitry Shapovalov
+     */
+    public static final class Validation {
+
+        private Validation() {
+            super();
+        }
+
+    }
+
+    /**
+     * Helper class to create form definition load exception messages.
+     *
+     * @author Dmitry Shapovalov
+     */
+    public static final class Load {
+
+        private Load() {
+            super();
+        }
+
+    }
+
 }
