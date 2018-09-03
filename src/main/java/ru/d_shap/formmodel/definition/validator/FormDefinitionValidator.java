@@ -81,7 +81,11 @@ final class FormDefinitionValidator implements FormModelDefinitionValidator {
 
         validateId(elementDefinition.getId(), currentNodePath);
         validateLookup(elementDefinition.getLookup(), currentNodePath);
-        validateCardinalityDefinition(elementDefinition.getCardinalityDefinition(), currentNodePath);
+        if (parentNodeDefinition instanceof ChoiceDefinition) {
+            validateCardinalityDefinition(elementDefinition.getCardinalityDefinition(), currentNodePath, CardinalityDefinition.OPTIONAL);
+        } else {
+            validateCardinalityDefinition(elementDefinition.getCardinalityDefinition(), currentNodePath);
+        }
         for (AttributeDefinition attributeDefinition : elementDefinition.getAttributeDefinitions()) {
             validate(elementDefinition, attributeDefinition, currentNodePath);
         }
@@ -115,7 +119,14 @@ final class FormDefinitionValidator implements FormModelDefinitionValidator {
 
     @Override
     public void validate(final NodeDefinition parentNodeDefinition, final AttributeDefinition attributeDefinition, final NodePath nodePath) {
+        NodePath currentNodePath = new NodePath(nodePath, attributeDefinition);
 
+        validateId(attributeDefinition.getId(), currentNodePath);
+        validateLookup(attributeDefinition.getLookup(), currentNodePath);
+        validateCardinalityDefinition(attributeDefinition.getCardinalityDefinition(), currentNodePath, CardinalityDefinition.REQUIRED, CardinalityDefinition.OPTIONAL, CardinalityDefinition.PROHIBITED);
+        for (OtherNodeDefinition childOtherNodeDefinition : attributeDefinition.getOtherNodeDefinitions()) {
+            validate(attributeDefinition, childOtherNodeDefinition, currentNodePath);
+        }
     }
 
     private void validate(final NodeDefinition parentNodeDefinition, final OtherNodeDefinition otherNodeDefinition, final NodePath nodePath) {
@@ -136,7 +147,7 @@ final class FormDefinitionValidator implements FormModelDefinitionValidator {
 
     }
 
-    private void validateCardinalityDefinition(final CardinalityDefinition cardinalityDefinition, final NodePath nodePath) {
+    private void validateCardinalityDefinition(final CardinalityDefinition cardinalityDefinition, final NodePath nodePath, final CardinalityDefinition... validCardinalityDefinitions) {
 
     }
 
