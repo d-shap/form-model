@@ -20,7 +20,7 @@
 package ru.d_shap.formmodel.definition.model;
 
 /**
- * Node definition marker interface.
+ * Node definition interface.
  *
  * @author Dmitry Shapovalov
  */
