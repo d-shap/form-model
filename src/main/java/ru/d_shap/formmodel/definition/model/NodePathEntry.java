@@ -26,16 +26,16 @@ package ru.d_shap.formmodel.definition.model;
  */
 final class NodePathEntry {
 
-    private final NodeDefinition _nodeDefinition;
+    private final String _representation;
 
-    NodePathEntry(final NodeDefinition nodeDefinition) {
+    NodePathEntry(final String representation) {
         super();
-        _nodeDefinition = nodeDefinition;
+        _representation = representation;
     }
 
     @Override
     public String toString() {
-        return _nodeDefinition.toString();
+        return _representation;
     }
 
 }
