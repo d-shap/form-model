@@ -31,9 +31,10 @@ public final class FormDefinitionConfigurationException extends FormDefinitionEx
     /**
      * Create new object.
      *
-     * @param message exception message.
+     * @param message   exception message.
+     * @param throwable cause exception.
      */
-    public FormDefinitionConfigurationException(final String message) {
+    public FormDefinitionConfigurationException(final String message, final Throwable throwable) {
         super(message);
     }
 
