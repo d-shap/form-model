@@ -28,7 +28,7 @@ import java.util.Set;
 import ru.d_shap.formmodel.definition.Messages;
 
 /**
- * Element definition defines the element.
+ * Node definition to define the element.
  *
  * @author Dmitry Shapovalov
  */

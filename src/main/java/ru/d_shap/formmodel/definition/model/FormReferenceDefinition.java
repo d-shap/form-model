@@ -28,7 +28,7 @@ import java.util.Set;
 import ru.d_shap.formmodel.definition.Messages;
 
 /**
- * Form reference definition defines the reference to the form definition.
+ * Node definition to define the reference to the form definition.
  *
  * @author Dmitry Shapovalov
  */

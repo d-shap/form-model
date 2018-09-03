@@ -28,7 +28,7 @@ import java.util.Set;
 import ru.d_shap.formmodel.definition.Messages;
 
 /**
- * Choice definition defines the choice of elements.
+ * Node definition to define the choice of elements.
  *
  * @author Dmitry Shapovalov
  */

@@ -28,7 +28,7 @@ import java.util.Set;
 import ru.d_shap.formmodel.definition.Messages;
 
 /**
- * Attribute definition defines the element's attribute mapping.
+ * Node definition to define the element's attribute mapping.
  *
  * @author Dmitry Shapovalov
  */
