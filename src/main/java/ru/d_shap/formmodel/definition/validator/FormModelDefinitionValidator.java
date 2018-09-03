@@ -24,6 +24,7 @@ import ru.d_shap.formmodel.definition.model.ChoiceDefinition;
 import ru.d_shap.formmodel.definition.model.ElementDefinition;
 import ru.d_shap.formmodel.definition.model.FormDefinition;
 import ru.d_shap.formmodel.definition.model.FormReferenceDefinition;
+import ru.d_shap.formmodel.definition.model.NodeDefinition;
 import ru.d_shap.formmodel.definition.model.NodePath;
 
 /**
@@ -44,33 +45,37 @@ public interface FormModelDefinitionValidator {
     /**
      * Validate the element definition.
      *
-     * @param elementDefinition the element definition.
-     * @param nodePath          the current node path.
+     * @param parentNodeDefinition the parent node definition.
+     * @param elementDefinition    the element definition.
+     * @param nodePath             the current node path.
      */
-    void validate(ElementDefinition elementDefinition, NodePath nodePath);
+    void validate(NodeDefinition parentNodeDefinition, ElementDefinition elementDefinition, NodePath nodePath);
 
     /**
      * Validate the choice definition.
      *
-     * @param choiceDefinition the choice definition.
-     * @param nodePath         the current node path.
+     * @param parentNodeDefinition the parent node definition.
+     * @param choiceDefinition     the choice definition.
+     * @param nodePath             the current node path.
      */
-    void validate(ChoiceDefinition choiceDefinition, NodePath nodePath);
+    void validate(NodeDefinition parentNodeDefinition, ChoiceDefinition choiceDefinition, NodePath nodePath);
 
     /**
      * Validate the form reference definition.
      *
+     * @param parentNodeDefinition    the parent node definition.
      * @param formReferenceDefinition the form reference definition.
      * @param nodePath                the current node path.
      */
-    void validate(FormReferenceDefinition formReferenceDefinition, NodePath nodePath);
+    void validate(NodeDefinition parentNodeDefinition, FormReferenceDefinition formReferenceDefinition, NodePath nodePath);
 
     /**
      * Validate the attribute definition.
      *
-     * @param attributeDefinition the attribute definition.
-     * @param nodePath            the current node path.
+     * @param parentNodeDefinition the parent node definition.
+     * @param attributeDefinition  the attribute definition.
+     * @param nodePath             the current node path.
      */
-    void validate(AttributeDefinition attributeDefinition, NodePath nodePath);
+    void validate(NodeDefinition parentNodeDefinition, AttributeDefinition attributeDefinition, NodePath nodePath);
 
 }

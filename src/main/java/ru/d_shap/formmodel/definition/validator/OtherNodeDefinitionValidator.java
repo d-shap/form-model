@@ -19,6 +19,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.formmodel.definition.validator;
 
+import ru.d_shap.formmodel.definition.model.NodeDefinition;
 import ru.d_shap.formmodel.definition.model.NodePath;
 import ru.d_shap.formmodel.definition.model.OtherNodeDefinition;
 
@@ -32,10 +33,11 @@ public interface OtherNodeDefinitionValidator {
     /**
      * Validate the other node definition.
      *
+     * @param parentNodeDefinition         the parent node definition.
      * @param otherNodeDefinition          the other node definition.
      * @param formModelDefinitionValidator validator for the form model definition elements.
      * @param nodePath                     the current node path.
      */
-    void validate(OtherNodeDefinition otherNodeDefinition, FormModelDefinitionValidator formModelDefinitionValidator, NodePath nodePath);
+    void validate(NodeDefinition parentNodeDefinition, OtherNodeDefinition otherNodeDefinition, FormModelDefinitionValidator formModelDefinitionValidator, NodePath nodePath);
 
 }
