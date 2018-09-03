@@ -39,7 +39,7 @@ public interface FormModelDefinitionValidator {
      * @param formDefinition the form definition.
      * @param nodePath       the current node path.
      */
-    void validate(final FormDefinition formDefinition, final NodePath nodePath);
+    void validate(FormDefinition formDefinition, NodePath nodePath);
 
     /**
      * Validate the element definition.
@@ -47,7 +47,7 @@ public interface FormModelDefinitionValidator {
      * @param elementDefinition the element definition.
      * @param nodePath          the current node path.
      */
-    void validate(final ElementDefinition elementDefinition, final NodePath nodePath);
+    void validate(ElementDefinition elementDefinition, NodePath nodePath);
 
     /**
      * Validate the choice definition.
@@ -55,7 +55,7 @@ public interface FormModelDefinitionValidator {
      * @param choiceDefinition the choice definition.
      * @param nodePath         the current node path.
      */
-    void validate(final ChoiceDefinition choiceDefinition, final NodePath nodePath);
+    void validate(ChoiceDefinition choiceDefinition, NodePath nodePath);
 
     /**
      * Validate the form reference definition.
@@ -63,7 +63,7 @@ public interface FormModelDefinitionValidator {
      * @param formReferenceDefinition the form reference definition.
      * @param nodePath                the current node path.
      */
-    void validate(final FormReferenceDefinition formReferenceDefinition, final NodePath nodePath);
+    void validate(FormReferenceDefinition formReferenceDefinition, NodePath nodePath);
 
     /**
      * Validate the attribute definition.
@@ -71,6 +71,6 @@ public interface FormModelDefinitionValidator {
      * @param attributeDefinition the attribute definition.
      * @param nodePath            the current node path.
      */
-    void validate(final AttributeDefinition attributeDefinition, final NodePath nodePath);
+    void validate(AttributeDefinition attributeDefinition, NodePath nodePath);
 
 }
