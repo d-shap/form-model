@@ -28,6 +28,7 @@ import ru.d_shap.formmodel.definition.model.ChoiceDefinition;
 import ru.d_shap.formmodel.definition.model.ElementDefinition;
 import ru.d_shap.formmodel.definition.model.FormDefinition;
 import ru.d_shap.formmodel.definition.model.FormReferenceDefinition;
+import ru.d_shap.formmodel.definition.model.NodeDefinition;
 import ru.d_shap.formmodel.definition.model.NodePath;
 import ru.d_shap.formmodel.definition.model.OtherNodeDefinition;
 
@@ -58,68 +59,68 @@ final class FormDefinitionValidator implements FormModelDefinitionValidator {
         validateSource(formDefinition.getSource(), currentNodePath);
         List<String> childNodeIds = new ArrayList<>();
         for (ElementDefinition childElementDefinition : formDefinition.getElementDefinitions()) {
-            validate(childElementDefinition, currentNodePath);
+            validate(formDefinition, childElementDefinition, currentNodePath);
             childNodeIds.add(childElementDefinition.getId());
         }
         for (ChoiceDefinition childChoiceDefinition : formDefinition.getChoiceDefinitions()) {
-            validate(childChoiceDefinition, currentNodePath);
+            validate(formDefinition, childChoiceDefinition, currentNodePath);
             childNodeIds.add(childChoiceDefinition.getId());
         }
         validateUniqueNodeIds(childNodeIds, currentNodePath);
         for (FormReferenceDefinition childFormReferenceDefinition : formDefinition.getFormReferenceDefinitions()) {
-            validate(childFormReferenceDefinition, currentNodePath);
+            validate(formDefinition, childFormReferenceDefinition, currentNodePath);
         }
         for (OtherNodeDefinition childOtherNodeDefinition : formDefinition.getOtherNodeDefinitions()) {
-            validate(childOtherNodeDefinition, currentNodePath);
+            validate(formDefinition, childOtherNodeDefinition, currentNodePath);
         }
     }
 
     @Override
-    public void validate(final ElementDefinition elementDefinition, final NodePath nodePath) {
+    public void validate(final NodeDefinition parentNodeDefinition, final ElementDefinition elementDefinition, final NodePath nodePath) {
         NodePath currentNodePath = new NodePath(nodePath, elementDefinition);
 
         validateId(elementDefinition.getId(), currentNodePath);
         validateLookup(elementDefinition.getLookup(), currentNodePath);
         validateCardinalityDefinition(elementDefinition.getCardinalityDefinition(), currentNodePath);
         for (AttributeDefinition attributeDefinition : elementDefinition.getAttributeDefinitions()) {
-            validate(attributeDefinition, currentNodePath);
+            validate(elementDefinition, attributeDefinition, currentNodePath);
         }
         List<String> childNodeIds = new ArrayList<>();
         for (ElementDefinition childElementDefinition : elementDefinition.getElementDefinitions()) {
-            validate(childElementDefinition, currentNodePath);
+            validate(elementDefinition, childElementDefinition, currentNodePath);
             childNodeIds.add(childElementDefinition.getId());
         }
         for (ChoiceDefinition childChoiceDefinition : elementDefinition.getChoiceDefinitions()) {
-            validate(childChoiceDefinition, currentNodePath);
+            validate(elementDefinition, childChoiceDefinition, currentNodePath);
             childNodeIds.add(childChoiceDefinition.getId());
         }
         validateUniqueNodeIds(childNodeIds, currentNodePath);
         for (FormReferenceDefinition childFormReferenceDefinition : elementDefinition.getFormReferenceDefinitions()) {
-            validate(childFormReferenceDefinition, currentNodePath);
+            validate(elementDefinition, childFormReferenceDefinition, currentNodePath);
         }
         for (OtherNodeDefinition childOtherNodeDefinition : elementDefinition.getOtherNodeDefinitions()) {
-            validate(childOtherNodeDefinition, currentNodePath);
+            validate(elementDefinition, childOtherNodeDefinition, currentNodePath);
         }
     }
 
     @Override
-    public void validate(final ChoiceDefinition choiceDefinition, final NodePath nodePath) {
+    public void validate(final NodeDefinition parentNodeDefinition, final ChoiceDefinition choiceDefinition, final NodePath nodePath) {
 
     }
 
     @Override
-    public void validate(final FormReferenceDefinition formReferenceDefinition, final NodePath nodePath) {
+    public void validate(final NodeDefinition parentNodeDefinition, final FormReferenceDefinition formReferenceDefinition, final NodePath nodePath) {
 
     }
 
     @Override
-    public void validate(final AttributeDefinition attributeDefinition, final NodePath nodePath) {
+    public void validate(final NodeDefinition parentNodeDefinition, final AttributeDefinition attributeDefinition, final NodePath nodePath) {
 
     }
 
-    private void validate(final OtherNodeDefinition otherNodeDefinition, final NodePath nodePath) {
+    private void validate(final NodeDefinition parentNodeDefinition, final OtherNodeDefinition otherNodeDefinition, final NodePath nodePath) {
         for (OtherNodeDefinitionValidator otherNodeDefinitionValidator : _otherNodeDefinitionValidators) {
-            otherNodeDefinitionValidator.validate(otherNodeDefinition, this, nodePath);
+            otherNodeDefinitionValidator.validate(parentNodeDefinition, otherNodeDefinition, this, nodePath);
         }
     }
 
