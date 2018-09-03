@@ -19,6 +19,8 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.formmodel.definition;
 
+import ru.d_shap.formmodel.definition.model.NodePath;
+
 /**
  * Exception is thrown when the form definition is not valid.
  *
@@ -31,10 +33,11 @@ public final class FormDefinitionValidationException extends FormDefinitionExcep
     /**
      * Create new object.
      *
-     * @param message exception message.
+     * @param message  exception message.
+     * @param nodePath node path.
      */
-    public FormDefinitionValidationException(final String message) {
-        super(message);
+    public FormDefinitionValidationException(final String message, final NodePath nodePath) {
+        super(nodePath + ": " + message);
     }
 
 }
