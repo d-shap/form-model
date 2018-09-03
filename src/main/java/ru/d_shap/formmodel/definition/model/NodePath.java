@@ -29,7 +29,7 @@ import ru.d_shap.formmodel.definition.Messages;
  *
  * @author Dmitry Shapovalov
  */
-public class NodePath {
+public final class NodePath {
 
     private final List<NodePathEntry> _nodePathEntries;
 
