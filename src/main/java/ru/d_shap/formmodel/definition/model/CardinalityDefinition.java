@@ -20,7 +20,7 @@
 package ru.d_shap.formmodel.definition.model;
 
 /**
- * Enum to define the node's cardinality.
+ * The node's cardinality.
  *
  * @author Dmitry Shapovalov
  */
