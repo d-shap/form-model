@@ -25,6 +25,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import ru.d_shap.formmodel.definition.Messages;
+
 /**
  * Choice definition defines the choice of elements.
  *
@@ -130,6 +132,11 @@ public final class ChoiceDefinition implements NodeDefinition {
      */
     public String getOtherAttributeValue(final String otherAttributeName) {
         return _nodeData.getOtherAttributeValue(otherAttributeName);
+    }
+
+    @Override
+    public String toString() {
+        return Messages.Representation.getChoiceDefinitionRepresentation(_id);
     }
 
 }

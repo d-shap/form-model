@@ -21,6 +21,8 @@ package ru.d_shap.formmodel.definition.model;
 
 import org.w3c.dom.Element;
 
+import ru.d_shap.formmodel.definition.Messages;
+
 /**
  * Default implementation of the other node definition.
  *
@@ -40,13 +42,14 @@ public final class DefaultOtherNodeDefinition implements OtherNodeDefinition {
         _element = element;
     }
 
-    /**
-     * Get the XML element.
-     *
-     * @return the XML element.
-     */
+    @Override
     public Element getElement() {
         return _element;
+    }
+
+    @Override
+    public String toString() {
+        return Messages.Representation.getOtherNodeDefinitionRepresentation(_element);
     }
 
 }

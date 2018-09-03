@@ -25,6 +25,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import ru.d_shap.formmodel.definition.Messages;
+
 /**
  * Form definition defines the form.
  *
@@ -167,6 +169,11 @@ public final class FormDefinition implements NodeDefinition {
      */
     public String getSource() {
         return _source;
+    }
+
+    @Override
+    public String toString() {
+        return Messages.Representation.getFormDefinitionRepresentation(_source, _group, _id);
     }
 
 }

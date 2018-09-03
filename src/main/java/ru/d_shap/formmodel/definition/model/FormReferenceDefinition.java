@@ -25,6 +25,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import ru.d_shap.formmodel.definition.Messages;
+
 /**
  * Form reference definition defines the reference to the form definition.
  *
@@ -123,6 +125,11 @@ public final class FormReferenceDefinition implements NodeDefinition {
      */
     public String getOtherAttributeValue(final String otherAttributeName) {
         return _nodeData.getOtherAttributeValue(otherAttributeName);
+    }
+
+    @Override
+    public String toString() {
+        return Messages.Representation.getFormReferenceDefinitionRepresentation(_group, _id);
     }
 
 }

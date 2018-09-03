@@ -25,6 +25,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import ru.d_shap.formmodel.definition.Messages;
+
 /**
  * Element definition defines the element.
  *
@@ -176,6 +178,11 @@ public final class ElementDefinition implements NodeDefinition {
      */
     public String getOtherAttributeValue(final String otherAttributeName) {
         return _nodeData.getOtherAttributeValue(otherAttributeName);
+    }
+
+    @Override
+    public String toString() {
+        return Messages.Representation.getElementDefinitionRepresentation(_id);
     }
 
 }
