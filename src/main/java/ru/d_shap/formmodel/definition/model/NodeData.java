@@ -27,7 +27,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Node data contains all the data needed for the node definition.
+ * All the data needed for the node definition.
  *
  * @author Dmitry Shapovalov
  */
