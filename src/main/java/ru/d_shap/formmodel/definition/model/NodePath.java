@@ -35,12 +35,19 @@ public final class NodePath {
 
     /**
      * Create new object.
+     */
+    public NodePath() {
+        super();
+        _nodePathEntries = new ArrayList<>();
+    }
+
+    /**
+     * Create new object.
      *
      * @param representation the string representation of the node definition.
      */
     public NodePath(final String representation) {
-        super();
-        _nodePathEntries = new ArrayList<>();
+        this();
         NodePathEntry nodePathEntry = new NodePathEntry(representation);
         _nodePathEntries.add(nodePathEntry);
     }
@@ -61,8 +68,7 @@ public final class NodePath {
      * @param representation the string representation of the node definition.
      */
     public NodePath(final NodePath nodePath, final String representation) {
-        super();
-        _nodePathEntries = new ArrayList<>(nodePath._nodePathEntries);
+        this();
         NodePathEntry nodePathEntry = new NodePathEntry(representation);
         _nodePathEntries.add(nodePathEntry);
     }
