@@ -146,19 +146,6 @@ public final class Messages {
     }
 
     /**
-     * Helper class to create parser configuration exception messages.
-     *
-     * @author Dmitry Shapovalov
-     */
-    public static final class Configuration {
-
-        private Configuration() {
-            super();
-        }
-
-    }
-
-    /**
      * Helper class to create validation exception messages.
      *
      * @author Dmitry Shapovalov
