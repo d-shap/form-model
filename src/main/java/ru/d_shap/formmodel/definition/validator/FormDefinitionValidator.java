@@ -44,27 +44,6 @@ import ru.d_shap.formmodel.definition.model.OtherNodeDefinition;
  */
 final class FormDefinitionValidator implements FormModelDefinitionValidator {
 
-    private static final Set<Character> VALID_START_CHARACTERS;
-
-    private static final Set<Character> VALID_CHARACTERS;
-
-    static {
-        VALID_START_CHARACTERS = new HashSet<>();
-        for (char ch = 'a'; ch < 'z' + 1; ch++) {
-            VALID_START_CHARACTERS.add(ch);
-        }
-        for (char ch = 'A'; ch < 'Z' + 1; ch++) {
-            VALID_START_CHARACTERS.add(ch);
-        }
-        VALID_START_CHARACTERS.add('_');
-
-        VALID_CHARACTERS = new HashSet<>(VALID_START_CHARACTERS);
-        for (char ch = '0'; ch < '9' + 1; ch++) {
-            VALID_CHARACTERS.add(ch);
-        }
-        VALID_CHARACTERS.add('-');
-    }
-
     private final Set<FormDefinitionKey> _allFormDefinitionKeys;
 
     private final List<OtherNodeDefinitionValidator> _otherNodeDefinitionValidators;
@@ -212,73 +191,77 @@ final class FormDefinitionValidator implements FormModelDefinitionValidator {
     }
 
     private void validateGroup(final String group, final NodePath nodePath) {
-        if (!isEmptyString(group) && !isValidCharactersInString(group)) {
+        if (!StringUtils.isEmpty(group) && !StringUtils.isValidCharacters(group)) {
             throw new FormDefinitionValidationException(Messages.Validation.getGroupIsNotValidMessage(group), nodePath);
         }
     }
 
     private void validateEmptyId(final String id, final NodePath nodePath) {
-        if (!isEmptyString(id)) {
+        if (!StringUtils.isEmpty(id)) {
             throw new FormDefinitionValidationException(Messages.Validation.getIdIsNotEmptyMessage(id), nodePath);
         }
     }
 
     private void validateId(final String id, final NodePath nodePath) {
-        if (isEmptyString(id)) {
-            throw new FormDefinitionValidationException(Messages.Validation.getIdIsEmptyMessage(id), nodePath);
+        if (StringUtils.isEmpty(id)) {
+            throw new FormDefinitionValidationException(Messages.Validation.getIdIsEmptyMessage(), nodePath);
         }
-        if (!isValidCharactersInString(id)) {
+        if (!StringUtils.isValidCharacters(id)) {
             throw new FormDefinitionValidationException(Messages.Validation.getIdIsNotValidMessage(id), nodePath);
         }
     }
 
     private void validateLookup(final String lookup, final NodePath nodePath) {
-
+        if (StringUtils.isEmpty(lookup)) {
+            throw new FormDefinitionValidationException(Messages.Validation.getLookupIsEmptyMessage(), nodePath);
+        }
     }
 
     private void validateCardinalityDefinition(final CardinalityDefinition cardinalityDefinition, final NodePath nodePath, final CardinalityDefinition... validCardinalityDefinitions) {
-
+        if (cardinalityDefinition == null) {
+            throw new FormDefinitionValidationException(Messages.Validation.getCardinalityDefinitionIsEmptyMessage(), nodePath);
+        }
+        boolean isCardinalityDefinitionValid = false;
+        for (CardinalityDefinition validCardinalityDefinition : validCardinalityDefinitions) {
+            if (cardinalityDefinition == validCardinalityDefinition) {
+                isCardinalityDefinitionValid = true;
+                break;
+            }
+        }
+        if (!isCardinalityDefinitionValid) {
+            throw new FormDefinitionValidationException(Messages.Validation.getCardinalityDefinitionIsNotValidMessage(cardinalityDefinition), nodePath);
+        }
     }
 
     private void validateSource(final String source, final NodePath nodePath) {
-
+        if (StringUtils.isEmpty(source)) {
+            throw new FormDefinitionValidationException(Messages.Validation.getSourceIsEmptyMessage(), nodePath);
+        }
     }
 
     private void validateUniqueNodeIds(final List<String> nodeIds, final NodePath nodePath) {
-
+        Set<String> uniqueNodeIds = new HashSet<>();
+        for (String nodeId : nodeIds) {
+            if (!uniqueNodeIds.add(nodeId)) {
+                throw new FormDefinitionValidationException(Messages.Validation.getIdIsNotUniqueMessage(nodeId), nodePath);
+            }
+        }
     }
 
     private void validateUniqueFormReferences(final List<FormDefinitionKey> formReferences, final NodePath nodePath) {
-
+        Set<FormDefinitionKey> uniqueFormReferences = new HashSet<>();
+        for (FormDefinitionKey formReference : formReferences) {
+            if (!uniqueFormReferences.add(formReference)) {
+                throw new FormDefinitionValidationException(Messages.Validation.getFormReferenceIsNotUniqueMessage(formReference), nodePath);
+            }
+        }
     }
 
     private void validateFormReference(final FormReferenceDefinition formReferenceDefinition, final NodePath nodePath) {
         FormDefinitionKey formDefinitionKey = new FormDefinitionKey(formReferenceDefinition);
-        _allFormDefinitionKeys.contains(formDefinitionKey);
-    }
-
-    private boolean isEmptyString(final String str) {
-        if (str == null) {
-            return true;
+        if (!_allFormDefinitionKeys.contains(formDefinitionKey)) {
+            throw new FormDefinitionValidationException(Messages.Validation.getUnresolvedFormReferenceMessage(formDefinitionKey), nodePath);
         }
-        for (int i = 0; i < str.length(); i++) {
-            if (!Character.isWhitespace(str.charAt(i))) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private boolean isValidCharactersInString(final String str) {
-        if (!VALID_START_CHARACTERS.contains(str.charAt(0))) {
-            return false;
-        }
-        for (int i = 1; i < str.length(); i++) {
-            if (!VALID_CHARACTERS.contains(str.charAt(i))) {
-                return false;
-            }
-        }
-        return true;
     }
 
 }
