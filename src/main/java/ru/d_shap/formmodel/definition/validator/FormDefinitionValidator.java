@@ -219,7 +219,7 @@ final class FormDefinitionValidator implements FormModelDefinitionValidator {
 
     private void validateCardinalityDefinition(final CardinalityDefinition cardinalityDefinition, final NodePath nodePath, final CardinalityDefinition... validCardinalityDefinitions) {
         if (cardinalityDefinition == null) {
-            throw new FormDefinitionValidationException(Messages.Validation.getCardinalityDefinitionIsEmptyMessage(), nodePath);
+            throw new FormDefinitionValidationException(Messages.Validation.getCardinalityIsEmptyMessage(), nodePath);
         }
         boolean isCardinalityDefinitionValid = false;
         for (CardinalityDefinition validCardinalityDefinition : validCardinalityDefinitions) {
@@ -229,7 +229,7 @@ final class FormDefinitionValidator implements FormModelDefinitionValidator {
             }
         }
         if (!isCardinalityDefinitionValid) {
-            throw new FormDefinitionValidationException(Messages.Validation.getCardinalityDefinitionIsNotValidMessage(cardinalityDefinition), nodePath);
+            throw new FormDefinitionValidationException(Messages.Validation.getCardinalityIsNotValidMessage(cardinalityDefinition.getCardinality()), nodePath);
         }
     }
 
