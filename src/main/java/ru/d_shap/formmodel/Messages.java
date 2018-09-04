@@ -25,6 +25,7 @@ import ru.d_shap.formmodel.definition.model.AttributeDefinition;
 import ru.d_shap.formmodel.definition.model.ChoiceDefinition;
 import ru.d_shap.formmodel.definition.model.ElementDefinition;
 import ru.d_shap.formmodel.definition.model.FormDefinition;
+import ru.d_shap.formmodel.definition.model.FormDefinitionKey;
 import ru.d_shap.formmodel.definition.model.FormReferenceDefinition;
 
 /**
@@ -154,6 +155,119 @@ public final class Messages {
 
         private Validation() {
             super();
+        }
+
+        /**
+         * Get the error message when the group is not valid.
+         *
+         * @param group the invalid group.
+         *
+         * @return the error message.
+         */
+        public static String getGroupIsNotValidMessage(final String group) {
+            return "[Group is not valid: " + group + "]";
+        }
+
+        /**
+         * Get the error message when the ID is not empty.
+         *
+         * @param id the invalid ID.
+         *
+         * @return the error message.
+         */
+        public static String getIdIsNotEmptyMessage(final String id) {
+            return "[ID is not empty: " + id + "]";
+        }
+
+        /**
+         * Get the error message when the ID is empty.
+         *
+         * @return the error message.
+         */
+        public static String getIdIsEmptyMessage() {
+            return "[ID is empty]";
+        }
+
+        /**
+         * Get the error message when the ID is not valid.
+         *
+         * @param id the invalid ID.
+         *
+         * @return the error message.
+         */
+        public static String getIdIsNotValidMessage(final String id) {
+            return "[ID is not valid: " + id + "]";
+        }
+
+        /**
+         * Get the error message when the ID is not unique.
+         *
+         * @param id the invalid ID.
+         *
+         * @return the error message.
+         */
+        public static String getIdIsNotUniqueMessage(final String id) {
+            return "[ID is not unique: " + id + "]";
+        }
+
+        /**
+         * Get the error message when the lookup is empty.
+         *
+         * @return the error message.
+         */
+        public static String getLookupIsEmptyMessage() {
+            return "[Lookup is empty]";
+        }
+
+        /**
+         * Get the error message when the cardinality is empty.
+         *
+         * @return the error message.
+         */
+        public static String getCardinalityIsEmptyMessage() {
+            return "[Cardinality is empty]";
+        }
+
+        /**
+         * Get the error message when the cardinality is not valid.
+         *
+         * @param cardinality the invalid cardinality.
+         *
+         * @return the error message.
+         */
+        public static String getCardinalityIsNotValidMessage(final String cardinality) {
+            return "[Cardinality is not valid: " + cardinality + "]";
+        }
+
+        /**
+         * Get the error message when the source is empty.
+         *
+         * @return the error message.
+         */
+        public static String getSourceIsEmptyMessage() {
+            return "[Source is empty]";
+        }
+
+        /**
+         * Get the error message when the form reference is not unique.
+         *
+         * @param formDefinitionKey the invalid form definition key.
+         *
+         * @return the error message.
+         */
+        public static String getFormReferenceIsNotUniqueMessage(final FormDefinitionKey formDefinitionKey) {
+            return "[Form reference is not unique: " + Representation.getIdRepresentation(formDefinitionKey.getGroup(), formDefinitionKey.getId()) + "]";
+        }
+
+        /**
+         * Get the error message when the form reference can not be resolved.
+         *
+         * @param formDefinitionKey the invalid form definition key.
+         *
+         * @return the error message.
+         */
+        public static String getUnresolvedFormReferenceMessage(final FormDefinitionKey formDefinitionKey) {
+            return "[Form reference can not be resolved: " + Representation.getIdRepresentation(formDefinitionKey.getGroup(), formDefinitionKey.getId()) + "]";
         }
 
     }
