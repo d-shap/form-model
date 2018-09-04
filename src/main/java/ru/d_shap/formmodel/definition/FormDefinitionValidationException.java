@@ -37,7 +37,7 @@ public final class FormDefinitionValidationException extends FormDefinitionExcep
      * @param nodePath node path.
      */
     public FormDefinitionValidationException(final String message, final NodePath nodePath) {
-        super(nodePath + ": " + message);
+        super(message + " (" + nodePath + ")");
     }
 
 }
