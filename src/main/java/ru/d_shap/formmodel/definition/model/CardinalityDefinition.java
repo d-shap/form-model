@@ -43,6 +43,15 @@ public enum CardinalityDefinition {
     }
 
     /**
+     * Get the cardinality.
+     *
+     * @return the cardinality.
+     */
+    public String getCardinality() {
+        return _cardinality;
+    }
+
+    /**
      * Get the cardinality definition for the specified cardinality.
      *
      * @param cardinality the specified cardinality.
