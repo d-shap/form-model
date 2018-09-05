@@ -25,21 +25,33 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import ru.d_shap.formmodel.Messages;
 import ru.d_shap.formmodel.definition.FormDefinitionValidationException;
-import ru.d_shap.formmodel.definition.model.ElementDefinition;
 import ru.d_shap.formmodel.definition.model.FormDefinition;
 import ru.d_shap.formmodel.definition.model.FormDefinitionKey;
-import ru.d_shap.formmodel.definition.model.FormReferenceDefinition;
+import ru.d_shap.formmodel.definition.model.NodePath;
 
 /**
- * Form definitions validator validates form definitions.
+ * Validator for the form definitions.
  *
  * @author Dmitry Shapovalov
  */
 public final class FormDefinitionsValidator {
 
-    private FormDefinitionsValidator() {
+    private final List<OtherNodeDefinitionValidator> _otherNodeDefinitionValidators;
+
+    /**
+     * Create new object.
+     *
+     * @param otherNodeDefinitionValidators validators for the other node definitions.
+     */
+    public FormDefinitionsValidator(final List<OtherNodeDefinitionValidator> otherNodeDefinitionValidators) {
         super();
+        if (otherNodeDefinitionValidators == null) {
+            _otherNodeDefinitionValidators = new ArrayList<>();
+        } else {
+            _otherNodeDefinitionValidators = new ArrayList<>(otherNodeDefinitionValidators);
+        }
     }
 
     /**
@@ -48,45 +60,24 @@ public final class FormDefinitionsValidator {
      * @param formSources     currently validated form definition sources.
      * @param formDefinitions the specified form definitions.
      */
-    public static void validate(final Map<FormDefinitionKey, String> formSources, final List<FormDefinition> formDefinitions) {
-        for (FormDefinition formDefinition : formDefinitions) {
-            FormDefinitionKey formDefinitionKey = new FormDefinitionKey(formDefinition);
-            if (formSources.containsKey(formDefinitionKey)) {
-                throw new FormDefinitionValidationException("Duplicate form", null);
-            }
-        }
+    public void validate(final Map<FormDefinitionKey, String> formSources, final List<FormDefinition> formDefinitions) {
+        NodePath currentNodePath = new NodePath();
 
         Set<FormDefinitionKey> allFormDefinitionKeys = new HashSet<>(formSources.keySet());
         for (FormDefinition formDefinition : formDefinitions) {
             FormDefinitionKey formDefinitionKey = new FormDefinitionKey(formDefinition);
-            allFormDefinitionKeys.add(formDefinitionKey);
+            if (formSources.containsKey(formDefinitionKey)) {
+                String source1 = formSources.get(formDefinitionKey);
+                String source2 = formDefinition.getSource();
+                throw new FormDefinitionValidationException(Messages.Validation.getFormIsNotUniqueMessage(formDefinitionKey, source1, source2), currentNodePath);
+            } else {
+                allFormDefinitionKeys.add(formDefinitionKey);
+            }
         }
 
-        List<FormDefinitionKey> references = new ArrayList<>();
+        FormDefinitionValidator formDefinitionValidator = new FormDefinitionValidator(allFormDefinitionKeys, _otherNodeDefinitionValidators);
         for (FormDefinition formDefinition : formDefinitions) {
-            for (FormReferenceDefinition formReferenceDefinition : formDefinition.getFormReferenceDefinitions()) {
-                FormDefinitionKey formDefinitionKey = new FormDefinitionKey(formReferenceDefinition);
-                references.add(formDefinitionKey);
-            }
-            for (ElementDefinition elementDefinition : formDefinition.getElementDefinitions()) {
-                addFormReferences(elementDefinition, references);
-            }
-        }
-
-        for (FormDefinitionKey formDefinitionKey : references) {
-            if (!allFormDefinitionKeys.contains(formDefinitionKey)) {
-                throw new FormDefinitionValidationException("unresolved reference", null);
-            }
-        }
-    }
-
-    private static void addFormReferences(final ElementDefinition elementDefinition, final List<FormDefinitionKey> references) {
-        for (FormReferenceDefinition formReferenceDefinition : elementDefinition.getFormReferenceDefinitions()) {
-            FormDefinitionKey formDefinitionKey = new FormDefinitionKey(formReferenceDefinition);
-            references.add(formDefinitionKey);
-        }
-        for (ElementDefinition childElementDefinition : elementDefinition.getElementDefinitions()) {
-            addFormReferences(childElementDefinition, references);
+            formDefinitionValidator.validate(formDefinition, currentNodePath);
         }
     }
 
