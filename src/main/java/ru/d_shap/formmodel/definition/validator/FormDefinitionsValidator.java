@@ -20,10 +20,9 @@
 package ru.d_shap.formmodel.definition.validator;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import ru.d_shap.formmodel.Messages;
 import ru.d_shap.formmodel.definition.FormDefinitionValidationException;
@@ -63,19 +62,19 @@ public final class FormDefinitionsValidator {
     public void validate(final Map<FormDefinitionKey, String> formSources, final List<FormDefinition> formDefinitions) {
         NodePath currentNodePath = new NodePath();
 
-        Set<FormDefinitionKey> allFormDefinitionKeys = new HashSet<>(formSources.keySet());
+        Map<FormDefinitionKey, String> allFormSources = new HashMap<>(formSources);
         for (FormDefinition formDefinition : formDefinitions) {
             FormDefinitionKey formDefinitionKey = new FormDefinitionKey(formDefinition);
-            if (formSources.containsKey(formDefinitionKey)) {
-                String source1 = formSources.get(formDefinitionKey);
+            if (allFormSources.containsKey(formDefinitionKey)) {
+                String source1 = allFormSources.get(formDefinitionKey);
                 String source2 = formDefinition.getSource();
                 throw new FormDefinitionValidationException(Messages.Validation.getFormIsNotUniqueMessage(formDefinitionKey, source1, source2), currentNodePath);
             } else {
-                allFormDefinitionKeys.add(formDefinitionKey);
+                allFormSources.put(formDefinitionKey, formDefinition.getSource());
             }
         }
 
-        FormDefinitionValidator formDefinitionValidator = new FormDefinitionValidator(allFormDefinitionKeys, _otherNodeDefinitionValidators);
+        FormDefinitionValidator formDefinitionValidator = new FormDefinitionValidator(allFormSources.keySet(), _otherNodeDefinitionValidators);
         for (FormDefinition formDefinition : formDefinitions) {
             formDefinitionValidator.validate(formDefinition, currentNodePath);
         }
