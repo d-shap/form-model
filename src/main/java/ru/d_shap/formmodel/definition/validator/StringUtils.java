@@ -27,7 +27,7 @@ import java.util.Set;
  *
  * @author Dmitry Shapovalov
  */
-public final class StringUtils {
+final class StringUtils {
 
     private static final Set<Character> VALID_START_CHARACTERS;
 
@@ -54,14 +54,7 @@ public final class StringUtils {
         super();
     }
 
-    /**
-     * Check if the string is null or empty.
-     *
-     * @param str the string to check.
-     *
-     * @return true if the string is null or empty.
-     */
-    public static boolean isEmpty(final String str) {
+    static boolean isEmpty(final String str) {
         if (str == null) {
             return true;
         }
@@ -73,14 +66,7 @@ public final class StringUtils {
         return true;
     }
 
-    /**
-     * Check if the string contains valid characters.
-     *
-     * @param str the string to check.
-     *
-     * @return true if the string contains valid characters.
-     */
-    public static boolean isValidCharacters(final String str) {
+    static boolean hasValidCharacters(final String str) {
         if (!VALID_START_CHARACTERS.contains(str.charAt(0))) {
             return false;
         }
