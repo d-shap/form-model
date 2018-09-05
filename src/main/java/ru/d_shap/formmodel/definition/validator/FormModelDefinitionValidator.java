@@ -35,6 +35,24 @@ import ru.d_shap.formmodel.definition.model.NodePath;
 public interface FormModelDefinitionValidator {
 
     /**
+     * Check if the string is empty.
+     *
+     * @param str the string to check.
+     *
+     * @return true if the string is empty.
+     */
+    boolean isEmpty(String str);
+
+    /**
+     * Check if the string contains only valid characters.
+     *
+     * @param str the string to check.
+     *
+     * @return true if the string contains only valid characters.
+     */
+    boolean hasValidCharacters(String str);
+
+    /**
      * Validate the form definition.
      *
      * @param formDefinition the form definition.
