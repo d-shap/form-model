@@ -22,6 +22,7 @@ package ru.d_shap.formmodel.definition.loader;
 import org.w3c.dom.Element;
 
 import ru.d_shap.formmodel.definition.model.DefaultOtherNodeDefinition;
+import ru.d_shap.formmodel.definition.model.NodePath;
 import ru.d_shap.formmodel.definition.model.OtherNodeDefinition;
 
 /**
@@ -39,7 +40,7 @@ final class DefaultOtherNodeDefinitionBuilder implements OtherNodeDefinitionBuil
     }
 
     @Override
-    public OtherNodeDefinition createOtherNodeDefinition(final Element element, final FormModelDefinitionBuilder formModelDefinitionBuilder) {
+    public OtherNodeDefinition createOtherNodeDefinition(final Element parentElement, final Element element, final FormModelDefinitionBuilder formModelDefinitionBuilder, final NodePath nodePath) {
         return new DefaultOtherNodeDefinition(element);
     }
 
