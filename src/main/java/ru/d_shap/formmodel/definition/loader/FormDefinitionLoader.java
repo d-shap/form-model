@@ -215,33 +215,35 @@ final class FormDefinitionLoader implements FormModelDefinitionBuilder {
 
     private void processChildElement(final Element element, final CardinalityDefinition defaultCardinalityDefinition, final Set<String> childElementNames, final List<NodeDefinition> nodeDefinitions) {
         if (NAMESPACE.equals(element.getNamespaceURI())) {
-            if (childElementNames.contains(element.getLocalName())) {
-                addNodeDefinition(element, defaultCardinalityDefinition, nodeDefinitions);
-            } else {
-                throw new FormDefinitionLoadException("Wrong child element: " + element.getLocalName());
-            }
+            addNodeDefinition(element, defaultCardinalityDefinition, childElementNames, nodeDefinitions);
         } else {
             addOtherNodeDefinition(element, nodeDefinitions);
         }
     }
 
-    private void addNodeDefinition(final Element element, final CardinalityDefinition defaultCardinalityDefinition, final List<NodeDefinition> nodeDefinitions) {
-        if (ELEMENT_DEFINITION_ELEMENT_NAME.equals(element.getLocalName())) {
+    private void addNodeDefinition(final Element element, final CardinalityDefinition defaultCardinalityDefinition, final Set<String> childElementNames, final List<NodeDefinition> nodeDefinitions) {
+        String localName = element.getLocalName();
+        if (ELEMENT_DEFINITION_ELEMENT_NAME.equals(localName) && childElementNames.contains(ELEMENT_DEFINITION_ELEMENT_NAME)) {
             NodeDefinition nodeDefinition = createElementDefinition(element, defaultCardinalityDefinition);
             nodeDefinitions.add(nodeDefinition);
+            return;
         }
-        if (CHOICE_DEFINITION_ELEMENT_NAME.equals(element.getLocalName())) {
+        if (CHOICE_DEFINITION_ELEMENT_NAME.equals(localName) && childElementNames.contains(CHOICE_DEFINITION_ELEMENT_NAME)) {
             NodeDefinition nodeDefinition = createChoiceDefinition(element);
             nodeDefinitions.add(nodeDefinition);
+            return;
         }
-        if (FORM_REFERENCE_DEFINITION_ELEMENT_NAME.equals(element.getLocalName())) {
+        if (FORM_REFERENCE_DEFINITION_ELEMENT_NAME.equals(localName) && childElementNames.contains(FORM_REFERENCE_DEFINITION_ELEMENT_NAME)) {
             NodeDefinition nodeDefinition = createFormReferenceDefinition(element);
             nodeDefinitions.add(nodeDefinition);
+            return;
         }
-        if (ATTRIBUTE_DEFINITION_ELEMENT_NAME.equals(element.getLocalName())) {
+        if (ATTRIBUTE_DEFINITION_ELEMENT_NAME.equals(localName) && childElementNames.contains(ATTRIBUTE_DEFINITION_ELEMENT_NAME)) {
             NodeDefinition nodeDefinition = createAttributeDefinition(element);
             nodeDefinitions.add(nodeDefinition);
+            return;
         }
+        throw new FormDefinitionLoadException("Wrong child element: " + element.getLocalName());
     }
 
     private void addOtherNodeDefinition(final Element element, final List<NodeDefinition> nodeDefinitions) {
