@@ -21,6 +21,7 @@ package ru.d_shap.formmodel.definition.loader;
 
 import org.w3c.dom.Element;
 
+import ru.d_shap.formmodel.definition.model.NodePath;
 import ru.d_shap.formmodel.definition.model.OtherNodeDefinition;
 
 /**
@@ -33,11 +34,13 @@ public interface OtherNodeDefinitionBuilder {
     /**
      * Create the other node definition for the specified XML element.
      *
+     * @param parentElement              the parent XML element.
      * @param element                    the specified XML element.
      * @param formModelDefinitionBuilder form model definition builder.
+     * @param nodePath                   the current node path.
      *
      * @return the other node definition.
      */
-    OtherNodeDefinition createOtherNodeDefinition(Element element, FormModelDefinitionBuilder formModelDefinitionBuilder);
+    OtherNodeDefinition createOtherNodeDefinition(Element parentElement, Element element, FormModelDefinitionBuilder formModelDefinitionBuilder, NodePath nodePath);
 
 }
