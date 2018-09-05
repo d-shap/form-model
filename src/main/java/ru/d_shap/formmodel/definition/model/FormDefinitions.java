@@ -25,6 +25,7 @@ import java.util.Map;
 
 import ru.d_shap.formmodel.definition.FormDefinitionNotFoundException;
 import ru.d_shap.formmodel.definition.validator.FormDefinitionsValidator;
+import ru.d_shap.formmodel.definition.validator.OtherNodeDefinitionValidator;
 
 /**
  * Container for all form definitions.
@@ -37,13 +38,18 @@ public final class FormDefinitions {
 
     private final Map<FormDefinitionKey, FormDefinition> _formDefinitions;
 
+    private final FormDefinitionsValidator _formDefinitionsValidator;
+
     /**
      * Create new object.
+     *
+     * @param otherNodeDefinitionValidators validators for the other node definitions.
      */
-    public FormDefinitions() {
+    public FormDefinitions(final List<OtherNodeDefinitionValidator> otherNodeDefinitionValidators) {
         super();
         _formSources = new HashMap<>();
         _formDefinitions = new HashMap<>();
+        _formDefinitionsValidator = new FormDefinitionsValidator(otherNodeDefinitionValidators);
     }
 
     /**
@@ -52,7 +58,7 @@ public final class FormDefinitions {
      * @param formDefinitions the specified form definitions.
      */
     public void addFormDefinitions(final List<FormDefinition> formDefinitions) {
-        FormDefinitionsValidator.validate(new HashMap<>(_formSources), formDefinitions);
+        _formDefinitionsValidator.validate(_formSources, formDefinitions);
         for (FormDefinition formDefinition : formDefinitions) {
             FormDefinitionKey formDefinitionKey = new FormDefinitionKey(formDefinition);
             _formSources.put(formDefinitionKey, formDefinition.getSource());
