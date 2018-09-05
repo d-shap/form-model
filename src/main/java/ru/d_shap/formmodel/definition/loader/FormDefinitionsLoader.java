@@ -19,13 +19,12 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.formmodel.definition.loader;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import ru.d_shap.formmodel.definition.model.FormDefinitions;
 
 /**
- * Form definitions loader.
+ * Base loader class for the form definitions.
  *
  * @author Dmitry Shapovalov
  */
@@ -38,21 +37,12 @@ public class FormDefinitionsLoader {
     /**
      * Create new object.
      *
-     * @param formDefinitions container for all form definitions.
-     */
-    protected FormDefinitionsLoader(final FormDefinitions formDefinitions) {
-        this(formDefinitions, new ArrayList<OtherNodeDefinitionBuilder>());
-    }
-
-    /**
-     * Create new object.
-     *
      * @param formDefinitions             container for all form definitions.
      * @param otherNodeDefinitionBuilders builders for the other node definition.
      */
     protected FormDefinitionsLoader(final FormDefinitions formDefinitions, final List<OtherNodeDefinitionBuilder> otherNodeDefinitionBuilders) {
         super();
-        _formDefinitions = new FormDefinitions();
+        _formDefinitions = formDefinitions;
         _formDefinitionLoader = new FormDefinitionLoader(otherNodeDefinitionBuilders);
     }
 
@@ -61,7 +51,7 @@ public class FormDefinitionsLoader {
      *
      * @return container for all form definitions.
      */
-    public final FormDefinitions getFormDefinitions() {
+    protected final FormDefinitions getFormDefinitions() {
         return _formDefinitions;
     }
 
