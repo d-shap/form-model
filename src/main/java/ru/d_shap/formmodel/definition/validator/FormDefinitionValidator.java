@@ -63,6 +63,16 @@ final class FormDefinitionValidator implements FormModelDefinitionValidator {
     }
 
     @Override
+    public boolean isEmpty(final String str) {
+        return StringUtils.isEmpty(str);
+    }
+
+    @Override
+    public boolean hasValidCharacters(final String str) {
+        return StringUtils.hasValidCharacters(str);
+    }
+
+    @Override
     public void validate(final FormDefinition formDefinition, final NodePath nodePath) {
         NodePath currentNodePath = new NodePath(nodePath, formDefinition);
 
@@ -191,28 +201,28 @@ final class FormDefinitionValidator implements FormModelDefinitionValidator {
     }
 
     private void validateGroup(final String group, final NodePath nodePath) {
-        if (!StringUtils.isEmpty(group) && !StringUtils.isValidCharacters(group)) {
+        if (!isEmpty(group) && !hasValidCharacters(group)) {
             throw new FormDefinitionValidationException(Messages.Validation.getGroupIsNotValidMessage(group), nodePath);
         }
     }
 
     private void validateEmptyId(final String id, final NodePath nodePath) {
-        if (!StringUtils.isEmpty(id)) {
+        if (!isEmpty(id)) {
             throw new FormDefinitionValidationException(Messages.Validation.getIdIsNotEmptyMessage(id), nodePath);
         }
     }
 
     private void validateId(final String id, final NodePath nodePath) {
-        if (StringUtils.isEmpty(id)) {
+        if (isEmpty(id)) {
             throw new FormDefinitionValidationException(Messages.Validation.getIdIsEmptyMessage(), nodePath);
         }
-        if (!StringUtils.isValidCharacters(id)) {
+        if (!hasValidCharacters(id)) {
             throw new FormDefinitionValidationException(Messages.Validation.getIdIsNotValidMessage(id), nodePath);
         }
     }
 
     private void validateLookup(final String lookup, final NodePath nodePath) {
-        if (StringUtils.isEmpty(lookup)) {
+        if (isEmpty(lookup)) {
             throw new FormDefinitionValidationException(Messages.Validation.getLookupIsEmptyMessage(), nodePath);
         }
     }
@@ -234,7 +244,7 @@ final class FormDefinitionValidator implements FormModelDefinitionValidator {
     }
 
     private void validateSource(final String source, final NodePath nodePath) {
-        if (StringUtils.isEmpty(source)) {
+        if (isEmpty(source)) {
             throw new FormDefinitionValidationException(Messages.Validation.getSourceIsEmptyMessage(), nodePath);
         }
     }
