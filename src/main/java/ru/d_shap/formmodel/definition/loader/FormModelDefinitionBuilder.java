@@ -24,11 +24,11 @@ import java.util.Set;
 import org.w3c.dom.Element;
 
 import ru.d_shap.formmodel.definition.model.AttributeDefinition;
-import ru.d_shap.formmodel.definition.model.CardinalityDefinition;
 import ru.d_shap.formmodel.definition.model.ChoiceDefinition;
 import ru.d_shap.formmodel.definition.model.ElementDefinition;
 import ru.d_shap.formmodel.definition.model.FormDefinition;
 import ru.d_shap.formmodel.definition.model.FormReferenceDefinition;
+import ru.d_shap.formmodel.definition.model.NodePath;
 
 /**
  * Builder for the form model elements.
@@ -94,50 +94,103 @@ public interface FormModelDefinitionBuilder {
     Set<String> ATTRIBUTE_DEFINITION_CHILD_ELEMENT_NAMES = AttributeDefinition.CHILD_ELEMENT_NAMES;
 
     /**
+     * Check if the specified XML element is the form definition.
+     *
+     * @param element the specified XML element to check.
+     *
+     * @return true if the specified XML element is the form definition.
+     */
+    boolean isFormDefinitionElement(Element element);
+
+    /**
      * Create the form definition for the specified XML element.
      *
-     * @param element the specified XML element.
-     * @param source  the form's source.
+     * @param element  the specified XML element.
+     * @param source   the form's source.
+     * @param nodePath the current node path.
      *
      * @return the form definition.
      */
-    FormDefinition createFormDefinition(Element element, String source);
+    FormDefinition createFormDefinition(Element element, String source, NodePath nodePath);
+
+    /**
+     * Check if the specified XML element is the element definition.
+     *
+     * @param element the specified XML element to check.
+     *
+     * @return true if the specified XML element is the element definition.
+     */
+    boolean isElementDefinitionElement(Element element);
 
     /**
      * Create the element definition for the specified XML element.
      *
-     * @param element                      the specified XML element.
-     * @param defaultCardinalityDefinition default element definition's cardinality.
+     * @param parentElement the parent XML element.
+     * @param element       the specified XML element.
+     * @param nodePath      the current node path.
      *
      * @return the element definition.
      */
-    ElementDefinition createElementDefinition(Element element, CardinalityDefinition defaultCardinalityDefinition);
+    ElementDefinition createElementDefinition(Element parentElement, Element element, NodePath nodePath);
+
+    /**
+     * Check if the specified XML element is the choice definition.
+     *
+     * @param element the specified XML element to check.
+     *
+     * @return true if the specified XML element is the choice definition.
+     */
+    boolean isChoiceDefinitionElement(Element element);
 
     /**
      * Create the choice definition for the specified XML element.
      *
-     * @param element the specified XML element.
+     * @param parentElement the parent XML element.
+     * @param element       the specified XML element.
+     * @param nodePath      the current node path.
      *
      * @return the choice definition.
      */
-    ChoiceDefinition createChoiceDefinition(Element element);
+    ChoiceDefinition createChoiceDefinition(Element parentElement, Element element, NodePath nodePath);
+
+    /**
+     * Check if the specified XML element is the form reference definition.
+     *
+     * @param element the specified XML element to check.
+     *
+     * @return true if the specified XML element is the form reference definition.
+     */
+    boolean isFormReferenceDefinitionElement(Element element);
 
     /**
      * Create the form reference definition for the specified XML element.
      *
-     * @param element the specified XML element.
+     * @param parentElement the parent XML element.
+     * @param element       the specified XML element.
+     * @param nodePath      the current node path.
      *
      * @return the form reference definition.
      */
-    FormReferenceDefinition createFormReferenceDefinition(Element element);
+    FormReferenceDefinition createFormReferenceDefinition(Element parentElement, Element element, NodePath nodePath);
+
+    /**
+     * Check if the specified XML element is the attribute definition.
+     *
+     * @param element the specified XML element to check.
+     *
+     * @return if the specified XML element is the attribute definition.
+     */
+    boolean isAttributeDefinitionElement(Element element);
 
     /**
      * Create the attribute definition for the specified XML element.
      *
-     * @param element the specified XML element.
+     * @param parentElement the parent XML element.
+     * @param element       the specified XML element.
+     * @param nodePath      the current node path.
      *
      * @return the attribute definition.
      */
-    AttributeDefinition createAttributeDefinition(Element element);
+    AttributeDefinition createAttributeDefinition(Element parentElement, Element element, NodePath nodePath);
 
 }
