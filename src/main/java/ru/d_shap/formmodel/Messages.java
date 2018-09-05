@@ -161,11 +161,13 @@ public final class Messages {
          * Get the error message when the form is not unique.
          *
          * @param formDefinitionKey the invalid form definition key.
+         * @param source1           the source of the first form definition.
+         * @param source2           the source of the second form definition.
          *
          * @return the error message.
          */
-        public static String getFormIsNotUniqueMessage(final FormDefinitionKey formDefinitionKey) {
-            return "[Form is not unique: " + Representation.getIdRepresentation(formDefinitionKey.getGroup(), formDefinitionKey.getId()) + "]";
+        public static String getFormIsNotUniqueMessage(final FormDefinitionKey formDefinitionKey, final String source1, final String source2) {
+            return "[Form is not unique: " + Representation.getIdRepresentation(formDefinitionKey.getGroup(), formDefinitionKey.getId()) + ", (" + source1 + "), (" + source2 + ")]";
         }
 
         /**
