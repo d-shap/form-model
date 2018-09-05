@@ -158,6 +158,17 @@ public final class Messages {
         }
 
         /**
+         * Get the error message when the form is not unique.
+         *
+         * @param formDefinitionKey the invalid form definition key.
+         *
+         * @return the error message.
+         */
+        public static String getFormIsNotUniqueMessage(final FormDefinitionKey formDefinitionKey) {
+            return "[Form is not unique: " + Representation.getIdRepresentation(formDefinitionKey.getGroup(), formDefinitionKey.getId()) + "]";
+        }
+
+        /**
          * Get the error message when the group is not valid.
          *
          * @param group the invalid group.
