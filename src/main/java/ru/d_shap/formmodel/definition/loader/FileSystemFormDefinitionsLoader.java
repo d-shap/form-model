@@ -33,7 +33,7 @@ import ru.d_shap.formmodel.definition.model.FormDefinition;
 import ru.d_shap.formmodel.definition.model.FormDefinitions;
 
 /**
- * Form definitions loader from the file system.
+ * Loader to load the form definitions from the file system.
  *
  * @author Dmitry Shapovalov
  */
@@ -62,7 +62,7 @@ public final class FileSystemFormDefinitionsLoader extends FormDefinitionsLoader
      * Load the form definitions from the specified file or directory.
      *
      * @param file       the specified file or directory.
-     * @param fileFilter the specified file filter.
+     * @param fileFilter the file filter.
      */
     public void load(final File file, final FileFilter fileFilter) {
         List<FormDefinition> formDefinitions = new ArrayList<>();
@@ -71,7 +71,7 @@ public final class FileSystemFormDefinitionsLoader extends FormDefinitionsLoader
         } else {
             processFile(file, formDefinitions);
         }
-        getFormDefinitions().addFormDefinitions(formDefinitions);
+        addFormDefinitions(formDefinitions);
     }
 
     private void processDirectory(final File file, final FileFilter fileFilter, final List<FormDefinition> formDefinitions) {
@@ -91,7 +91,7 @@ public final class FileSystemFormDefinitionsLoader extends FormDefinitionsLoader
         try {
             try (FileInputStream inputStream = new FileInputStream(file)) {
                 InputSource inputSource = new InputSource(inputStream);
-                FormDefinition formDefinition = getFormDefinitionLoader().load(inputSource, file.getAbsolutePath());
+                FormDefinition formDefinition = loadFormDefinition(inputSource, file.getAbsolutePath());
                 formDefinitions.add(formDefinition);
             }
         } catch (IOException ex) {
