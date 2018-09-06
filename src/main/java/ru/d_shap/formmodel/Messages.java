@@ -147,6 +147,23 @@ public final class Messages {
     }
 
     /**
+     * Helper class to create form definition load exception messages.
+     *
+     * @author Dmitry Shapovalov
+     */
+    public static final class Load {
+
+        public static final String SCHEMA_LOAD_EXCEPTION_MESSAGE = "Failed to load XML schema";
+
+        public static final String DOCUMENT_LOAD_EXCEPTION_MESSAGE = "Failed to load XML document";
+
+        private Load() {
+            super();
+        }
+
+    }
+
+    /**
      * Helper class to create validation exception messages.
      *
      * @author Dmitry Shapovalov
@@ -281,19 +298,6 @@ public final class Messages {
          */
         public static String getUnresolvedFormReferenceMessage(final FormDefinitionKey formDefinitionKey) {
             return "[Form reference can not be resolved: " + Representation.getIdRepresentation(formDefinitionKey.getGroup(), formDefinitionKey.getId()) + "]";
-        }
-
-    }
-
-    /**
-     * Helper class to create form definition load exception messages.
-     *
-     * @author Dmitry Shapovalov
-     */
-    public static final class Load {
-
-        private Load() {
-            super();
         }
 
     }
