@@ -291,7 +291,8 @@ final class FormDefinitionLoader implements FormModelDefinitionBuilder {
             nodeDefinitions.add(nodeDefinition);
             return;
         }
-        throw new FormDefinitionLoadException("Wrong child element: " + element.getLocalName());
+        NodePath currentNodePath = new NodePath(nodePath, Messages.Representation.getOtherNodeDefinitionRepresentation(element));
+        throw new FormDefinitionValidationException("Wrong child element: " + element.getLocalName(), currentNodePath);
     }
 
     private void addOtherNodeDefinition(final Element parentElement, final Element element, final List<NodeDefinition> nodeDefinitions, final NodePath nodePath) {
