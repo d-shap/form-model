@@ -46,7 +46,9 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import ru.d_shap.formmodel.Messages;
 import ru.d_shap.formmodel.definition.FormDefinitionLoadException;
+import ru.d_shap.formmodel.definition.FormDefinitionValidationException;
 import ru.d_shap.formmodel.definition.model.AttributeDefinition;
 import ru.d_shap.formmodel.definition.model.CardinalityDefinition;
 import ru.d_shap.formmodel.definition.model.ChoiceDefinition;
@@ -54,6 +56,7 @@ import ru.d_shap.formmodel.definition.model.ElementDefinition;
 import ru.d_shap.formmodel.definition.model.FormDefinition;
 import ru.d_shap.formmodel.definition.model.FormReferenceDefinition;
 import ru.d_shap.formmodel.definition.model.NodeDefinition;
+import ru.d_shap.formmodel.definition.model.NodePath;
 import ru.d_shap.formmodel.definition.model.OtherNodeDefinition;
 
 /**
@@ -111,76 +114,117 @@ final class FormDefinitionLoader implements FormModelDefinitionBuilder {
             Document document = builder.parse(inputSource);
             _validator.validate(new DOMSource(document));
             Element element = document.getDocumentElement();
-            return createFormDefinition(element, source);
+            return createFormDefinition(element, source, new NodePath());
         } catch (ParserConfigurationException | IOException | SAXException ex) {
             throw new FormDefinitionLoadException("Failed to load form definition", ex);
         }
     }
 
     @Override
-    public FormDefinition createFormDefinition(final Element element, final String source) {
-        if (NAMESPACE.equals(element.getNamespaceURI()) && FORM_DEFINITION_ELEMENT_NAME.equals(element.getLocalName())) {
+    public boolean isFormDefinitionElement(final Element element) {
+        return NAMESPACE.equals(element.getNamespaceURI()) && FORM_DEFINITION_ELEMENT_NAME.equals(element.getLocalName());
+    }
+
+    @Override
+    public FormDefinition createFormDefinition(final Element element, final String source, final NodePath nodePath) {
+        if (isFormDefinitionElement(element)) {
             String group = getAttributeValue(element, FORM_DEFINITION_ATTRIBUTE_GROUP);
             String id = getAttributeValue(element, FORM_DEFINITION_ATTRIBUTE_ID);
-            List<NodeDefinition> nodeDefinitions = getNodeDefinitions(element, CardinalityDefinition.REQUIRED, FORM_DEFINITION_CHILD_ELEMENT_NAMES);
+            NodePath currentNodePath = new NodePath(nodePath, Messages.Representation.getFormDefinitionRepresentation(source, group, id));
+            List<NodeDefinition> nodeDefinitions = getNodeDefinitions(element, FORM_DEFINITION_CHILD_ELEMENT_NAMES, currentNodePath);
             Map<String, String> otherAttributes = getOtherAttributes(element, FORM_DEFINITION_ATTRIBUTE_NAMES);
             return new FormDefinition(group, id, nodeDefinitions, otherAttributes, source);
         } else {
-            throw new FormDefinitionLoadException("Form definition element is not valid");
+            NodePath currentNodePath = new NodePath(nodePath, Messages.Representation.getOtherNodeDefinitionRepresentation(element));
+            throw new FormDefinitionValidationException("Form definition element is not valid", currentNodePath);
         }
     }
 
     @Override
-    public ElementDefinition createElementDefinition(final Element element, final CardinalityDefinition defaultCardinalityDefinition) {
-        if (NAMESPACE.equals(element.getNamespaceURI()) && ELEMENT_DEFINITION_ELEMENT_NAME.equals(element.getLocalName())) {
+    public boolean isElementDefinitionElement(final Element element) {
+        return NAMESPACE.equals(element.getNamespaceURI()) && ELEMENT_DEFINITION_ELEMENT_NAME.equals(element.getLocalName());
+    }
+
+    @Override
+    public ElementDefinition createElementDefinition(final Element parentElement, final Element element, final NodePath nodePath) {
+        if (isElementDefinitionElement(element)) {
             String id = getAttributeValue(element, ELEMENT_DEFINITION_ATTRIBUTE_ID);
             String lookup = getAttributeValue(element, ELEMENT_DEFINITION_ATTRIBUTE_LOOKUP);
+            CardinalityDefinition defaultCardinalityDefinition;
+            if (isChoiceDefinitionElement(parentElement)) {
+                defaultCardinalityDefinition = CardinalityDefinition.OPTIONAL;
+            } else {
+                defaultCardinalityDefinition = CardinalityDefinition.REQUIRED;
+            }
             CardinalityDefinition cardinalityDefinition = getCardinalityDefinition(element, ELEMENT_DEFINITION_ATTRIBUTE_TYPE, defaultCardinalityDefinition);
-            List<NodeDefinition> nodeDefinitions = getNodeDefinitions(element, CardinalityDefinition.REQUIRED, ELEMENT_DEFINITION_CHILD_ELEMENT_NAMES);
+            NodePath currentNodePath = new NodePath(nodePath, Messages.Representation.getElementDefinitionRepresentation(id));
+            List<NodeDefinition> nodeDefinitions = getNodeDefinitions(element, ELEMENT_DEFINITION_CHILD_ELEMENT_NAMES, nodePath);
             Map<String, String> otherAttributes = getOtherAttributes(element, ELEMENT_DEFINITION_ATTRIBUTE_NAMES);
             return new ElementDefinition(id, lookup, cardinalityDefinition, nodeDefinitions, otherAttributes);
         } else {
-            throw new FormDefinitionLoadException("Element definition element is not valid");
+            NodePath currentNodePath = new NodePath(nodePath, Messages.Representation.getOtherNodeDefinitionRepresentation(element));
+            throw new FormDefinitionValidationException("Element definition element is not valid", currentNodePath);
         }
     }
 
     @Override
-    public ChoiceDefinition createChoiceDefinition(final Element element) {
-        if (NAMESPACE.equals(element.getNamespaceURI()) && CHOICE_DEFINITION_ELEMENT_NAME.equals(element.getLocalName())) {
+    public boolean isChoiceDefinitionElement(final Element element) {
+        return NAMESPACE.equals(element.getNamespaceURI()) && CHOICE_DEFINITION_ELEMENT_NAME.equals(element.getLocalName());
+    }
+
+    @Override
+    public ChoiceDefinition createChoiceDefinition(final Element parentElement, final Element element, final NodePath nodePath) {
+        if (isChoiceDefinitionElement(element)) {
             String id = getAttributeValue(element, CHOICE_DEFINITION_ATTRIBUTE_ID);
             CardinalityDefinition cardinalityDefinition = getCardinalityDefinition(element, CHOICE_DEFINITION_ATTRIBUTE_TYPE, CardinalityDefinition.REQUIRED);
-            List<NodeDefinition> nodeDefinitions = getNodeDefinitions(element, CardinalityDefinition.OPTIONAL, CHOICE_DEFINITION_CHILD_ELEMENT_NAMES);
+            NodePath currentNodePath = new NodePath(nodePath, Messages.Representation.getChoiceDefinitionRepresentation(id));
+            List<NodeDefinition> nodeDefinitions = getNodeDefinitions(element, CHOICE_DEFINITION_CHILD_ELEMENT_NAMES, currentNodePath);
             Map<String, String> otherAttributes = getOtherAttributes(element, CHOICE_DEFINITION_ATTRIBUTE_NAMES);
             return new ChoiceDefinition(id, cardinalityDefinition, nodeDefinitions, otherAttributes);
         } else {
-            throw new FormDefinitionLoadException("Choice definition element is not valid");
+            NodePath currentNodePath = new NodePath(nodePath, Messages.Representation.getOtherNodeDefinitionRepresentation(element));
+            throw new FormDefinitionValidationException("Choice definition element is not valid", currentNodePath);
         }
     }
 
     @Override
-    public FormReferenceDefinition createFormReferenceDefinition(final Element element) {
-        if (NAMESPACE.equals(element.getNamespaceURI()) && FORM_REFERENCE_DEFINITION_ELEMENT_NAME.equals(element.getLocalName())) {
+    public boolean isFormReferenceDefinitionElement(final Element element) {
+        return NAMESPACE.equals(element.getNamespaceURI()) && FORM_REFERENCE_DEFINITION_ELEMENT_NAME.equals(element.getLocalName());
+    }
+
+    @Override
+    public FormReferenceDefinition createFormReferenceDefinition(final Element parentElement, final Element element, final NodePath nodePath) {
+        if (isFormReferenceDefinitionElement(element)) {
             String group = getAttributeValue(element, FORM_REFERENCE_DEFINITION_ATTRIBUTE_GROUP);
             String id = getAttributeValue(element, FORM_REFERENCE_DEFINITION_ATTRIBUTE_ID);
-            List<NodeDefinition> nodeDefinitions = getNodeDefinitions(element, null, FORM_REFERENCE_DEFINITION_CHILD_ELEMENT_NAMES);
+            NodePath currentNodePath = new NodePath(nodePath, Messages.Representation.getFormReferenceDefinitionRepresentation(group, id));
+            List<NodeDefinition> nodeDefinitions = getNodeDefinitions(element, FORM_REFERENCE_DEFINITION_CHILD_ELEMENT_NAMES, nodePath);
             Map<String, String> otherAttributes = getOtherAttributes(element, FORM_REFERENCE_DEFINITION_ATTRIBUTE_NAMES);
             return new FormReferenceDefinition(group, id, nodeDefinitions, otherAttributes);
         } else {
-            throw new FormDefinitionLoadException("Form reference definition element is not valid");
+            NodePath currentNodePath = new NodePath(nodePath, Messages.Representation.getOtherNodeDefinitionRepresentation(element));
+            throw new FormDefinitionValidationException("Form reference definition element is not valid", currentNodePath);
         }
     }
 
     @Override
-    public AttributeDefinition createAttributeDefinition(final Element element) {
-        if (NAMESPACE.equals(element.getNamespaceURI()) && ATTRIBUTE_DEFINITION_ELEMENT_NAME.equals(element.getLocalName())) {
+    public boolean isAttributeDefinitionElement(final Element element) {
+        return NAMESPACE.equals(element.getNamespaceURI()) && ATTRIBUTE_DEFINITION_ELEMENT_NAME.equals(element.getLocalName());
+    }
+
+    @Override
+    public AttributeDefinition createAttributeDefinition(final Element parentElement, final Element element, final NodePath nodePath) {
+        if (isAttributeDefinitionElement(element)) {
             String id = getAttributeValue(element, ATTRIBUTE_DEFINITION_ATTRIBUTE_ID);
             String lookup = getAttributeValue(element, ATTRIBUTE_DEFINITION_ATTRIBUTE_LOOKUP);
             CardinalityDefinition cardinalityDefinition = getCardinalityDefinition(element, ATTRIBUTE_DEFINITION_ATTRIBUTE_TYPE, CardinalityDefinition.REQUIRED);
-            List<NodeDefinition> nodeDefinitions = getNodeDefinitions(element, null, ATTRIBUTE_DEFINITION_CHILD_ELEMENT_NAMES);
+            NodePath currentNodePath = new NodePath(nodePath, Messages.Representation.getAttributeDefinitionRepresentation(id));
+            List<NodeDefinition> nodeDefinitions = getNodeDefinitions(element, ATTRIBUTE_DEFINITION_CHILD_ELEMENT_NAMES, currentNodePath);
             Map<String, String> otherAttributes = getOtherAttributes(element, ATTRIBUTE_DEFINITION_ATTRIBUTE_NAMES);
             return new AttributeDefinition(id, lookup, cardinalityDefinition, nodeDefinitions, otherAttributes);
         } else {
-            throw new FormDefinitionLoadException("Attribute definition element is not valid");
+            NodePath currentNodePath = new NodePath(nodePath, Messages.Representation.getOtherNodeDefinitionRepresentation(element));
+            throw new FormDefinitionValidationException("Attribute definition element is not valid", currentNodePath);
         }
     }
 
@@ -201,60 +245,60 @@ final class FormDefinitionLoader implements FormModelDefinitionBuilder {
         }
     }
 
-    private List<NodeDefinition> getNodeDefinitions(final Element element, final CardinalityDefinition defaultCardinalityDefinition, final Set<String> childElementNames) {
+    private List<NodeDefinition> getNodeDefinitions(final Element element, final Set<String> childElementNames, final NodePath nodePath) {
         List<NodeDefinition> nodeDefinitions = new ArrayList<>();
         NodeList childNodes = element.getChildNodes();
         for (int i = 0; i < childNodes.getLength(); i++) {
             Node childNode = childNodes.item(i);
             if (childNode instanceof Element) {
-                processChildElement((Element) childNode, defaultCardinalityDefinition, childElementNames, nodeDefinitions);
+                processChildElement(element, (Element) childNode, nodeDefinitions, childElementNames, nodePath);
             }
         }
         return nodeDefinitions;
     }
 
-    private void processChildElement(final Element element, final CardinalityDefinition defaultCardinalityDefinition, final Set<String> childElementNames, final List<NodeDefinition> nodeDefinitions) {
+    private void processChildElement(final Element parentElement, final Element element, final List<NodeDefinition> nodeDefinitions, final Set<String> childElementNames, final NodePath nodePath) {
         if (NAMESPACE.equals(element.getNamespaceURI())) {
-            addNodeDefinition(element, defaultCardinalityDefinition, childElementNames, nodeDefinitions);
+            addNodeDefinition(parentElement, element, nodeDefinitions, childElementNames, nodePath);
         } else {
-            addOtherNodeDefinition(element, nodeDefinitions);
+            addOtherNodeDefinition(parentElement, element, nodeDefinitions, nodePath);
         }
     }
 
-    private void addNodeDefinition(final Element element, final CardinalityDefinition defaultCardinalityDefinition, final Set<String> childElementNames, final List<NodeDefinition> nodeDefinitions) {
+    private void addNodeDefinition(final Element parentElement, final Element element, final List<NodeDefinition> nodeDefinitions, final Set<String> childElementNames, final NodePath nodePath) {
         String localName = element.getLocalName();
-        if (ELEMENT_DEFINITION_ELEMENT_NAME.equals(localName) && childElementNames.contains(ELEMENT_DEFINITION_ELEMENT_NAME)) {
-            NodeDefinition nodeDefinition = createElementDefinition(element, defaultCardinalityDefinition);
+        if (ELEMENT_DEFINITION_ELEMENT_NAME.equals(localName) && childElementNames.contains(localName)) {
+            NodeDefinition nodeDefinition = createElementDefinition(parentElement, element, nodePath);
             nodeDefinitions.add(nodeDefinition);
             return;
         }
-        if (CHOICE_DEFINITION_ELEMENT_NAME.equals(localName) && childElementNames.contains(CHOICE_DEFINITION_ELEMENT_NAME)) {
-            NodeDefinition nodeDefinition = createChoiceDefinition(element);
+        if (CHOICE_DEFINITION_ELEMENT_NAME.equals(localName) && childElementNames.contains(localName)) {
+            NodeDefinition nodeDefinition = createChoiceDefinition(parentElement, element, nodePath);
             nodeDefinitions.add(nodeDefinition);
             return;
         }
-        if (FORM_REFERENCE_DEFINITION_ELEMENT_NAME.equals(localName) && childElementNames.contains(FORM_REFERENCE_DEFINITION_ELEMENT_NAME)) {
-            NodeDefinition nodeDefinition = createFormReferenceDefinition(element);
+        if (FORM_REFERENCE_DEFINITION_ELEMENT_NAME.equals(localName) && childElementNames.contains(localName)) {
+            NodeDefinition nodeDefinition = createFormReferenceDefinition(parentElement, element, nodePath);
             nodeDefinitions.add(nodeDefinition);
             return;
         }
-        if (ATTRIBUTE_DEFINITION_ELEMENT_NAME.equals(localName) && childElementNames.contains(ATTRIBUTE_DEFINITION_ELEMENT_NAME)) {
-            NodeDefinition nodeDefinition = createAttributeDefinition(element);
+        if (ATTRIBUTE_DEFINITION_ELEMENT_NAME.equals(localName) && childElementNames.contains(localName)) {
+            NodeDefinition nodeDefinition = createAttributeDefinition(parentElement, element, nodePath);
             nodeDefinitions.add(nodeDefinition);
             return;
         }
         throw new FormDefinitionLoadException("Wrong child element: " + element.getLocalName());
     }
 
-    private void addOtherNodeDefinition(final Element element, final List<NodeDefinition> nodeDefinitions) {
+    private void addOtherNodeDefinition(final Element parentElement, final Element element, final List<NodeDefinition> nodeDefinitions, final NodePath nodePath) {
         for (OtherNodeDefinitionBuilder otherNodeDefinitionBuilder : _otherNodeDefinitionBuilders) {
-            OtherNodeDefinition otherNodeDefinition = otherNodeDefinitionBuilder.createOtherNodeDefinition(element, this);
+            OtherNodeDefinition otherNodeDefinition = otherNodeDefinitionBuilder.createOtherNodeDefinition(parentElement, element, this, nodePath);
             if (otherNodeDefinition != null) {
                 nodeDefinitions.add(otherNodeDefinition);
                 return;
             }
         }
-        OtherNodeDefinition otherNodeDefinition = _defaultOtherNodeDefinitionBuilder.createOtherNodeDefinition(element, this);
+        OtherNodeDefinition otherNodeDefinition = _defaultOtherNodeDefinitionBuilder.createOtherNodeDefinition(parentElement, element, this, nodePath);
         nodeDefinitions.add(otherNodeDefinition);
     }
 
