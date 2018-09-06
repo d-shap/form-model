@@ -112,7 +112,16 @@ public final class FileSystemFormDefinitionsLoader extends FormDefinitionsLoader
 
         @Override
         public boolean accept(final File file) {
-            return file.isDirectory() || file.getName().endsWith(".xml");
+            if (file.isDirectory()) {
+                return true;
+            }
+            String fileName = file.getName();
+            int idx = fileName.lastIndexOf('.');
+            if (idx < 0) {
+                return false;
+            }
+            String extension = fileName.substring(idx + 1);
+            return "xml".equalsIgnoreCase(extension);
         }
 
     }
