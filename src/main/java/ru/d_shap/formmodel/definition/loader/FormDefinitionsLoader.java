@@ -19,6 +19,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.formmodel.definition.loader;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.xml.sax.InputSource;
@@ -55,7 +56,13 @@ public class FormDefinitionsLoader {
      * @param formDefinitions the specified form definitions.
      */
     protected final void addFormDefinitions(final List<FormDefinition> formDefinitions) {
-        _formDefinitions.addFormDefinitions(formDefinitions);
+        List<FormDefinition> list = new ArrayList<>();
+        for (FormDefinition formDefinition : formDefinitions) {
+            if (formDefinition != null) {
+                list.add(formDefinition);
+            }
+        }
+        _formDefinitions.addFormDefinitions(list);
     }
 
     /**
