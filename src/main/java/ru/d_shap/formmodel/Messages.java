@@ -153,12 +153,26 @@ public final class Messages {
      */
     public static final class Load {
 
-        public static final String SCHEMA_LOAD_EXCEPTION_MESSAGE = "Failed to load XML schema";
-
-        public static final String DOCUMENT_LOAD_EXCEPTION_MESSAGE = "Failed to load XML document";
-
         private Load() {
             super();
+        }
+
+        /**
+         * Get the error message when the XML Schema can not be loaded.
+         *
+         * @return the error message.
+         */
+        public static String getSchemaLoadExceptionMessage() {
+            return "Failed to load XML schema";
+        }
+
+        /**
+         * Get the error message when the XML Document can not be loaded.
+         *
+         * @return the error message.
+         */
+        public static String getDocumentLoadExceptionMessage() {
+            return "Failed to load XML document";
         }
 
     }
@@ -172,6 +186,61 @@ public final class Messages {
 
         private Validation() {
             super();
+        }
+
+        /**
+         * Get the error message when the form definition element is not valid.
+         *
+         * @param element the invalid form definition element.
+         *
+         * @return the error message.
+         */
+        public static String getFormDefinitionElementIsNotValidMessage(final Element element) {
+            return "[Form definition element is not valid: " + Representation.getOtherNodeDefinitionRepresentation(element) + "]";
+        }
+
+        /**
+         * Get the error message when the element definition element is not valid.
+         *
+         * @param element the invalid element definition element.
+         *
+         * @return the error message.
+         */
+        public static String getElementDefinitionElementIsNotValidMessage(final Element element) {
+            return "[Element definition element is not valid: " + Representation.getOtherNodeDefinitionRepresentation(element) + "]";
+        }
+
+        /**
+         * Get the error message when the choice definition element is not valid.
+         *
+         * @param element the invalid choice definition element.
+         *
+         * @return the error message.
+         */
+        public static String getChoiceDefinitionElementIsNotValidMessage(final Element element) {
+            return "[Choice definition element is not valid: " + Representation.getOtherNodeDefinitionRepresentation(element) + "]";
+        }
+
+        /**
+         * Get the error message when the form reference definition element is not valid.
+         *
+         * @param element the invalid form reference definition element.
+         *
+         * @return the error message.
+         */
+        public static String getFormReferenceDefinitionElementIsNotValidMessage(final Element element) {
+            return "[Form reference definition element is not valid: " + Representation.getOtherNodeDefinitionRepresentation(element) + "]";
+        }
+
+        /**
+         * Get the error message when the attribute definition element is not valid.
+         *
+         * @param element the invalid attribute definition element.
+         *
+         * @return the error message.
+         */
+        public static String getAttributeDefinitionElementIsNotValidMessage(final Element element) {
+            return "[Attribute definition element is not valid: " + Representation.getOtherNodeDefinitionRepresentation(element) + "]";
         }
 
         /**
