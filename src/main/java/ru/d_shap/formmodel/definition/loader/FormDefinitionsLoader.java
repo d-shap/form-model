@@ -56,13 +56,13 @@ public class FormDefinitionsLoader {
      * @param formDefinitions the specified form definitions.
      */
     protected final void addFormDefinitions(final List<FormDefinition> formDefinitions) {
-        List<FormDefinition> list = new ArrayList<>();
+        List<FormDefinition> notNullFormDefinitions = new ArrayList<>();
         for (FormDefinition formDefinition : formDefinitions) {
             if (formDefinition != null) {
-                list.add(formDefinition);
+                notNullFormDefinitions.add(formDefinition);
             }
         }
-        _formDefinitions.addFormDefinitions(list);
+        _formDefinitions.addFormDefinitions(notNullFormDefinitions);
     }
 
     /**
