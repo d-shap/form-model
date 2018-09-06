@@ -21,10 +21,13 @@ package ru.d_shap.formmodel.definition.loader;
 
 import java.util.List;
 
+import org.xml.sax.InputSource;
+
+import ru.d_shap.formmodel.definition.model.FormDefinition;
 import ru.d_shap.formmodel.definition.model.FormDefinitions;
 
 /**
- * Base loader class for the form definitions.
+ * Base class for all form definitions loaders.
  *
  * @author Dmitry Shapovalov
  */
@@ -47,21 +50,24 @@ public class FormDefinitionsLoader {
     }
 
     /**
-     * Get container for all form definitions.
+     * Add the specified form definitions to the container for all form definitions.
      *
-     * @return container for all form definitions.
+     * @param formDefinitions the specified form definitions.
      */
-    protected final FormDefinitions getFormDefinitions() {
-        return _formDefinitions;
+    protected final void addFormDefinitions(final List<FormDefinition> formDefinitions) {
+        _formDefinitions.addFormDefinitions(formDefinitions);
     }
 
     /**
-     * Get loader for the form definition.
+     * Load the form definition from the specified input source.
      *
-     * @return loader for the form definition.
+     * @param inputSource the specified input source.
+     * @param source      the form's source.
+     *
+     * @return the loaded form definition.
      */
-    protected final FormDefinitionLoader getFormDefinitionLoader() {
-        return _formDefinitionLoader;
+    protected final FormDefinition loadFormDefinition(final InputSource inputSource, final String source) {
+        return _formDefinitionLoader.load(inputSource, source);
     }
 
 }
