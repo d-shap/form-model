@@ -114,7 +114,11 @@ final class FormDefinitionLoader implements FormModelDefinitionBuilder {
             Document document = builder.parse(inputSource);
             _validator.validate(new DOMSource(document));
             Element element = document.getDocumentElement();
-            return createFormDefinition(element, source, new NodePath());
+            if (isFormDefinitionElement(element)) {
+                return createFormDefinition(element, source, new NodePath());
+            } else {
+                return null;
+            }
         } catch (ParserConfigurationException | IOException | SAXException ex) {
             throw new FormDefinitionLoadException("Failed to load form definition", ex);
         }
