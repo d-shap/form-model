@@ -31,15 +31,6 @@ public final class FormDefinitionLoadException extends FormDefinitionException {
     /**
      * Create new object.
      *
-     * @param message exception message.
-     */
-    public FormDefinitionLoadException(final String message) {
-        super(message);
-    }
-
-    /**
-     * Create new object.
-     *
      * @param message   exception message.
      * @param exception cause exception.
      */
