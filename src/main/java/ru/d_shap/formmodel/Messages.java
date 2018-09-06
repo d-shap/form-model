@@ -244,6 +244,17 @@ public final class Messages {
         }
 
         /**
+         * Get the error message when the child XML element is not valid.
+         *
+         * @param element the invalid child XML element.
+         *
+         * @return the error message.
+         */
+        public static String getChildElementIsNotValidMessage(final Element element) {
+            return "[Child element is not valid: " + Representation.getOtherNodeDefinitionRepresentation(element) + "]";
+        }
+
+        /**
          * Get the error message when the form is not unique.
          *
          * @param formDefinitionKey the invalid form definition key.
