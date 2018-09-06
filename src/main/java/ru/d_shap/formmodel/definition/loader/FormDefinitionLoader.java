@@ -104,7 +104,7 @@ final class FormDefinitionLoader implements FormModelDefinitionBuilder {
                 return schema.newValidator();
             }
         } catch (IOException | SAXException ex) {
-            throw new FormDefinitionLoadException("Failed to load schema", ex);
+            throw new FormDefinitionLoadException(Messages.Load.getSchemaLoadExceptionMessage(), ex);
         }
     }
 
@@ -120,7 +120,7 @@ final class FormDefinitionLoader implements FormModelDefinitionBuilder {
                 return null;
             }
         } catch (ParserConfigurationException | IOException | SAXException ex) {
-            throw new FormDefinitionLoadException("Failed to load form definition", ex);
+            throw new FormDefinitionLoadException(Messages.Load.getDocumentLoadExceptionMessage(), ex);
         }
     }
 
@@ -139,8 +139,7 @@ final class FormDefinitionLoader implements FormModelDefinitionBuilder {
             Map<String, String> otherAttributes = getOtherAttributes(element, FORM_DEFINITION_ATTRIBUTE_NAMES);
             return new FormDefinition(group, id, nodeDefinitions, otherAttributes, source);
         } else {
-            NodePath currentNodePath = new NodePath(nodePath, Messages.Representation.getOtherNodeDefinitionRepresentation(element));
-            throw new FormDefinitionValidationException("Form definition element is not valid", currentNodePath);
+            throw new FormDefinitionValidationException(Messages.Validation.getFormDefinitionElementIsNotValidMessage(element), nodePath);
         }
     }
 
@@ -166,8 +165,7 @@ final class FormDefinitionLoader implements FormModelDefinitionBuilder {
             Map<String, String> otherAttributes = getOtherAttributes(element, ELEMENT_DEFINITION_ATTRIBUTE_NAMES);
             return new ElementDefinition(id, lookup, cardinalityDefinition, nodeDefinitions, otherAttributes);
         } else {
-            NodePath currentNodePath = new NodePath(nodePath, Messages.Representation.getOtherNodeDefinitionRepresentation(element));
-            throw new FormDefinitionValidationException("Element definition element is not valid", currentNodePath);
+            throw new FormDefinitionValidationException(Messages.Validation.getElementDefinitionElementIsNotValidMessage(element), nodePath);
         }
     }
 
@@ -186,8 +184,7 @@ final class FormDefinitionLoader implements FormModelDefinitionBuilder {
             Map<String, String> otherAttributes = getOtherAttributes(element, CHOICE_DEFINITION_ATTRIBUTE_NAMES);
             return new ChoiceDefinition(id, cardinalityDefinition, nodeDefinitions, otherAttributes);
         } else {
-            NodePath currentNodePath = new NodePath(nodePath, Messages.Representation.getOtherNodeDefinitionRepresentation(element));
-            throw new FormDefinitionValidationException("Choice definition element is not valid", currentNodePath);
+            throw new FormDefinitionValidationException(Messages.Validation.getChoiceDefinitionElementIsNotValidMessage(element), nodePath);
         }
     }
 
@@ -206,8 +203,7 @@ final class FormDefinitionLoader implements FormModelDefinitionBuilder {
             Map<String, String> otherAttributes = getOtherAttributes(element, FORM_REFERENCE_DEFINITION_ATTRIBUTE_NAMES);
             return new FormReferenceDefinition(group, id, nodeDefinitions, otherAttributes);
         } else {
-            NodePath currentNodePath = new NodePath(nodePath, Messages.Representation.getOtherNodeDefinitionRepresentation(element));
-            throw new FormDefinitionValidationException("Form reference definition element is not valid", currentNodePath);
+            throw new FormDefinitionValidationException(Messages.Validation.getFormReferenceDefinitionElementIsNotValidMessage(element), nodePath);
         }
     }
 
@@ -227,8 +223,7 @@ final class FormDefinitionLoader implements FormModelDefinitionBuilder {
             Map<String, String> otherAttributes = getOtherAttributes(element, ATTRIBUTE_DEFINITION_ATTRIBUTE_NAMES);
             return new AttributeDefinition(id, lookup, cardinalityDefinition, nodeDefinitions, otherAttributes);
         } else {
-            NodePath currentNodePath = new NodePath(nodePath, Messages.Representation.getOtherNodeDefinitionRepresentation(element));
-            throw new FormDefinitionValidationException("Attribute definition element is not valid", currentNodePath);
+            throw new FormDefinitionValidationException(Messages.Validation.getAttributeDefinitionElementIsNotValidMessage(element), nodePath);
         }
     }
 
@@ -291,8 +286,7 @@ final class FormDefinitionLoader implements FormModelDefinitionBuilder {
             nodeDefinitions.add(nodeDefinition);
             return;
         }
-        NodePath currentNodePath = new NodePath(nodePath, Messages.Representation.getOtherNodeDefinitionRepresentation(element));
-        throw new FormDefinitionValidationException("Wrong child element: " + element.getLocalName(), currentNodePath);
+        throw new FormDefinitionValidationException(Messages.Validation.getChildElementIsNotValidMessage(element), nodePath);
     }
 
     private void addOtherNodeDefinition(final Element parentElement, final Element element, final List<NodeDefinition> nodeDefinitions, final NodePath nodePath) {
