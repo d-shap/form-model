@@ -39,6 +39,8 @@ import ru.d_shap.formmodel.definition.model.FormDefinitions;
  */
 public final class FileSystemFormDefinitionsLoader extends FormDefinitionsLoader {
 
+    private static final String DEFAULT_EXTENSION = "xml";
+
     /**
      * Create new object.
      *
@@ -64,33 +66,34 @@ public final class FileSystemFormDefinitionsLoader extends FormDefinitionsLoader
      * @param fileFilter the file filter.
      */
     public void load(final File file, final FileFilter fileFilter) {
+        int fileRootPathLength = file.getAbsolutePath().length();
         List<FormDefinition> formDefinitions = new ArrayList<>();
         if (file.isDirectory()) {
-            processDirectory(file, fileFilter, formDefinitions);
+            processDirectory(file, fileRootPathLength, fileFilter, formDefinitions);
         } else {
-            processFile(file, formDefinitions);
+            processFile(file, fileRootPathLength, formDefinitions);
         }
         addFormDefinitions(formDefinitions);
     }
 
-    private void processDirectory(final File file, final FileFilter fileFilter, final List<FormDefinition> formDefinitions) {
+    private void processDirectory(final File file, final int fileRootPathLength, final FileFilter fileFilter, final List<FormDefinition> formDefinitions) {
         File[] childFiles = file.listFiles(fileFilter);
         if (childFiles != null) {
             for (File childFile : childFiles) {
                 if (childFile.isDirectory()) {
-                    processDirectory(childFile, fileFilter, formDefinitions);
+                    processDirectory(childFile, fileRootPathLength, fileFilter, formDefinitions);
                 } else {
-                    processFile(childFile, formDefinitions);
+                    processFile(childFile, fileRootPathLength, formDefinitions);
                 }
             }
         }
     }
 
-    private void processFile(final File file, final List<FormDefinition> formDefinitions) {
+    private void processFile(final File file, final int fileRootPathLength, final List<FormDefinition> formDefinitions) {
         try {
             try (FileInputStream inputStream = new FileInputStream(file)) {
                 InputSource inputSource = new InputSource(inputStream);
-                FormDefinition formDefinition = loadFormDefinition(inputSource, file.getAbsolutePath());
+                FormDefinition formDefinition = loadFormDefinition(inputSource, file.getAbsolutePath().substring(fileRootPathLength));
                 formDefinitions.add(formDefinition);
             }
         } catch (IOException ex) {
@@ -103,7 +106,7 @@ public final class FileSystemFormDefinitionsLoader extends FormDefinitionsLoader
      *
      * @author Dmitry Shapovalov
      */
-    private static final class DefaultFileFilter implements FileFilter {
+    static final class DefaultFileFilter implements FileFilter {
 
         DefaultFileFilter() {
             super();
@@ -120,7 +123,7 @@ public final class FileSystemFormDefinitionsLoader extends FormDefinitionsLoader
                 return false;
             }
             String extension = fileName.substring(idx + 1);
-            return "xml".equalsIgnoreCase(extension);
+            return DEFAULT_EXTENSION.equalsIgnoreCase(extension);
         }
 
     }
