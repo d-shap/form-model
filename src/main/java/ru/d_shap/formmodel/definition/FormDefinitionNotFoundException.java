@@ -19,6 +19,8 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.formmodel.definition;
 
+import ru.d_shap.formmodel.Messages;
+
 /**
  * Exception is thrown when the form definition is not found.
  *
@@ -35,15 +37,7 @@ public final class FormDefinitionNotFoundException extends FormDefinitionExcepti
      * @param id    the form's ID.
      */
     public FormDefinitionNotFoundException(final String group, final String id) {
-        super(getMessage(group, id));
-    }
-
-    private static String getMessage(final String group, final String id) {
-        if (group == null) {
-            return "Form definition is not found: @" + id;
-        } else {
-            return "Form definition is not found: " + group + "@" + id;
-        }
+        super("Form definition is not found: " + Messages.Representation.getIdRepresentation(group, id));
     }
 
 }
