@@ -20,7 +20,9 @@
 package ru.d_shap.formmodel.definition.loader;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ServiceLoader;
 
 import org.xml.sax.InputSource;
 
@@ -34,6 +36,8 @@ import ru.d_shap.formmodel.definition.model.FormDefinitions;
  */
 public class FormDefinitionsLoader {
 
+    private static final ServiceLoader<OtherNodeDefinitionBuilder> SERVICE_LOADER = ServiceLoader.load(OtherNodeDefinitionBuilder.class);
+
     private final FormDefinitions _formDefinitions;
 
     private final FormDefinitionLoader _formDefinitionLoader;
@@ -41,12 +45,16 @@ public class FormDefinitionsLoader {
     /**
      * Create new object.
      *
-     * @param formDefinitions             container for all form definitions.
-     * @param otherNodeDefinitionBuilders builders for the other node definition.
+     * @param formDefinitions container for all form definitions.
      */
-    protected FormDefinitionsLoader(final FormDefinitions formDefinitions, final List<OtherNodeDefinitionBuilder> otherNodeDefinitionBuilders) {
+    protected FormDefinitionsLoader(final FormDefinitions formDefinitions) {
         super();
         _formDefinitions = formDefinitions;
+        List<OtherNodeDefinitionBuilder> otherNodeDefinitionBuilders = new ArrayList<>();
+        for (Iterator<OtherNodeDefinitionBuilder> iterator = SERVICE_LOADER.iterator(); iterator.hasNext(); ) {
+            OtherNodeDefinitionBuilder otherNodeDefinitionBuilder = iterator.next();
+            otherNodeDefinitionBuilders.add(otherNodeDefinitionBuilder);
+        }
         _formDefinitionLoader = new FormDefinitionLoader(otherNodeDefinitionBuilders);
     }
 
@@ -56,13 +64,13 @@ public class FormDefinitionsLoader {
      * @param formDefinitions the specified form definitions.
      */
     protected final void addFormDefinitions(final List<FormDefinition> formDefinitions) {
-        List<FormDefinition> notNullFormDefinitions = new ArrayList<>();
+        List<FormDefinition> list = new ArrayList<>();
         for (FormDefinition formDefinition : formDefinitions) {
             if (formDefinition != null) {
-                notNullFormDefinitions.add(formDefinition);
+                list.add(formDefinition);
             }
         }
-        _formDefinitions.addFormDefinitions(notNullFormDefinitions);
+        _formDefinitions.addFormDefinitions(list);
     }
 
     /**

@@ -42,11 +42,10 @@ public final class FileSystemFormDefinitionsLoader extends FormDefinitionsLoader
     /**
      * Create new object.
      *
-     * @param formDefinitions             container for all form definitions.
-     * @param otherNodeDefinitionBuilders builders for the other node definition.
+     * @param formDefinitions container for all form definitions.
      */
-    public FileSystemFormDefinitionsLoader(final FormDefinitions formDefinitions, final List<OtherNodeDefinitionBuilder> otherNodeDefinitionBuilders) {
-        super(formDefinitions, otherNodeDefinitionBuilders);
+    public FileSystemFormDefinitionsLoader(final FormDefinitions formDefinitions) {
+        super(formDefinitions);
     }
 
     /**
