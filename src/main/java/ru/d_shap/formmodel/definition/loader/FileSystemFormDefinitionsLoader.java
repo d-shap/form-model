@@ -28,6 +28,7 @@ import java.util.List;
 
 import org.xml.sax.InputSource;
 
+import ru.d_shap.formmodel.Messages;
 import ru.d_shap.formmodel.definition.FormDefinitionLoadException;
 import ru.d_shap.formmodel.definition.model.FormDefinition;
 import ru.d_shap.formmodel.definition.model.FormDefinitions;
@@ -97,7 +98,7 @@ public final class FileSystemFormDefinitionsLoader extends FormDefinitionsLoader
                 formDefinitions.add(formDefinition);
             }
         } catch (IOException ex) {
-            throw new FormDefinitionLoadException("Failed to load form definition", ex);
+            throw new FormDefinitionLoadException(Messages.Load.getInputSourceReadExceptionMessage(), ex);
         }
     }
 
