@@ -93,7 +93,11 @@ final class FormDefinitionLoader implements FormModelDefinitionBuilder {
         super();
         URL url = getClass().getClassLoader().getResource(SCHEMA_LOCATION);
         _validator = createValidator(url);
-        _otherNodeDefinitionBuilders = new ArrayList<>(otherNodeDefinitionBuilders);
+        if (otherNodeDefinitionBuilders == null) {
+            _otherNodeDefinitionBuilders = new ArrayList<>();
+        } else {
+            _otherNodeDefinitionBuilders = new ArrayList<>(otherNodeDefinitionBuilders);
+        }
         _defaultOtherNodeDefinitionBuilder = new DefaultOtherNodeDefinitionBuilder();
     }
 
