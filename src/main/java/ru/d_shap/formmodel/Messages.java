@@ -124,24 +124,28 @@ public final class Messages {
         /**
          * Get the node's ID representation.
          *
+         * @param id the node's ID.
+         *
+         * @return the node's ID representation.
+         */
+        public static String getIdRepresentation(final String id) {
+            return getIdRepresentation(null, id);
+        }
+
+        /**
+         * Get the node's ID representation.
+         *
          * @param group the node's group.
          * @param id    the node's ID.
          *
          * @return the node's ID representation.
          */
         public static String getIdRepresentation(final String group, final String id) {
-            return "@" + group + ":" + id;
-        }
-
-        /**
-         * Get the node's ID representation.
-         *
-         * @param id the node's ID.
-         *
-         * @return the node's ID representation.
-         */
-        public static String getIdRepresentation(final String id) {
-            return "@" + id;
+            if (group == null) {
+                return "@:" + id;
+            } else {
+                return "@" + group + ":" + id;
+            }
         }
 
     }
@@ -155,6 +159,15 @@ public final class Messages {
 
         private Load() {
             super();
+        }
+
+        /**
+         * Get the error message when the input source can not be read.
+         *
+         * @return the error message.
+         */
+        public static String getInputSourceReadExceptionMessage() {
+            return "Failed to read input source";
         }
 
         /**
