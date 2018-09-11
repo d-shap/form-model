@@ -28,6 +28,7 @@
     <xs:complexType name="ChoiceType">
         <xs:choice minOccurs="0" maxOccurs="unbounded">
             <xs:element name="element" type="tns:ElementType" />
+            <xs:element name="choice" type="tns:ChoiceType" />
             <xs:any namespace="##other" processContents="skip" />
         </xs:choice>
         <xs:attribute name="id" type="xs:string" />
