@@ -171,15 +171,6 @@ public final class Messages {
         }
 
         /**
-         * Get the error message when the XML Schema can not be loaded.
-         *
-         * @return the error message.
-         */
-        public static String getSchemaLoadExceptionMessage() {
-            return "[Failed to load XML schema]";
-        }
-
-        /**
          * Get the error message when the XML Document can not be loaded.
          *
          * @return the error message.
