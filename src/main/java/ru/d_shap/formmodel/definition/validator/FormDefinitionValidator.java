@@ -153,13 +153,25 @@ final class FormDefinitionValidator implements FormModelDefinitionValidator {
     public void validate(final NodeDefinition parentNodeDefinition, final ChoiceDefinition choiceDefinition, final NodePath nodePath) {
         NodePath currentNodePath = new NodePath(nodePath, choiceDefinition);
 
-        validateId(choiceDefinition.getId(), currentNodePath);
-        validateCardinalityDefinition(choiceDefinition.getCardinalityDefinition(), currentNodePath, CardinalityDefinition.values());
+        if (parentNodeDefinition instanceof ChoiceDefinition) {
+            validateEmptyId(choiceDefinition.getId(), currentNodePath);
+        } else {
+            validateId(choiceDefinition.getId(), currentNodePath);
+        }
+        if (parentNodeDefinition instanceof ChoiceDefinition) {
+            validateCardinalityDefinition(choiceDefinition.getCardinalityDefinition(), currentNodePath, CardinalityDefinition.OPTIONAL, CardinalityDefinition.OPTIONAL_MULTIPLE);
+        } else {
+            validateCardinalityDefinition(choiceDefinition.getCardinalityDefinition(), currentNodePath, CardinalityDefinition.values());
+        }
 
         List<String> childNodeIds = new ArrayList<>();
         for (ElementDefinition childElementDefinition : choiceDefinition.getElementDefinitions()) {
             validate(choiceDefinition, childElementDefinition, currentNodePath);
             childNodeIds.add(childElementDefinition.getId());
+        }
+        for (ChoiceDefinition childChoiceDefinition : choiceDefinition.getChoiceDefinitions()) {
+            validate(choiceDefinition, childChoiceDefinition, currentNodePath);
+            childNodeIds.add(childChoiceDefinition.getId());
         }
         validateUniqueNodeIds(childNodeIds, currentNodePath);
 
