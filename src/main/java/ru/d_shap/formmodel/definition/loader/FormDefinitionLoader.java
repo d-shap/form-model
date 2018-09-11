@@ -116,9 +116,9 @@ final class FormDefinitionLoader implements FormModelDefinitionBuilder {
         try {
             DocumentBuilder builder = DOCUMENT_BUILDER_FACTORY.newDocumentBuilder();
             Document document = builder.parse(inputSource);
-            _validator.validate(new DOMSource(document));
             Element element = document.getDocumentElement();
             if (isFormDefinitionElement(element)) {
+                _validator.validate(new DOMSource(document));
                 return createFormDefinition(element, source, new NodePath());
             } else {
                 return null;
@@ -165,7 +165,7 @@ final class FormDefinitionLoader implements FormModelDefinitionBuilder {
             }
             CardinalityDefinition cardinalityDefinition = getCardinalityDefinition(element, ELEMENT_DEFINITION_ATTRIBUTE_TYPE, defaultCardinalityDefinition);
             NodePath currentNodePath = new NodePath(nodePath, Messages.Representation.getElementDefinitionRepresentation(id));
-            List<NodeDefinition> nodeDefinitions = getNodeDefinitions(element, ELEMENT_DEFINITION_CHILD_ELEMENT_NAMES, nodePath);
+            List<NodeDefinition> nodeDefinitions = getNodeDefinitions(element, ELEMENT_DEFINITION_CHILD_ELEMENT_NAMES, currentNodePath);
             Map<String, String> otherAttributes = getOtherAttributes(element, ELEMENT_DEFINITION_ATTRIBUTE_NAMES);
             return new ElementDefinition(id, lookup, cardinalityDefinition, nodeDefinitions, otherAttributes);
         } else {
@@ -182,7 +182,13 @@ final class FormDefinitionLoader implements FormModelDefinitionBuilder {
     public ChoiceDefinition createChoiceDefinition(final Element parentElement, final Element element, final NodePath nodePath) {
         if (isChoiceDefinitionElement(element)) {
             String id = getAttributeValue(element, CHOICE_DEFINITION_ATTRIBUTE_ID);
-            CardinalityDefinition cardinalityDefinition = getCardinalityDefinition(element, CHOICE_DEFINITION_ATTRIBUTE_TYPE, CardinalityDefinition.REQUIRED);
+            CardinalityDefinition defaultCardinalityDefinition;
+            if (isChoiceDefinitionElement(parentElement)) {
+                defaultCardinalityDefinition = CardinalityDefinition.OPTIONAL;
+            } else {
+                defaultCardinalityDefinition = CardinalityDefinition.REQUIRED;
+            }
+            CardinalityDefinition cardinalityDefinition = getCardinalityDefinition(element, CHOICE_DEFINITION_ATTRIBUTE_TYPE, defaultCardinalityDefinition);
             NodePath currentNodePath = new NodePath(nodePath, Messages.Representation.getChoiceDefinitionRepresentation(id));
             List<NodeDefinition> nodeDefinitions = getNodeDefinitions(element, CHOICE_DEFINITION_CHILD_ELEMENT_NAMES, currentNodePath);
             Map<String, String> otherAttributes = getOtherAttributes(element, CHOICE_DEFINITION_ATTRIBUTE_NAMES);
@@ -203,7 +209,7 @@ final class FormDefinitionLoader implements FormModelDefinitionBuilder {
             String group = getAttributeValue(element, FORM_REFERENCE_DEFINITION_ATTRIBUTE_GROUP);
             String id = getAttributeValue(element, FORM_REFERENCE_DEFINITION_ATTRIBUTE_ID);
             NodePath currentNodePath = new NodePath(nodePath, Messages.Representation.getFormReferenceDefinitionRepresentation(group, id));
-            List<NodeDefinition> nodeDefinitions = getNodeDefinitions(element, FORM_REFERENCE_DEFINITION_CHILD_ELEMENT_NAMES, nodePath);
+            List<NodeDefinition> nodeDefinitions = getNodeDefinitions(element, FORM_REFERENCE_DEFINITION_CHILD_ELEMENT_NAMES, currentNodePath);
             Map<String, String> otherAttributes = getOtherAttributes(element, FORM_REFERENCE_DEFINITION_ATTRIBUTE_NAMES);
             return new FormReferenceDefinition(group, id, nodeDefinitions, otherAttributes);
         } else {
