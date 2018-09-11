@@ -24,14 +24,14 @@ import java.util.List;
 import org.w3c.dom.Element;
 
 /**
- * Binder for the form model definition elements.
+ * Data binder for the form model definition elements.
  *
  * @param <S> generic type of the source.
  * @param <B> generic type of the binding data.
  *
  * @author Dmitry Shapovalov
  */
-public interface Binder<S, B> {
+public interface DataBinder<S, B> {
 
     /**
      * Get the binding data for the specified lookup.
