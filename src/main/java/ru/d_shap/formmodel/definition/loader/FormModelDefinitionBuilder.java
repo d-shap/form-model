@@ -37,7 +37,7 @@ import ru.d_shap.formmodel.definition.model.NodePath;
  */
 public interface FormModelDefinitionBuilder {
 
-    String NAMESPACE = "http://d-shap.ru/schema/form-model";
+    String NAMESPACE = "http://d-shap.ru/schema/form-model/1.0";
 
     String FORM_DEFINITION_ELEMENT_NAME = FormDefinition.ELEMENT_NAME;
 
