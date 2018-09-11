@@ -54,6 +54,7 @@ public final class ChoiceDefinition implements NodeDefinition {
     static {
         Set<String> childElementNames = new HashSet<>();
         childElementNames.add(ElementDefinition.ELEMENT_NAME);
+        childElementNames.add(ELEMENT_NAME);
         CHILD_ELEMENT_NAMES = Collections.unmodifiableSet(childElementNames);
     }
 
@@ -103,6 +104,15 @@ public final class ChoiceDefinition implements NodeDefinition {
      */
     public List<ElementDefinition> getElementDefinitions() {
         return _nodeData.getElementDefinitions();
+    }
+
+    /**
+     * Get the choice's choice definitions.
+     *
+     * @return the choice's choice definitions.
+     */
+    public List<ChoiceDefinition> getChoiceDefinitions() {
+        return _nodeData.getChoiceDefinitions();
     }
 
     /**
