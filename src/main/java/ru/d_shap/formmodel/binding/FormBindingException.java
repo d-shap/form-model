@@ -19,13 +19,8 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.formmodel.binding;
 
-import java.util.List;
-
 import ru.d_shap.formmodel.FormModelException;
-import ru.d_shap.formmodel.definition.ElementDefinition;
-import ru.d_shap.formmodel.definition.FormDefinition;
-import ru.d_shap.formmodel.definition.FormReferenceDefinition;
-import ru.d_shap.formmodel.definition.NodeDefinition;
+import ru.d_shap.formmodel.definition.model.NodePath;
 
 /**
  * Exception is thrown when the actual form can not be binded.
@@ -36,33 +31,14 @@ public final class FormBindingException extends FormModelException {
 
     private static final long serialVersionUID = 1L;
 
-    FormBindingException(final FormBindingExceptionType formBindingExceptionType, final FormBindingPath formBindingPath) {
-        super(createErrorMessage(formBindingExceptionType, formBindingPath));
-    }
-
-    private static String createErrorMessage(final FormBindingExceptionType formBindingExceptionType, final FormBindingPath formBindingPath) {
-        StringBuilder errorMessage = new StringBuilder();
-        errorMessage.append(formBindingExceptionType).append(": ");
-        List<NodeDefinition> nodeDefinitions = formBindingPath.getNodeDefinitions();
-        boolean first = true;
-        for (NodeDefinition nodeDefinition : nodeDefinitions) {
-            if (first) {
-                first = false;
-            } else {
-                errorMessage.append(".");
-            }
-
-            if (nodeDefinition instanceof ElementDefinition) {
-                errorMessage.append("[E id=").append(((ElementDefinition) nodeDefinition).getId()).append("]");
-            }
-            if (nodeDefinition instanceof FormReferenceDefinition) {
-                errorMessage.append("[F id=").append(((FormReferenceDefinition) nodeDefinition).getReferencedFormId()).append("]");
-            }
-            if (nodeDefinition instanceof FormDefinition) {
-                errorMessage.append("[F id=").append(((FormDefinition) nodeDefinition).getId()).append("]");
-            }
-        }
-        return errorMessage.toString();
+    /**
+     * Create new object.
+     *
+     * @param message  exception message.
+     * @param nodePath node path.
+     */
+    public FormBindingException(final String message, final NodePath nodePath) {
+        super(message + " (" + nodePath + ")");
     }
 
 }
