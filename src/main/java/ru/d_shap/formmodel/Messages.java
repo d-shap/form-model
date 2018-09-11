@@ -191,7 +191,7 @@ public final class Messages {
     }
 
     /**
-     * Helper class to create validation exception messages.
+     * Helper class to create form definition validation exception messages.
      *
      * @author Dmitry Shapovalov
      */
@@ -391,6 +391,19 @@ public final class Messages {
          */
         public static String getUnresolvedFormReferenceMessage(final FormDefinitionKey formDefinitionKey) {
             return "[Form reference can not be resolved: " + Representation.getIdRepresentation(formDefinitionKey.getGroup(), formDefinitionKey.getId()) + "]";
+        }
+
+    }
+
+    /**
+     * Helper class to create form definition binding exception messages.
+     *
+     * @author Dmitry Shapovalov
+     */
+    public static final class Binding {
+
+        private Binding() {
+            super();
         }
 
     }
