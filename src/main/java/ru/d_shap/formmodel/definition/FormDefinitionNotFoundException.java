@@ -37,7 +37,7 @@ public final class FormDefinitionNotFoundException extends FormDefinitionExcepti
      * @param id    the form's ID.
      */
     public FormDefinitionNotFoundException(final String group, final String id) {
-        super("Form definition was not found: " + Messages.Representation.getIdRepresentation(group, id));
+        super("[Form definition was not found: " + Messages.Representation.getIdRepresentation(group, id) + "]");
     }
 
 }
