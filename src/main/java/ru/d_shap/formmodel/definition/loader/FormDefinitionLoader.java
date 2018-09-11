@@ -81,7 +81,7 @@ final class FormDefinitionLoader implements FormModelDefinitionBuilder {
 
     private static final String SCHEMA_PARENT_FOLDER = FormDefinition.class.getPackage().getName().replaceAll("\\.", "/");
 
-    private static final String SCHEMA_LOCATION = SCHEMA_PARENT_FOLDER + "/form-model.xsd";
+    private static final String SCHEMA_LOCATION = SCHEMA_PARENT_FOLDER + "/form-model-1_0.xsd";
 
     private final Validator _validator;
 
