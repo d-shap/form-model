@@ -20,7 +20,7 @@
 package ru.d_shap.formmodel;
 
 /**
- * Exception is thrown by the schema validator.
+ * Exception is thrown by the XML document validator.
  *
  * @author Dmitry Shapovalov
  */
