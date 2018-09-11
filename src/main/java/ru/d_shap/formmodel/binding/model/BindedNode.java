@@ -19,11 +19,13 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.formmodel.binding.model;
 
+import org.w3c.dom.Element;
+
 /**
  * Binded node interface.
  *
  * @author Dmitry Shapovalov
  */
-public interface BindedNode {
+public interface BindedNode extends Element {
 
 }
