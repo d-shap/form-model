@@ -167,7 +167,7 @@ public final class Messages {
          * @return the error message.
          */
         public static String getInputSourceReadExceptionMessage() {
-            return "Failed to read input source";
+            return "[Failed to read input source]";
         }
 
         /**
@@ -176,7 +176,7 @@ public final class Messages {
          * @return the error message.
          */
         public static String getSchemaLoadExceptionMessage() {
-            return "Failed to load XML schema";
+            return "[Failed to load XML schema]";
         }
 
         /**
@@ -185,7 +185,7 @@ public final class Messages {
          * @return the error message.
          */
         public static String getDocumentLoadExceptionMessage() {
-            return "Failed to load XML document";
+            return "[Failed to load XML document]";
         }
 
     }
@@ -404,6 +404,50 @@ public final class Messages {
 
         private Binding() {
             super();
+        }
+
+        /**
+         * Get the error message when the required element is not present.
+         *
+         * @param elementDefinition the element definition that can not be binded.
+         *
+         * @return the error message.
+         */
+        public static String getRequiredElementIsNotPresentMessage(final ElementDefinition elementDefinition) {
+            return "[Required element is not present: " + elementDefinition + "]";
+        }
+
+        /**
+         * Get the error message when the required element is present more than once.
+         *
+         * @param elementDefinition the element definition that can not be binded.
+         *
+         * @return the error message.
+         */
+        public static String getRequiredElementIsPresentMoreThanOnceMessage(final ElementDefinition elementDefinition) {
+            return "[Required element is present more than once: " + elementDefinition + "]";
+        }
+
+        /**
+         * Get the error message when the prohibited element is present.
+         *
+         * @param elementDefinition the element definition that can not be binded.
+         *
+         * @return the error message.
+         */
+        public static String getProhibitedElementIsPresentMessage(final ElementDefinition elementDefinition) {
+            return "[Prohibited element is present: " + elementDefinition + "]";
+        }
+
+        /**
+         * Get the error message when the prohibited attribute is present.
+         *
+         * @param attributeDefinition the attribute definition that can not be binded.
+         *
+         * @return the error message.
+         */
+        public static String getProhibitedAttributeIsPresentMessage(final AttributeDefinition attributeDefinition) {
+            return "[Prohibited attribute is present: " + attributeDefinition + "]";
         }
 
     }
