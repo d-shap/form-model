@@ -18,6 +18,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 /**
- * Form-model binding api.
+ * Form-model binding.
  */
 package ru.d_shap.formmodel.binding;
