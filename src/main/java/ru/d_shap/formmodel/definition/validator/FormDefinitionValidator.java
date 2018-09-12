@@ -159,9 +159,9 @@ final class FormDefinitionValidator implements FormModelDefinitionValidator {
             validateId(choiceDefinition.getId(), currentNodePath);
         }
         if (parentNodeDefinition instanceof ChoiceDefinition) {
-            validateCardinalityDefinition(choiceDefinition.getCardinalityDefinition(), currentNodePath, CardinalityDefinition.OPTIONAL, CardinalityDefinition.OPTIONAL_MULTIPLE);
+            validateCardinalityDefinition(choiceDefinition.getCardinalityDefinition(), currentNodePath, CardinalityDefinition.OPTIONAL);
         } else {
-            validateCardinalityDefinition(choiceDefinition.getCardinalityDefinition(), currentNodePath, CardinalityDefinition.values());
+            validateCardinalityDefinition(choiceDefinition.getCardinalityDefinition(), currentNodePath, CardinalityDefinition.REQUIRED, CardinalityDefinition.OPTIONAL, CardinalityDefinition.PROHIBITED);
         }
 
         List<String> childNodeIds = new ArrayList<>();
