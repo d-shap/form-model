@@ -441,6 +441,17 @@ public final class Messages {
             return "[Prohibited attribute is present: " + attributeDefinition + "]";
         }
 
+        /**
+         * Get the error message when multiple choice elements are present.
+         *
+         * @param choiceDefinition the choice definition that can not be binded.
+         *
+         * @return the error message.
+         */
+        public static String getMultipleChoiceElementsArePresentMessage(final ChoiceDefinition choiceDefinition) {
+            return "[Multiple choice elements are present: " + choiceDefinition + "]";
+        }
+
     }
 
 }
