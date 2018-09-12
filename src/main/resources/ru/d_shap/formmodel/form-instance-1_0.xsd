@@ -10,6 +10,7 @@
         </xs:sequence>
         <xs:attribute name="group" type="xs:string" />
         <xs:attribute name="id" type="xs:string" />
+        <xs:anyAttribute processContents="skip" />
     </xs:complexType>
     <xs:complexType name="ElementType">
         <xs:sequence>
@@ -20,6 +21,7 @@
             <xs:any namespace="##other" processContents="skip" minOccurs="0" maxOccurs="unbounded" />
         </xs:sequence>
         <xs:attribute name="id" type="xs:string" />
+        <xs:anyAttribute processContents="skip" />
     </xs:complexType>
     <xs:complexType name="ChoiceType">
         <xs:sequence>
@@ -28,6 +30,7 @@
             <xs:any namespace="##other" processContents="skip" minOccurs="0" maxOccurs="unbounded" />
         </xs:sequence>
         <xs:attribute name="id" type="xs:string" />
+        <xs:anyAttribute processContents="skip" />
     </xs:complexType>
     <xs:complexType name="FormReferenceType">
         <xs:sequence>
@@ -35,11 +38,13 @@
         </xs:sequence>
         <xs:attribute name="group" type="xs:string" />
         <xs:attribute name="id" type="xs:string" />
+        <xs:anyAttribute processContents="skip" />
     </xs:complexType>
     <xs:complexType name="AttributeType">
         <xs:sequence>
             <xs:any namespace="##other" processContents="skip" minOccurs="0" maxOccurs="unbounded" />
         </xs:sequence>
         <xs:attribute name="id" type="xs:string" />
+        <xs:anyAttribute processContents="skip" />
     </xs:complexType>
 </xs:schema>
