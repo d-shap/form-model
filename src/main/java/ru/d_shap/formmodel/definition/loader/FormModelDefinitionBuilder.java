@@ -31,7 +31,7 @@ import ru.d_shap.formmodel.definition.model.FormReferenceDefinition;
 import ru.d_shap.formmodel.definition.model.NodePath;
 
 /**
- * Builder for the form model elements.
+ * Builder for the form definition elements.
  *
  * @author Dmitry Shapovalov
  */
