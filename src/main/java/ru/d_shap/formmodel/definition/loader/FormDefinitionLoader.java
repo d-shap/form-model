@@ -20,23 +20,15 @@
 package ru.d_shap.formmodel.definition.loader;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamSource;
-import javax.xml.validation.Schema;
-import javax.xml.validation.SchemaFactory;
-import javax.xml.validation.Validator;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -47,6 +39,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import ru.d_shap.formmodel.Messages;
+import ru.d_shap.formmodel.SchemaValidator;
 import ru.d_shap.formmodel.definition.FormDefinitionLoadException;
 import ru.d_shap.formmodel.definition.FormDefinitionValidationException;
 import ru.d_shap.formmodel.definition.model.AttributeDefinition;
@@ -73,26 +66,12 @@ final class FormDefinitionLoader implements FormModelDefinitionBuilder {
         DOCUMENT_BUILDER_FACTORY.setNamespaceAware(true);
     }
 
-    private static final SchemaFactory SCHEMA_FACTORY;
-
-    static {
-        SCHEMA_FACTORY = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-    }
-
-    private static final String SCHEMA_PARENT_FOLDER = FormDefinition.class.getPackage().getName().replaceAll("\\.", "/");
-
-    private static final String SCHEMA_LOCATION = SCHEMA_PARENT_FOLDER + "/form-model-1_0.xsd";
-
-    private final Validator _validator;
-
     private final List<OtherNodeDefinitionBuilder> _otherNodeDefinitionBuilders;
 
     private final OtherNodeDefinitionBuilder _defaultOtherNodeDefinitionBuilder;
 
     FormDefinitionLoader(final List<OtherNodeDefinitionBuilder> otherNodeDefinitionBuilders) {
         super();
-        URL url = getClass().getClassLoader().getResource(SCHEMA_LOCATION);
-        _validator = createValidator(url);
         if (otherNodeDefinitionBuilders == null) {
             _otherNodeDefinitionBuilders = new ArrayList<>();
         } else {
@@ -101,29 +80,18 @@ final class FormDefinitionLoader implements FormModelDefinitionBuilder {
         _defaultOtherNodeDefinitionBuilder = new DefaultOtherNodeDefinitionBuilder();
     }
 
-    Validator createValidator(final URL url) {
-        try {
-            try (InputStream inputStream = url.openStream()) {
-                Schema schema = SCHEMA_FACTORY.newSchema(new StreamSource(inputStream));
-                return schema.newValidator();
-            }
-        } catch (IOException | SAXException ex) {
-            throw new FormDefinitionLoadException(Messages.Load.getSchemaLoadExceptionMessage(), ex);
-        }
-    }
-
     FormDefinition load(final InputSource inputSource, final String source) {
         try {
             DocumentBuilder builder = DOCUMENT_BUILDER_FACTORY.newDocumentBuilder();
             Document document = builder.parse(inputSource);
             Element element = document.getDocumentElement();
             if (isFormDefinitionElement(element)) {
-                _validator.validate(new DOMSource(document));
+                SchemaValidator.getFormModelSchemaValidator().validate(document);
                 return createFormDefinition(element, source, new NodePath());
             } else {
                 return null;
             }
-        } catch (ParserConfigurationException | IOException | SAXException ex) {
+        } catch (IOException | ParserConfigurationException | SAXException ex) {
             throw new FormDefinitionLoadException(Messages.Load.getDocumentLoadExceptionMessage(), ex);
         }
     }
