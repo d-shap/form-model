@@ -19,9 +19,15 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.formmodel;
 
+import java.io.IOException;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+
+import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 /**
  * XML document builder.
@@ -46,11 +52,35 @@ public final class XmlDocumentBuilder {
      *
      * @return the XML document builder.
      */
-    public static DocumentBuilder getDocumentBuilder() {
+    private static DocumentBuilder getDocumentBuilder() {
         try {
             return DOCUMENT_BUILDER_FACTORY.newDocumentBuilder();
         } catch (ParserConfigurationException ex) {
             throw new XmlDocumentBuilderException(ex);
+        }
+    }
+
+    /**
+     * Create new XML document.
+     *
+     * @return new XML document.
+     */
+    public static Document newDocument() {
+        return getDocumentBuilder().newDocument();
+    }
+
+    /**
+     * Parse the input source and create the XML document.
+     *
+     * @param inputSource the input source.
+     *
+     * @return the XML document.
+     */
+    public static Document parse(final InputSource inputSource) {
+        try {
+            return getDocumentBuilder().parse(inputSource);
+        } catch (IOException | SAXException ex) {
+            throw new InputSourceReadException(ex);
         }
     }
 
