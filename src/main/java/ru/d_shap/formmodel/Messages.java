@@ -151,37 +151,6 @@ public final class Messages {
     }
 
     /**
-     * Helper class to create form definition load exception messages.
-     *
-     * @author Dmitry Shapovalov
-     */
-    public static final class Load {
-
-        private Load() {
-            super();
-        }
-
-        /**
-         * Get the error message when the input source can not be read.
-         *
-         * @return the error message.
-         */
-        public static String getInputSourceReadExceptionMessage() {
-            return "[Failed to read input source]";
-        }
-
-        /**
-         * Get the error message when the XML Document can not be loaded.
-         *
-         * @return the error message.
-         */
-        public static String getDocumentLoadExceptionMessage() {
-            return "[Failed to load XML document]";
-        }
-
-    }
-
-    /**
      * Helper class to create form definition validation exception messages.
      *
      * @author Dmitry Shapovalov
