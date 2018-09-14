@@ -26,6 +26,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import ru.d_shap.formmodel.XmlDocumentBuilder;
+import ru.d_shap.formmodel.binding.api.BindingSource;
 import ru.d_shap.formmodel.binding.api.FormModelInstanceBuilder;
 import ru.d_shap.formmodel.binding.api.OtherNodeInstanceBuilder;
 import ru.d_shap.formmodel.definition.model.AttributeDefinition;
@@ -39,22 +40,19 @@ import ru.d_shap.formmodel.definition.model.OtherNodeDefinition;
 /**
  * The form instance binder.
  *
- * @param <S> generic type of the source.
- * @param <B> generic type of the binding data.
- *
  * @author Dmitry Shapovalov
  */
-final class FormInstanceBinder<S, B> implements FormModelInstanceBuilder<S> {
+final class FormInstanceBinder implements FormModelInstanceBuilder {
 
-    private final S _source;
+    private final BindingSource _bindingSource;
 
-    private final List<OtherNodeInstanceBuilder<S>> _otherNodeInstanceBuilders;
+    private final List<OtherNodeInstanceBuilder> _otherNodeInstanceBuilders;
 
     private final Document _document;
 
-    FormInstanceBinder(final S source, final List<OtherNodeInstanceBuilder<S>> otherNodeInstanceBuilders) {
+    FormInstanceBinder(final BindingSource bindingSource, final List<OtherNodeInstanceBuilder> otherNodeInstanceBuilders) {
         super();
-        _source = source;
+        _bindingSource = bindingSource;
         if (otherNodeInstanceBuilders == null) {
             _otherNodeInstanceBuilders = new ArrayList<>();
         } else {
@@ -64,8 +62,8 @@ final class FormInstanceBinder<S, B> implements FormModelInstanceBuilder<S> {
     }
 
     @Override
-    public S getSource() {
-        return _source;
+    public BindingSource getBindingSource() {
+        return _bindingSource;
     }
 
     @Override
@@ -178,7 +176,7 @@ final class FormInstanceBinder<S, B> implements FormModelInstanceBuilder<S> {
     }
 
     private void addOtherNodeInstance(final Element parentElement, final OtherNodeDefinition otherNodeDefinition, final NodePath nodePath) {
-        for (OtherNodeInstanceBuilder<S> otherNodeInstanceBuilder : _otherNodeInstanceBuilders) {
+        for (OtherNodeInstanceBuilder otherNodeInstanceBuilder : _otherNodeInstanceBuilders) {
             otherNodeInstanceBuilder.addOtherNodeInstance(parentElement, otherNodeDefinition, this, nodePath);
         }
     }

@@ -21,6 +21,7 @@ package ru.d_shap.formmodel.binding;
 
 import org.w3c.dom.Document;
 
+import ru.d_shap.formmodel.binding.api.BindingSource;
 import ru.d_shap.formmodel.definition.model.FormDefinition;
 import ru.d_shap.formmodel.definition.model.FormDefinitions;
 import ru.d_shap.formmodel.definition.model.NodePath;
@@ -47,8 +48,8 @@ public final class FormBinder<S, B> {
         _formDefinitions = formDefinitions;
     }
 
-    public Document bind(final S source, final String group, final String id) {
-        FormInstanceBinder<S, B> formInstanceBinder = new FormInstanceBinder<>(source, null);
+    public Document bind(final BindingSource bindingSource, final String group, final String id) {
+        FormInstanceBinder formInstanceBinder = new FormInstanceBinder(bindingSource, null);
         FormDefinition formDefinition = _formDefinitions.getFormDefinition(group, id);
         formInstanceBinder.addFormInstance(formDefinition, new NodePath());
         return formInstanceBinder.getDocument();
