@@ -26,8 +26,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import ru.d_shap.formmodel.XmlDocumentBuilder;
+import ru.d_shap.formmodel.binding.api.Binder;
 import ru.d_shap.formmodel.binding.api.BindingSource;
-import ru.d_shap.formmodel.binding.api.DataBinder;
 import ru.d_shap.formmodel.binding.api.FormModelInstanceBuilder;
 import ru.d_shap.formmodel.binding.api.OtherNodeInstanceBuilder;
 import ru.d_shap.formmodel.definition.model.AttributeDefinition;
@@ -50,17 +50,17 @@ final class FormInstanceBinder implements FormModelInstanceBuilder {
 
     private final BindingSource _bindingSource;
 
-    private final DataBinder _dataBinder;
+    private final Binder _binder;
 
     private final List<OtherNodeInstanceBuilder> _otherNodeInstanceBuilders;
 
     private final Document _document;
 
-    FormInstanceBinder(final FormDefinitions formDefinitions, final BindingSource bindingSource, final DataBinder dataBinder, final List<OtherNodeInstanceBuilder> otherNodeInstanceBuilders) {
+    FormInstanceBinder(final FormDefinitions formDefinitions, final BindingSource bindingSource, final Binder binder, final List<OtherNodeInstanceBuilder> otherNodeInstanceBuilders) {
         super();
         _formDefinitions = formDefinitions;
         _bindingSource = bindingSource;
-        _dataBinder = dataBinder;
+        _binder = binder;
         if (otherNodeInstanceBuilders == null) {
             _otherNodeInstanceBuilders = new ArrayList<>();
         } else {
@@ -81,6 +81,8 @@ final class FormInstanceBinder implements FormModelInstanceBuilder {
 
     @Override
     public void addFormInstance(final FormDefinition formDefinition, final NodePath nodePath) {
+        _binder.bindFormDefinition(_bindingSource, formDefinition);
+
         Element element = _document.createElementNS(NAMESPACE, FORM_INSTANCE_ELEMENT_NAME);
         element.setAttribute(FORM_INSTANCE_ATTRIBUTE_GROUP, formDefinition.getGroup());
         element.setAttribute(FORM_INSTANCE_ATTRIBUTE_ID, formDefinition.getId());
@@ -154,6 +156,9 @@ final class FormInstanceBinder implements FormModelInstanceBuilder {
 
     @Override
     public void addFormReferenceInstance(final Element parentElement, final FormReferenceDefinition formReferenceDefinition, final NodePath nodePath) {
+        FormDefinition formDefinition = _formDefinitions.getFormDefinition(formReferenceDefinition.getGroup(), formReferenceDefinition.getId());
+        _binder.bindFormDefinition(_bindingSource, formDefinition);
+
         Element element = _document.createElementNS(NAMESPACE, FORM_REFERENCE_INSTANCE_ELEMENT_NAME);
         element.setAttribute(FORM_REFERENCE_INSTANCE_ATTRIBUTE_GROUP, formReferenceDefinition.getGroup());
         element.setAttribute(FORM_REFERENCE_INSTANCE_ATTRIBUTE_ID, formReferenceDefinition.getId());
