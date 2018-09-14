@@ -69,6 +69,7 @@ public final class NodePath {
      */
     public NodePath(final NodePath nodePath, final String representation) {
         this();
+        _nodePathEntries.addAll(nodePath._nodePathEntries);
         NodePathEntry nodePathEntry = new NodePathEntry(representation);
         _nodePathEntries.add(nodePathEntry);
     }
