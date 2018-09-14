@@ -26,12 +26,9 @@ import org.w3c.dom.Element;
 /**
  * Data binder for the form model definition elements.
  *
- * @param <S> generic type of the source.
- * @param <B> generic type of the binding data.
- *
  * @author Dmitry Shapovalov
  */
-public interface DataBinder<S, B> {
+public interface DataBinder {
 
     /**
      * Get the binding data for the specified lookup.
@@ -41,7 +38,7 @@ public interface DataBinder<S, B> {
      *
      * @return the binding data.
      */
-    List<B> getBindingData(S source, String lookup);
+    List<Object> getBindingData(BindingSource source, String lookup);
 
     /**
      * Get the binding data for the specified lookup.
@@ -52,6 +49,6 @@ public interface DataBinder<S, B> {
      *
      * @return the binding data.
      */
-    List<B> getBindingData(S source, Element element, String lookup);
+    List<Object> getBindingData(BindingSource source, Element element, String lookup);
 
 }
