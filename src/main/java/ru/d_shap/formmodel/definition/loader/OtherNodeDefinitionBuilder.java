@@ -36,7 +36,7 @@ public interface OtherNodeDefinitionBuilder {
      *
      * @param parentElement              the parent XML element.
      * @param element                    the specified XML element.
-     * @param formModelDefinitionBuilder form model definition builder.
+     * @param formModelDefinitionBuilder builder for the form definition elements.
      * @param nodePath                   the current node path.
      *
      * @return the other node definition.

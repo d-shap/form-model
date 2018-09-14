@@ -35,7 +35,7 @@ public interface OtherNodeDefinitionValidator {
      *
      * @param parentNodeDefinition         the parent node definition.
      * @param otherNodeDefinition          the other node definition.
-     * @param formModelDefinitionValidator validator for the form model definition elements.
+     * @param formModelDefinitionValidator validator for the form definition elements.
      * @param nodePath                     the current node path.
      */
     void validate(NodeDefinition parentNodeDefinition, OtherNodeDefinition otherNodeDefinition, FormModelDefinitionValidator formModelDefinitionValidator, NodePath nodePath);
