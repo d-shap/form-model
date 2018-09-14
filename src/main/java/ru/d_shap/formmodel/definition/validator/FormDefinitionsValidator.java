@@ -62,15 +62,13 @@ public final class FormDefinitionsValidator {
      * @param formDefinitions the specified form definitions.
      */
     public void validate(final Map<FormDefinitionKey, String> formSources, final List<FormDefinition> formDefinitions) {
-        NodePath currentNodePath = new NodePath();
-
         Map<FormDefinitionKey, String> allFormSources = new HashMap<>(formSources);
         for (FormDefinition formDefinition : formDefinitions) {
             FormDefinitionKey formDefinitionKey = new FormDefinitionKey(formDefinition);
             if (allFormSources.containsKey(formDefinitionKey)) {
                 String source1 = allFormSources.get(formDefinitionKey);
                 String source2 = formDefinition.getSource();
-                throw new FormDefinitionValidationException(Messages.Validation.getFormIsNotUniqueMessage(formDefinitionKey, source1, source2), currentNodePath);
+                throw new FormDefinitionValidationException(Messages.Validation.getFormIsNotUniqueMessage(formDefinitionKey, source1, source2), new NodePath());
             } else {
                 allFormSources.put(formDefinitionKey, formDefinition.getSource());
             }
@@ -78,7 +76,7 @@ public final class FormDefinitionsValidator {
 
         FormDefinitionValidator formDefinitionValidator = new FormDefinitionValidator(allFormSources.keySet(), _otherNodeDefinitionValidators);
         for (FormDefinition formDefinition : formDefinitions) {
-            formDefinitionValidator.validateFormDefinition(formDefinition, currentNodePath);
+            formDefinitionValidator.validateFormDefinition(formDefinition, new NodePath());
         }
     }
 
