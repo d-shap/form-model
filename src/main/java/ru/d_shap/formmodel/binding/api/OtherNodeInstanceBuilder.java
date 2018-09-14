@@ -19,7 +19,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.formmodel.binding.api;
 
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import ru.d_shap.formmodel.definition.model.NodePath;
@@ -28,19 +27,20 @@ import ru.d_shap.formmodel.definition.model.OtherNodeDefinition;
 /**
  * Builder for the other node instance.
  *
+ * @param <S> generic type of the source.
+ *
  * @author Dmitry Shapovalov
  */
-public interface OtherNodeInstanceBuilder {
+public interface OtherNodeInstanceBuilder<S> {
 
     /**
      * Create the binded XML element for the specified other node definition and attach it to the owner document.
      *
-     * @param document                 the owner document.
      * @param parentElement            the parent binded XML element.
      * @param otherNodeDefinition      the specified other node definition.
      * @param formModelInstanceBuilder builder for the form instance elements.
      * @param nodePath                 the current node path.
      */
-    void addOtherNodeInstance(Document document, Element parentElement, OtherNodeDefinition otherNodeDefinition, FormModelInstanceBuilder formModelInstanceBuilder, NodePath nodePath);
+    void addOtherNodeInstance(Element parentElement, OtherNodeDefinition otherNodeDefinition, FormModelInstanceBuilder<S> formModelInstanceBuilder, NodePath nodePath);
 
 }

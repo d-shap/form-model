@@ -32,9 +32,11 @@ import ru.d_shap.formmodel.definition.model.NodePath;
 /**
  * Builder for the form instance elements.
  *
+ * @param <S> generic type of the source.
+ *
  * @author Dmitry Shapovalov
  */
-public interface FormModelInstanceBuilder {
+public interface FormModelInstanceBuilder<S> {
 
     String NAMESPACE = "http://d-shap.ru/schema/form-instance/1.0";
 
@@ -63,52 +65,61 @@ public interface FormModelInstanceBuilder {
     String ATTRIBUTE_INSTANCE_ATTRIBUTE_ID = AttributeDefinition.ATTRIBUTE_ID;
 
     /**
+     * Get the source of the form instance.
+     *
+     * @return the source of the form instance.
+     */
+    S getSource();
+
+    /**
+     * Get the owner document.
+     *
+     * @return the owner document.
+     */
+    Document getDocument();
+
+    /**
      * Create the binded XML element for the specified form definition and attach it to the owner document.
      *
-     * @param document       the owner document.
      * @param formDefinition the specified form definition.
      * @param nodePath       the current node path.
      */
-    void addFormInstance(Document document, FormDefinition formDefinition, NodePath nodePath);
+    void addFormInstance(FormDefinition formDefinition, NodePath nodePath);
 
     /**
      * Create the binded XML element for the specified element definition and attach it to the owner document.
      *
-     * @param document          the owner document.
      * @param parentElement     the parent binded XML element.
      * @param elementDefinition the specified element definition.
      * @param nodePath          the current node path.
      */
-    void addElementInstance(Document document, Element parentElement, ElementDefinition elementDefinition, NodePath nodePath);
+    void addElementInstance(Element parentElement, ElementDefinition elementDefinition, NodePath nodePath);
 
     /**
      * Create the binded XML element for the specified choice definition and attach it to the owner document.
      *
-     * @param document         the owner document.
      * @param parentElement    the parent binded XML element.
      * @param choiceDefinition the specified choice definition.
      * @param nodePath         the current node path.
      */
-    void addChoiceInstance(Document document, Element parentElement, ChoiceDefinition choiceDefinition, NodePath nodePath);
+    void addChoiceInstance(Element parentElement, ChoiceDefinition choiceDefinition, NodePath nodePath);
 
     /**
      * Create the binded XML element for the specified form reference definition and attach it to the owner document.
      *
-     * @param document                the owner document.
      * @param parentElement           the parent binded XML element.
      * @param formReferenceDefinition the specified form reference definition.
      * @param nodePath                the current node path.
      */
-    void addFormReferenceInstance(Document document, Element parentElement, FormReferenceDefinition formReferenceDefinition, NodePath nodePath);
+    void addFormReferenceInstance(Element parentElement, FormReferenceDefinition formReferenceDefinition, NodePath nodePath);
 
     /**
      * Create the binded XML element for the specified attribute definition and attach it to the owner document.
      *
-     * @param document            the owner document.
      * @param parentElement       the parent binded XML element.
      * @param attributeDefinition the specified attribute definition.
      * @param nodePath            the current node path.
      */
-    void addAttributeInstance(Document document, Element parentElement, AttributeDefinition attributeDefinition, NodePath nodePath);
+    void addAttributeInstance(Element parentElement, AttributeDefinition attributeDefinition, NodePath nodePath);
 
 }
