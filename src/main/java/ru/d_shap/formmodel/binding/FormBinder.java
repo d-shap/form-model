@@ -26,8 +26,8 @@ import java.util.ServiceLoader;
 
 import org.w3c.dom.Document;
 
+import ru.d_shap.formmodel.binding.api.Binder;
 import ru.d_shap.formmodel.binding.api.BindingSource;
-import ru.d_shap.formmodel.binding.api.DataBinder;
 import ru.d_shap.formmodel.binding.api.OtherNodeInstanceBuilder;
 import ru.d_shap.formmodel.definition.model.FormDefinition;
 import ru.d_shap.formmodel.definition.model.FormDefinitions;
@@ -66,33 +66,33 @@ public final class FormBinder {
      * Bind the specified form definition with the specified binding source.
      *
      * @param bindingSource the specified binding source.
-     * @param dataBinder    the data binder.
+     * @param binder        the binder.
      * @param id            the form's ID.
      *
      * @return the binding result.
      */
-    public Document bind(final BindingSource bindingSource, final DataBinder dataBinder, final String id) {
+    public Document bind(final BindingSource bindingSource, final Binder binder, final String id) {
         FormDefinition formDefinition = _formDefinitions.getFormDefinition(id);
-        return bind(bindingSource, dataBinder, formDefinition);
+        return bind(bindingSource, binder, formDefinition);
     }
 
     /**
      * Bind the specified form definition with the specified binding source.
      *
      * @param bindingSource the specified binding source.
-     * @param dataBinder    the data binder.
+     * @param binder        the binder.
      * @param group         the form's group.
      * @param id            the form's ID.
      *
      * @return the binding result.
      */
-    public Document bind(final BindingSource bindingSource, final DataBinder dataBinder, final String group, final String id) {
+    public Document bind(final BindingSource bindingSource, final Binder binder, final String group, final String id) {
         FormDefinition formDefinition = _formDefinitions.getFormDefinition(group, id);
-        return bind(bindingSource, dataBinder, formDefinition);
+        return bind(bindingSource, binder, formDefinition);
     }
 
-    public Document bind(final BindingSource bindingSource, final DataBinder dataBinder, final FormDefinition formDefinition) {
-        FormInstanceBinder formInstanceBinder = new FormInstanceBinder(_formDefinitions, bindingSource, dataBinder, _otherNodeInstanceBuilders);
+    public Document bind(final BindingSource bindingSource, final Binder binder, final FormDefinition formDefinition) {
+        FormInstanceBinder formInstanceBinder = new FormInstanceBinder(_formDefinitions, bindingSource, binder, _otherNodeInstanceBuilders);
         formInstanceBinder.addFormInstance(formDefinition, new NodePath());
         return formInstanceBinder.getDocument();
     }
