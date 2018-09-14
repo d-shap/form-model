@@ -48,19 +48,6 @@ public final class XmlDocumentBuilder {
     }
 
     /**
-     * Get the XML document builder.
-     *
-     * @return the XML document builder.
-     */
-    private static DocumentBuilder getDocumentBuilder() {
-        try {
-            return DOCUMENT_BUILDER_FACTORY.newDocumentBuilder();
-        } catch (ParserConfigurationException ex) {
-            throw new XmlDocumentBuilderException(ex);
-        }
-    }
-
-    /**
      * Create new XML document.
      *
      * @return new XML document.
@@ -70,17 +57,25 @@ public final class XmlDocumentBuilder {
     }
 
     /**
-     * Parse the input source and create the XML document.
+     * Parse the input source and create new XML document.
      *
      * @param inputSource the input source.
      *
-     * @return the XML document.
+     * @return new XML document.
      */
     public static Document parse(final InputSource inputSource) {
         try {
             return getDocumentBuilder().parse(inputSource);
         } catch (IOException | SAXException ex) {
             throw new InputSourceReadException(ex);
+        }
+    }
+
+    private static DocumentBuilder getDocumentBuilder() {
+        try {
+            return DOCUMENT_BUILDER_FACTORY.newDocumentBuilder();
+        } catch (ParserConfigurationException ex) {
+            throw new XmlDocumentBuilderException(ex);
         }
     }
 
