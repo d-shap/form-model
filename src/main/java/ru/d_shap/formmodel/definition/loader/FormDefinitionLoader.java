@@ -19,16 +19,11 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.formmodel.definition.loader;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -36,11 +31,10 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
 
 import ru.d_shap.formmodel.Messages;
-import ru.d_shap.formmodel.SchemaValidator;
-import ru.d_shap.formmodel.definition.FormDefinitionLoadException;
+import ru.d_shap.formmodel.XmlDocumentBuilder;
+import ru.d_shap.formmodel.XmlDocumentValidator;
 import ru.d_shap.formmodel.definition.FormDefinitionValidationException;
 import ru.d_shap.formmodel.definition.model.AttributeDefinition;
 import ru.d_shap.formmodel.definition.model.CardinalityDefinition;
@@ -59,13 +53,6 @@ import ru.d_shap.formmodel.definition.model.OtherNodeDefinition;
  */
 final class FormDefinitionLoader implements FormModelDefinitionBuilder {
 
-    private static final DocumentBuilderFactory DOCUMENT_BUILDER_FACTORY;
-
-    static {
-        DOCUMENT_BUILDER_FACTORY = DocumentBuilderFactory.newInstance();
-        DOCUMENT_BUILDER_FACTORY.setNamespaceAware(true);
-    }
-
     private final List<OtherNodeDefinitionBuilder> _otherNodeDefinitionBuilders;
 
     private final OtherNodeDefinitionBuilder _defaultOtherNodeDefinitionBuilder;
@@ -81,18 +68,13 @@ final class FormDefinitionLoader implements FormModelDefinitionBuilder {
     }
 
     FormDefinition load(final InputSource inputSource, final String source) {
-        try {
-            DocumentBuilder builder = DOCUMENT_BUILDER_FACTORY.newDocumentBuilder();
-            Document document = builder.parse(inputSource);
-            Element element = document.getDocumentElement();
-            if (isFormDefinitionElement(element)) {
-                SchemaValidator.getFormModelSchemaValidator().validate(document);
-                return createFormDefinition(element, source, new NodePath());
-            } else {
-                return null;
-            }
-        } catch (IOException | ParserConfigurationException | SAXException ex) {
-            throw new FormDefinitionLoadException(Messages.Load.getDocumentLoadExceptionMessage(), ex);
+        Document document = XmlDocumentBuilder.parse(inputSource);
+        Element element = document.getDocumentElement();
+        if (isFormDefinitionElement(element)) {
+            XmlDocumentValidator.getFormModelSchemaValidator().validate(document);
+            return createFormDefinition(element, source, new NodePath());
+        } else {
+            return null;
         }
     }
 
