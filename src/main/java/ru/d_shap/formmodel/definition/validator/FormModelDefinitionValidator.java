@@ -58,7 +58,7 @@ public interface FormModelDefinitionValidator {
      * @param formDefinition the form definition.
      * @param nodePath       the current node path.
      */
-    void validate(FormDefinition formDefinition, NodePath nodePath);
+    void validateFormDefinition(FormDefinition formDefinition, NodePath nodePath);
 
     /**
      * Validate the element definition.
@@ -67,7 +67,7 @@ public interface FormModelDefinitionValidator {
      * @param elementDefinition    the element definition.
      * @param nodePath             the current node path.
      */
-    void validate(NodeDefinition parentNodeDefinition, ElementDefinition elementDefinition, NodePath nodePath);
+    void validateElementDefinition(NodeDefinition parentNodeDefinition, ElementDefinition elementDefinition, NodePath nodePath);
 
     /**
      * Validate the choice definition.
@@ -76,7 +76,7 @@ public interface FormModelDefinitionValidator {
      * @param choiceDefinition     the choice definition.
      * @param nodePath             the current node path.
      */
-    void validate(NodeDefinition parentNodeDefinition, ChoiceDefinition choiceDefinition, NodePath nodePath);
+    void validateChoiceDefinition(NodeDefinition parentNodeDefinition, ChoiceDefinition choiceDefinition, NodePath nodePath);
 
     /**
      * Validate the form reference definition.
@@ -85,7 +85,7 @@ public interface FormModelDefinitionValidator {
      * @param formReferenceDefinition the form reference definition.
      * @param nodePath                the current node path.
      */
-    void validate(NodeDefinition parentNodeDefinition, FormReferenceDefinition formReferenceDefinition, NodePath nodePath);
+    void validateFormReferenceDefinition(NodeDefinition parentNodeDefinition, FormReferenceDefinition formReferenceDefinition, NodePath nodePath);
 
     /**
      * Validate the attribute definition.
@@ -94,6 +94,6 @@ public interface FormModelDefinitionValidator {
      * @param attributeDefinition  the attribute definition.
      * @param nodePath             the current node path.
      */
-    void validate(NodeDefinition parentNodeDefinition, AttributeDefinition attributeDefinition, NodePath nodePath);
+    void validateAttributeDefinition(NodeDefinition parentNodeDefinition, AttributeDefinition attributeDefinition, NodePath nodePath);
 
 }
