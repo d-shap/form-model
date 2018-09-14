@@ -19,9 +19,15 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.formmodel.binding;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ServiceLoader;
+
 import org.w3c.dom.Document;
 
 import ru.d_shap.formmodel.binding.api.BindingSource;
+import ru.d_shap.formmodel.binding.api.OtherNodeInstanceBuilder;
 import ru.d_shap.formmodel.definition.model.FormDefinition;
 import ru.d_shap.formmodel.definition.model.FormDefinitions;
 import ru.d_shap.formmodel.definition.model.NodePath;
@@ -29,14 +35,15 @@ import ru.d_shap.formmodel.definition.model.NodePath;
 /**
  * The form binder.
  *
- * @param <S> generic type of the source.
- * @param <B> generic type of the binding data.
- *
  * @author Dmitry Shapovalov
  */
-public final class FormBinder<S, B> {
+public final class FormBinder {
+
+    private static final ServiceLoader<OtherNodeInstanceBuilder> SERVICE_LOADER = ServiceLoader.load(OtherNodeInstanceBuilder.class);
 
     private final FormDefinitions _formDefinitions;
+
+    private final List<OtherNodeInstanceBuilder> _otherNodeInstanceBuilders;
 
     /**
      * Create new object.
@@ -46,10 +53,16 @@ public final class FormBinder<S, B> {
     public FormBinder(final FormDefinitions formDefinitions) {
         super();
         _formDefinitions = formDefinitions;
+        _otherNodeInstanceBuilders = new ArrayList<>();
+        Iterator<OtherNodeInstanceBuilder> iterator = SERVICE_LOADER.iterator();
+        while (iterator.hasNext()) {
+            OtherNodeInstanceBuilder otherNodeInstanceBuilder = iterator.next();
+            _otherNodeInstanceBuilders.add(otherNodeInstanceBuilder);
+        }
     }
 
     public Document bind(final BindingSource bindingSource, final String group, final String id) {
-        FormInstanceBinder formInstanceBinder = new FormInstanceBinder(bindingSource, null);
+        FormInstanceBinder formInstanceBinder = new FormInstanceBinder(bindingSource, _otherNodeInstanceBuilders);
         FormDefinition formDefinition = _formDefinitions.getFormDefinition(group, id);
         formInstanceBinder.addFormInstance(formDefinition, new NodePath());
         return formInstanceBinder.getDocument();
