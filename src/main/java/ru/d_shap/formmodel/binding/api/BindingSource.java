@@ -24,6 +24,6 @@ package ru.d_shap.formmodel.binding.api;
  *
  * @author Dmitry Shapovalov
  */
-public interface Source {
+public interface BindingSource {
 
 }

@@ -63,11 +63,11 @@ public interface FormModelInstanceBuilder {
     String ATTRIBUTE_INSTANCE_ATTRIBUTE_ID = AttributeDefinition.ATTRIBUTE_ID;
 
     /**
-     * Get the source of the form instance.
+     * Get the binding source of the form instance.
      *
-     * @return the source of the form instance.
+     * @return the binding source of the form instance.
      */
-    Source getSource();
+    BindingSource getBindingSource();
 
     /**
      * Get the owner document.
