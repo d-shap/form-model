@@ -23,22 +23,45 @@ import java.util.List;
 
 import org.w3c.dom.Element;
 
+import ru.d_shap.formmodel.definition.model.AttributeDefinition;
+import ru.d_shap.formmodel.definition.model.ElementDefinition;
+import ru.d_shap.formmodel.definition.model.FormDefinition;
+
 /**
- * Binder instance binds the form model definition element with the binding result, using the binding source.
+ * Binder bind form model definition elements with the binding source.
  *
  * @author Dmitry Shapovalov
  */
 public interface Binder {
 
     /**
-     * Get the binding result for the specified lookup.
+     * Bind the form definition with the binding source.
      *
-     * @param bindingSource the binding source.
-     * @param element       the parent binded element.
-     * @param lookup        the specified lookup.
+     * @param bindingSource  the binding source.
+     * @param formDefinition the form definition.
+     */
+    void bindFormDefinition(BindingSource bindingSource, FormDefinition formDefinition);
+
+    /**
+     * Bind the element definition with the binding source.
+     *
+     * @param bindingSource     the binding source.
+     * @param element           the parent binded element.
+     * @param elementDefinition the element definition.
      *
      * @return the binding result.
      */
-    List<BindingResult> getBindingResult(BindingSource bindingSource, Element element, String lookup);
+    List<BindingResult> bindElementDefinition(BindingSource bindingSource, Element element, ElementDefinition elementDefinition);
+
+    /**
+     * Bind the attribute definition with the binding source.
+     *
+     * @param bindingSource       the binding source.
+     * @param element             the parent binded element.
+     * @param attributeDefinition the attribute definition.
+     *
+     * @return the binding result.
+     */
+    List<BindingResult> bindAttributeDefinition(BindingSource bindingSource, Element element, AttributeDefinition attributeDefinition);
 
 }
