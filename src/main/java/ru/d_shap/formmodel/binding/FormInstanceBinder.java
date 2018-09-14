@@ -27,12 +27,14 @@ import org.w3c.dom.Element;
 
 import ru.d_shap.formmodel.XmlDocumentBuilder;
 import ru.d_shap.formmodel.binding.api.BindingSource;
+import ru.d_shap.formmodel.binding.api.DataBinder;
 import ru.d_shap.formmodel.binding.api.FormModelInstanceBuilder;
 import ru.d_shap.formmodel.binding.api.OtherNodeInstanceBuilder;
 import ru.d_shap.formmodel.definition.model.AttributeDefinition;
 import ru.d_shap.formmodel.definition.model.ChoiceDefinition;
 import ru.d_shap.formmodel.definition.model.ElementDefinition;
 import ru.d_shap.formmodel.definition.model.FormDefinition;
+import ru.d_shap.formmodel.definition.model.FormDefinitions;
 import ru.d_shap.formmodel.definition.model.FormReferenceDefinition;
 import ru.d_shap.formmodel.definition.model.NodePath;
 import ru.d_shap.formmodel.definition.model.OtherNodeDefinition;
@@ -44,15 +46,21 @@ import ru.d_shap.formmodel.definition.model.OtherNodeDefinition;
  */
 final class FormInstanceBinder implements FormModelInstanceBuilder {
 
+    private final FormDefinitions _formDefinitions;
+
     private final BindingSource _bindingSource;
+
+    private final DataBinder _dataBinder;
 
     private final List<OtherNodeInstanceBuilder> _otherNodeInstanceBuilders;
 
     private final Document _document;
 
-    FormInstanceBinder(final BindingSource bindingSource, final List<OtherNodeInstanceBuilder> otherNodeInstanceBuilders) {
+    FormInstanceBinder(final FormDefinitions formDefinitions, final BindingSource bindingSource, final DataBinder dataBinder, final List<OtherNodeInstanceBuilder> otherNodeInstanceBuilders) {
         super();
+        _formDefinitions = formDefinitions;
         _bindingSource = bindingSource;
+        _dataBinder = dataBinder;
         if (otherNodeInstanceBuilders == null) {
             _otherNodeInstanceBuilders = new ArrayList<>();
         } else {
