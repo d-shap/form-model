@@ -24,7 +24,7 @@ package ru.d_shap.formmodel;
  *
  * @author Dmitry Shapovalov
  */
-public final class SchemaValidatorException extends FormModelException {
+public final class XmlDocumentValidatorException extends FormModelException {
 
     private static final long serialVersionUID = 1L;
 
@@ -33,7 +33,7 @@ public final class SchemaValidatorException extends FormModelException {
      *
      * @param exception cause exception.
      */
-    public SchemaValidatorException(final Exception exception) {
+    public XmlDocumentValidatorException(final Exception exception) {
         super(exception.getMessage(), exception);
     }
 

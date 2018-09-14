@@ -39,7 +39,7 @@ import org.xml.sax.SAXException;
  *
  * @author Dmitry Shapovalov
  */
-public final class SchemaValidator {
+public final class XmlDocumentValidator {
 
     private static final SchemaFactory SCHEMA_FACTORY;
 
@@ -47,19 +47,19 @@ public final class SchemaValidator {
         SCHEMA_FACTORY = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
     }
 
-    private static final String SCHEMA_PARENT_FOLDER = SchemaValidator.class.getPackage().getName().replaceAll("\\.", "/");
+    private static final String SCHEMA_PARENT_FOLDER = XmlDocumentValidator.class.getPackage().getName().replaceAll("\\.", "/");
 
     private static final String FORM_MODEL_SCHEMA_PATH = SCHEMA_PARENT_FOLDER + "/form-model-1_0.xsd";
 
     private static final String FORM_INSTANCE_SCHEMA_PATH = SCHEMA_PARENT_FOLDER + "/form-instance-1_0.xsd";
 
-    private static final SchemaValidator FORM_MODEL_SCHEMA_VALIDATOR = new SchemaValidator(FORM_MODEL_SCHEMA_PATH);
+    private static final XmlDocumentValidator FORM_MODEL_SCHEMA_VALIDATOR = new XmlDocumentValidator(FORM_MODEL_SCHEMA_PATH);
 
-    private static final SchemaValidator FORM_INSTANCE_SCHEMA_VALIDATOR = new SchemaValidator(FORM_INSTANCE_SCHEMA_PATH);
+    private static final XmlDocumentValidator FORM_INSTANCE_SCHEMA_VALIDATOR = new XmlDocumentValidator(FORM_INSTANCE_SCHEMA_PATH);
 
     private final Validator _validator;
 
-    private SchemaValidator(final String schemaPath) {
+    private XmlDocumentValidator(final String schemaPath) {
         super();
         URL url = getClass().getClassLoader().getResource(schemaPath);
         try {
@@ -69,25 +69,25 @@ public final class SchemaValidator {
                 _validator = schema.newValidator();
             }
         } catch (IOException | SAXException ex) {
-            throw new SchemaValidatorException(ex);
+            throw new XmlDocumentValidatorException(ex);
         }
     }
 
     /**
-     * Get the form-model schema validator.
+     * Get the form-model document validator.
      *
-     * @return the form-model schema validator.
+     * @return the form-model document validator.
      */
-    public static SchemaValidator getFormModelSchemaValidator() {
+    public static XmlDocumentValidator getFormModelSchemaValidator() {
         return FORM_MODEL_SCHEMA_VALIDATOR;
     }
 
     /**
-     * Get the form-instance schema validator.
+     * Get the form-instance document validator.
      *
-     * @return the form-instance schema validator.
+     * @return the form-instance document validator.
      */
-    public static SchemaValidator getFormInstanceSchemaValidator() {
+    public static XmlDocumentValidator getFormInstanceSchemaValidator() {
         return FORM_INSTANCE_SCHEMA_VALIDATOR;
     }
 
@@ -100,7 +100,7 @@ public final class SchemaValidator {
         try {
             _validator.validate(new DOMSource(document));
         } catch (IOException | SAXException ex) {
-            throw new SchemaValidatorException(ex);
+            throw new XmlDocumentValidatorException(ex);
         }
     }
 
