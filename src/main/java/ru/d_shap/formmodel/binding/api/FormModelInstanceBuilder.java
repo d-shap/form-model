@@ -32,11 +32,9 @@ import ru.d_shap.formmodel.definition.model.NodePath;
 /**
  * Builder for the form instance elements.
  *
- * @param <S> generic type of the source.
- *
  * @author Dmitry Shapovalov
  */
-public interface FormModelInstanceBuilder<S> {
+public interface FormModelInstanceBuilder {
 
     String NAMESPACE = "http://d-shap.ru/schema/form-instance/1.0";
 
@@ -69,7 +67,7 @@ public interface FormModelInstanceBuilder<S> {
      *
      * @return the source of the form instance.
      */
-    S getSource();
+    Source getSource();
 
     /**
      * Get the owner document.

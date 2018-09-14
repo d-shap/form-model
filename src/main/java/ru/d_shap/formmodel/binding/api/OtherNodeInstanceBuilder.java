@@ -27,11 +27,9 @@ import ru.d_shap.formmodel.definition.model.OtherNodeDefinition;
 /**
  * Builder for the other node instance.
  *
- * @param <S> generic type of the source.
- *
  * @author Dmitry Shapovalov
  */
-public interface OtherNodeInstanceBuilder<S> {
+public interface OtherNodeInstanceBuilder {
 
     /**
      * Create the binded XML element for the specified other node definition and attach it to the owner document.
@@ -41,6 +39,6 @@ public interface OtherNodeInstanceBuilder<S> {
      * @param formModelInstanceBuilder builder for the form instance elements.
      * @param nodePath                 the current node path.
      */
-    void addOtherNodeInstance(Element parentElement, OtherNodeDefinition otherNodeDefinition, FormModelInstanceBuilder<S> formModelInstanceBuilder, NodePath nodePath);
+    void addOtherNodeInstance(Element parentElement, OtherNodeDefinition otherNodeDefinition, FormModelInstanceBuilder formModelInstanceBuilder, NodePath nodePath);
 
 }
