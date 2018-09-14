@@ -41,16 +41,16 @@ public interface FormModelDefinitionValidator {
      *
      * @return true if the string is empty.
      */
-    boolean isEmpty(String str);
+    boolean isEmptyString(String str);
 
     /**
-     * Check if the string contains only valid characters.
+     * Check if the string has only valid characters.
      *
      * @param str the string to check.
      *
-     * @return true if the string contains only valid characters.
+     * @return true if the string has only valid characters.
      */
-    boolean hasValidCharacters(String str);
+    boolean isStringHasValidCharacters(String str);
 
     /**
      * Validate the form definition.
