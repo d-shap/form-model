@@ -24,31 +24,21 @@ import java.util.List;
 import org.w3c.dom.Element;
 
 /**
- * Data binder for the form model definition elements.
+ * Binder instance binds the form model definition element with the binding result, using the binding source.
  *
  * @author Dmitry Shapovalov
  */
-public interface DataBinder {
+public interface Binder {
 
     /**
-     * Get the binding data for the specified lookup.
+     * Get the binding result for the specified lookup.
      *
-     * @param source the source of the binding data.
-     * @param lookup the specified lookup.
+     * @param bindingSource the binding source.
+     * @param element       the parent binded element.
+     * @param lookup        the specified lookup.
      *
-     * @return the binding data.
+     * @return the binding result.
      */
-    List<Object> getBindingData(BindingSource source, String lookup);
-
-    /**
-     * Get the binding data for the specified lookup.
-     *
-     * @param source  the source of the binding data.
-     * @param element the parent binded element.
-     * @param lookup  the specified lookup.
-     *
-     * @return the binding data.
-     */
-    List<Object> getBindingData(BindingSource source, Element element, String lookup);
+    List<BindingResult> getBindingResult(BindingSource bindingSource, Element element, String lookup);
 
 }
