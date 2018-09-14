@@ -102,7 +102,7 @@ public final class FileSystemFormDefinitionsLoader extends FormDefinitionsLoader
     }
 
     /**
-     * Default file filter
+     * Default file filter.
      *
      * @author Dmitry Shapovalov
      */
