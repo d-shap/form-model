@@ -26,14 +26,14 @@ import ru.d_shap.formmodel.definition.model.FormDefinitions;
 import ru.d_shap.formmodel.definition.model.NodePath;
 
 /**
- * The binder.
+ * The form binder.
  *
  * @param <S> generic type of the source.
  * @param <B> generic type of the binding data.
  *
  * @author Dmitry Shapovalov
  */
-public final class Binder<S, B> {
+public final class FormBinder<S, B> {
 
     private final FormDefinitions _formDefinitions;
 
@@ -42,7 +42,7 @@ public final class Binder<S, B> {
      *
      * @param formDefinitions container for all form definitions.
      */
-    public Binder(final FormDefinitions formDefinitions) {
+    public FormBinder(final FormDefinitions formDefinitions) {
         super();
         _formDefinitions = formDefinitions;
     }
