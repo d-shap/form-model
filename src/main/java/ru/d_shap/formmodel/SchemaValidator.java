@@ -24,7 +24,6 @@ import java.io.InputStream;
 import java.net.URL;
 
 import javax.xml.XMLConstants;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Source;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamSource;
@@ -41,13 +40,6 @@ import org.xml.sax.SAXException;
  * @author Dmitry Shapovalov
  */
 public final class SchemaValidator {
-
-    private static final DocumentBuilderFactory DOCUMENT_BUILDER_FACTORY;
-
-    static {
-        DOCUMENT_BUILDER_FACTORY = DocumentBuilderFactory.newInstance();
-        DOCUMENT_BUILDER_FACTORY.setNamespaceAware(true);
-    }
 
     private static final SchemaFactory SCHEMA_FACTORY;
 
