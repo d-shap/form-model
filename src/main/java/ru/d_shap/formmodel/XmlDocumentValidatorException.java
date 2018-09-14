@@ -31,10 +31,10 @@ public final class XmlDocumentValidatorException extends FormModelException {
     /**
      * Create new object.
      *
-     * @param exception cause exception.
+     * @param throwable cause exception.
      */
-    public XmlDocumentValidatorException(final Exception exception) {
-        super(exception.getMessage(), exception);
+    public XmlDocumentValidatorException(final Throwable throwable) {
+        super(throwable.getMessage(), throwable);
     }
 
 }

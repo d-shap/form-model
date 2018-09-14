@@ -31,10 +31,10 @@ public final class XmlDocumentBuilderException extends FormModelException {
     /**
      * Create new object.
      *
-     * @param exception cause exception.
+     * @param throwable cause exception.
      */
-    public XmlDocumentBuilderException(final Exception exception) {
-        super(exception.getMessage(), exception);
+    public XmlDocumentBuilderException(final Throwable throwable) {
+        super(throwable.getMessage(), throwable);
     }
 
 }
