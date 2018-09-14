@@ -49,7 +49,8 @@ public final class FormDefinitionsValidator {
     public FormDefinitionsValidator() {
         super();
         _otherNodeDefinitionValidators = new ArrayList<>();
-        for (Iterator<OtherNodeDefinitionValidator> iterator = SERVICE_LOADER.iterator(); iterator.hasNext(); ) {
+        Iterator<OtherNodeDefinitionValidator> iterator = SERVICE_LOADER.iterator();
+        while (iterator.hasNext()) {
             OtherNodeDefinitionValidator otherNodeDefinitionValidator = iterator.next();
             _otherNodeDefinitionValidators.add(otherNodeDefinitionValidator);
         }

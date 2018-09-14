@@ -51,7 +51,8 @@ public class FormDefinitionsLoader {
         super();
         _formDefinitions = formDefinitions;
         List<OtherNodeDefinitionBuilder> otherNodeDefinitionBuilders = new ArrayList<>();
-        for (Iterator<OtherNodeDefinitionBuilder> iterator = SERVICE_LOADER.iterator(); iterator.hasNext(); ) {
+        Iterator<OtherNodeDefinitionBuilder> iterator = SERVICE_LOADER.iterator();
+        while (iterator.hasNext()) {
             OtherNodeDefinitionBuilder otherNodeDefinitionBuilder = iterator.next();
             otherNodeDefinitionBuilders.add(otherNodeDefinitionBuilder);
         }
