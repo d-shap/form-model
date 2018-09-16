@@ -94,26 +94,6 @@ public interface FormModelDefinitionBuilder {
     Set<String> ATTRIBUTE_DEFINITION_CHILD_ELEMENT_NAMES = AttributeDefinition.CHILD_ELEMENT_NAMES;
 
     /**
-     * Check if the specified XML element is the form definition.
-     *
-     * @param element the specified XML element to check.
-     *
-     * @return true if the specified XML element is the form definition.
-     */
-    boolean isFormDefinitionElement(Element element);
-
-    /**
-     * Create the form definition for the specified XML element.
-     *
-     * @param element  the specified XML element.
-     * @param source   the form's source.
-     * @param nodePath the current node path.
-     *
-     * @return the form definition.
-     */
-    FormDefinition createFormDefinition(Element element, String source, NodePath nodePath);
-
-    /**
      * Check if the specified XML element is the element definition.
      *
      * @param element the specified XML element to check.

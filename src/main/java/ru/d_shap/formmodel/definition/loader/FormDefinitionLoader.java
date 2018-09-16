@@ -78,13 +78,11 @@ final class FormDefinitionLoader implements FormModelDefinitionBuilder {
         }
     }
 
-    @Override
-    public boolean isFormDefinitionElement(final Element element) {
+    private boolean isFormDefinitionElement(final Element element) {
         return NAMESPACE.equals(element.getNamespaceURI()) && FORM_DEFINITION_ELEMENT_NAME.equals(element.getLocalName());
     }
 
-    @Override
-    public FormDefinition createFormDefinition(final Element element, final String source, final NodePath nodePath) {
+    private FormDefinition createFormDefinition(final Element element, final String source, final NodePath nodePath) {
         if (isFormDefinitionElement(element)) {
             String group = getAttributeValue(element, FORM_DEFINITION_ATTRIBUTE_GROUP);
             String id = getAttributeValue(element, FORM_DEFINITION_ATTRIBUTE_ID);
