@@ -26,6 +26,4 @@ package ru.d_shap.formmodel.binding.model;
  */
 public interface BindedElement {
 
-    String USER_DATA_KEY = BindedElement.class.getName() + "__USER_DATA_KEY__";
-
 }
