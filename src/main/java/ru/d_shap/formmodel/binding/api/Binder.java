@@ -42,35 +42,37 @@ public interface Binder {
      * Bind the form definition with the binding source.
      *
      * @param bindingSource  the binding source.
+     * @param lastBindedForm the last binded form.
      * @param formDefinition the form definition.
      *
      * @return the binded form.
      */
-    BindedForm bindFormDefinition(BindingSource bindingSource, FormDefinition formDefinition);
+    BindedForm bindFormDefinition(BindingSource bindingSource, BindedForm lastBindedForm, FormDefinition formDefinition);
 
     /**
      * Bind the element definition with the binding source.
      *
      * @param bindingSource     the binding source.
-     * @param bindedForm        the binded form.
-     * @param element           the parent binded element.
+     * @param lastBindedForm    the last binded form.
+     * @param lastBindedElement the last binded element.
+     * @param parentElement     the parent XML element.
      * @param elementDefinition the element definition.
      *
-     * @return the binded element.
+     * @return the binded elements.
      */
-    List<BindedElement> bindElementDefinition(BindingSource bindingSource, BindedForm bindedForm, Element element, ElementDefinition elementDefinition);
+    List<BindedElement> bindElementDefinition(BindingSource bindingSource, BindedForm lastBindedForm, BindedElement lastBindedElement, Element parentElement, ElementDefinition elementDefinition);
 
     /**
      * Bind the attribute definition with the binding source.
      *
      * @param bindingSource       the binding source.
-     * @param bindedForm          the binded form.
-     * @param bindedElement       the binded element.
-     * @param element             the parent binded element.
+     * @param lastBindedForm      the last binded form.
+     * @param lastBindedElement   the last binded element.
+     * @param parentElement       the parent XML element.
      * @param attributeDefinition the attribute definition.
      *
      * @return the binded attribute.
      */
-    BindedAttribute bindAttributeDefinition(BindingSource bindingSource, BindedForm bindedForm, BindedElement bindedElement, Element element, AttributeDefinition attributeDefinition);
+    BindedAttribute bindAttributeDefinition(BindingSource bindingSource, BindedForm lastBindedForm, BindedElement lastBindedElement, Element parentElement, AttributeDefinition attributeDefinition);
 
 }
