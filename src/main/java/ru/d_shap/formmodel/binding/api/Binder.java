@@ -26,7 +26,6 @@ import org.w3c.dom.Element;
 import ru.d_shap.formmodel.binding.model.BindedAttribute;
 import ru.d_shap.formmodel.binding.model.BindedElement;
 import ru.d_shap.formmodel.binding.model.BindedForm;
-import ru.d_shap.formmodel.binding.model.BindingSource;
 import ru.d_shap.formmodel.definition.model.AttributeDefinition;
 import ru.d_shap.formmodel.definition.model.ElementDefinition;
 import ru.d_shap.formmodel.definition.model.FormDefinition;
@@ -41,18 +40,18 @@ public interface Binder {
     /**
      * Bind the form definition with the binding source.
      *
-     * @param bindingSource  the binding source.
-     * @param lastBindedForm the last binded form.
-     * @param formDefinition the form definition.
+     * @param lastBindedForm    the last binded form.
+     * @param lastBindedElement the last binded element.
+     * @param parentElement     the parent XML element.
+     * @param formDefinition    the form definition.
      *
      * @return the binded form.
      */
-    BindedForm bindFormDefinition(BindingSource bindingSource, BindedForm lastBindedForm, FormDefinition formDefinition);
+    BindedForm bindFormDefinition(BindedForm lastBindedForm, BindedElement lastBindedElement, Element parentElement, FormDefinition formDefinition);
 
     /**
      * Bind the element definition with the binding source.
      *
-     * @param bindingSource     the binding source.
      * @param lastBindedForm    the last binded form.
      * @param lastBindedElement the last binded element.
      * @param parentElement     the parent XML element.
@@ -60,12 +59,11 @@ public interface Binder {
      *
      * @return the binded elements.
      */
-    List<BindedElement> bindElementDefinition(BindingSource bindingSource, BindedForm lastBindedForm, BindedElement lastBindedElement, Element parentElement, ElementDefinition elementDefinition);
+    List<BindedElement> bindElementDefinition(BindedForm lastBindedForm, BindedElement lastBindedElement, Element parentElement, ElementDefinition elementDefinition);
 
     /**
      * Bind the attribute definition with the binding source.
      *
-     * @param bindingSource       the binding source.
      * @param lastBindedForm      the last binded form.
      * @param lastBindedElement   the last binded element.
      * @param parentElement       the parent XML element.
@@ -73,6 +71,6 @@ public interface Binder {
      *
      * @return the binded attribute.
      */
-    BindedAttribute bindAttributeDefinition(BindingSource bindingSource, BindedForm lastBindedForm, BindedElement lastBindedElement, Element parentElement, AttributeDefinition attributeDefinition);
+    BindedAttribute bindAttributeDefinition(BindedForm lastBindedForm, BindedElement lastBindedElement, Element parentElement, AttributeDefinition attributeDefinition);
 
 }
