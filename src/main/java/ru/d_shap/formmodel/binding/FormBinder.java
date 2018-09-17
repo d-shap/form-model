@@ -29,6 +29,7 @@ import org.w3c.dom.Element;
 
 import ru.d_shap.formmodel.Messages;
 import ru.d_shap.formmodel.XmlDocumentBuilder;
+import ru.d_shap.formmodel.XmlDocumentValidator;
 import ru.d_shap.formmodel.binding.api.Binder;
 import ru.d_shap.formmodel.binding.api.FormModelInstanceBuilder;
 import ru.d_shap.formmodel.binding.api.OtherNodeInstanceBuilder;
@@ -110,6 +111,7 @@ public final class FormBinder {
         Document document = XmlDocumentBuilder.newDocument();
         FormBinderImpl formInstanceBinder = new FormBinderImpl(bindingSource, document);
         formInstanceBinder.bindFormInstance(formDefinition);
+        XmlDocumentValidator.getFormInstanceSchemaValidator().validate(document);
         return document;
     }
 
