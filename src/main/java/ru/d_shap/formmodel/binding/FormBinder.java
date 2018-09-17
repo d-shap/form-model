@@ -226,13 +226,13 @@ public final class FormBinder {
             for (OtherNodeDefinition childOtherNodeDefinition : choiceDefinition.getOtherNodeDefinitions()) {
                 bindOtherNodeInstance(lastBindedForm, lastBindedElement, element, childOtherNodeDefinition, currentNodePath);
             }
-            checkChoice(element, choiceDefinition, nodePath);
+            validateBindedChoice(element, choiceDefinition, nodePath);
             if (element.hasChildNodes()) {
                 parentElement.appendChild(element);
             }
         }
 
-        private void checkChoice(final Element element, final ChoiceDefinition choiceDefinition, final NodePath nodePath) {
+        private void validateBindedChoice(final Element element, final ChoiceDefinition choiceDefinition, final NodePath nodePath) {
             if (element.getChildNodes().getLength() > 1) {
                 throw new FormBindingException(Messages.Binding.getMultipleChoiceElementsArePresentMessage(choiceDefinition), nodePath);
             }
