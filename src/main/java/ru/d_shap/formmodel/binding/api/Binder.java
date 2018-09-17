@@ -23,6 +23,10 @@ import java.util.List;
 
 import org.w3c.dom.Element;
 
+import ru.d_shap.formmodel.binding.model.BindedAttribute;
+import ru.d_shap.formmodel.binding.model.BindedElement;
+import ru.d_shap.formmodel.binding.model.BindedForm;
+import ru.d_shap.formmodel.binding.model.BindingSource;
 import ru.d_shap.formmodel.definition.model.AttributeDefinition;
 import ru.d_shap.formmodel.definition.model.ElementDefinition;
 import ru.d_shap.formmodel.definition.model.FormDefinition;
@@ -39,29 +43,34 @@ public interface Binder {
      *
      * @param bindingSource  the binding source.
      * @param formDefinition the form definition.
+     *
+     * @return the binded form.
      */
-    void bindFormDefinition(BindingSource bindingSource, FormDefinition formDefinition);
+    BindedForm bindFormDefinition(BindingSource bindingSource, FormDefinition formDefinition);
 
     /**
      * Bind the element definition with the binding source.
      *
      * @param bindingSource     the binding source.
+     * @param bindedForm        the binded form.
      * @param element           the parent binded element.
      * @param elementDefinition the element definition.
      *
-     * @return the binding result.
+     * @return the binded element.
      */
-    List<BindingResult> bindElementDefinition(BindingSource bindingSource, Element element, ElementDefinition elementDefinition);
+    List<BindedElement> bindElementDefinition(BindingSource bindingSource, BindedForm bindedForm, Element element, ElementDefinition elementDefinition);
 
     /**
      * Bind the attribute definition with the binding source.
      *
      * @param bindingSource       the binding source.
+     * @param bindedForm          the binded form.
+     * @param bindedElement       the binded element.
      * @param element             the parent binded element.
      * @param attributeDefinition the attribute definition.
      *
-     * @return the binding result.
+     * @return the binded attribute.
      */
-    List<BindingResult> bindAttributeDefinition(BindingSource bindingSource, Element element, AttributeDefinition attributeDefinition);
+    BindedAttribute bindAttributeDefinition(BindingSource bindingSource, BindedForm bindedForm, BindedElement bindedElement, Element element, AttributeDefinition attributeDefinition);
 
 }
