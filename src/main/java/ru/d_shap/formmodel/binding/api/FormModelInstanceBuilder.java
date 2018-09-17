@@ -22,6 +22,7 @@ package ru.d_shap.formmodel.binding.api;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import ru.d_shap.formmodel.binding.model.BindingSource;
 import ru.d_shap.formmodel.definition.model.AttributeDefinition;
 import ru.d_shap.formmodel.definition.model.ChoiceDefinition;
 import ru.d_shap.formmodel.definition.model.ElementDefinition;
@@ -75,14 +76,6 @@ public interface FormModelInstanceBuilder {
      * @return the owner document.
      */
     Document getDocument();
-
-    /**
-     * Create the binded XML element for the specified form definition and attach it to the owner document.
-     *
-     * @param formDefinition the specified form definition.
-     * @param nodePath       the current node path.
-     */
-    void addFormInstance(FormDefinition formDefinition, NodePath nodePath);
 
     /**
      * Create the binded XML element for the specified element definition and attach it to the owner document.
