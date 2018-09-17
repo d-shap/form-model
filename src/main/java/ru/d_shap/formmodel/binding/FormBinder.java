@@ -141,7 +141,7 @@ public final class FormBinder {
         }
 
         void bindFormInstance(final FormDefinition formDefinition) {
-            BindedForm bindedForm = _binder.bindFormDefinition(_bindingSource, null, formDefinition);
+            BindedForm bindedForm = _binder.bindFormDefinition(_bindingSource, null, null, null, formDefinition);
             Element element = addXmlElement(formDefinition);
             _document.appendChild(element);
             NodePath currentNodePath = new NodePath(formDefinition);
@@ -244,7 +244,7 @@ public final class FormBinder {
         @Override
         public void bindFormReferenceInstance(final BindedForm lastBindedForm, final BindedElement lastBindedElement, final Element parentElement, final FormReferenceDefinition formReferenceDefinition, final NodePath nodePath) {
             FormDefinition formDefinition = _formDefinitions.getFormDefinition(formReferenceDefinition);
-            BindedForm bindedForm = _binder.bindFormDefinition(_bindingSource, lastBindedForm, formDefinition);
+            BindedForm bindedForm = _binder.bindFormDefinition(_bindingSource, lastBindedForm, lastBindedElement, parentElement, formDefinition);
             Element element = addXmlElement(formReferenceDefinition);
             NodePath currentNodePath = new NodePath(nodePath, formReferenceDefinition);
             for (ElementDefinition childElementDefinition : formDefinition.getElementDefinitions()) {
