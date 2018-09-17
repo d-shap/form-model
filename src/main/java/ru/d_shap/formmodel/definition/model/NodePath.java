@@ -25,7 +25,7 @@ import java.util.List;
 import ru.d_shap.formmodel.Messages;
 
 /**
- * Path of the nodes within the form definition.
+ * Path of the nodes within the form.
  *
  * @author Dmitry Shapovalov
  */
