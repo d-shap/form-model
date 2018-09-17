@@ -162,13 +162,31 @@ public final class FormBinder {
         @Override
         public void bindElementInstance(final BindedForm lastBindedForm, final BindedElement lastBindedElement, final Element parentElement, final ElementDefinition elementDefinition, final NodePath nodePath) {
             List<BindedElement> bindedElements = _binder.bindElementDefinition(_bindingSource, lastBindedForm, lastBindedElement, parentElement, elementDefinition);
-            checkElement(bindedElements, elementDefinition, nodePath);
+            validateBindedElement(bindedElements, elementDefinition, nodePath);
             for (BindedElement bindedElement : bindedElements) {
-                bindSingleElementInstance(lastBindedForm, bindedElement, parentElement, elementDefinition, nodePath);
+                Element element = addXmlElement(elementDefinition);
+                parentElement.appendChild(element);
+                element.setUserData(BindedElement.USER_DATA_KEY, bindedElement, null);
+                NodePath currentNodePath = new NodePath(nodePath, elementDefinition);
+                for (AttributeDefinition childAttributeDefinition : elementDefinition.getAttributeDefinitions()) {
+                    bindAttributeInstance(lastBindedForm, bindedElement, element, childAttributeDefinition, currentNodePath);
+                }
+                for (ElementDefinition childElementDefinition : elementDefinition.getElementDefinitions()) {
+                    bindElementInstance(lastBindedForm, bindedElement, element, childElementDefinition, currentNodePath);
+                }
+                for (ChoiceDefinition childChoiceDefinition : elementDefinition.getChoiceDefinitions()) {
+                    bindChoiceInstance(lastBindedForm, bindedElement, element, childChoiceDefinition, currentNodePath);
+                }
+                for (FormReferenceDefinition childFormReferenceDefinition : elementDefinition.getFormReferenceDefinitions()) {
+                    bindFormReferenceInstance(lastBindedForm, bindedElement, element, childFormReferenceDefinition, currentNodePath);
+                }
+                for (OtherNodeDefinition childOtherNodeDefinition : elementDefinition.getOtherNodeDefinitions()) {
+                    bindOtherNodeInstance(lastBindedForm, bindedElement, element, childOtherNodeDefinition, currentNodePath);
+                }
             }
         }
 
-        private void checkElement(final List<BindedElement> bindedElements, final ElementDefinition elementDefinition, final NodePath nodePath) {
+        private void validateBindedElement(final List<BindedElement> bindedElements, final ElementDefinition elementDefinition, final NodePath nodePath) {
             if (elementDefinition.getCardinalityDefinition() == CardinalityDefinition.REQUIRED && bindedElements == null) {
                 throw new FormBindingException(Messages.Binding.getRequiredElementIsNotPresentMessage(elementDefinition), nodePath);
             }
@@ -192,27 +210,6 @@ public final class FormBinder {
 
             if (elementDefinition.getCardinalityDefinition() == CardinalityDefinition.PROHIBITED && bindedElements != null && !bindedElements.isEmpty()) {
                 throw new FormBindingException(Messages.Binding.getProhibitedElementIsPresentMessage(elementDefinition), nodePath);
-            }
-        }
-
-        private void bindSingleElementInstance(final BindedForm lastBindedForm, final BindedElement lastBindedElement, final Element parentElement, final ElementDefinition elementDefinition, final NodePath nodePath) {
-            Element element = addXmlElement(elementDefinition);
-            parentElement.appendChild(element);
-            NodePath currentNodePath = new NodePath(nodePath, elementDefinition);
-            for (AttributeDefinition childAttributeDefinition : elementDefinition.getAttributeDefinitions()) {
-                bindAttributeInstance(lastBindedForm, lastBindedElement, element, childAttributeDefinition, currentNodePath);
-            }
-            for (ElementDefinition childElementDefinition : elementDefinition.getElementDefinitions()) {
-                bindElementInstance(lastBindedForm, lastBindedElement, element, childElementDefinition, currentNodePath);
-            }
-            for (ChoiceDefinition childChoiceDefinition : elementDefinition.getChoiceDefinitions()) {
-                bindChoiceInstance(lastBindedForm, lastBindedElement, element, childChoiceDefinition, currentNodePath);
-            }
-            for (FormReferenceDefinition childFormReferenceDefinition : elementDefinition.getFormReferenceDefinitions()) {
-                bindFormReferenceInstance(lastBindedForm, lastBindedElement, element, childFormReferenceDefinition, currentNodePath);
-            }
-            for (OtherNodeDefinition childOtherNodeDefinition : elementDefinition.getOtherNodeDefinitions()) {
-                bindOtherNodeInstance(lastBindedForm, lastBindedElement, element, childOtherNodeDefinition, currentNodePath);
             }
         }
 
