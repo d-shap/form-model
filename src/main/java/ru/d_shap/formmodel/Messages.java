@@ -389,6 +389,17 @@ public final class Messages {
         }
 
         /**
+         * Get the error message when the optional element is present more than once.
+         *
+         * @param elementDefinition the element definition that can not be binded.
+         *
+         * @return the error message.
+         */
+        public static String getOptionalElementIsPresentMoreThanOnceMessage(final ElementDefinition elementDefinition) {
+            return "[Optional element is present more than once: " + elementDefinition + "]";
+        }
+
+        /**
          * Get the error message when the prohibited element is present.
          *
          * @param elementDefinition the element definition that can not be binded.
