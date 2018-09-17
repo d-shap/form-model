@@ -17,13 +17,13 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-package ru.d_shap.formmodel.binding.api;
+package ru.d_shap.formmodel.binding.model;
 
 /**
- * The binding source.
+ * The binded element.
  *
  * @author Dmitry Shapovalov
  */
-public interface BindingSource {
+public interface BindedElement {
 
 }
