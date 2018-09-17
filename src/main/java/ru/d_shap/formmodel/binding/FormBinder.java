@@ -253,10 +253,10 @@ public final class FormBinder {
             for (FormReferenceDefinition childFormReferenceDefinition : formDefinition.getFormReferenceDefinitions()) {
                 bindFormReferenceInstance(bindedForm, lastBindedElement, element, childFormReferenceDefinition, currentNodePath);
             }
-            for (OtherNodeDefinition childOtherNodeDefinition : formReferenceDefinition.getOtherNodeDefinitions()) {
+            for (OtherNodeDefinition childOtherNodeDefinition : formDefinition.getOtherNodeDefinitions()) {
                 bindOtherNodeInstance(bindedForm, lastBindedElement, element, childOtherNodeDefinition, currentNodePath);
             }
-            for (OtherNodeDefinition childOtherNodeDefinition : formDefinition.getOtherNodeDefinitions()) {
+            for (OtherNodeDefinition childOtherNodeDefinition : formReferenceDefinition.getOtherNodeDefinitions()) {
                 bindOtherNodeInstance(bindedForm, lastBindedElement, element, childOtherNodeDefinition, currentNodePath);
             }
             if (element.hasChildNodes()) {
