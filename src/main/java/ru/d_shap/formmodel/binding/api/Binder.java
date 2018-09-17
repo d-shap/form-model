@@ -40,6 +40,10 @@ public interface Binder {
 
     String BINDED_OBJECT_KEY = Binder.class.getName() + "__BINDED_OBJECT_KEY_";
 
+    String ELEMENT_DEFINITION_KEY = Binder.class.getName() + "__ELEMENT_DEFINITION_KEY_";
+
+    String FORM_DEFINITION_KEY = Binder.class.getName() + "__FORM_DEFINITION_KEY_";
+
     /**
      * Bind the form definition with the binding source.
      *
