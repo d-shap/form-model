@@ -92,4 +92,15 @@ public final class FormDefinitions {
         }
     }
 
+    /**
+     * Get the form definition for the specified form reference definition.
+     *
+     * @param formReferenceDefinition the specified form reference definition.
+     *
+     * @return the form definition.
+     */
+    public FormDefinition getFormDefinition(final FormReferenceDefinition formReferenceDefinition) {
+        return getFormDefinition(formReferenceDefinition.getGroup(), formReferenceDefinition.getId());
+    }
+
 }
