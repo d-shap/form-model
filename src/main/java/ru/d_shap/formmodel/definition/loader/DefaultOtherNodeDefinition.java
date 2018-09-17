@@ -17,11 +17,12 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-package ru.d_shap.formmodel.definition.model;
+package ru.d_shap.formmodel.definition.loader;
 
 import org.w3c.dom.Element;
 
 import ru.d_shap.formmodel.Messages;
+import ru.d_shap.formmodel.definition.model.OtherNodeDefinition;
 
 /**
  * Default implementation of the other node definition.
@@ -42,7 +43,6 @@ public final class DefaultOtherNodeDefinition implements OtherNodeDefinition {
         _element = element;
     }
 
-    @Override
     public Element getElement() {
         return _element;
     }
