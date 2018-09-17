@@ -267,16 +267,19 @@ public final class FormBinder {
         @Override
         public void bindAttributeInstance(final BindedForm lastBindedForm, final BindedElement lastBindedElement, final Element parentElement, final AttributeDefinition attributeDefinition, final NodePath nodePath) {
             BindedAttribute bindedAttribute = _binder.bindAttributeDefinition(_bindingSource, lastBindedForm, lastBindedElement, parentElement, attributeDefinition);
-            checkAttribute(bindedAttribute, attributeDefinition, nodePath);
-            Element element = addXmlElement(attributeDefinition);
-            parentElement.appendChild(element);
-            NodePath currentNodePath = new NodePath(nodePath, attributeDefinition);
-            for (OtherNodeDefinition childOtherNodeDefinition : attributeDefinition.getOtherNodeDefinitions()) {
-                bindOtherNodeInstance(lastBindedForm, lastBindedElement, element, childOtherNodeDefinition, currentNodePath);
+            validateBindedAttribute(bindedAttribute, attributeDefinition, nodePath);
+            if (bindedAttribute != null) {
+                Element element = addXmlElement(attributeDefinition);
+                parentElement.appendChild(element);
+                element.setUserData(BindedAttribute.USER_DATA_KEY, bindedAttribute, null);
+                NodePath currentNodePath = new NodePath(nodePath, attributeDefinition);
+                for (OtherNodeDefinition childOtherNodeDefinition : attributeDefinition.getOtherNodeDefinitions()) {
+                    bindOtherNodeInstance(lastBindedForm, lastBindedElement, element, childOtherNodeDefinition, currentNodePath);
+                }
             }
         }
 
-        private void checkAttribute(final BindedAttribute bindedAttribute, final AttributeDefinition attributeDefinition, final NodePath nodePath) {
+        private void validateBindedAttribute(final BindedAttribute bindedAttribute, final AttributeDefinition attributeDefinition, final NodePath nodePath) {
             if (attributeDefinition.getCardinalityDefinition() == CardinalityDefinition.REQUIRED && bindedAttribute == null) {
                 throw new FormBindingException(Messages.Binding.getRequiredAttributeIsNotPresentMessage(attributeDefinition), nodePath);
             }
