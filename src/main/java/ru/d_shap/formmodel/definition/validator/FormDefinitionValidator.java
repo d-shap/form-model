@@ -72,9 +72,8 @@ final class FormDefinitionValidator implements FormModelDefinitionValidator {
         return StringUtils.hasValidCharacters(str);
     }
 
-    @Override
-    public void validateFormDefinition(final FormDefinition formDefinition, final NodePath nodePath) {
-        NodePath currentNodePath = new NodePath(nodePath, formDefinition);
+    void validateFormDefinition(final FormDefinition formDefinition) {
+        NodePath currentNodePath = new NodePath(formDefinition);
 
         validateGroup(formDefinition.getGroup(), currentNodePath);
         validateId(formDefinition.getId(), currentNodePath);

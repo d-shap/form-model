@@ -77,7 +77,7 @@ public final class FormDefinitionsValidator {
 
         FormDefinitionValidator formDefinitionValidator = new FormDefinitionValidator(allFormSources.keySet(), _otherNodeDefinitionValidators);
         for (FormDefinition formDefinition : formDefinitions) {
-            formDefinitionValidator.validateFormDefinition(formDefinition, new NodePath());
+            formDefinitionValidator.validateFormDefinition(formDefinition);
         }
     }
 

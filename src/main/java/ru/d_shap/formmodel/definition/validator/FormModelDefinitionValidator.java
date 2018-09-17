@@ -22,7 +22,6 @@ package ru.d_shap.formmodel.definition.validator;
 import ru.d_shap.formmodel.definition.model.AttributeDefinition;
 import ru.d_shap.formmodel.definition.model.ChoiceDefinition;
 import ru.d_shap.formmodel.definition.model.ElementDefinition;
-import ru.d_shap.formmodel.definition.model.FormDefinition;
 import ru.d_shap.formmodel.definition.model.FormReferenceDefinition;
 import ru.d_shap.formmodel.definition.model.NodeDefinition;
 import ru.d_shap.formmodel.definition.model.NodePath;
@@ -51,14 +50,6 @@ public interface FormModelDefinitionValidator {
      * @return true if the string has only valid characters.
      */
     boolean isStringHasValidCharacters(String str);
-
-    /**
-     * Validate the form definition.
-     *
-     * @param formDefinition the form definition.
-     * @param nodePath       the current node path.
-     */
-    void validateFormDefinition(FormDefinition formDefinition, NodePath nodePath);
 
     /**
      * Validate the element definition.
