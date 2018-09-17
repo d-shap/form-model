@@ -21,7 +21,6 @@ package ru.d_shap.formmodel.definition.loader;
 
 import org.w3c.dom.Element;
 
-import ru.d_shap.formmodel.definition.model.DefaultOtherNodeDefinition;
 import ru.d_shap.formmodel.definition.model.NodePath;
 import ru.d_shap.formmodel.definition.model.OtherNodeDefinition;
 
