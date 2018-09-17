@@ -38,9 +38,7 @@ import ru.d_shap.formmodel.definition.model.FormDefinition;
  */
 public interface Binder {
 
-    String BINDED_ELEMENT_KEY = Binder.class.getName() + "__BINDED_ELEMENT_KEY_";
-
-    String BINDED_ATTRIBUTE_KEY = Binder.class.getName() + "__BINDED_ATTRIBUTE_KEY_";
+    String BINDED_OBJECT_KEY = Binder.class.getName() + "__BINDED_OBJECT_KEY_";
 
     /**
      * Bind the form definition with the binding source.

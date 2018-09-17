@@ -168,7 +168,7 @@ public final class FormBinder {
             for (BindedElement bindedElement : bindedElements) {
                 Element element = addXmlElement(elementDefinition);
                 parentElement.appendChild(element);
-                element.setUserData(Binder.BINDED_ELEMENT_KEY, bindedElement, null);
+                element.setUserData(Binder.BINDED_OBJECT_KEY, bindedElement, null);
                 NodePath currentNodePath = new NodePath(nodePath, elementDefinition);
                 for (AttributeDefinition childAttributeDefinition : elementDefinition.getAttributeDefinitions()) {
                     bindAttributeInstance(lastBindedForm, bindedElement, element, childAttributeDefinition, currentNodePath);
@@ -273,7 +273,7 @@ public final class FormBinder {
             if (bindedAttribute != null) {
                 Element element = addXmlElement(attributeDefinition);
                 parentElement.appendChild(element);
-                element.setUserData(Binder.BINDED_ATTRIBUTE_KEY, bindedAttribute, null);
+                element.setUserData(Binder.BINDED_OBJECT_KEY, bindedAttribute, null);
                 NodePath currentNodePath = new NodePath(nodePath, attributeDefinition);
                 for (OtherNodeDefinition childOtherNodeDefinition : attributeDefinition.getOtherNodeDefinitions()) {
                     bindOtherNodeInstance(lastBindedForm, lastBindedElement, element, childOtherNodeDefinition, currentNodePath);
