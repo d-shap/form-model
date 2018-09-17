@@ -72,7 +72,7 @@ final class FormDefinitionLoader implements FormModelDefinitionBuilder {
         Element element = document.getDocumentElement();
         if (isFormDefinitionElement(element)) {
             XmlDocumentValidator.getFormModelSchemaValidator().validate(document);
-            return createFormDefinition(element, source, new NodePath());
+            return createFormDefinition(element, source);
         } else {
             return null;
         }
@@ -82,17 +82,13 @@ final class FormDefinitionLoader implements FormModelDefinitionBuilder {
         return NAMESPACE.equals(element.getNamespaceURI()) && FORM_DEFINITION_ELEMENT_NAME.equals(element.getLocalName());
     }
 
-    private FormDefinition createFormDefinition(final Element element, final String source, final NodePath nodePath) {
-        if (isFormDefinitionElement(element)) {
-            String group = getAttributeValue(element, FORM_DEFINITION_ATTRIBUTE_GROUP);
-            String id = getAttributeValue(element, FORM_DEFINITION_ATTRIBUTE_ID);
-            NodePath currentNodePath = new NodePath(nodePath, Messages.Representation.getFormDefinitionRepresentation(source, group, id));
-            List<NodeDefinition> nodeDefinitions = getNodeDefinitions(element, FORM_DEFINITION_CHILD_ELEMENT_NAMES, currentNodePath);
-            Map<String, String> otherAttributes = getOtherAttributes(element, FORM_DEFINITION_ATTRIBUTE_NAMES);
-            return new FormDefinition(group, id, nodeDefinitions, otherAttributes, source);
-        } else {
-            throw new FormDefinitionValidationException(Messages.Validation.getFormDefinitionElementIsNotValidMessage(element), nodePath);
-        }
+    private FormDefinition createFormDefinition(final Element element, final String source) {
+        String group = getAttributeValue(element, FORM_DEFINITION_ATTRIBUTE_GROUP);
+        String id = getAttributeValue(element, FORM_DEFINITION_ATTRIBUTE_ID);
+        NodePath currentNodePath = new NodePath(Messages.Representation.getFormDefinitionRepresentation(source, group, id));
+        List<NodeDefinition> nodeDefinitions = getNodeDefinitions(element, FORM_DEFINITION_CHILD_ELEMENT_NAMES, currentNodePath);
+        Map<String, String> otherAttributes = getOtherAttributes(element, FORM_DEFINITION_ATTRIBUTE_NAMES);
+        return new FormDefinition(group, id, nodeDefinitions, otherAttributes, source);
     }
 
     @Override
