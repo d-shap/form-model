@@ -63,7 +63,7 @@ public final class NodePathTest {
     @Test
     public void toStringWithDefinitionTest() {
         Assertions.assertThat(new NodePath(new FormDefinition("group", "id", new ArrayList<NodeDefinition>(), new HashMap<String, String>(), "source")).toString()).isEqualTo("{source}form[@group:id]");
-        Assertions.assertThat(new NodePath(new ElementDefinition("id", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>())).toString()).isEqualTo("element[@:id]");
+        Assertions.assertThat(new NodePath(new ElementDefinition("id", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>())).toString()).isEqualTo("element[@id]");
     }
 
     /**
@@ -88,8 +88,8 @@ public final class NodePathTest {
         Assertions.assertThat(new NodePath(parent4, "vAlUe").toString()).isEqualTo("{source}form[@group:id]/vAlUe");
 
         NodePath parent5 = new NodePath(new ElementDefinition("id", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>()));
-        Assertions.assertThat(new NodePath(parent5, "value").toString()).isEqualTo("element[@:id]/value");
-        Assertions.assertThat(new NodePath(parent5, "vAlUe").toString()).isEqualTo("element[@:id]/vAlUe");
+        Assertions.assertThat(new NodePath(parent5, "value").toString()).isEqualTo("element[@id]/value");
+        Assertions.assertThat(new NodePath(parent5, "vAlUe").toString()).isEqualTo("element[@id]/vAlUe");
     }
 
     /**
@@ -99,23 +99,23 @@ public final class NodePathTest {
     public void toStringWithParentAndDefinitionTest() {
         NodePath parent1 = new NodePath();
         Assertions.assertThat(new NodePath(parent1, new FormDefinition("group", "id", new ArrayList<NodeDefinition>(), new HashMap<String, String>(), "source")).toString()).isEqualTo("{source}form[@group:id]");
-        Assertions.assertThat(new NodePath(parent1, new ElementDefinition("id", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>())).toString()).isEqualTo("element[@:id]");
+        Assertions.assertThat(new NodePath(parent1, new ElementDefinition("id", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>())).toString()).isEqualTo("element[@id]");
 
         NodePath parent2 = new NodePath("parent");
         Assertions.assertThat(new NodePath(parent2, new FormDefinition("group", "id", new ArrayList<NodeDefinition>(), new HashMap<String, String>(), "source")).toString()).isEqualTo("parent/{source}form[@group:id]");
-        Assertions.assertThat(new NodePath(parent2, new ElementDefinition("id", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>())).toString()).isEqualTo("parent/element[@:id]");
+        Assertions.assertThat(new NodePath(parent2, new ElementDefinition("id", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>())).toString()).isEqualTo("parent/element[@id]");
 
         NodePath parent3 = new NodePath(parent2, "interim");
         Assertions.assertThat(new NodePath(parent3, new FormDefinition("group", "id", new ArrayList<NodeDefinition>(), new HashMap<String, String>(), "source")).toString()).isEqualTo("parent/interim/{source}form[@group:id]");
-        Assertions.assertThat(new NodePath(parent3, new ElementDefinition("id", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>())).toString()).isEqualTo("parent/interim/element[@:id]");
+        Assertions.assertThat(new NodePath(parent3, new ElementDefinition("id", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>())).toString()).isEqualTo("parent/interim/element[@id]");
 
         NodePath parent4 = new NodePath(new FormDefinition("group", "id", new ArrayList<NodeDefinition>(), new HashMap<String, String>(), "source"));
         Assertions.assertThat(new NodePath(parent4, new FormDefinition("group", "id", new ArrayList<NodeDefinition>(), new HashMap<String, String>(), "source")).toString()).isEqualTo("{source}form[@group:id]/{source}form[@group:id]");
-        Assertions.assertThat(new NodePath(parent4, new ElementDefinition("id", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>())).toString()).isEqualTo("{source}form[@group:id]/element[@:id]");
+        Assertions.assertThat(new NodePath(parent4, new ElementDefinition("id", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>())).toString()).isEqualTo("{source}form[@group:id]/element[@id]");
 
         NodePath parent5 = new NodePath(new ElementDefinition("id", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>()));
-        Assertions.assertThat(new NodePath(parent5, new FormDefinition("group", "id", new ArrayList<NodeDefinition>(), new HashMap<String, String>(), "source")).toString()).isEqualTo("element[@:id]/{source}form[@group:id]");
-        Assertions.assertThat(new NodePath(parent5, new ElementDefinition("id", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>())).toString()).isEqualTo("element[@:id]/element[@:id]");
+        Assertions.assertThat(new NodePath(parent5, new FormDefinition("group", "id", new ArrayList<NodeDefinition>(), new HashMap<String, String>(), "source")).toString()).isEqualTo("element[@id]/{source}form[@group:id]");
+        Assertions.assertThat(new NodePath(parent5, new ElementDefinition("id", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>())).toString()).isEqualTo("element[@id]/element[@id]");
     }
 
 }

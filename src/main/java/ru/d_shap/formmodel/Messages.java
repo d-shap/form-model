@@ -129,7 +129,7 @@ public final class Messages {
          * @return the node's ID representation.
          */
         public static String getIdRepresentation(final String id) {
-            return getIdRepresentation(null, id);
+            return "@" + id;
         }
 
         /**
