@@ -27,8 +27,8 @@ import java.util.ServiceLoader;
 import org.w3c.dom.Document;
 
 import ru.d_shap.formmodel.binding.api.Binder;
-import ru.d_shap.formmodel.binding.api.BindingSource;
 import ru.d_shap.formmodel.binding.api.OtherNodeInstanceBuilder;
+import ru.d_shap.formmodel.binding.model.BindingSource;
 import ru.d_shap.formmodel.definition.model.FormDefinition;
 import ru.d_shap.formmodel.definition.model.FormDefinitions;
 import ru.d_shap.formmodel.definition.model.NodePath;
@@ -44,16 +44,20 @@ public final class FormBinder {
 
     private final FormDefinitions _formDefinitions;
 
+    private final Binder _binder;
+
     private final List<OtherNodeInstanceBuilder> _otherNodeInstanceBuilders;
 
     /**
      * Create new object.
      *
      * @param formDefinitions container for all form definitions.
+     * @param binder          the binder instance to bind form model definition elements with the binding source.
      */
-    public FormBinder(final FormDefinitions formDefinitions) {
+    public FormBinder(final FormDefinitions formDefinitions, final Binder binder) {
         super();
         _formDefinitions = formDefinitions;
+        _binder = binder;
         _otherNodeInstanceBuilders = new ArrayList<>();
         Iterator<OtherNodeInstanceBuilder> iterator = SERVICE_LOADER.iterator();
         while (iterator.hasNext()) {
@@ -66,33 +70,31 @@ public final class FormBinder {
      * Bind the specified form definition with the specified binding source.
      *
      * @param bindingSource the specified binding source.
-     * @param binder        the binder.
-     * @param id            the form's ID.
+     * @param id            the specified form's ID.
      *
-     * @return the binding result.
+     * @return the binded form instance.
      */
-    public Document bind(final BindingSource bindingSource, final Binder binder, final String id) {
+    public Document bind(final BindingSource bindingSource, final String id) {
         FormDefinition formDefinition = _formDefinitions.getFormDefinition(id);
-        return bind(bindingSource, binder, formDefinition);
+        return bind(bindingSource, formDefinition);
     }
 
     /**
      * Bind the specified form definition with the specified binding source.
      *
      * @param bindingSource the specified binding source.
-     * @param binder        the binder.
-     * @param group         the form's group.
-     * @param id            the form's ID.
+     * @param group         the specified form's group.
+     * @param id            the specified form's ID.
      *
      * @return the binding result.
      */
-    public Document bind(final BindingSource bindingSource, final Binder binder, final String group, final String id) {
+    public Document bind(final BindingSource bindingSource, final String group, final String id) {
         FormDefinition formDefinition = _formDefinitions.getFormDefinition(group, id);
-        return bind(bindingSource, binder, formDefinition);
+        return bind(bindingSource, formDefinition);
     }
 
-    public Document bind(final BindingSource bindingSource, final Binder binder, final FormDefinition formDefinition) {
-        FormInstanceBinder formInstanceBinder = new FormInstanceBinder(_formDefinitions, bindingSource, binder, _otherNodeInstanceBuilders);
+    private Document bind(final BindingSource bindingSource, final FormDefinition formDefinition) {
+        FormInstanceBinder formInstanceBinder = new FormInstanceBinder(_formDefinitions, bindingSource, _binder, _otherNodeInstanceBuilders);
         formInstanceBinder.addFormInstance(formDefinition, new NodePath());
         return formInstanceBinder.getDocument();
     }
