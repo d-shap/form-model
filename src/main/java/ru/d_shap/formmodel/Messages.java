@@ -411,6 +411,17 @@ public final class Messages {
         }
 
         /**
+         * Get the error message when the required attribute is not present.
+         *
+         * @param attributeDefinition the attribute definition that can not be binded.
+         *
+         * @return the error message.
+         */
+        public static String getRequiredAttributeIsNotPresentMessage(final AttributeDefinition attributeDefinition) {
+            return "[Required attribute is not present: " + attributeDefinition + "]";
+        }
+
+        /**
          * Get the error message when the prohibited attribute is present.
          *
          * @param attributeDefinition the attribute definition that can not be binded.
