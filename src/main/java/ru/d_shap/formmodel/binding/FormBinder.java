@@ -31,7 +31,6 @@ import ru.d_shap.formmodel.binding.api.OtherNodeInstanceBuilder;
 import ru.d_shap.formmodel.binding.model.BindingSource;
 import ru.d_shap.formmodel.definition.model.FormDefinition;
 import ru.d_shap.formmodel.definition.model.FormDefinitions;
-import ru.d_shap.formmodel.definition.model.NodePath;
 
 /**
  * The form binder.
@@ -95,7 +94,7 @@ public final class FormBinder {
 
     private Document bind(final BindingSource bindingSource, final FormDefinition formDefinition) {
         FormInstanceBinder formInstanceBinder = new FormInstanceBinder(_formDefinitions, bindingSource, _binder, _otherNodeInstanceBuilders);
-        formInstanceBinder.addFormInstance(formDefinition, new NodePath());
+        formInstanceBinder.bindFormInstance(formDefinition);
         return formInstanceBinder.getDocument();
     }
 
