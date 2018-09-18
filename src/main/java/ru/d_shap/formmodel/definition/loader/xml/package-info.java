@@ -18,6 +18,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 /**
- * Form-model definition xml loader.
+ * Form-model definition loader, XML implementation.
  */
 package ru.d_shap.formmodel.definition.loader.xml;
