@@ -43,6 +43,11 @@ public final class DefaultOtherNodeXmlDefinition implements OtherNodeDefinition 
         _element = element;
     }
 
+    /**
+     * Get the XML element.
+     *
+     * @return the XML element.
+     */
     public Element getElement() {
         return _element;
     }
