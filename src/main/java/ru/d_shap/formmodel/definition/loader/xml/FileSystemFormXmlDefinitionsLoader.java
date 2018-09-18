@@ -17,7 +17,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-package ru.d_shap.formmodel.definition.loader;
+package ru.d_shap.formmodel.definition.loader.xml;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -37,7 +37,7 @@ import ru.d_shap.formmodel.definition.model.FormDefinitions;
  *
  * @author Dmitry Shapovalov
  */
-public final class FileSystemFormDefinitionsLoader extends FormDefinitionsLoader {
+public final class FileSystemFormXmlDefinitionsLoader extends FormXmlDefinitionsLoader {
 
     private static final String DEFAULT_EXTENSION = "xml";
 
@@ -46,7 +46,7 @@ public final class FileSystemFormDefinitionsLoader extends FormDefinitionsLoader
      *
      * @param formDefinitions container for all form definitions.
      */
-    public FileSystemFormDefinitionsLoader(final FormDefinitions formDefinitions) {
+    public FileSystemFormXmlDefinitionsLoader(final FormDefinitions formDefinitions) {
         super(formDefinitions);
     }
 
