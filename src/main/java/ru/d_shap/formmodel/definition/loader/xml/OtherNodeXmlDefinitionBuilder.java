@@ -25,7 +25,7 @@ import ru.d_shap.formmodel.definition.model.NodePath;
 import ru.d_shap.formmodel.definition.model.OtherNodeDefinition;
 
 /**
- * Builder for the other node definition.
+ * Builder for the other node definition, XML implementation.
  *
  * @author Dmitry Shapovalov
  */
