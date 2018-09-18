@@ -25,7 +25,7 @@ import ru.d_shap.formmodel.Messages;
 import ru.d_shap.formmodel.definition.model.OtherNodeDefinition;
 
 /**
- * Default implementation of the other node definition.
+ * Default other node definition, XML implementation.
  *
  * @author Dmitry Shapovalov
  */
