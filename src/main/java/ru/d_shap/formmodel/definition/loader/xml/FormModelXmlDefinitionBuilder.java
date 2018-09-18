@@ -17,7 +17,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-package ru.d_shap.formmodel.definition.loader;
+package ru.d_shap.formmodel.definition.loader.xml;
 
 import java.util.Set;
 
@@ -35,7 +35,7 @@ import ru.d_shap.formmodel.definition.model.NodePath;
  *
  * @author Dmitry Shapovalov
  */
-public interface FormModelDefinitionBuilder {
+public interface FormModelXmlDefinitionBuilder {
 
     String NAMESPACE = "http://d-shap.ru/schema/form-model/1.0";
 
