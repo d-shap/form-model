@@ -20,11 +20,7 @@
 package ru.d_shap.formmodel.definition.loader;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ServiceLoader;
-
-import org.xml.sax.InputSource;
 
 import ru.d_shap.formmodel.definition.model.FormDefinition;
 import ru.d_shap.formmodel.definition.model.FormDefinitions;
@@ -36,11 +32,7 @@ import ru.d_shap.formmodel.definition.model.FormDefinitions;
  */
 public class FormDefinitionsLoader {
 
-    private static final ServiceLoader<OtherNodeDefinitionBuilder> SERVICE_LOADER = ServiceLoader.load(OtherNodeDefinitionBuilder.class);
-
     private final FormDefinitions _formDefinitions;
-
-    private final FormDefinitionLoader _formDefinitionLoader;
 
     /**
      * Create new object.
@@ -50,13 +42,6 @@ public class FormDefinitionsLoader {
     protected FormDefinitionsLoader(final FormDefinitions formDefinitions) {
         super();
         _formDefinitions = formDefinitions;
-        List<OtherNodeDefinitionBuilder> otherNodeDefinitionBuilders = new ArrayList<>();
-        Iterator<OtherNodeDefinitionBuilder> iterator = SERVICE_LOADER.iterator();
-        while (iterator.hasNext()) {
-            OtherNodeDefinitionBuilder otherNodeDefinitionBuilder = iterator.next();
-            otherNodeDefinitionBuilders.add(otherNodeDefinitionBuilder);
-        }
-        _formDefinitionLoader = new FormDefinitionLoader(otherNodeDefinitionBuilders);
     }
 
     /**
@@ -72,18 +57,6 @@ public class FormDefinitionsLoader {
             }
         }
         _formDefinitions.addFormDefinitions(list);
-    }
-
-    /**
-     * Load the form definition from the specified input source.
-     *
-     * @param inputSource the specified input source.
-     * @param source      the form's source.
-     *
-     * @return the loaded form definition.
-     */
-    protected final FormDefinition loadFormDefinition(final InputSource inputSource, final String source) {
-        return _formDefinitionLoader.load(inputSource, source);
     }
 
 }
