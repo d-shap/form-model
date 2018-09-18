@@ -31,22 +31,22 @@ import ru.d_shap.formmodel.definition.model.FormDefinition;
 import ru.d_shap.formmodel.definition.model.FormDefinitions;
 
 /**
- * Base class for all form definitions loaders.
+ * Base class for all form definitions loaders, XML implementation.
  *
  * @author Dmitry Shapovalov
  */
-public class FormXmlDefinitionsLoader extends FormDefinitionsLoader {
+public class XmlFormDefinitionsLoader extends FormDefinitionsLoader {
 
     private static final ServiceLoader<OtherNodeXmlDefinitionBuilder> SERVICE_LOADER = ServiceLoader.load(OtherNodeXmlDefinitionBuilder.class);
 
-    private final FormXmlDefinitionLoader _formXmlDefinitionLoader;
+    private final XmlFormDefinitionLoader _xmlFormDefinitionLoader;
 
     /**
      * Create new object.
      *
      * @param formDefinitions container for all form definitions.
      */
-    protected FormXmlDefinitionsLoader(final FormDefinitions formDefinitions) {
+    protected XmlFormDefinitionsLoader(final FormDefinitions formDefinitions) {
         super(formDefinitions);
         List<OtherNodeXmlDefinitionBuilder> otherNodeXmlDefinitionBuilders = new ArrayList<>();
         Iterator<OtherNodeXmlDefinitionBuilder> iterator = SERVICE_LOADER.iterator();
@@ -54,7 +54,7 @@ public class FormXmlDefinitionsLoader extends FormDefinitionsLoader {
             OtherNodeXmlDefinitionBuilder otherNodeXmlDefinitionBuilder = iterator.next();
             otherNodeXmlDefinitionBuilders.add(otherNodeXmlDefinitionBuilder);
         }
-        _formXmlDefinitionLoader = new FormXmlDefinitionLoader(otherNodeXmlDefinitionBuilders);
+        _xmlFormDefinitionLoader = new XmlFormDefinitionLoader(otherNodeXmlDefinitionBuilders);
     }
 
     /**
@@ -66,7 +66,7 @@ public class FormXmlDefinitionsLoader extends FormDefinitionsLoader {
      * @return the loaded form definition.
      */
     protected final FormDefinition loadFormDefinition(final InputSource inputSource, final String source) {
-        return _formXmlDefinitionLoader.load(inputSource, source);
+        return _xmlFormDefinitionLoader.load(inputSource, source);
     }
 
 }
