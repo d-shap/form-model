@@ -17,7 +17,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-package ru.d_shap.formmodel.definition.loader;
+package ru.d_shap.formmodel.definition.loader.xml;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -51,20 +51,20 @@ import ru.d_shap.formmodel.definition.model.OtherNodeDefinition;
  *
  * @author Dmitry Shapovalov
  */
-final class FormDefinitionLoader implements FormModelDefinitionBuilder {
+final class XmlFormDefinitionLoader implements FormModelXmlDefinitionBuilder {
 
-    private final List<OtherNodeDefinitionBuilder> _otherNodeDefinitionBuilders;
+    private final List<OtherNodeXmlDefinitionBuilder> _otherNodeXmlDefinitionBuilders;
 
-    private final OtherNodeDefinitionBuilder _defaultOtherNodeDefinitionBuilder;
+    private final OtherNodeXmlDefinitionBuilder _defaultOtherNodeXmlDefinitionBuilder;
 
-    FormDefinitionLoader(final List<OtherNodeDefinitionBuilder> otherNodeDefinitionBuilders) {
+    XmlFormDefinitionLoader(final List<OtherNodeXmlDefinitionBuilder> otherNodeXmlDefinitionBuilders) {
         super();
-        if (otherNodeDefinitionBuilders == null) {
-            _otherNodeDefinitionBuilders = new ArrayList<>();
+        if (otherNodeXmlDefinitionBuilders == null) {
+            _otherNodeXmlDefinitionBuilders = new ArrayList<>();
         } else {
-            _otherNodeDefinitionBuilders = new ArrayList<>(otherNodeDefinitionBuilders);
+            _otherNodeXmlDefinitionBuilders = new ArrayList<>(otherNodeXmlDefinitionBuilders);
         }
-        _defaultOtherNodeDefinitionBuilder = new DefaultOtherNodeDefinitionBuilder();
+        _defaultOtherNodeXmlDefinitionBuilder = new DefaultOtherNodeXmlDefinitionBuilder();
     }
 
     FormDefinition load(final InputSource inputSource, final String source) {
@@ -244,14 +244,14 @@ final class FormDefinitionLoader implements FormModelDefinitionBuilder {
     }
 
     private void addOtherNodeDefinition(final Element parentElement, final Element element, final List<NodeDefinition> nodeDefinitions, final NodePath nodePath) {
-        for (OtherNodeDefinitionBuilder otherNodeDefinitionBuilder : _otherNodeDefinitionBuilders) {
-            OtherNodeDefinition otherNodeDefinition = otherNodeDefinitionBuilder.createOtherNodeDefinition(parentElement, element, this, nodePath);
+        for (OtherNodeXmlDefinitionBuilder otherNodeXmlDefinitionBuilder : _otherNodeXmlDefinitionBuilders) {
+            OtherNodeDefinition otherNodeDefinition = otherNodeXmlDefinitionBuilder.createOtherNodeDefinition(parentElement, element, this, nodePath);
             if (otherNodeDefinition != null) {
                 nodeDefinitions.add(otherNodeDefinition);
                 return;
             }
         }
-        OtherNodeDefinition otherNodeDefinition = _defaultOtherNodeDefinitionBuilder.createOtherNodeDefinition(parentElement, element, this, nodePath);
+        OtherNodeDefinition otherNodeDefinition = _defaultOtherNodeXmlDefinitionBuilder.createOtherNodeDefinition(parentElement, element, this, nodePath);
         nodeDefinitions.add(otherNodeDefinition);
     }
 
