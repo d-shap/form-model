@@ -17,7 +17,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-package ru.d_shap.formmodel.definition.loader;
+package ru.d_shap.formmodel.definition.loader.xml;
 
 import org.w3c.dom.Element;
 
@@ -29,18 +29,18 @@ import ru.d_shap.formmodel.definition.model.OtherNodeDefinition;
  *
  * @author Dmitry Shapovalov
  */
-final class DefaultOtherNodeDefinitionBuilder implements OtherNodeDefinitionBuilder {
+final class DefaultOtherNodeXmlDefinitionBuilder implements OtherNodeXmlDefinitionBuilder {
 
     /**
      * Create new object.
      */
-    DefaultOtherNodeDefinitionBuilder() {
+    DefaultOtherNodeXmlDefinitionBuilder() {
         super();
     }
 
     @Override
-    public OtherNodeDefinition createOtherNodeDefinition(final Element parentElement, final Element element, final FormModelDefinitionBuilder formModelDefinitionBuilder, final NodePath nodePath) {
-        return new DefaultOtherNodeDefinition(element);
+    public OtherNodeDefinition createOtherNodeDefinition(final Element parentElement, final Element element, final FormModelXmlDefinitionBuilder formModelXmlDefinitionBuilder, final NodePath nodePath) {
+        return new DefaultOtherNodeXmlDefinition(element);
     }
 
 }
