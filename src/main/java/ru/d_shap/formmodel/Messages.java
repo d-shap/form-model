@@ -111,17 +111,6 @@ public final class Messages {
         }
 
         /**
-         * Get the other node definition representation.
-         *
-         * @param element the XML element of the other node definition.
-         *
-         * @return the other node definition representation.
-         */
-        public static String getOtherNodeDefinitionRepresentation(final Element element) {
-            return "{" + element.getNamespaceURI() + "}" + element.getLocalName();
-        }
-
-        /**
          * Get the node's ID representation.
          *
          * @param id the node's ID.
@@ -148,6 +137,17 @@ public final class Messages {
             }
         }
 
+        /**
+         * Get the XML element representation.
+         *
+         * @param element the XML element.
+         *
+         * @return the XML element representation.
+         */
+        public static String getElementRepresentation(final Element element) {
+            return "{" + element.getNamespaceURI() + "}" + element.getLocalName();
+        }
+
     }
 
     /**
@@ -169,7 +169,7 @@ public final class Messages {
          * @return the error message.
          */
         public static String getFormDefinitionElementIsNotValidMessage(final Element element) {
-            return "[Form definition element is not valid: " + Representation.getOtherNodeDefinitionRepresentation(element) + "]";
+            return "[Form definition element is not valid: " + Representation.getElementRepresentation(element) + "]";
         }
 
         /**
@@ -180,7 +180,7 @@ public final class Messages {
          * @return the error message.
          */
         public static String getElementDefinitionElementIsNotValidMessage(final Element element) {
-            return "[Element definition element is not valid: " + Representation.getOtherNodeDefinitionRepresentation(element) + "]";
+            return "[Element definition element is not valid: " + Representation.getElementRepresentation(element) + "]";
         }
 
         /**
@@ -191,7 +191,7 @@ public final class Messages {
          * @return the error message.
          */
         public static String getChoiceDefinitionElementIsNotValidMessage(final Element element) {
-            return "[Choice definition element is not valid: " + Representation.getOtherNodeDefinitionRepresentation(element) + "]";
+            return "[Choice definition element is not valid: " + Representation.getElementRepresentation(element) + "]";
         }
 
         /**
@@ -202,7 +202,7 @@ public final class Messages {
          * @return the error message.
          */
         public static String getFormReferenceDefinitionElementIsNotValidMessage(final Element element) {
-            return "[Form reference definition element is not valid: " + Representation.getOtherNodeDefinitionRepresentation(element) + "]";
+            return "[Form reference definition element is not valid: " + Representation.getElementRepresentation(element) + "]";
         }
 
         /**
@@ -213,7 +213,7 @@ public final class Messages {
          * @return the error message.
          */
         public static String getAttributeDefinitionElementIsNotValidMessage(final Element element) {
-            return "[Attribute definition element is not valid: " + Representation.getOtherNodeDefinitionRepresentation(element) + "]";
+            return "[Attribute definition element is not valid: " + Representation.getElementRepresentation(element) + "]";
         }
 
         /**
@@ -224,7 +224,7 @@ public final class Messages {
          * @return the error message.
          */
         public static String getChildElementIsNotValidMessage(final Element element) {
-            return "[Child element is not valid: " + Representation.getOtherNodeDefinitionRepresentation(element) + "]";
+            return "[Child element is not valid: " + Representation.getElementRepresentation(element) + "]";
         }
 
         /**
