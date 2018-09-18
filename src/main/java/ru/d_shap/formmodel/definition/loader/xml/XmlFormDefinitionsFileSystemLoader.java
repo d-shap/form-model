@@ -33,11 +33,11 @@ import ru.d_shap.formmodel.definition.model.FormDefinition;
 import ru.d_shap.formmodel.definition.model.FormDefinitions;
 
 /**
- * Loader to load the form definitions from the file system.
+ * Loader to load the form definitions from the file system, XML implementation.
  *
  * @author Dmitry Shapovalov
  */
-public final class FileSystemFormXmlDefinitionsLoader extends FormXmlDefinitionsLoader {
+public final class XmlFormDefinitionsFileSystemLoader extends XmlFormDefinitionsLoader {
 
     private static final String DEFAULT_EXTENSION = "xml";
 
@@ -46,7 +46,7 @@ public final class FileSystemFormXmlDefinitionsLoader extends FormXmlDefinitions
      *
      * @param formDefinitions container for all form definitions.
      */
-    public FileSystemFormXmlDefinitionsLoader(final FormDefinitions formDefinitions) {
+    public XmlFormDefinitionsFileSystemLoader(final FormDefinitions formDefinitions) {
         super(formDefinitions);
     }
 
