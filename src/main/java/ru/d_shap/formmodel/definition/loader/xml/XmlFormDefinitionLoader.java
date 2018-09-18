@@ -47,17 +47,17 @@ import ru.d_shap.formmodel.definition.model.NodePath;
 import ru.d_shap.formmodel.definition.model.OtherNodeDefinition;
 
 /**
- * Form definition loader.
+ * Form definition loader, XML implementation.
  *
  * @author Dmitry Shapovalov
  */
-final class FormXmlDefinitionLoader implements FormModelXmlDefinitionBuilder {
+final class XmlFormDefinitionLoader implements FormModelXmlDefinitionBuilder {
 
     private final List<OtherNodeXmlDefinitionBuilder> _otherNodeXmlDefinitionBuilders;
 
     private final OtherNodeXmlDefinitionBuilder _defaultOtherNodeXmlDefinitionBuilder;
 
-    FormXmlDefinitionLoader(final List<OtherNodeXmlDefinitionBuilder> otherNodeXmlDefinitionBuilders) {
+    XmlFormDefinitionLoader(final List<OtherNodeXmlDefinitionBuilder> otherNodeXmlDefinitionBuilders) {
         super();
         if (otherNodeXmlDefinitionBuilders == null) {
             _otherNodeXmlDefinitionBuilders = new ArrayList<>();
