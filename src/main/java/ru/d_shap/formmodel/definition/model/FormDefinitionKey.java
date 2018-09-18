@@ -33,6 +33,22 @@ public final class FormDefinitionKey {
     /**
      * Create new object.
      *
+     * @param group the form's group.
+     * @param id    the form's ID.
+     */
+    public FormDefinitionKey(final String group, final String id) {
+        super();
+        if (group == null) {
+            _group = "";
+        } else {
+            _group = group;
+        }
+        _id = id;
+    }
+
+    /**
+     * Create new object.
+     *
      * @param formDefinition the form definition.
      */
     public FormDefinitionKey(final FormDefinition formDefinition) {
@@ -46,22 +62,6 @@ public final class FormDefinitionKey {
      */
     public FormDefinitionKey(final FormReferenceDefinition formReferenceDefinition) {
         this(formReferenceDefinition.getGroup(), formReferenceDefinition.getId());
-    }
-
-    /**
-     * Create new object.
-     *
-     * @param group the form's group.
-     * @param id    the form's ID.
-     */
-    public FormDefinitionKey(final String group, final String id) {
-        super();
-        if (group == null) {
-            _group = "";
-        } else {
-            _group = group;
-        }
-        _id = id;
     }
 
     /**
