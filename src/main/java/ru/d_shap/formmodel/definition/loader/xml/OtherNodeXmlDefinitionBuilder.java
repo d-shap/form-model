@@ -17,7 +17,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-package ru.d_shap.formmodel.definition.loader;
+package ru.d_shap.formmodel.definition.loader.xml;
 
 import org.w3c.dom.Element;
 
@@ -29,18 +29,18 @@ import ru.d_shap.formmodel.definition.model.OtherNodeDefinition;
  *
  * @author Dmitry Shapovalov
  */
-public interface OtherNodeDefinitionBuilder {
+public interface OtherNodeXmlDefinitionBuilder {
 
     /**
      * Create the other node definition for the specified XML element.
      *
-     * @param parentElement              the parent XML element.
-     * @param element                    the specified XML element.
-     * @param formModelDefinitionBuilder builder for the form definition elements.
-     * @param nodePath                   the current node path.
+     * @param parentElement                 the parent XML element.
+     * @param element                       the specified XML element.
+     * @param formModelXmlDefinitionBuilder builder for the form definition elements.
+     * @param nodePath                      the current node path.
      *
      * @return the other node definition.
      */
-    OtherNodeDefinition createOtherNodeDefinition(Element parentElement, Element element, FormModelDefinitionBuilder formModelDefinitionBuilder, NodePath nodePath);
+    OtherNodeDefinition createOtherNodeDefinition(Element parentElement, Element element, FormModelXmlDefinitionBuilder formModelXmlDefinitionBuilder, NodePath nodePath);
 
 }
