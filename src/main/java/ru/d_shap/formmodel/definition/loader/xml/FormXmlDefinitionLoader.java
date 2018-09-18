@@ -51,13 +51,13 @@ import ru.d_shap.formmodel.definition.model.OtherNodeDefinition;
  *
  * @author Dmitry Shapovalov
  */
-final class XmlFormDefinitionLoader implements FormModelXmlDefinitionBuilder {
+final class FormXmlDefinitionLoader implements FormModelXmlDefinitionBuilder {
 
     private final List<OtherNodeXmlDefinitionBuilder> _otherNodeXmlDefinitionBuilders;
 
     private final OtherNodeXmlDefinitionBuilder _defaultOtherNodeXmlDefinitionBuilder;
 
-    XmlFormDefinitionLoader(final List<OtherNodeXmlDefinitionBuilder> otherNodeXmlDefinitionBuilders) {
+    FormXmlDefinitionLoader(final List<OtherNodeXmlDefinitionBuilder> otherNodeXmlDefinitionBuilders) {
         super();
         if (otherNodeXmlDefinitionBuilders == null) {
             _otherNodeXmlDefinitionBuilders = new ArrayList<>();
