@@ -17,7 +17,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-package ru.d_shap.formmodel.definition.loader;
+package ru.d_shap.formmodel.definition.loader.xml;
 
 import org.w3c.dom.Element;
 
@@ -29,7 +29,7 @@ import ru.d_shap.formmodel.definition.model.OtherNodeDefinition;
  *
  * @author Dmitry Shapovalov
  */
-public final class DefaultOtherNodeDefinition implements OtherNodeDefinition {
+public final class DefaultOtherNodeXmlDefinition implements OtherNodeDefinition {
 
     private final Element _element;
 
@@ -38,7 +38,7 @@ public final class DefaultOtherNodeDefinition implements OtherNodeDefinition {
      *
      * @param element the XML element.
      */
-    public DefaultOtherNodeDefinition(final Element element) {
+    public DefaultOtherNodeXmlDefinition(final Element element) {
         super();
         _element = element;
     }
