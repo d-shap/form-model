@@ -150,7 +150,7 @@ public final class Messages {
          */
         public static String getXmlElementRepresentation(final Element element) {
             if (element == null) {
-                return null;
+                return "" + null;
             } else {
                 if (element.getNamespaceURI() == null) {
                     return element.getTagName();
