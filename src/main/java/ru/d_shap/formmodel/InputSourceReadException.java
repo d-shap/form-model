@@ -34,7 +34,7 @@ public final class InputSourceReadException extends FormModelException {
      * @param throwable cause exception.
      */
     public InputSourceReadException(final Throwable throwable) {
-        super(throwable.getMessage(), throwable);
+        super(throwable);
     }
 
 }
