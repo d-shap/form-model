@@ -35,8 +35,18 @@ import ru.d_shap.formmodel.definition.model.FormReferenceDefinition;
  */
 public final class Messages {
 
+    public static final String SEPARATOR = "/";
+
     private Messages() {
         super();
+    }
+
+    private static String getValueOrEmpty(final String value) {
+        if (value == null) {
+            return "";
+        } else {
+            return value.trim();
+        }
     }
 
     /**
@@ -45,8 +55,6 @@ public final class Messages {
      * @author Dmitry Shapovalov
      */
     public static final class Representation {
-
-        public static final String SEPARATOR = "/";
 
         private Representation() {
             super();
@@ -62,7 +70,7 @@ public final class Messages {
          * @return the form definition representation.
          */
         public static String getFormDefinitionRepresentation(final String source, final String group, final String id) {
-            return "{" + source + "}" + FormDefinition.ELEMENT_NAME + "[" + getIdRepresentation(group, id) + "]";
+            return "{" + getValueOrEmpty(source) + "}" + FormDefinition.ELEMENT_NAME + "[" + getIdRepresentation(group, id) + "]";
         }
 
         /**
@@ -118,7 +126,7 @@ public final class Messages {
          * @return the node's ID representation.
          */
         public static String getIdRepresentation(final String id) {
-            return "@" + id;
+            return "@" + getValueOrEmpty(id);
         }
 
         /**
@@ -130,11 +138,7 @@ public final class Messages {
          * @return the node's ID representation.
          */
         public static String getIdRepresentation(final String group, final String id) {
-            if (group == null) {
-                return "@:" + id;
-            } else {
-                return "@" + group + ":" + id;
-            }
+            return "@" + getValueOrEmpty(group) + ":" + getValueOrEmpty(id);
         }
 
         /**
@@ -145,7 +149,15 @@ public final class Messages {
          * @return the XML element representation.
          */
         public static String getXmlElementRepresentation(final Element element) {
-            return "{" + element.getNamespaceURI() + "}" + element.getTagName();
+            if (element == null) {
+                return "NULL";
+            } else {
+                if (element.getNamespaceURI() == null) {
+                    return element.getTagName();
+                } else {
+                    return "{" + element.getNamespaceURI() + "}" + element.getTagName();
+                }
+            }
         }
 
     }
