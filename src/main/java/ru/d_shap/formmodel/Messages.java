@@ -145,7 +145,7 @@ public final class Messages {
          * @return the XML element representation.
          */
         public static String getXmlElementRepresentation(final Element element) {
-            return "{" + element.getNamespaceURI() + "}" + element.getLocalName();
+            return "{" + element.getNamespaceURI() + "}" + element.getTagName();
         }
 
     }

@@ -79,7 +79,7 @@ final class XmlFormDefinitionLoader implements FormModelXmlDefinitionBuilder {
     }
 
     private boolean isFormDefinitionElement(final Element element) {
-        return NAMESPACE.equals(element.getNamespaceURI()) && FORM_DEFINITION_ELEMENT_NAME.equals(element.getLocalName());
+        return NAMESPACE.equals(element.getNamespaceURI()) && FORM_DEFINITION_ELEMENT_NAME.equals(element.getTagName());
     }
 
     private FormDefinition createFormDefinition(final Element element, final String source) {
@@ -93,7 +93,7 @@ final class XmlFormDefinitionLoader implements FormModelXmlDefinitionBuilder {
 
     @Override
     public boolean isElementDefinitionElement(final Element element) {
-        return NAMESPACE.equals(element.getNamespaceURI()) && ELEMENT_DEFINITION_ELEMENT_NAME.equals(element.getLocalName());
+        return NAMESPACE.equals(element.getNamespaceURI()) && ELEMENT_DEFINITION_ELEMENT_NAME.equals(element.getTagName());
     }
 
     @Override
@@ -119,7 +119,7 @@ final class XmlFormDefinitionLoader implements FormModelXmlDefinitionBuilder {
 
     @Override
     public boolean isChoiceDefinitionElement(final Element element) {
-        return NAMESPACE.equals(element.getNamespaceURI()) && CHOICE_DEFINITION_ELEMENT_NAME.equals(element.getLocalName());
+        return NAMESPACE.equals(element.getNamespaceURI()) && CHOICE_DEFINITION_ELEMENT_NAME.equals(element.getTagName());
     }
 
     @Override
@@ -144,7 +144,7 @@ final class XmlFormDefinitionLoader implements FormModelXmlDefinitionBuilder {
 
     @Override
     public boolean isFormReferenceDefinitionElement(final Element element) {
-        return NAMESPACE.equals(element.getNamespaceURI()) && FORM_REFERENCE_DEFINITION_ELEMENT_NAME.equals(element.getLocalName());
+        return NAMESPACE.equals(element.getNamespaceURI()) && FORM_REFERENCE_DEFINITION_ELEMENT_NAME.equals(element.getTagName());
     }
 
     @Override
@@ -163,7 +163,7 @@ final class XmlFormDefinitionLoader implements FormModelXmlDefinitionBuilder {
 
     @Override
     public boolean isAttributeDefinitionElement(final Element element) {
-        return NAMESPACE.equals(element.getNamespaceURI()) && ATTRIBUTE_DEFINITION_ELEMENT_NAME.equals(element.getLocalName());
+        return NAMESPACE.equals(element.getNamespaceURI()) && ATTRIBUTE_DEFINITION_ELEMENT_NAME.equals(element.getTagName());
     }
 
     @Override
@@ -219,7 +219,7 @@ final class XmlFormDefinitionLoader implements FormModelXmlDefinitionBuilder {
     }
 
     private void addNodeDefinition(final Element parentElement, final Element element, final List<NodeDefinition> nodeDefinitions, final Set<String> childElementNames, final NodePath nodePath) {
-        String localName = element.getLocalName();
+        String localName = element.getTagName();
         if (ELEMENT_DEFINITION_ELEMENT_NAME.equals(localName) && childElementNames.contains(localName)) {
             NodeDefinition nodeDefinition = createElementDefinition(parentElement, element, nodePath);
             nodeDefinitions.add(nodeDefinition);
@@ -260,7 +260,7 @@ final class XmlFormDefinitionLoader implements FormModelXmlDefinitionBuilder {
         NamedNodeMap namedNodeMap = element.getAttributes();
         for (int i = 0; i < namedNodeMap.getLength(); i++) {
             Node node = namedNodeMap.item(i);
-            String attributeName = node.getLocalName();
+            String attributeName = node.getNodeName();
             if (skipAttributeNames.contains(attributeName)) {
                 continue;
             }
