@@ -36,12 +36,7 @@ import org.xml.sax.SAXException;
  */
 public final class XmlDocumentBuilder {
 
-    private static final DocumentBuilderFactory DOCUMENT_BUILDER_FACTORY;
-
-    static {
-        DOCUMENT_BUILDER_FACTORY = DocumentBuilderFactory.newInstance();
-        DOCUMENT_BUILDER_FACTORY.setNamespaceAware(true);
-    }
+    private static final DocumentBuilderFactoryConfigurator DOCUMENT_BUILDER_FACTORY_CONFIGURATOR = new DefaultDocumentBuilderFactoryConfigurator();
 
     private XmlDocumentBuilder() {
         super();
@@ -53,7 +48,7 @@ public final class XmlDocumentBuilder {
      * @return new XML document.
      */
     public static Document newDocument() {
-        return getDocumentBuilder(DOCUMENT_BUILDER_FACTORY).newDocument();
+        return getDocumentBuilder(DOCUMENT_BUILDER_FACTORY_CONFIGURATOR).newDocument();
     }
 
     /**
@@ -65,18 +60,49 @@ public final class XmlDocumentBuilder {
      */
     public static Document parse(final InputSource inputSource) {
         try {
-            return getDocumentBuilder(DOCUMENT_BUILDER_FACTORY).parse(inputSource);
+            return getDocumentBuilder(DOCUMENT_BUILDER_FACTORY_CONFIGURATOR).parse(inputSource);
         } catch (IOException | SAXException ex) {
             throw new InputSourceReadException(ex);
         }
     }
 
-    static DocumentBuilder getDocumentBuilder(final DocumentBuilderFactory documentBuilderFactory) {
+    static DocumentBuilder getDocumentBuilder(final DocumentBuilderFactoryConfigurator documentBuilderFactoryConfigurator) {
         try {
+            DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+            documentBuilderFactoryConfigurator.configure(documentBuilderFactory);
             return documentBuilderFactory.newDocumentBuilder();
         } catch (ParserConfigurationException ex) {
             throw new XmlDocumentBuilderException(ex);
         }
+    }
+
+    /**
+     * Configurator for the XML document builder factory.
+     *
+     * @author Dmitry Shapovalov
+     */
+    interface DocumentBuilderFactoryConfigurator {
+
+        void configure(DocumentBuilderFactory documentBuilderFactory) throws ParserConfigurationException;
+
+    }
+
+    /**
+     * Default configurator for the XML document builder factory.
+     *
+     * @author Dmitry Shapovalov
+     */
+    static final class DefaultDocumentBuilderFactoryConfigurator implements DocumentBuilderFactoryConfigurator {
+
+        DefaultDocumentBuilderFactoryConfigurator() {
+            super();
+        }
+
+        @Override
+        public void configure(final DocumentBuilderFactory documentBuilderFactory) throws ParserConfigurationException {
+            documentBuilderFactory.setNamespaceAware(true);
+        }
+
     }
 
 }
