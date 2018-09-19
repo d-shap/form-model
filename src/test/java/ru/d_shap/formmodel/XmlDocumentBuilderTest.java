@@ -25,9 +25,6 @@ import java.io.StringReader;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.validation.Schema;
-
-import com.sun.org.apache.xerces.internal.jaxp.JAXPConstants;
 
 import org.junit.Test;
 import org.w3c.dom.Document;
@@ -101,14 +98,10 @@ public final class XmlDocumentBuilderTest {
      */
     @Test
     public void getDocumentBuilderTest() {
-        DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-        Assertions.assertThat(XmlDocumentBuilder.getDocumentBuilder(documentBuilderFactory)).isNotNull();
+        Assertions.assertThat(XmlDocumentBuilder.getDocumentBuilder(new XmlDocumentBuilder.DefaultDocumentBuilderFactoryConfigurator())).isNotNull();
 
         try {
-            Schema schema = XmlDocumentValidator.getFormModelSchemaValidator().getSchema();
-            documentBuilderFactory.setSchema(schema);
-            documentBuilderFactory.setAttribute(JAXPConstants.JAXP_SCHEMA_LANGUAGE, "some value");
-            XmlDocumentBuilder.getDocumentBuilder(documentBuilderFactory);
+            XmlDocumentBuilder.getDocumentBuilder(new ErrorDocumentBuilderFactoryConfigurator());
             Assertions.fail("XmlDocumentBuilder test fail");
         } catch (XmlDocumentBuilderException ex) {
             Assertions.assertThat(ex).hasCause(ParserConfigurationException.class);
@@ -129,6 +122,25 @@ public final class XmlDocumentBuilderTest {
         @Override
         public int read() throws IOException {
             throw new IOException("ERROR!");
+        }
+
+    }
+
+    /**
+     * Test class.
+     *
+     * @author Dmitry Shapovalov
+     */
+    private static final class ErrorDocumentBuilderFactoryConfigurator implements XmlDocumentBuilder.DocumentBuilderFactoryConfigurator {
+
+        ErrorDocumentBuilderFactoryConfigurator() {
+            super();
+        }
+
+        @Override
+        public void configure(final DocumentBuilderFactory documentBuilderFactory) throws ParserConfigurationException {
+            documentBuilderFactory.setNamespaceAware(true);
+            documentBuilderFactory.setFeature("some fake feature", true);
         }
 
     }
