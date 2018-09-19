@@ -57,6 +57,8 @@ public final class XmlDocumentValidator {
 
     private static final XmlDocumentValidator FORM_INSTANCE_SCHEMA_VALIDATOR = new XmlDocumentValidator(FORM_INSTANCE_SCHEMA_PATH);
 
+    private final Schema _schema;
+
     private final Validator _validator;
 
     private XmlDocumentValidator(final String schemaPath) {
@@ -65,8 +67,8 @@ public final class XmlDocumentValidator {
         try {
             try (InputStream inputStream = url.openStream()) {
                 Source source = new StreamSource(inputStream);
-                Schema schema = SCHEMA_FACTORY.newSchema(source);
-                _validator = schema.newValidator();
+                _schema = SCHEMA_FACTORY.newSchema(source);
+                _validator = _schema.newValidator();
             }
         } catch (IOException | SAXException ex) {
             throw new XmlDocumentValidatorException(ex);
@@ -89,6 +91,15 @@ public final class XmlDocumentValidator {
      */
     public static XmlDocumentValidator getFormInstanceSchemaValidator() {
         return FORM_INSTANCE_SCHEMA_VALIDATOR;
+    }
+
+    /**
+     * Get the schema.
+     *
+     * @return the schema.
+     */
+    public Schema getSchema() {
+        return _schema;
     }
 
     /**
