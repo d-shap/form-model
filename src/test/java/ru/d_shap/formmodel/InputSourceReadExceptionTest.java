@@ -59,9 +59,12 @@ public final class InputSourceReadExceptionTest {
         Assertions.assertThat(new InputSourceReadException(null)).toCause().isNull();
         Assertions.assertThat(new InputSourceReadException(new IOException())).hasCause(IOException.class);
         Assertions.assertThat(new InputSourceReadException(new IOException())).toCause().toMessage().isNull();
+        Assertions.assertThat(new InputSourceReadException(new IOException(""))).hasCause(IOException.class);
+        Assertions.assertThat(new InputSourceReadException(new IOException(""))).hasCauseMessage("");
+        Assertions.assertThat(new InputSourceReadException(new IOException(" "))).hasCause(IOException.class);
+        Assertions.assertThat(new InputSourceReadException(new IOException(" "))).hasCauseMessage(" ");
         Assertions.assertThat(new InputSourceReadException(new IOException("io error"))).hasCause(IOException.class);
         Assertions.assertThat(new InputSourceReadException(new IOException("io error"))).hasCauseMessage("io error");
-
     }
 
 }

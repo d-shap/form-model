@@ -59,9 +59,12 @@ public final class XmlDocumentValidatorExceptionTest {
         Assertions.assertThat(new XmlDocumentValidatorException(null)).toCause().isNull();
         Assertions.assertThat(new XmlDocumentValidatorException(new IOException())).hasCause(IOException.class);
         Assertions.assertThat(new XmlDocumentValidatorException(new IOException())).toCause().toMessage().isNull();
+        Assertions.assertThat(new XmlDocumentValidatorException(new IOException(""))).hasCause(IOException.class);
+        Assertions.assertThat(new XmlDocumentValidatorException(new IOException(""))).hasCauseMessage("");
+        Assertions.assertThat(new XmlDocumentValidatorException(new IOException(" "))).hasCause(IOException.class);
+        Assertions.assertThat(new XmlDocumentValidatorException(new IOException(" "))).hasCauseMessage(" ");
         Assertions.assertThat(new XmlDocumentValidatorException(new IOException("io error"))).hasCause(IOException.class);
         Assertions.assertThat(new XmlDocumentValidatorException(new IOException("io error"))).hasCauseMessage("io error");
-
     }
 
 }
