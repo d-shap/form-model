@@ -53,7 +53,7 @@ public class FormModelException extends RuntimeException {
      * @param throwable cause exception.
      */
     protected FormModelException(final Throwable throwable) {
-        super(throwable);
+        super(throwable.getMessage(), throwable);
     }
 
 }
