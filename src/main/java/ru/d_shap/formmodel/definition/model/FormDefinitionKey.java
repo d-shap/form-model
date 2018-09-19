@@ -19,6 +19,8 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.formmodel.definition.model;
 
+import ru.d_shap.formmodel.Messages;
+
 /**
  * Form definition key.
  *
@@ -96,6 +98,11 @@ public final class FormDefinitionKey {
     @Override
     public int hashCode() {
         return _group.hashCode() * 13 + _id.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return Messages.Representation.getIdRepresentation(_group, _id);
     }
 
 }
