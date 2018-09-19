@@ -150,7 +150,7 @@ public final class Messages {
          */
         public static String getXmlElementRepresentation(final Element element) {
             if (element == null) {
-                return "NULL";
+                return null;
             } else {
                 if (element.getNamespaceURI() == null) {
                     return element.getTagName();
@@ -249,7 +249,7 @@ public final class Messages {
          * @return the error message.
          */
         public static String getFormIsNotUniqueMessage(final FormDefinitionKey formDefinitionKey, final String source1, final String source2) {
-            return "[Form is not unique: " + Representation.getIdRepresentation(formDefinitionKey.getGroup(), formDefinitionKey.getId()) + ", (" + source1 + "), (" + source2 + ")]";
+            return "[Form is not unique: " + formDefinitionKey + ", (" + source1 + "), (" + source2 + ")]";
         }
 
         /**
@@ -351,7 +351,7 @@ public final class Messages {
          * @return the error message.
          */
         public static String getFormReferenceIsNotUniqueMessage(final FormDefinitionKey formDefinitionKey) {
-            return "[Form reference is not unique: " + Representation.getIdRepresentation(formDefinitionKey.getGroup(), formDefinitionKey.getId()) + "]";
+            return "[Form reference is not unique: " + formDefinitionKey + "]";
         }
 
         /**
@@ -362,7 +362,7 @@ public final class Messages {
          * @return the error message.
          */
         public static String getUnresolvedFormReferenceMessage(final FormDefinitionKey formDefinitionKey) {
-            return "[Form reference can not be resolved: " + Representation.getIdRepresentation(formDefinitionKey.getGroup(), formDefinitionKey.getId()) + "]";
+            return "[Form reference can not be resolved: " + formDefinitionKey + "]";
         }
 
     }
