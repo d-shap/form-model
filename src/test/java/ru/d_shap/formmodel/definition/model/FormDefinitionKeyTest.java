@@ -134,4 +134,16 @@ public final class FormDefinitionKeyTest {
         new FormDefinitionKey("group", null).hashCode();
     }
 
+    /**
+     * {@link FormDefinitionKey} class test.
+     */
+    @Test
+    public void toStringTest() {
+        Assertions.assertThat(new FormDefinitionKey(null, "id")).hasToString("@:id");
+        Assertions.assertThat(new FormDefinitionKey("", "id")).hasToString("@:id");
+        Assertions.assertThat(new FormDefinitionKey(" ", "id")).hasToString("@ :id");
+        Assertions.assertThat(new FormDefinitionKey("group", "id")).hasToString("@group:id");
+        Assertions.assertThat(new FormDefinitionKey("group", "ID")).hasToString("@group:ID");
+    }
+
 }
