@@ -53,7 +53,7 @@ public final class XmlDocumentBuilder {
      * @return new XML document.
      */
     public static Document newDocument() {
-        return getDocumentBuilder().newDocument();
+        return getDocumentBuilder(DOCUMENT_BUILDER_FACTORY).newDocument();
     }
 
     /**
@@ -65,15 +65,15 @@ public final class XmlDocumentBuilder {
      */
     public static Document parse(final InputSource inputSource) {
         try {
-            return getDocumentBuilder().parse(inputSource);
+            return getDocumentBuilder(DOCUMENT_BUILDER_FACTORY).parse(inputSource);
         } catch (IOException | SAXException ex) {
             throw new InputSourceReadException(ex);
         }
     }
 
-    private static DocumentBuilder getDocumentBuilder() {
+    static DocumentBuilder getDocumentBuilder(final DocumentBuilderFactory documentBuilderFactory) {
         try {
-            return DOCUMENT_BUILDER_FACTORY.newDocumentBuilder();
+            return documentBuilderFactory.newDocumentBuilder();
         } catch (ParserConfigurationException ex) {
             throw new XmlDocumentBuilderException(ex);
         }
