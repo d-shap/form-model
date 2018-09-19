@@ -55,6 +55,7 @@ public final class FormModelExceptionTest {
         Assertions.assertThat(new FormModelException("error", null)).hasMessage("error");
         Assertions.assertThat(new FormModelException("error", new IOException("io error"))).hasMessage("error");
 
+        Assertions.assertThat(new FormModelException((Throwable) null)).toMessage().isNull();
         Assertions.assertThat(new FormModelException(new IOException())).toMessage().isNull();
         Assertions.assertThat(new FormModelException(new IOException(""))).hasMessage("");
         Assertions.assertThat(new FormModelException(new IOException(" "))).hasMessage(" ");
@@ -84,18 +85,11 @@ public final class FormModelExceptionTest {
         Assertions.assertThat(new FormModelException("error", new IOException("io error"))).hasCause(IOException.class);
         Assertions.assertThat(new FormModelException("error", new IOException("io error"))).hasCauseMessage("io error");
 
+        Assertions.assertThat(new FormModelException((Throwable) null)).toCause().isNull();
         Assertions.assertThat(new FormModelException(new IOException())).hasCause(IOException.class);
         Assertions.assertThat(new FormModelException(new IOException())).toCause().toMessage().isNull();
         Assertions.assertThat(new FormModelException(new IOException("io error"))).hasCause(IOException.class);
         Assertions.assertThat(new FormModelException(new IOException("io error"))).hasCauseMessage("io error");
-    }
-
-    /**
-     * {@link FormModelException} class test.
-     */
-    @Test(expected = NullPointerException.class)
-    public void nullCauseFailTest() {
-        throw new FormModelException((Throwable) null);
     }
 
 }

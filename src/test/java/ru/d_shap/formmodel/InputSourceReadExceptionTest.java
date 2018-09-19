@@ -44,6 +44,7 @@ public final class InputSourceReadExceptionTest {
      */
     @Test
     public void errorMessageTest() {
+        Assertions.assertThat(new InputSourceReadException(null)).toMessage().isNull();
         Assertions.assertThat(new InputSourceReadException(new IOException())).toMessage().isNull();
         Assertions.assertThat(new InputSourceReadException(new IOException(""))).hasMessage("");
         Assertions.assertThat(new InputSourceReadException(new IOException(" "))).hasMessage(" ");
@@ -55,19 +56,12 @@ public final class InputSourceReadExceptionTest {
      */
     @Test
     public void errorCauseTest() {
+        Assertions.assertThat(new InputSourceReadException(null)).toCause().isNull();
         Assertions.assertThat(new InputSourceReadException(new IOException())).hasCause(IOException.class);
         Assertions.assertThat(new InputSourceReadException(new IOException())).toCause().toMessage().isNull();
         Assertions.assertThat(new InputSourceReadException(new IOException("io error"))).hasCause(IOException.class);
         Assertions.assertThat(new InputSourceReadException(new IOException("io error"))).hasCauseMessage("io error");
 
-    }
-
-    /**
-     * {@link InputSourceReadException} class test.
-     */
-    @Test(expected = NullPointerException.class)
-    public void nullCauseFailTest() {
-        throw new InputSourceReadException(null);
     }
 
 }

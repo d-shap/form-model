@@ -44,6 +44,7 @@ public final class XmlDocumentBuilderExceptionTest {
      */
     @Test
     public void errorMessageTest() {
+        Assertions.assertThat(new XmlDocumentBuilderException(null)).toMessage().isNull();
         Assertions.assertThat(new XmlDocumentBuilderException(new IOException())).toMessage().isNull();
         Assertions.assertThat(new XmlDocumentBuilderException(new IOException(""))).hasMessage("");
         Assertions.assertThat(new XmlDocumentBuilderException(new IOException(" "))).hasMessage(" ");
@@ -55,19 +56,12 @@ public final class XmlDocumentBuilderExceptionTest {
      */
     @Test
     public void errorCauseTest() {
+        Assertions.assertThat(new XmlDocumentBuilderException(null)).toCause().isNull();
         Assertions.assertThat(new XmlDocumentBuilderException(new IOException())).hasCause(IOException.class);
         Assertions.assertThat(new XmlDocumentBuilderException(new IOException())).toCause().toMessage().isNull();
         Assertions.assertThat(new XmlDocumentBuilderException(new IOException("io error"))).hasCause(IOException.class);
         Assertions.assertThat(new XmlDocumentBuilderException(new IOException("io error"))).hasCauseMessage("io error");
 
-    }
-
-    /**
-     * {@link XmlDocumentBuilderException} class test.
-     */
-    @Test(expected = NullPointerException.class)
-    public void nullCauseFailTest() {
-        throw new XmlDocumentBuilderException(null);
     }
 
 }

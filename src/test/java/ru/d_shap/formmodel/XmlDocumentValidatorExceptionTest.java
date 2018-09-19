@@ -44,6 +44,7 @@ public final class XmlDocumentValidatorExceptionTest {
      */
     @Test
     public void errorMessageTest() {
+        Assertions.assertThat(new XmlDocumentValidatorException(null)).toMessage().isNull();
         Assertions.assertThat(new XmlDocumentValidatorException(new IOException())).toMessage().isNull();
         Assertions.assertThat(new XmlDocumentValidatorException(new IOException(""))).hasMessage("");
         Assertions.assertThat(new XmlDocumentValidatorException(new IOException(" "))).hasMessage(" ");
@@ -55,19 +56,12 @@ public final class XmlDocumentValidatorExceptionTest {
      */
     @Test
     public void errorCauseTest() {
+        Assertions.assertThat(new XmlDocumentValidatorException(null)).toCause().isNull();
         Assertions.assertThat(new XmlDocumentValidatorException(new IOException())).hasCause(IOException.class);
         Assertions.assertThat(new XmlDocumentValidatorException(new IOException())).toCause().toMessage().isNull();
         Assertions.assertThat(new XmlDocumentValidatorException(new IOException("io error"))).hasCause(IOException.class);
         Assertions.assertThat(new XmlDocumentValidatorException(new IOException("io error"))).hasCauseMessage("io error");
 
-    }
-
-    /**
-     * {@link XmlDocumentValidatorException} class test.
-     */
-    @Test(expected = NullPointerException.class)
-    public void nullCauseFailTest() {
-        throw new XmlDocumentValidatorException(null);
     }
 
 }
