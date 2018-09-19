@@ -30,7 +30,7 @@ import ru.d_shap.assertions.Assertions;
  *
  * @author Dmitry Shapovalov
  */
-public class InputSourceReadExceptionTest {
+public final class InputSourceReadExceptionTest {
 
     /**
      * Test class constructor.
