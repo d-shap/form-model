@@ -55,6 +55,18 @@ public final class FormModelExceptionTest {
         Assertions.assertThat(new FormModelException("error", null)).hasMessage("error");
         Assertions.assertThat(new FormModelException("error", new IOException("io error"))).hasMessage("error");
 
+        Assertions.assertThat(new FormModelException(null, new IOException())).toMessage().isNull();
+        Assertions.assertThat(new FormModelException("", new IOException())).hasMessage("");
+        Assertions.assertThat(new FormModelException(" ", new IOException())).hasMessage(" ");
+        Assertions.assertThat(new FormModelException("error", new IOException())).hasMessage("error");
+        Assertions.assertThat(new FormModelException("error", new IOException())).hasMessage("error");
+
+        Assertions.assertThat(new FormModelException(null, new IOException("io error"))).toMessage().isNull();
+        Assertions.assertThat(new FormModelException("", new IOException("io error"))).hasMessage("");
+        Assertions.assertThat(new FormModelException(" ", new IOException("io error"))).hasMessage(" ");
+        Assertions.assertThat(new FormModelException("error", new IOException("io error"))).hasMessage("error");
+        Assertions.assertThat(new FormModelException("error", new IOException("io error"))).hasMessage("error");
+
         Assertions.assertThat(new FormModelException((Throwable) null)).toMessage().isNull();
         Assertions.assertThat(new FormModelException(new IOException())).toMessage().isNull();
         Assertions.assertThat(new FormModelException(new IOException(""))).hasMessage("");
@@ -70,6 +82,10 @@ public final class FormModelExceptionTest {
         Assertions.assertThat(new FormModelException("")).toCause().isNull();
         Assertions.assertThat(new FormModelException(" ")).toCause().isNull();
         Assertions.assertThat(new FormModelException("error")).toCause().isNull();
+
+        Assertions.assertThat(new FormModelException("", null)).toCause().isNull();
+        Assertions.assertThat(new FormModelException(" ", null)).toCause().isNull();
+        Assertions.assertThat(new FormModelException("error", null)).toCause().isNull();
 
         Assertions.assertThat(new FormModelException("", new IOException())).hasCause(IOException.class);
         Assertions.assertThat(new FormModelException("", new IOException())).toCause().toMessage().isNull();
