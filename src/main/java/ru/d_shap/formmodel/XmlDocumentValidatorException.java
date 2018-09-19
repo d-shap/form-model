@@ -34,7 +34,7 @@ public final class XmlDocumentValidatorException extends FormModelException {
      * @param throwable cause exception.
      */
     public XmlDocumentValidatorException(final Throwable throwable) {
-        super(throwable.getMessage(), throwable);
+        super(throwable);
     }
 
 }

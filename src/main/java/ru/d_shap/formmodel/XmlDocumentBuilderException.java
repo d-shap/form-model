@@ -34,7 +34,7 @@ public final class XmlDocumentBuilderException extends FormModelException {
      * @param throwable cause exception.
      */
     public XmlDocumentBuilderException(final Throwable throwable) {
-        super(throwable.getMessage(), throwable);
+        super(throwable);
     }
 
 }
