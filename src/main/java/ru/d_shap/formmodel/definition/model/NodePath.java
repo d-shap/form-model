@@ -89,7 +89,7 @@ public final class NodePath {
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < _nodePathEntries.size(); i++) {
             if (i > 0) {
-                result.append(Messages.Representation.SEPARATOR);
+                result.append(Messages.SEPARATOR);
             }
             result.append(_nodePathEntries.get(i));
         }
