@@ -47,4 +47,13 @@ public class FormModelException extends RuntimeException {
         super(message, throwable);
     }
 
+    /**
+     * Create new object.
+     *
+     * @param throwable cause exception.
+     */
+    protected FormModelException(final Throwable throwable) {
+        super(throwable);
+    }
+
 }
