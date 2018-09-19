@@ -23,6 +23,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
 
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.validation.Schema;
+
+import com.sun.org.apache.xerces.internal.jaxp.JAXPConstants;
+
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
@@ -87,6 +93,25 @@ public final class XmlDocumentBuilderTest {
         } catch (InputSourceReadException ex) {
             Assertions.assertThat(ex).hasMessage("ERROR!");
             Assertions.assertThat(ex).hasCause(IOException.class);
+        }
+    }
+
+    /**
+     * {@link XmlDocumentBuilder} class test.
+     */
+    @Test
+    public void getDocumentBuilderTest() {
+        DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+        Assertions.assertThat(XmlDocumentBuilder.getDocumentBuilder(documentBuilderFactory)).isNotNull();
+
+        try {
+            Schema schema = XmlDocumentValidator.getFormModelSchemaValidator().getSchema();
+            documentBuilderFactory.setSchema(schema);
+            documentBuilderFactory.setAttribute(JAXPConstants.JAXP_SCHEMA_LANGUAGE, "some value");
+            XmlDocumentBuilder.getDocumentBuilder(documentBuilderFactory);
+            Assertions.fail("XmlDocumentBuilder test fail");
+        } catch (XmlDocumentBuilderException ex) {
+            Assertions.assertThat(ex).hasCause(ParserConfigurationException.class);
         }
     }
 
