@@ -21,10 +21,8 @@ package ru.d_shap.formmodel;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.io.StringReader;
 
 import org.junit.Test;
-import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import ru.d_shap.assertions.Assertions;
@@ -90,18 +88,16 @@ public final class XmlDocumentValidatorTest {
      */
     @Test
     public void validateTest() {
-        XmlDocumentBuilder documentBuilder = XmlDocumentBuilder.getDocumentBuilder();
-
         String validXml = "<?xml version='1.0'?>\n";
         validXml += "<fm:form xmlns:fm='http://d-shap.ru/schema/form-model/1.0'>";
         validXml += "</fm:form>";
-        XmlDocumentValidator.getFormModelDocumentValidator().validate(documentBuilder.parse(new InputSource(new StringReader(validXml))));
+        XmlDocumentValidator.getFormModelDocumentValidator().validate(XmlParserHelper.parse(validXml));
 
         try {
             String invalidXml = "<?xml version='1.0'?>\n";
             invalidXml += "<fm:forms xmlns:fm='http://d-shap.ru/schema/form-model/1.0'>";
             invalidXml += "</fm:forms>";
-            XmlDocumentValidator.getFormModelDocumentValidator().validate(documentBuilder.parse(new InputSource(new StringReader(invalidXml))));
+            XmlDocumentValidator.getFormModelDocumentValidator().validate(XmlParserHelper.parse(invalidXml));
             Assertions.fail("XmlDocumentValidator test fail");
         } catch (XmlDocumentValidatorException ex) {
             Assertions.assertThat(ex).hasCause(SAXException.class);
