@@ -67,10 +67,18 @@ public final class XmlDocumentBuilderTest {
      * {@link XmlDocumentBuilder} class test.
      */
     @Test
+    public void getDocumentBuilderTest() {
+        Assertions.assertThat(XmlDocumentBuilder.getDocumentBuilder()).isNotNull();
+    }
+
+    /**
+     * {@link XmlDocumentBuilder} class test.
+     */
+    @Test
     public void newDocumentTest() {
-        Document document = new XmlDocumentBuilder().newDocument();
+        Document document = XmlDocumentBuilder.getDocumentBuilder().newDocument();
         Assertions.assertThat(document).isNotNull();
-        Assertions.assertThat(new XmlDocumentBuilder().newDocument()).isNotSameAs(document);
+        Assertions.assertThat(XmlDocumentBuilder.getDocumentBuilder().newDocument()).isNotSameAs(document);
     }
 
     /**
@@ -82,7 +90,7 @@ public final class XmlDocumentBuilderTest {
         xml += "<document>";
         xml += "value";
         xml += "</document>";
-        Document document = new XmlDocumentBuilder().parse(new InputSource(new StringReader(xml)));
+        Document document = XmlDocumentBuilder.getDocumentBuilder().parse(new InputSource(new StringReader(xml)));
         Assertions.assertThat(document).isNotNull();
         Assertions.assertThat(document.getDocumentElement().getTagName()).isEqualTo("document");
         Assertions.assertThat(document.getDocumentElement().getTextContent()).isEqualTo("value");
@@ -94,7 +102,7 @@ public final class XmlDocumentBuilderTest {
     @Test
     public void parseFailTest() {
         try {
-            new XmlDocumentBuilder().parse(new InputSource(new ErrorInputStream()));
+            XmlDocumentBuilder.getDocumentBuilder().parse(new InputSource(new ErrorInputStream()));
             Assertions.fail("XmlDocumentBuilder test fail");
         } catch (InputSourceReadException ex) {
             Assertions.assertThat(ex).hasMessage("ERROR!");
