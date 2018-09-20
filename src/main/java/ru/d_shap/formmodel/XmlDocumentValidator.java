@@ -41,34 +41,28 @@ import org.xml.sax.SAXException;
  */
 public final class XmlDocumentValidator {
 
-    private static final SchemaFactory SCHEMA_FACTORY;
+    public static final String SCHEMA_PARENT_FOLDER = XmlDocumentValidator.class.getPackage().getName().replaceAll("\\.", "/");
 
-    static {
-        SCHEMA_FACTORY = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-    }
+    public static final String FORM_MODEL_SCHEMA_PATH = SCHEMA_PARENT_FOLDER + "/form-model-1_0.xsd";
 
-    private static final String SCHEMA_PARENT_FOLDER = XmlDocumentValidator.class.getPackage().getName().replaceAll("\\.", "/");
-
-    private static final String FORM_MODEL_SCHEMA_PATH = SCHEMA_PARENT_FOLDER + "/form-model-1_0.xsd";
-
-    private static final String FORM_INSTANCE_SCHEMA_PATH = SCHEMA_PARENT_FOLDER + "/form-instance-1_0.xsd";
-
-    private static final XmlDocumentValidator FORM_MODEL_SCHEMA_VALIDATOR = new XmlDocumentValidator(FORM_MODEL_SCHEMA_PATH);
-
-    private static final XmlDocumentValidator FORM_INSTANCE_SCHEMA_VALIDATOR = new XmlDocumentValidator(FORM_INSTANCE_SCHEMA_PATH);
-
-    private final Schema _schema;
+    public static final String FORM_INSTANCE_SCHEMA_PATH = SCHEMA_PARENT_FOLDER + "/form-instance-1_0.xsd";
 
     private final Validator _validator;
 
-    private XmlDocumentValidator(final String schemaPath) {
+    /**
+     * Create new object.
+     *
+     * @param schemaPath path to the schema.
+     */
+    public XmlDocumentValidator(final String schemaPath) {
         super();
-        URL url = getClass().getClassLoader().getResource(schemaPath);
         try {
+            URL url = getClass().getClassLoader().getResource(schemaPath);
             try (InputStream inputStream = url.openStream()) {
                 Source source = new StreamSource(inputStream);
-                _schema = SCHEMA_FACTORY.newSchema(source);
-                _validator = _schema.newValidator();
+                SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+                Schema schema = schemaFactory.newSchema(source);
+                _validator = schema.newValidator();
             }
         } catch (IOException | SAXException ex) {
             throw new XmlDocumentValidatorException(ex);
@@ -76,30 +70,21 @@ public final class XmlDocumentValidator {
     }
 
     /**
-     * Get the form-model document validator.
+     * Get the form-model document validator instance.
      *
-     * @return the form-model document validator.
+     * @return the form-model document validator instance.
      */
-    public static XmlDocumentValidator getFormModelSchemaValidator() {
-        return FORM_MODEL_SCHEMA_VALIDATOR;
+    public static XmlDocumentValidator getFormModelDocumentValidator() {
+        return new XmlDocumentValidator(FORM_MODEL_SCHEMA_PATH);
     }
 
     /**
-     * Get the form-instance document validator.
+     * Get the form-instance document validator instance.
      *
-     * @return the form-instance document validator.
+     * @return the form-instance document validator instance.
      */
-    public static XmlDocumentValidator getFormInstanceSchemaValidator() {
-        return FORM_INSTANCE_SCHEMA_VALIDATOR;
-    }
-
-    /**
-     * Get the schema.
-     *
-     * @return the schema.
-     */
-    public Schema getSchema() {
-        return _schema;
+    public static XmlDocumentValidator getFormInstanceDocumentValidator() {
+        return new XmlDocumentValidator(FORM_INSTANCE_SCHEMA_PATH);
     }
 
     /**
