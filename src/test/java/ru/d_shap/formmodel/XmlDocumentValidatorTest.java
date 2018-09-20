@@ -95,8 +95,8 @@ public final class XmlDocumentValidatorTest {
 
         try {
             String invalidXml = "<?xml version='1.0'?>\n";
-            invalidXml += "<fm:forms xmlns:fm='http://d-shap.ru/schema/form-model/1.0'>";
-            invalidXml += "</fm:forms>";
+            invalidXml += "<fm:formS xmlns:fm='http://d-shap.ru/schema/form-model/1.0'>";
+            invalidXml += "</fm:formS>";
             XmlDocumentValidator.getFormModelDocumentValidator().validate(XmlParserHelper.parse(invalidXml));
             Assertions.fail("XmlDocumentValidator test fail");
         } catch (XmlDocumentValidatorException ex) {
