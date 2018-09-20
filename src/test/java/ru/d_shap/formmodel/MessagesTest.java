@@ -152,7 +152,7 @@ public final class MessagesTest {
      */
     @Test
     public void getXmlElementRepresentationTest() {
-        Document document = new XmlDocumentBuilder().newDocument();
+        Document document = XmlDocumentBuilder.getDocumentBuilder().newDocument();
         Assertions.assertThat(Messages.Representation.getXmlElementRepresentation(null)).isEqualTo("null");
         Assertions.assertThat(Messages.Representation.getXmlElementRepresentation(document.createElement("someElement"))).isEqualTo("someElement");
         Assertions.assertThat(Messages.Representation.getXmlElementRepresentation(document.createElementNS("http://example.com", "someElement"))).isEqualTo("{http://example.com}someElement");
@@ -163,7 +163,7 @@ public final class MessagesTest {
      */
     @Test
     public void getFormDefinitionElementIsNotValidMessageTest() {
-        Document document = new XmlDocumentBuilder().newDocument();
+        Document document = XmlDocumentBuilder.getDocumentBuilder().newDocument();
         Assertions.assertThat(Messages.Validation.getFormDefinitionElementIsNotValidMessage(null)).isEqualTo("[Form definition element is not valid: null]");
         Assertions.assertThat(Messages.Validation.getFormDefinitionElementIsNotValidMessage(document.createElement("someElement"))).isEqualTo("[Form definition element is not valid: someElement]");
         Assertions.assertThat(Messages.Validation.getFormDefinitionElementIsNotValidMessage(document.createElementNS("http://example.com", "someElement"))).isEqualTo("[Form definition element is not valid: {http://example.com}someElement]");
@@ -174,7 +174,7 @@ public final class MessagesTest {
      */
     @Test
     public void getElementDefinitionElementIsNotValidMessageTest() {
-        Document document = new XmlDocumentBuilder().newDocument();
+        Document document = XmlDocumentBuilder.getDocumentBuilder().newDocument();
         Assertions.assertThat(Messages.Validation.getElementDefinitionElementIsNotValidMessage(null)).isEqualTo("[Element definition element is not valid: null]");
         Assertions.assertThat(Messages.Validation.getElementDefinitionElementIsNotValidMessage(document.createElement("someElement"))).isEqualTo("[Element definition element is not valid: someElement]");
         Assertions.assertThat(Messages.Validation.getElementDefinitionElementIsNotValidMessage(document.createElementNS("http://example.com", "someElement"))).isEqualTo("[Element definition element is not valid: {http://example.com}someElement]");
@@ -185,7 +185,7 @@ public final class MessagesTest {
      */
     @Test
     public void getChoiceDefinitionElementIsNotValidMessageTest() {
-        Document document = new XmlDocumentBuilder().newDocument();
+        Document document = XmlDocumentBuilder.getDocumentBuilder().newDocument();
         Assertions.assertThat(Messages.Validation.getChoiceDefinitionElementIsNotValidMessage(null)).isEqualTo("[Choice definition element is not valid: null]");
         Assertions.assertThat(Messages.Validation.getChoiceDefinitionElementIsNotValidMessage(document.createElement("someElement"))).isEqualTo("[Choice definition element is not valid: someElement]");
         Assertions.assertThat(Messages.Validation.getChoiceDefinitionElementIsNotValidMessage(document.createElementNS("http://example.com", "someElement"))).isEqualTo("[Choice definition element is not valid: {http://example.com}someElement]");
@@ -196,7 +196,7 @@ public final class MessagesTest {
      */
     @Test
     public void getFormReferenceDefinitionElementIsNotValidMessageTest() {
-        Document document = new XmlDocumentBuilder().newDocument();
+        Document document = XmlDocumentBuilder.getDocumentBuilder().newDocument();
         Assertions.assertThat(Messages.Validation.getFormReferenceDefinitionElementIsNotValidMessage(null)).isEqualTo("[Form reference definition element is not valid: null]");
         Assertions.assertThat(Messages.Validation.getFormReferenceDefinitionElementIsNotValidMessage(document.createElement("someElement"))).isEqualTo("[Form reference definition element is not valid: someElement]");
         Assertions.assertThat(Messages.Validation.getFormReferenceDefinitionElementIsNotValidMessage(document.createElementNS("http://example.com", "someElement"))).isEqualTo("[Form reference definition element is not valid: {http://example.com}someElement]");
@@ -207,7 +207,7 @@ public final class MessagesTest {
      */
     @Test
     public void getAttributeDefinitionElementIsNotValidMessageTest() {
-        Document document = new XmlDocumentBuilder().newDocument();
+        Document document = XmlDocumentBuilder.getDocumentBuilder().newDocument();
         Assertions.assertThat(Messages.Validation.getAttributeDefinitionElementIsNotValidMessage(null)).isEqualTo("[Attribute definition element is not valid: null]");
         Assertions.assertThat(Messages.Validation.getAttributeDefinitionElementIsNotValidMessage(document.createElement("someElement"))).isEqualTo("[Attribute definition element is not valid: someElement]");
         Assertions.assertThat(Messages.Validation.getAttributeDefinitionElementIsNotValidMessage(document.createElementNS("http://example.com", "someElement"))).isEqualTo("[Attribute definition element is not valid: {http://example.com}someElement]");
@@ -218,7 +218,7 @@ public final class MessagesTest {
      */
     @Test
     public void getChildElementIsNotValidMessageTest() {
-        Document document = new XmlDocumentBuilder().newDocument();
+        Document document = XmlDocumentBuilder.getDocumentBuilder().newDocument();
         Assertions.assertThat(Messages.Validation.getChildElementIsNotValidMessage(null)).isEqualTo("[Child element is not valid: null]");
         Assertions.assertThat(Messages.Validation.getChildElementIsNotValidMessage(document.createElement("someElement"))).isEqualTo("[Child element is not valid: someElement]");
         Assertions.assertThat(Messages.Validation.getChildElementIsNotValidMessage(document.createElementNS("http://example.com", "someElement"))).isEqualTo("[Child element is not valid: {http://example.com}someElement]");
