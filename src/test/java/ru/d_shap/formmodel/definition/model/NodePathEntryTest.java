@@ -43,6 +43,8 @@ public final class NodePathEntryTest {
     @Test
     public void toStringTest() {
         Assertions.assertThat(new NodePathEntry(null).toString()).isNull();
+        Assertions.assertThat(new NodePathEntry("").toString()).isEqualTo("");
+        Assertions.assertThat(new NodePathEntry(" ").toString()).isEqualTo(" ");
         Assertions.assertThat(new NodePathEntry("value").toString()).isEqualTo("value");
         Assertions.assertThat(new NodePathEntry("vAlUe").toString()).isEqualTo("vAlUe");
     }
