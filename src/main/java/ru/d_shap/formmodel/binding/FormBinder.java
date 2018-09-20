@@ -103,7 +103,7 @@ public final class FormBinder {
         Document document = xmlDocumentBuilder.newDocument();
         FormBinderImpl formInstanceBinder = new FormBinderImpl(bindingSource, document);
         formInstanceBinder.bindFormInstance(formDefinition);
-        XmlDocumentValidator.getFormInstanceSchemaValidator().validate(document);
+        XmlDocumentValidator.getFormInstanceDocumentValidator().validate(document);
         return document;
     }
 

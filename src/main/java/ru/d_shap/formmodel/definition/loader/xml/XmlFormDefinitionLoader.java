@@ -74,7 +74,7 @@ final class XmlFormDefinitionLoader implements FormModelXmlDefinitionBuilder {
         Document document = _xmlDocumentBuilder.parse(inputSource);
         Element element = document.getDocumentElement();
         if (isFormDefinitionElement(element)) {
-            XmlDocumentValidator.getFormModelSchemaValidator().validate(document);
+            XmlDocumentValidator.getFormModelDocumentValidator().validate(document);
             return createFormDefinition(element, source);
         } else {
             return null;
