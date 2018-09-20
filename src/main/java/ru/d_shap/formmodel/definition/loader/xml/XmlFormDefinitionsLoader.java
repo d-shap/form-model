@@ -19,13 +19,11 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.formmodel.definition.loader.xml;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ServiceLoader;
 
 import org.xml.sax.InputSource;
 
+import ru.d_shap.formmodel.ServiceFinder;
 import ru.d_shap.formmodel.definition.loader.FormDefinitionsLoader;
 import ru.d_shap.formmodel.definition.model.FormDefinition;
 import ru.d_shap.formmodel.definition.model.FormDefinitions;
@@ -37,8 +35,6 @@ import ru.d_shap.formmodel.definition.model.FormDefinitions;
  */
 public class XmlFormDefinitionsLoader extends FormDefinitionsLoader {
 
-    private static final ServiceLoader<OtherNodeXmlDefinitionBuilder> SERVICE_LOADER = ServiceLoader.load(OtherNodeXmlDefinitionBuilder.class);
-
     private final XmlFormDefinitionLoader _xmlFormDefinitionLoader;
 
     /**
@@ -48,12 +44,7 @@ public class XmlFormDefinitionsLoader extends FormDefinitionsLoader {
      */
     protected XmlFormDefinitionsLoader(final FormDefinitions formDefinitions) {
         super(formDefinitions);
-        List<OtherNodeXmlDefinitionBuilder> otherNodeXmlDefinitionBuilders = new ArrayList<>();
-        Iterator<OtherNodeXmlDefinitionBuilder> iterator = SERVICE_LOADER.iterator();
-        while (iterator.hasNext()) {
-            OtherNodeXmlDefinitionBuilder otherNodeXmlDefinitionBuilder = iterator.next();
-            otherNodeXmlDefinitionBuilders.add(otherNodeXmlDefinitionBuilder);
-        }
+        List<OtherNodeXmlDefinitionBuilder> otherNodeXmlDefinitionBuilders = ServiceFinder.find(OtherNodeXmlDefinitionBuilder.class);
         _xmlFormDefinitionLoader = new XmlFormDefinitionLoader(otherNodeXmlDefinitionBuilders);
     }
 

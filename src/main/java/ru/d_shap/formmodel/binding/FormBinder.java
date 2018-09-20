@@ -19,15 +19,13 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.formmodel.binding;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ServiceLoader;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import ru.d_shap.formmodel.Messages;
+import ru.d_shap.formmodel.ServiceFinder;
 import ru.d_shap.formmodel.XmlDocumentBuilder;
 import ru.d_shap.formmodel.XmlDocumentValidator;
 import ru.d_shap.formmodel.binding.api.Binder;
@@ -54,8 +52,6 @@ import ru.d_shap.formmodel.definition.model.OtherNodeDefinition;
  */
 public final class FormBinder {
 
-    private static final ServiceLoader<OtherNodeInstanceBuilder> SERVICE_LOADER = ServiceLoader.load(OtherNodeInstanceBuilder.class);
-
     private final FormDefinitions _formDefinitions;
 
     private final Binder _binder;
@@ -72,12 +68,7 @@ public final class FormBinder {
         super();
         _formDefinitions = formDefinitions;
         _binder = binder;
-        _otherNodeInstanceBuilders = new ArrayList<>();
-        Iterator<OtherNodeInstanceBuilder> iterator = SERVICE_LOADER.iterator();
-        while (iterator.hasNext()) {
-            OtherNodeInstanceBuilder otherNodeInstanceBuilder = iterator.next();
-            _otherNodeInstanceBuilders.add(otherNodeInstanceBuilder);
-        }
+        _otherNodeInstanceBuilders = ServiceFinder.find(OtherNodeInstanceBuilder.class);
     }
 
     /**

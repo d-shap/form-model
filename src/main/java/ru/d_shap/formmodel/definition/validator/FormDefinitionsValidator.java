@@ -19,14 +19,12 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.formmodel.definition.validator;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.ServiceLoader;
 
 import ru.d_shap.formmodel.Messages;
+import ru.d_shap.formmodel.ServiceFinder;
 import ru.d_shap.formmodel.definition.FormDefinitionValidationException;
 import ru.d_shap.formmodel.definition.model.FormDefinition;
 import ru.d_shap.formmodel.definition.model.FormDefinitionKey;
@@ -39,8 +37,6 @@ import ru.d_shap.formmodel.definition.model.NodePath;
  */
 public final class FormDefinitionsValidator {
 
-    private static final ServiceLoader<OtherNodeDefinitionValidator> SERVICE_LOADER = ServiceLoader.load(OtherNodeDefinitionValidator.class);
-
     private final List<OtherNodeDefinitionValidator> _otherNodeDefinitionValidators;
 
     /**
@@ -48,12 +44,7 @@ public final class FormDefinitionsValidator {
      */
     public FormDefinitionsValidator() {
         super();
-        _otherNodeDefinitionValidators = new ArrayList<>();
-        Iterator<OtherNodeDefinitionValidator> iterator = SERVICE_LOADER.iterator();
-        while (iterator.hasNext()) {
-            OtherNodeDefinitionValidator otherNodeDefinitionValidator = iterator.next();
-            _otherNodeDefinitionValidators.add(otherNodeDefinitionValidator);
-        }
+        _otherNodeDefinitionValidators = ServiceFinder.find(OtherNodeDefinitionValidator.class);
     }
 
     /**
