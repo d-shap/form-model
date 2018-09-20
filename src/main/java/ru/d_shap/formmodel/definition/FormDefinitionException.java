@@ -49,4 +49,13 @@ public class FormDefinitionException extends FormModelException {
         super(message, throwable);
     }
 
+    /**
+     * Create new object.
+     *
+     * @param throwable cause exception.
+     */
+    protected FormDefinitionException(final Throwable throwable) {
+        super(throwable);
+    }
+
 }
