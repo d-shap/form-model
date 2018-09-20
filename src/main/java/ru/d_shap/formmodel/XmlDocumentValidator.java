@@ -21,7 +21,6 @@ package ru.d_shap.formmodel;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
 
 import javax.xml.XMLConstants;
 import javax.xml.transform.Source;
@@ -55,14 +54,24 @@ public final class XmlDocumentValidator {
      * @param schemaPath path to the schema.
      */
     public XmlDocumentValidator(final String schemaPath) {
+        this(XmlDocumentValidator.class.getClassLoader().getResourceAsStream(schemaPath));
+    }
+
+    /**
+     * Create new object.
+     *
+     * @param inputStream input stream with the schema.
+     */
+    public XmlDocumentValidator(final InputStream inputStream) {
         super();
         try {
-            URL url = getClass().getClassLoader().getResource(schemaPath);
-            try (InputStream inputStream = url.openStream()) {
-                Source source = new StreamSource(inputStream);
+            try {
                 SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+                Source source = new StreamSource(inputStream);
                 Schema schema = schemaFactory.newSchema(source);
                 _validator = schema.newValidator();
+            } finally {
+                inputStream.close();
             }
         } catch (IOException | SAXException ex) {
             throw new XmlDocumentValidatorException(ex);
