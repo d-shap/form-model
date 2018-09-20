@@ -65,6 +65,15 @@ public final class XmlDocumentBuilder {
     }
 
     /**
+     * Get the XML document builder instance.
+     *
+     * @return the XML document builder instance.
+     */
+    public static XmlDocumentBuilder getDocumentBuilder() {
+        return new XmlDocumentBuilder();
+    }
+
+    /**
      * Create new XML document.
      *
      * @return new XML document.
