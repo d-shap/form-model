@@ -43,6 +43,14 @@ public final class ServiceFinderTest {
      * {@link ServiceFinder} class test.
      */
     @Test
+    public void constructorTest() {
+        Assertions.assertThat(ServiceFinder.class).hasOnePrivateConstructor();
+    }
+
+    /**
+     * {@link ServiceFinder} class test.
+     */
+    @Test
     public void findServiceTest() {
         List<ServiceInterface> services = ServiceFinder.find(ServiceInterface.class);
         Assertions.assertThat(services).hasSize(1);
