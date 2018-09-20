@@ -20,7 +20,7 @@
 package ru.d_shap.formmodel;
 
 /**
- * Interface for {@link ServiceFinder}.
+ * Service interface for {@link ServiceFinder}.
  *
  * @author Dmitry Shapovalov
  */
