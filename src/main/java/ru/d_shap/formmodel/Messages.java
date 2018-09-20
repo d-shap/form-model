@@ -45,7 +45,7 @@ public final class Messages {
         if (value == null) {
             return "";
         } else {
-            return value.trim();
+            return value;
         }
     }
 
