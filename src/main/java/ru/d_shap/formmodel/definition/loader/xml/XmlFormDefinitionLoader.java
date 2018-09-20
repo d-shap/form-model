@@ -53,12 +53,15 @@ import ru.d_shap.formmodel.definition.model.OtherNodeDefinition;
  */
 final class XmlFormDefinitionLoader implements FormModelXmlDefinitionBuilder {
 
+    private final XmlDocumentBuilder _xmlDocumentBuilder;
+
     private final List<OtherNodeXmlDefinitionBuilder> _otherNodeXmlDefinitionBuilders;
 
     private final OtherNodeXmlDefinitionBuilder _defaultOtherNodeXmlDefinitionBuilder;
 
     XmlFormDefinitionLoader(final List<OtherNodeXmlDefinitionBuilder> otherNodeXmlDefinitionBuilders) {
         super();
+        _xmlDocumentBuilder = new XmlDocumentBuilder();
         if (otherNodeXmlDefinitionBuilders == null) {
             _otherNodeXmlDefinitionBuilders = new ArrayList<>();
         } else {
@@ -68,7 +71,7 @@ final class XmlFormDefinitionLoader implements FormModelXmlDefinitionBuilder {
     }
 
     FormDefinition load(final InputSource inputSource, final String source) {
-        Document document = XmlDocumentBuilder.parse(inputSource);
+        Document document = _xmlDocumentBuilder.parse(inputSource);
         Element element = document.getDocumentElement();
         if (isFormDefinitionElement(element)) {
             XmlDocumentValidator.getFormModelSchemaValidator().validate(document);
