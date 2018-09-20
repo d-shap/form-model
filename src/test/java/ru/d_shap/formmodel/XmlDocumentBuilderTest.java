@@ -50,8 +50,17 @@ public final class XmlDocumentBuilderTest {
      * {@link XmlDocumentBuilder} class test.
      */
     @Test
-    public void constructorTest() {
-        Assertions.assertThat(XmlDocumentBuilder.class).hasOnePrivateConstructor();
+    public void createNewObjectTest() {
+        Assertions.assertThat(new XmlDocumentBuilder()).isNotNull();
+        Assertions.assertThat(new XmlDocumentBuilder(null)).isNotNull();
+        Assertions.assertThat(new XmlDocumentBuilder(new DocumentBuilderFactoryConfiguratorImpl())).isNotNull();
+
+        try {
+            new XmlDocumentBuilder(new ErrorDocumentBuilderFactoryConfiguratorImpl());
+            Assertions.fail("XmlDocumentBuilder test fail");
+        } catch (XmlDocumentBuilderException ex) {
+            Assertions.assertThat(ex).hasCause(ParserConfigurationException.class);
+        }
     }
 
     /**
@@ -59,9 +68,9 @@ public final class XmlDocumentBuilderTest {
      */
     @Test
     public void newDocumentTest() {
-        Document document = XmlDocumentBuilder.newDocument();
+        Document document = new XmlDocumentBuilder().newDocument();
         Assertions.assertThat(document).isNotNull();
-        Assertions.assertThat(XmlDocumentBuilder.newDocument()).isNotSameAs(document);
+        Assertions.assertThat(new XmlDocumentBuilder().newDocument()).isNotSameAs(document);
     }
 
     /**
@@ -73,7 +82,7 @@ public final class XmlDocumentBuilderTest {
         xml += "<document>";
         xml += "value";
         xml += "</document>";
-        Document document = XmlDocumentBuilder.parse(new InputSource(new StringReader(xml)));
+        Document document = new XmlDocumentBuilder().parse(new InputSource(new StringReader(xml)));
         Assertions.assertThat(document).isNotNull();
         Assertions.assertThat(document.getDocumentElement().getTagName()).isEqualTo("document");
         Assertions.assertThat(document.getDocumentElement().getTextContent()).isEqualTo("value");
@@ -85,7 +94,7 @@ public final class XmlDocumentBuilderTest {
     @Test
     public void parseFailTest() {
         try {
-            XmlDocumentBuilder.parse(new InputSource(new ErrorInputStream()));
+            new XmlDocumentBuilder().parse(new InputSource(new ErrorInputStream()));
             Assertions.fail("XmlDocumentBuilder test fail");
         } catch (InputSourceReadException ex) {
             Assertions.assertThat(ex).hasMessage("ERROR!");
@@ -94,18 +103,40 @@ public final class XmlDocumentBuilderTest {
     }
 
     /**
-     * {@link XmlDocumentBuilder} class test.
+     * Test class.
+     *
+     * @author Dmitry Shapovalov
      */
-    @Test
-    public void getDocumentBuilderTest() {
-        Assertions.assertThat(XmlDocumentBuilder.getDocumentBuilder(new XmlDocumentBuilder.DefaultDocumentBuilderFactoryConfigurator())).isNotNull();
+    private static final class DocumentBuilderFactoryConfiguratorImpl implements XmlDocumentBuilderConfigurator {
 
-        try {
-            XmlDocumentBuilder.getDocumentBuilder(new ErrorDocumentBuilderFactoryConfigurator());
-            Assertions.fail("XmlDocumentBuilder test fail");
-        } catch (XmlDocumentBuilderException ex) {
-            Assertions.assertThat(ex).hasCause(ParserConfigurationException.class);
+        DocumentBuilderFactoryConfiguratorImpl() {
+            super();
         }
+
+        @Override
+        public void configure(final DocumentBuilderFactory documentBuilderFactory) throws ParserConfigurationException {
+            documentBuilderFactory.setNamespaceAware(true);
+        }
+
+    }
+
+    /**
+     * Test class.
+     *
+     * @author Dmitry Shapovalov
+     */
+    private static final class ErrorDocumentBuilderFactoryConfiguratorImpl implements XmlDocumentBuilderConfigurator {
+
+        ErrorDocumentBuilderFactoryConfiguratorImpl() {
+            super();
+        }
+
+        @Override
+        public void configure(final DocumentBuilderFactory documentBuilderFactory) throws ParserConfigurationException {
+            documentBuilderFactory.setNamespaceAware(true);
+            documentBuilderFactory.setFeature("some fake feature", true);
+        }
+
     }
 
     /**
@@ -122,25 +153,6 @@ public final class XmlDocumentBuilderTest {
         @Override
         public int read() throws IOException {
             throw new IOException("ERROR!");
-        }
-
-    }
-
-    /**
-     * Test class.
-     *
-     * @author Dmitry Shapovalov
-     */
-    private static final class ErrorDocumentBuilderFactoryConfigurator implements XmlDocumentBuilder.DocumentBuilderFactoryConfigurator {
-
-        ErrorDocumentBuilderFactoryConfigurator() {
-            super();
-        }
-
-        @Override
-        public void configure(final DocumentBuilderFactory documentBuilderFactory) throws ParserConfigurationException {
-            documentBuilderFactory.setNamespaceAware(true);
-            documentBuilderFactory.setFeature("some fake feature", true);
         }
 
     }
