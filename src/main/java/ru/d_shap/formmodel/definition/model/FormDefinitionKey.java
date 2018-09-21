@@ -35,6 +35,15 @@ public final class FormDefinitionKey {
     /**
      * Create new object.
      *
+     * @param id the form's ID.
+     */
+    public FormDefinitionKey(final String id) {
+        this(null, id);
+    }
+
+    /**
+     * Create new object.
+     *
      * @param group the form's group.
      * @param id    the form's ID.
      */
