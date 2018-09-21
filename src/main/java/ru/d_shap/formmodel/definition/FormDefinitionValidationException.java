@@ -33,6 +33,15 @@ public final class FormDefinitionValidationException extends FormDefinitionExcep
     /**
      * Create new object.
      *
+     * @param message exception message.
+     */
+    public FormDefinitionValidationException(final String message) {
+        this(message, null);
+    }
+
+    /**
+     * Create new object.
+     *
      * @param message  exception message.
      * @param nodePath node path.
      */
