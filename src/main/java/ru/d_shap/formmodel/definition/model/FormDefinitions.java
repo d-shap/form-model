@@ -71,7 +71,7 @@ public final class FormDefinitions {
      * @return the form definition.
      */
     public FormDefinition getFormDefinition(final String id) {
-        FormDefinitionKey formDefinitionKey = new FormDefinitionKey(null, id);
+        FormDefinitionKey formDefinitionKey = new FormDefinitionKey(id);
         return getFormDefinition(formDefinitionKey);
     }
 
