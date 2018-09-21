@@ -33,7 +33,7 @@ import ru.d_shap.assertions.Assertions;
  *
  * @author Dmitry Shapovalov
  */
-public class AttributeDefinitionTest {
+public final class AttributeDefinitionTest {
 
     /**
      * Test class constructor.
