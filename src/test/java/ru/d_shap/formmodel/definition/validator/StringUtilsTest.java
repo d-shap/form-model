@@ -22,13 +22,14 @@ package ru.d_shap.formmodel.definition.validator;
 import org.junit.Test;
 
 import ru.d_shap.assertions.Assertions;
+import ru.d_shap.formmodel.BaseFormModelTest;
 
 /**
  * Tests for {@link StringUtils}.
  *
  * @author Dmitry Shapovalov
  */
-public final class StringUtilsTest {
+public final class StringUtilsTest extends BaseFormModelTest {
 
     /**
      * Test class constructor.
