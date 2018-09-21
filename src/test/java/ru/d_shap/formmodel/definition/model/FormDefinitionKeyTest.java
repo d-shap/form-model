@@ -25,13 +25,14 @@ import java.util.HashMap;
 import org.junit.Test;
 
 import ru.d_shap.assertions.Assertions;
+import ru.d_shap.formmodel.BaseFormModelTest;
 
 /**
  * Tests for {@link FormDefinitionKey}.
  *
  * @author Dmitry Shapovalov
  */
-public final class FormDefinitionKeyTest {
+public final class FormDefinitionKeyTest extends BaseFormModelTest {
 
     /**
      * Test class constructor.

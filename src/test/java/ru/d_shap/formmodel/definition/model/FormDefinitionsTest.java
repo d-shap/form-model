@@ -19,14 +19,20 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.formmodel.definition.model;
 
+import java.util.Arrays;
+
 import org.junit.Test;
+
+import ru.d_shap.assertions.Assertions;
+import ru.d_shap.formmodel.BaseFormModelTest;
+import ru.d_shap.formmodel.definition.FormDefinitionValidationException;
 
 /**
  * Tests for {@link FormDefinitions}.
  *
  * @author Dmitry Shapovalov
  */
-public final class FormDefinitionsTest {
+public final class FormDefinitionsTest extends BaseFormModelTest {
 
     /**
      * Test class constructor.
@@ -40,7 +46,18 @@ public final class FormDefinitionsTest {
      */
     @Test
     public void addFormDefinitionsTest() {
+        FormDefinitions formDefinitions = new FormDefinitions();
 
+        FormDefinition formDefinition1 = new FormDefinition("group", "id1", createNodeDefinitions(), createOtherAttributes(), "source1");
+        FormDefinition formDefinition2 = new FormDefinition("group", "id2", createNodeDefinitions(), createOtherAttributes(), "source2");
+        formDefinitions.addFormDefinitions(Arrays.asList(formDefinition1, formDefinition2));
+
+        try {
+            formDefinitions.addFormDefinitions(Arrays.asList(formDefinition1, formDefinition2));
+            Assertions.fail("FormDefinitions test fail");
+        } catch (FormDefinitionValidationException ex) {
+            Assertions.assertThat(ex).hasMessage("[Form is not unique: @group:id1, (source1), (source1)]");
+        }
     }
 
     /**

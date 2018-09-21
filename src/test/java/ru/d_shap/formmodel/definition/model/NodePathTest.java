@@ -25,13 +25,14 @@ import java.util.HashMap;
 import org.junit.Test;
 
 import ru.d_shap.assertions.Assertions;
+import ru.d_shap.formmodel.BaseFormModelTest;
 
 /**
  * Tests for {@link NodePath}.
  *
  * @author Dmitry Shapovalov
  */
-public final class NodePathTest {
+public final class NodePathTest extends BaseFormModelTest {
 
     /**
      * Test class constructor.

@@ -19,23 +19,17 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.formmodel.definition.model;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.junit.Test;
 
 import ru.d_shap.assertions.Assertions;
+import ru.d_shap.formmodel.BaseFormModelTest;
 
 /**
  * Tests for {@link NodeData}.
  *
  * @author Dmitry Shapovalov
  */
-public final class NodeDataTest {
+public final class NodeDataTest extends BaseFormModelTest {
 
     /**
      * Test class constructor.
@@ -341,35 +335,6 @@ public final class NodeDataTest {
     @Test(expected = NullPointerException.class)
     public void skipAttributesNullFailTest() {
         new NodeData(createNodeDefinitions(), createValidElements(), createOtherAttributes("name", "value"), null);
-    }
-
-    private List<NodeDefinition> createNodeDefinitions(final NodeDefinition... nodeDefinitions) {
-        return Arrays.asList(nodeDefinitions);
-    }
-
-    private Set<String> createValidElements(final String... elements) {
-        if (elements.length == 0) {
-            Set<String> result = new HashSet<>();
-            result.add(AttributeDefinition.ELEMENT_NAME);
-            result.add(ElementDefinition.ELEMENT_NAME);
-            result.add(ChoiceDefinition.ELEMENT_NAME);
-            result.add(FormReferenceDefinition.ELEMENT_NAME);
-            return result;
-        } else {
-            return new HashSet<>(Arrays.asList(elements));
-        }
-    }
-
-    private Map<String, String> createOtherAttributes(final String... keyValues) {
-        Map<String, String> result = new HashMap<>();
-        for (int i = 0; i < keyValues.length; i += 2) {
-            result.put(keyValues[i], keyValues[i + 1]);
-        }
-        return result;
-    }
-
-    private Set<String> createSkipAttributes(final String... attributes) {
-        return new HashSet<>(Arrays.asList(attributes));
     }
 
 }

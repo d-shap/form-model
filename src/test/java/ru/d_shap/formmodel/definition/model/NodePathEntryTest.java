@@ -22,13 +22,14 @@ package ru.d_shap.formmodel.definition.model;
 import org.junit.Test;
 
 import ru.d_shap.assertions.Assertions;
+import ru.d_shap.formmodel.BaseFormModelTest;
 
 /**
  * Tests for {@link NodePathEntry}.
  *
  * @author Dmitry Shapovalov
  */
-public final class NodePathEntryTest {
+public final class NodePathEntryTest extends BaseFormModelTest {
 
     /**
      * Test class constructor.
