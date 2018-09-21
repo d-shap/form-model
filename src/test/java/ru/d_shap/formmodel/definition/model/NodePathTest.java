@@ -19,9 +19,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.formmodel.definition.model;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import org.junit.Test;
 
 import ru.d_shap.assertions.Assertions;
@@ -46,7 +43,7 @@ public final class NodePathTest extends BaseFormModelTest {
      */
     @Test
     public void toStringTest() {
-        Assertions.assertThat(new NodePath().toString()).isEqualTo("");
+        Assertions.assertThat(new NodePath()).hasToString("");
     }
 
     /**
@@ -54,8 +51,8 @@ public final class NodePathTest extends BaseFormModelTest {
      */
     @Test
     public void toStringWithRepresentationTest() {
-        Assertions.assertThat(new NodePath("value").toString()).isEqualTo("value");
-        Assertions.assertThat(new NodePath("vAlUe").toString()).isEqualTo("vAlUe");
+        Assertions.assertThat(new NodePath("value")).hasToString("value");
+        Assertions.assertThat(new NodePath("vAlUe")).hasToString("vAlUe");
     }
 
     /**
@@ -63,8 +60,8 @@ public final class NodePathTest extends BaseFormModelTest {
      */
     @Test
     public void toStringWithDefinitionTest() {
-        Assertions.assertThat(new NodePath(new FormDefinition("group", "id", new ArrayList<NodeDefinition>(), new HashMap<String, String>(), "source")).toString()).isEqualTo("{source}form[@group:id]");
-        Assertions.assertThat(new NodePath(new ElementDefinition("id", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>())).toString()).isEqualTo("element[@id]");
+        Assertions.assertThat(new NodePath(new FormDefinition("group", "id", createNodeDefinitions(), createOtherAttributes(), "source"))).hasToString("{source}form[@group:id]");
+        Assertions.assertThat(new NodePath(new ElementDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes()))).hasToString("element[@id]");
     }
 
     /**
@@ -73,24 +70,24 @@ public final class NodePathTest extends BaseFormModelTest {
     @Test
     public void toStringWithParentAndRepresentationTest() {
         NodePath parent1 = new NodePath();
-        Assertions.assertThat(new NodePath(parent1, "value").toString()).isEqualTo("value");
-        Assertions.assertThat(new NodePath(parent1, "vAlUe").toString()).isEqualTo("vAlUe");
+        Assertions.assertThat(new NodePath(parent1, "value")).hasToString("value");
+        Assertions.assertThat(new NodePath(parent1, "vAlUe")).hasToString("vAlUe");
 
         NodePath parent2 = new NodePath("parent");
-        Assertions.assertThat(new NodePath(parent2, "value").toString()).isEqualTo("parent/value");
-        Assertions.assertThat(new NodePath(parent2, "vAlUe").toString()).isEqualTo("parent/vAlUe");
+        Assertions.assertThat(new NodePath(parent2, "value")).hasToString("parent/value");
+        Assertions.assertThat(new NodePath(parent2, "vAlUe")).hasToString("parent/vAlUe");
 
         NodePath parent3 = new NodePath(parent2, "interim");
-        Assertions.assertThat(new NodePath(parent3, "value").toString()).isEqualTo("parent/interim/value");
-        Assertions.assertThat(new NodePath(parent3, "vAlUe").toString()).isEqualTo("parent/interim/vAlUe");
+        Assertions.assertThat(new NodePath(parent3, "value")).hasToString("parent/interim/value");
+        Assertions.assertThat(new NodePath(parent3, "vAlUe")).hasToString("parent/interim/vAlUe");
 
-        NodePath parent4 = new NodePath(new FormDefinition("group", "id", new ArrayList<NodeDefinition>(), new HashMap<String, String>(), "source"));
-        Assertions.assertThat(new NodePath(parent4, "value").toString()).isEqualTo("{source}form[@group:id]/value");
-        Assertions.assertThat(new NodePath(parent4, "vAlUe").toString()).isEqualTo("{source}form[@group:id]/vAlUe");
+        NodePath parent4 = new NodePath(new FormDefinition("group", "id", createNodeDefinitions(), createOtherAttributes(), "source"));
+        Assertions.assertThat(new NodePath(parent4, "value")).hasToString("{source}form[@group:id]/value");
+        Assertions.assertThat(new NodePath(parent4, "vAlUe")).hasToString("{source}form[@group:id]/vAlUe");
 
-        NodePath parent5 = new NodePath(new ElementDefinition("id", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>()));
-        Assertions.assertThat(new NodePath(parent5, "value").toString()).isEqualTo("element[@id]/value");
-        Assertions.assertThat(new NodePath(parent5, "vAlUe").toString()).isEqualTo("element[@id]/vAlUe");
+        NodePath parent5 = new NodePath(new ElementDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes()));
+        Assertions.assertThat(new NodePath(parent5, "value")).hasToString("element[@id]/value");
+        Assertions.assertThat(new NodePath(parent5, "vAlUe")).hasToString("element[@id]/vAlUe");
     }
 
     /**
@@ -99,24 +96,24 @@ public final class NodePathTest extends BaseFormModelTest {
     @Test
     public void toStringWithParentAndDefinitionTest() {
         NodePath parent1 = new NodePath();
-        Assertions.assertThat(new NodePath(parent1, new FormDefinition("group", "id", new ArrayList<NodeDefinition>(), new HashMap<String, String>(), "source")).toString()).isEqualTo("{source}form[@group:id]");
-        Assertions.assertThat(new NodePath(parent1, new ElementDefinition("id", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>())).toString()).isEqualTo("element[@id]");
+        Assertions.assertThat(new NodePath(parent1, new FormDefinition("group", "id", createNodeDefinitions(), createOtherAttributes(), "source"))).hasToString("{source}form[@group:id]");
+        Assertions.assertThat(new NodePath(parent1, new ElementDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes()))).hasToString("element[@id]");
 
         NodePath parent2 = new NodePath("parent");
-        Assertions.assertThat(new NodePath(parent2, new FormDefinition("group", "id", new ArrayList<NodeDefinition>(), new HashMap<String, String>(), "source")).toString()).isEqualTo("parent/{source}form[@group:id]");
-        Assertions.assertThat(new NodePath(parent2, new ElementDefinition("id", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>())).toString()).isEqualTo("parent/element[@id]");
+        Assertions.assertThat(new NodePath(parent2, new FormDefinition("group", "id", createNodeDefinitions(), createOtherAttributes(), "source"))).hasToString("parent/{source}form[@group:id]");
+        Assertions.assertThat(new NodePath(parent2, new ElementDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes()))).hasToString("parent/element[@id]");
 
         NodePath parent3 = new NodePath(parent2, "interim");
-        Assertions.assertThat(new NodePath(parent3, new FormDefinition("group", "id", new ArrayList<NodeDefinition>(), new HashMap<String, String>(), "source")).toString()).isEqualTo("parent/interim/{source}form[@group:id]");
-        Assertions.assertThat(new NodePath(parent3, new ElementDefinition("id", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>())).toString()).isEqualTo("parent/interim/element[@id]");
+        Assertions.assertThat(new NodePath(parent3, new FormDefinition("group", "id", createNodeDefinitions(), createOtherAttributes(), "source"))).hasToString("parent/interim/{source}form[@group:id]");
+        Assertions.assertThat(new NodePath(parent3, new ElementDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes()))).hasToString("parent/interim/element[@id]");
 
-        NodePath parent4 = new NodePath(new FormDefinition("group", "id", new ArrayList<NodeDefinition>(), new HashMap<String, String>(), "source"));
-        Assertions.assertThat(new NodePath(parent4, new FormDefinition("group", "id", new ArrayList<NodeDefinition>(), new HashMap<String, String>(), "source")).toString()).isEqualTo("{source}form[@group:id]/{source}form[@group:id]");
-        Assertions.assertThat(new NodePath(parent4, new ElementDefinition("id", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>())).toString()).isEqualTo("{source}form[@group:id]/element[@id]");
+        NodePath parent4 = new NodePath(new FormDefinition("group", "id", createNodeDefinitions(), createOtherAttributes(), "source"));
+        Assertions.assertThat(new NodePath(parent4, new FormDefinition("group", "id", createNodeDefinitions(), createOtherAttributes(), "source"))).hasToString("{source}form[@group:id]/{source}form[@group:id]");
+        Assertions.assertThat(new NodePath(parent4, new ElementDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes()))).hasToString("{source}form[@group:id]/element[@id]");
 
-        NodePath parent5 = new NodePath(new ElementDefinition("id", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>()));
-        Assertions.assertThat(new NodePath(parent5, new FormDefinition("group", "id", new ArrayList<NodeDefinition>(), new HashMap<String, String>(), "source")).toString()).isEqualTo("element[@id]/{source}form[@group:id]");
-        Assertions.assertThat(new NodePath(parent5, new ElementDefinition("id", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>())).toString()).isEqualTo("element[@id]/element[@id]");
+        NodePath parent5 = new NodePath(new ElementDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes()));
+        Assertions.assertThat(new NodePath(parent5, new FormDefinition("group", "id", createNodeDefinitions(), createOtherAttributes(), "source"))).hasToString("element[@id]/{source}form[@group:id]");
+        Assertions.assertThat(new NodePath(parent5, new ElementDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes()))).hasToString("element[@id]/element[@id]");
     }
 
 }
