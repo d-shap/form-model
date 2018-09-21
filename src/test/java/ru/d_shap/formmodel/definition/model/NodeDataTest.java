@@ -54,9 +54,11 @@ public final class NodeDataTest {
         Assertions.assertThat(new NodeData(createNodeDefinitions(), createValidElements(), null, createSkipAttributes()).getAttributeDefinitions()).isEmpty();
 
         AttributeDefinition attributeDefinition1 = new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
+        Assertions.assertThat(new NodeData(createNodeDefinitions(attributeDefinition1), createValidElements("value"), null, createSkipAttributes()).getAttributeDefinitions()).isEmpty();
         Assertions.assertThat(new NodeData(createNodeDefinitions(attributeDefinition1), createValidElements(), null, createSkipAttributes()).getAttributeDefinitions()).hasSize(1);
         Assertions.assertThat(new NodeData(createNodeDefinitions(attributeDefinition1), createValidElements(), null, createSkipAttributes()).getAttributeDefinitions().get(0)).isSameAs(attributeDefinition1);
         AttributeDefinition attributeDefinition2 = new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
+        Assertions.assertThat(new NodeData(createNodeDefinitions(attributeDefinition1, attributeDefinition2), createValidElements("value"), null, createSkipAttributes()).getAttributeDefinitions()).isEmpty();
         Assertions.assertThat(new NodeData(createNodeDefinitions(attributeDefinition1, attributeDefinition2), createValidElements(), null, createSkipAttributes()).getAttributeDefinitions()).hasSize(2);
         Assertions.assertThat(new NodeData(createNodeDefinitions(attributeDefinition1, attributeDefinition2), createValidElements(), null, createSkipAttributes()).getAttributeDefinitions().get(0)).isSameAs(attributeDefinition1);
         Assertions.assertThat(new NodeData(createNodeDefinitions(attributeDefinition1, attributeDefinition2), createValidElements(), null, createSkipAttributes()).getAttributeDefinitions().get(1)).isSameAs(attributeDefinition2);
@@ -98,9 +100,11 @@ public final class NodeDataTest {
         Assertions.assertThat(new NodeData(createNodeDefinitions(attributeDefinition), createValidElements(), null, createSkipAttributes()).getElementDefinitions()).isEmpty();
 
         ElementDefinition elementDefinition1 = new ElementDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
+        Assertions.assertThat(new NodeData(createNodeDefinitions(elementDefinition1), createValidElements("value"), null, createSkipAttributes()).getElementDefinitions()).isEmpty();
         Assertions.assertThat(new NodeData(createNodeDefinitions(elementDefinition1), createValidElements(), null, createSkipAttributes()).getElementDefinitions()).hasSize(1);
         Assertions.assertThat(new NodeData(createNodeDefinitions(elementDefinition1), createValidElements(), null, createSkipAttributes()).getElementDefinitions().get(0)).isSameAs(elementDefinition1);
         ElementDefinition elementDefinition2 = new ElementDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
+        Assertions.assertThat(new NodeData(createNodeDefinitions(elementDefinition1, elementDefinition2), createValidElements("value"), null, createSkipAttributes()).getElementDefinitions()).isEmpty();
         Assertions.assertThat(new NodeData(createNodeDefinitions(elementDefinition1, elementDefinition2), createValidElements(), null, createSkipAttributes()).getElementDefinitions()).hasSize(2);
         Assertions.assertThat(new NodeData(createNodeDefinitions(elementDefinition1, elementDefinition2), createValidElements(), null, createSkipAttributes()).getElementDefinitions().get(0)).isSameAs(elementDefinition1);
         Assertions.assertThat(new NodeData(createNodeDefinitions(elementDefinition1, elementDefinition2), createValidElements(), null, createSkipAttributes()).getElementDefinitions().get(1)).isSameAs(elementDefinition2);
@@ -142,9 +146,11 @@ public final class NodeDataTest {
         Assertions.assertThat(new NodeData(createNodeDefinitions(elementDefinition), createValidElements(), null, createSkipAttributes()).getChoiceDefinitions()).isEmpty();
 
         ChoiceDefinition choiceDefinition1 = new ChoiceDefinition("id", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
+        Assertions.assertThat(new NodeData(createNodeDefinitions(choiceDefinition1), createValidElements("value"), null, createSkipAttributes()).getChoiceDefinitions()).isEmpty();
         Assertions.assertThat(new NodeData(createNodeDefinitions(choiceDefinition1), createValidElements(), null, createSkipAttributes()).getChoiceDefinitions()).hasSize(1);
         Assertions.assertThat(new NodeData(createNodeDefinitions(choiceDefinition1), createValidElements(), null, createSkipAttributes()).getChoiceDefinitions().get(0)).isSameAs(choiceDefinition1);
         ChoiceDefinition choiceDefinition2 = new ChoiceDefinition("id", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
+        Assertions.assertThat(new NodeData(createNodeDefinitions(choiceDefinition1, choiceDefinition2), createValidElements("value"), null, createSkipAttributes()).getChoiceDefinitions()).isEmpty();
         Assertions.assertThat(new NodeData(createNodeDefinitions(choiceDefinition1, choiceDefinition2), createValidElements(), null, createSkipAttributes()).getChoiceDefinitions()).hasSize(2);
         Assertions.assertThat(new NodeData(createNodeDefinitions(choiceDefinition1, choiceDefinition2), createValidElements(), null, createSkipAttributes()).getChoiceDefinitions().get(0)).isSameAs(choiceDefinition1);
         Assertions.assertThat(new NodeData(createNodeDefinitions(choiceDefinition1, choiceDefinition2), createValidElements(), null, createSkipAttributes()).getChoiceDefinitions().get(1)).isSameAs(choiceDefinition2);
@@ -186,9 +192,11 @@ public final class NodeDataTest {
         Assertions.assertThat(new NodeData(createNodeDefinitions(choiceDefinition), createValidElements(), null, createSkipAttributes()).getFormReferenceDefinitions()).isEmpty();
 
         FormReferenceDefinition formReferenceDefinition1 = new FormReferenceDefinition("group", "id", createNodeDefinitions(), createOtherAttributes());
+        Assertions.assertThat(new NodeData(createNodeDefinitions(formReferenceDefinition1), createValidElements("value"), null, createSkipAttributes()).getFormReferenceDefinitions()).isEmpty();
         Assertions.assertThat(new NodeData(createNodeDefinitions(formReferenceDefinition1), createValidElements(), null, createSkipAttributes()).getFormReferenceDefinitions()).hasSize(1);
         Assertions.assertThat(new NodeData(createNodeDefinitions(formReferenceDefinition1), createValidElements(), null, createSkipAttributes()).getFormReferenceDefinitions().get(0)).isSameAs(formReferenceDefinition1);
         FormReferenceDefinition formReferenceDefinition2 = new FormReferenceDefinition("group", "id", createNodeDefinitions(), createOtherAttributes());
+        Assertions.assertThat(new NodeData(createNodeDefinitions(formReferenceDefinition1, formReferenceDefinition2), createValidElements("value"), null, createSkipAttributes()).getFormReferenceDefinitions()).isEmpty();
         Assertions.assertThat(new NodeData(createNodeDefinitions(formReferenceDefinition1, formReferenceDefinition2), createValidElements(), null, createSkipAttributes()).getFormReferenceDefinitions()).hasSize(2);
         Assertions.assertThat(new NodeData(createNodeDefinitions(formReferenceDefinition1, formReferenceDefinition2), createValidElements(), null, createSkipAttributes()).getFormReferenceDefinitions().get(0)).isSameAs(formReferenceDefinition1);
         Assertions.assertThat(new NodeData(createNodeDefinitions(formReferenceDefinition1, formReferenceDefinition2), createValidElements(), null, createSkipAttributes()).getFormReferenceDefinitions().get(1)).isSameAs(formReferenceDefinition2);
