@@ -326,6 +326,23 @@ public final class NodeDataTest {
         Assertions.assertThat(new NodeData(null, createValidElements(), createOtherAttributes("name1", "value1", "name2", "value2", "name3", "value3"), createSkipAttributes("name1", "name2", "name3")).getOtherAttributeValue("name3")).isNull();
     }
 
+    /**
+     * {@link NodeData} class test.
+     */
+    @Test(expected = NullPointerException.class)
+    public void validElementsNullFailTest() {
+        ElementDefinition elementDefinition = new ElementDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
+        new NodeData(createNodeDefinitions(elementDefinition), null, createOtherAttributes(), createSkipAttributes());
+    }
+
+    /**
+     * {@link NodeData} class test.
+     */
+    @Test(expected = NullPointerException.class)
+    public void skipAttributesNullFailTest() {
+        new NodeData(createNodeDefinitions(), createValidElements(), createOtherAttributes("name", "value"), null);
+    }
+
     private List<NodeDefinition> createNodeDefinitions(final NodeDefinition... nodeDefinitions) {
         return Arrays.asList(nodeDefinitions);
     }
