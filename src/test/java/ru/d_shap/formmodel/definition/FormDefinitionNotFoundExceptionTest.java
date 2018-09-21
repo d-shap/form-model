@@ -52,14 +52,6 @@ public final class FormDefinitionNotFoundExceptionTest extends BaseFormModelTest
         Assertions.assertThat(new FormDefinitionNotFoundException(new FormDefinitionKey("group", ""))).hasMessage("[Form definition was not found: @group:]");
         Assertions.assertThat(new FormDefinitionNotFoundException(new FormDefinitionKey("group", " "))).hasMessage("[Form definition was not found: @group: ]");
         Assertions.assertThat(new FormDefinitionNotFoundException(new FormDefinitionKey("group", "id"))).hasMessage("[Form definition was not found: @group:id]");
-
-        Assertions.assertThat(new FormDefinitionNotFoundException(null, "id")).hasMessage("[Form definition was not found: @:id]");
-        Assertions.assertThat(new FormDefinitionNotFoundException("", "id")).hasMessage("[Form definition was not found: @:id]");
-        Assertions.assertThat(new FormDefinitionNotFoundException(" ", "id")).hasMessage("[Form definition was not found: @ :id]");
-        Assertions.assertThat(new FormDefinitionNotFoundException("group", null)).hasMessage("[Form definition was not found: @group:]");
-        Assertions.assertThat(new FormDefinitionNotFoundException("group", "")).hasMessage("[Form definition was not found: @group:]");
-        Assertions.assertThat(new FormDefinitionNotFoundException("group", " ")).hasMessage("[Form definition was not found: @group: ]");
-        Assertions.assertThat(new FormDefinitionNotFoundException("group", "id")).hasMessage("[Form definition was not found: @group:id]");
     }
 
 }
