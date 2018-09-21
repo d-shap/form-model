@@ -19,7 +19,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.formmodel.definition.model;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -48,10 +47,10 @@ public class AttributeDefinitionTest {
      */
     @Test
     public void getIdTest() {
-        Assertions.assertThat(new AttributeDefinition(null, "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>()).getId()).isNull();
-        Assertions.assertThat(new AttributeDefinition("", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>()).getId()).isEqualTo("");
-        Assertions.assertThat(new AttributeDefinition(" ", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>()).getId()).isEqualTo(" ");
-        Assertions.assertThat(new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>()).getId()).isEqualTo("id");
+        Assertions.assertThat(new AttributeDefinition(null, "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributeNames()).getId()).isNull();
+        Assertions.assertThat(new AttributeDefinition("", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributeNames()).getId()).isEqualTo("");
+        Assertions.assertThat(new AttributeDefinition(" ", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributeNames()).getId()).isEqualTo(" ");
+        Assertions.assertThat(new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributeNames()).getId()).isEqualTo("id");
     }
 
     /**
@@ -59,10 +58,10 @@ public class AttributeDefinitionTest {
      */
     @Test
     public void getLookupTest() {
-        Assertions.assertThat(new AttributeDefinition("id", null, CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>()).getLookup()).isNull();
-        Assertions.assertThat(new AttributeDefinition("id", "", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>()).getLookup()).isEqualTo("");
-        Assertions.assertThat(new AttributeDefinition("id", " ", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>()).getLookup()).isEqualTo(" ");
-        Assertions.assertThat(new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>()).getLookup()).isEqualTo("lookup");
+        Assertions.assertThat(new AttributeDefinition("id", null, CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributeNames()).getLookup()).isNull();
+        Assertions.assertThat(new AttributeDefinition("id", "", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributeNames()).getLookup()).isEqualTo("");
+        Assertions.assertThat(new AttributeDefinition("id", " ", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributeNames()).getLookup()).isEqualTo(" ");
+        Assertions.assertThat(new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributeNames()).getLookup()).isEqualTo("lookup");
     }
 
     /**
@@ -70,12 +69,12 @@ public class AttributeDefinitionTest {
      */
     @Test
     public void getCardinalityDefinitionTest() {
-        Assertions.assertThat(new AttributeDefinition("id", "lookup", null, new ArrayList<NodeDefinition>(), new HashMap<String, String>()).getCardinalityDefinition()).isNull();
-        Assertions.assertThat(new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>()).getCardinalityDefinition()).isSameAs(CardinalityDefinition.REQUIRED);
-        Assertions.assertThat(new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED_MULTIPLE, new ArrayList<NodeDefinition>(), new HashMap<String, String>()).getCardinalityDefinition()).isSameAs(CardinalityDefinition.REQUIRED_MULTIPLE);
-        Assertions.assertThat(new AttributeDefinition("id", "lookup", CardinalityDefinition.OPTIONAL, new ArrayList<NodeDefinition>(), new HashMap<String, String>()).getCardinalityDefinition()).isSameAs(CardinalityDefinition.OPTIONAL);
-        Assertions.assertThat(new AttributeDefinition("id", "lookup", CardinalityDefinition.OPTIONAL_MULTIPLE, new ArrayList<NodeDefinition>(), new HashMap<String, String>()).getCardinalityDefinition()).isSameAs(CardinalityDefinition.OPTIONAL_MULTIPLE);
-        Assertions.assertThat(new AttributeDefinition("id", "lookup", CardinalityDefinition.PROHIBITED, new ArrayList<NodeDefinition>(), new HashMap<String, String>()).getCardinalityDefinition()).isSameAs(CardinalityDefinition.PROHIBITED);
+        Assertions.assertThat(new AttributeDefinition("id", "lookup", null, createNodeDefinitions(), createOtherAttributeNames()).getCardinalityDefinition()).isNull();
+        Assertions.assertThat(new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributeNames()).getCardinalityDefinition()).isSameAs(CardinalityDefinition.REQUIRED);
+        Assertions.assertThat(new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED_MULTIPLE, createNodeDefinitions(), createOtherAttributeNames()).getCardinalityDefinition()).isSameAs(CardinalityDefinition.REQUIRED_MULTIPLE);
+        Assertions.assertThat(new AttributeDefinition("id", "lookup", CardinalityDefinition.OPTIONAL, createNodeDefinitions(), createOtherAttributeNames()).getCardinalityDefinition()).isSameAs(CardinalityDefinition.OPTIONAL);
+        Assertions.assertThat(new AttributeDefinition("id", "lookup", CardinalityDefinition.OPTIONAL_MULTIPLE, createNodeDefinitions(), createOtherAttributeNames()).getCardinalityDefinition()).isSameAs(CardinalityDefinition.OPTIONAL_MULTIPLE);
+        Assertions.assertThat(new AttributeDefinition("id", "lookup", CardinalityDefinition.PROHIBITED, createNodeDefinitions(), createOtherAttributeNames()).getCardinalityDefinition()).isSameAs(CardinalityDefinition.PROHIBITED);
     }
 
     /**
@@ -83,18 +82,18 @@ public class AttributeDefinitionTest {
      */
     @Test
     public void getOtherNodeDefinitionsTest() {
-        Assertions.assertThat(new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, null, new HashMap<String, String>()).getOtherNodeDefinitions()).isEmpty();
+        Assertions.assertThat(new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, null, createOtherAttributeNames()).getOtherNodeDefinitions()).isEmpty();
 
-        Assertions.assertThat(new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), new HashMap<String, String>()).getOtherNodeDefinitions()).isEmpty();
+        Assertions.assertThat(new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributeNames()).getOtherNodeDefinitions()).isEmpty();
 
         OtherNodeDefinition otherNodeDefinition1 = new OtherNodeDefinitionImpl();
-        Assertions.assertThat(new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(otherNodeDefinition1), new HashMap<String, String>()).getOtherNodeDefinitions()).hasSize(1);
-        Assertions.assertThat(new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(otherNodeDefinition1), new HashMap<String, String>()).getOtherNodeDefinitions().get(0)).isSameAs(otherNodeDefinition1);
+        Assertions.assertThat(new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(otherNodeDefinition1), createOtherAttributeNames()).getOtherNodeDefinitions()).hasSize(1);
+        Assertions.assertThat(new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(otherNodeDefinition1), createOtherAttributeNames()).getOtherNodeDefinitions().get(0)).isSameAs(otherNodeDefinition1);
 
         OtherNodeDefinition otherNodeDefinition2 = new OtherNodeDefinitionImpl();
-        Assertions.assertThat(new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(otherNodeDefinition1, otherNodeDefinition2), new HashMap<String, String>()).getOtherNodeDefinitions()).hasSize(2);
-        Assertions.assertThat(new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(otherNodeDefinition1, otherNodeDefinition2), new HashMap<String, String>()).getOtherNodeDefinitions().get(0)).isSameAs(otherNodeDefinition1);
-        Assertions.assertThat(new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(otherNodeDefinition1, otherNodeDefinition2), new HashMap<String, String>()).getOtherNodeDefinitions().get(1)).isSameAs(otherNodeDefinition2);
+        Assertions.assertThat(new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(otherNodeDefinition1, otherNodeDefinition2), createOtherAttributeNames()).getOtherNodeDefinitions()).hasSize(2);
+        Assertions.assertThat(new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(otherNodeDefinition1, otherNodeDefinition2), createOtherAttributeNames()).getOtherNodeDefinitions().get(0)).isSameAs(otherNodeDefinition1);
+        Assertions.assertThat(new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(otherNodeDefinition1, otherNodeDefinition2), createOtherAttributeNames()).getOtherNodeDefinitions().get(1)).isSameAs(otherNodeDefinition2);
     }
 
     /**
@@ -102,11 +101,11 @@ public class AttributeDefinitionTest {
      */
     @Test
     public void getOtherAttributeNamesTest() {
-        Assertions.assertThat(new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), null).getOtherAttributeNames()).isEmpty();
-        Assertions.assertThat(new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), createOtherAttributeNames()).getOtherAttributeNames()).isEmpty();
-        Assertions.assertThat(new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), createOtherAttributeNames("name", "value")).getOtherAttributeNames()).containsExactly("name");
-        Assertions.assertThat(new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), createOtherAttributeNames("name1", "value1", "name2", "value2")).getOtherAttributeNames()).containsExactly("name1", "name2");
-        Assertions.assertThat(new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), createOtherAttributeNames("name1", "value1", "name2", "value2", "name3", "value3")).getOtherAttributeNames()).containsExactly("name1", "name2", "name3");
+        Assertions.assertThat(new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), null).getOtherAttributeNames()).isEmpty();
+        Assertions.assertThat(new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributeNames()).getOtherAttributeNames()).isEmpty();
+        Assertions.assertThat(new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributeNames("name", "value")).getOtherAttributeNames()).containsExactly("name");
+        Assertions.assertThat(new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributeNames("name1", "value1", "name2", "value2")).getOtherAttributeNames()).containsExactly("name1", "name2");
+        Assertions.assertThat(new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributeNames("name1", "value1", "name2", "value2", "name3", "value3")).getOtherAttributeNames()).containsExactly("name1", "name2", "name3");
     }
 
     /**
@@ -114,24 +113,24 @@ public class AttributeDefinitionTest {
      */
     @Test
     public void getOtherAttributeValueTest() {
-        Assertions.assertThat(new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), null).getOtherAttributeValue(null)).isNull();
-        Assertions.assertThat(new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), null).getOtherAttributeValue("")).isNull();
-        Assertions.assertThat(new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), null).getOtherAttributeValue("name")).isNull();
+        Assertions.assertThat(new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), null).getOtherAttributeValue(null)).isNull();
+        Assertions.assertThat(new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), null).getOtherAttributeValue("")).isNull();
+        Assertions.assertThat(new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), null).getOtherAttributeValue("name")).isNull();
 
-        Assertions.assertThat(new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), createOtherAttributeNames()).getOtherAttributeValue(null)).isNull();
-        Assertions.assertThat(new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), createOtherAttributeNames()).getOtherAttributeValue("")).isNull();
-        Assertions.assertThat(new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), createOtherAttributeNames()).getOtherAttributeValue("name")).isNull();
+        Assertions.assertThat(new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributeNames()).getOtherAttributeValue(null)).isNull();
+        Assertions.assertThat(new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributeNames()).getOtherAttributeValue("")).isNull();
+        Assertions.assertThat(new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributeNames()).getOtherAttributeValue("name")).isNull();
 
-        Assertions.assertThat(new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), createOtherAttributeNames("name", "value")).getOtherAttributeValue(null)).isNull();
-        Assertions.assertThat(new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), createOtherAttributeNames("name", "value")).getOtherAttributeValue("")).isNull();
-        Assertions.assertThat(new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), createOtherAttributeNames("name", "value")).getOtherAttributeValue("name")).isEqualTo("value");
+        Assertions.assertThat(new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributeNames("name", "value")).getOtherAttributeValue(null)).isNull();
+        Assertions.assertThat(new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributeNames("name", "value")).getOtherAttributeValue("")).isNull();
+        Assertions.assertThat(new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributeNames("name", "value")).getOtherAttributeValue("name")).isEqualTo("value");
 
-        Assertions.assertThat(new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), createOtherAttributeNames("name1", "value1", "name2", "value2", "name3", "value3")).getOtherAttributeValue(null)).isNull();
-        Assertions.assertThat(new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), createOtherAttributeNames("name1", "value1", "name2", "value2", "name3", "value3")).getOtherAttributeValue("")).isNull();
-        Assertions.assertThat(new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), createOtherAttributeNames("name1", "value1", "name2", "value2", "name3", "value3")).getOtherAttributeValue("name")).isNull();
-        Assertions.assertThat(new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), createOtherAttributeNames("name1", "value1", "name2", "value2", "name3", "value3")).getOtherAttributeValue("name1")).isEqualTo("value1");
-        Assertions.assertThat(new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), createOtherAttributeNames("name1", "value1", "name2", "value2", "name3", "value3")).getOtherAttributeValue("name2")).isEqualTo("value2");
-        Assertions.assertThat(new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), createOtherAttributeNames("name1", "value1", "name2", "value2", "name3", "value3")).getOtherAttributeValue("name3")).isEqualTo("value3");
+        Assertions.assertThat(new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributeNames("name1", "value1", "name2", "value2", "name3", "value3")).getOtherAttributeValue(null)).isNull();
+        Assertions.assertThat(new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributeNames("name1", "value1", "name2", "value2", "name3", "value3")).getOtherAttributeValue("")).isNull();
+        Assertions.assertThat(new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributeNames("name1", "value1", "name2", "value2", "name3", "value3")).getOtherAttributeValue("name")).isNull();
+        Assertions.assertThat(new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributeNames("name1", "value1", "name2", "value2", "name3", "value3")).getOtherAttributeValue("name1")).isEqualTo("value1");
+        Assertions.assertThat(new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributeNames("name1", "value1", "name2", "value2", "name3", "value3")).getOtherAttributeValue("name2")).isEqualTo("value2");
+        Assertions.assertThat(new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributeNames("name1", "value1", "name2", "value2", "name3", "value3")).getOtherAttributeValue("name3")).isEqualTo("value3");
     }
 
     /**
@@ -139,10 +138,10 @@ public class AttributeDefinitionTest {
      */
     @Test
     public void toStringTest() {
-        Assertions.assertThat(new AttributeDefinition(null, "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>())).hasToString("attribute[@]");
-        Assertions.assertThat(new AttributeDefinition("", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>())).hasToString("attribute[@]");
-        Assertions.assertThat(new AttributeDefinition(" ", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>())).hasToString("attribute[@ ]");
-        Assertions.assertThat(new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>())).hasToString("attribute[@id]");
+        Assertions.assertThat(new AttributeDefinition(null, "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributeNames())).hasToString("attribute[@]");
+        Assertions.assertThat(new AttributeDefinition("", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributeNames())).hasToString("attribute[@]");
+        Assertions.assertThat(new AttributeDefinition(" ", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributeNames())).hasToString("attribute[@ ]");
+        Assertions.assertThat(new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributeNames())).hasToString("attribute[@id]");
     }
 
     /**
