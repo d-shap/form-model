@@ -34,7 +34,7 @@ import ru.d_shap.assertions.Assertions;
  *
  * @author Dmitry Shapovalov
  */
-public class NodeDataTest {
+public final class NodeDataTest {
 
     /**
      * Test class constructor.
