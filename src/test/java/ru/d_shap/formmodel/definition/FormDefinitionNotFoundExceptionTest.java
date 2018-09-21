@@ -44,6 +44,7 @@ public final class FormDefinitionNotFoundExceptionTest extends BaseFormModelTest
      */
     @Test
     public void errorMessageTest() {
+        Assertions.assertThat(new FormDefinitionNotFoundException(null)).hasMessage("[Form definition was not found: null]");
         Assertions.assertThat(new FormDefinitionNotFoundException(new FormDefinitionKey(null, "id"))).hasMessage("[Form definition was not found: @:id]");
         Assertions.assertThat(new FormDefinitionNotFoundException(new FormDefinitionKey("", "id"))).hasMessage("[Form definition was not found: @:id]");
         Assertions.assertThat(new FormDefinitionNotFoundException(new FormDefinitionKey(" ", "id"))).hasMessage("[Form definition was not found: @ :id]");
