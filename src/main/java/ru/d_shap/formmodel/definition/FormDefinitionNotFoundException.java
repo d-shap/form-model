@@ -20,6 +20,7 @@
 package ru.d_shap.formmodel.definition;
 
 import ru.d_shap.formmodel.Messages;
+import ru.d_shap.formmodel.definition.model.FormDefinitionKey;
 
 /**
  * Exception is thrown when the form definition is not found.
@@ -29,6 +30,15 @@ import ru.d_shap.formmodel.Messages;
 public final class FormDefinitionNotFoundException extends FormDefinitionException {
 
     private static final long serialVersionUID = 1L;
+
+    /**
+     * Create new object.
+     *
+     * @param formDefinitionKey the form definition key.
+     */
+    public FormDefinitionNotFoundException(final FormDefinitionKey formDefinitionKey) {
+        this(formDefinitionKey.getGroup(), formDefinitionKey.getId());
+    }
 
     /**
      * Create new object.
