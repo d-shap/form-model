@@ -76,7 +76,7 @@ public final class ChoiceDefinition implements NodeDefinition {
         super();
         _id = id;
         _cardinalityDefinition = cardinalityDefinition;
-        _nodeData = new NodeData(nodeDefinitions, otherAttributes);
+        _nodeData = new NodeData(nodeDefinitions, CHILD_ELEMENT_NAMES, otherAttributes, ATTRIBUTE_NAMES);
     }
 
     /**

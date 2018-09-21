@@ -77,7 +77,7 @@ public final class FormReferenceDefinition implements NodeDefinition {
             _group = group;
         }
         _id = id;
-        _nodeData = new NodeData(nodeDefinitions, otherAttributes);
+        _nodeData = new NodeData(nodeDefinitions, CHILD_ELEMENT_NAMES, otherAttributes, ATTRIBUTE_NAMES);
     }
 
     /**

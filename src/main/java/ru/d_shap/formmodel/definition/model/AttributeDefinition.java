@@ -80,7 +80,7 @@ public final class AttributeDefinition implements NodeDefinition {
         _id = id;
         _lookup = lookup;
         _cardinalityDefinition = cardinalityDefinition;
-        _nodeData = new NodeData(nodeDefinitions, otherAttributes);
+        _nodeData = new NodeData(nodeDefinitions, CHILD_ELEMENT_NAMES, otherAttributes, ATTRIBUTE_NAMES);
     }
 
     /**

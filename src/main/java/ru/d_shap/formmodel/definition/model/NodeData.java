@@ -45,7 +45,7 @@ final class NodeData {
 
     private final Map<String, String> _otherAttributes;
 
-    NodeData(final List<NodeDefinition> nodeDefinitions, final Map<String, String> otherAttributes) {
+    NodeData(final List<NodeDefinition> nodeDefinitions, final Set<String> childElementNames, final Map<String, String> otherAttributes, final Set<String> attributeNames) {
         super();
         List<AttributeDefinition> attributeDefinitions = new ArrayList<>();
         List<ElementDefinition> elementDefinitions = new ArrayList<>();
@@ -54,16 +54,16 @@ final class NodeData {
         List<OtherNodeDefinition> otherNodeDefinitions = new ArrayList<>();
         if (nodeDefinitions != null) {
             for (NodeDefinition nodeDefinition : nodeDefinitions) {
-                if (nodeDefinition instanceof AttributeDefinition) {
+                if (nodeDefinition instanceof AttributeDefinition && childElementNames.contains(AttributeDefinition.ELEMENT_NAME)) {
                     attributeDefinitions.add((AttributeDefinition) nodeDefinition);
                 }
-                if (nodeDefinition instanceof ElementDefinition) {
+                if (nodeDefinition instanceof ElementDefinition && childElementNames.contains(ElementDefinition.ELEMENT_NAME)) {
                     elementDefinitions.add((ElementDefinition) nodeDefinition);
                 }
-                if (nodeDefinition instanceof ChoiceDefinition) {
+                if (nodeDefinition instanceof ChoiceDefinition && childElementNames.contains(ChoiceDefinition.ELEMENT_NAME)) {
                     choiceDefinitions.add((ChoiceDefinition) nodeDefinition);
                 }
-                if (nodeDefinition instanceof FormReferenceDefinition) {
+                if (nodeDefinition instanceof FormReferenceDefinition && childElementNames.contains(FormReferenceDefinition.ELEMENT_NAME)) {
                     formReferenceDefinitions.add((FormReferenceDefinition) nodeDefinition);
                 }
                 if (nodeDefinition instanceof OtherNodeDefinition) {
@@ -79,7 +79,9 @@ final class NodeData {
         if (otherAttributes == null) {
             _otherAttributes = Collections.unmodifiableMap(new HashMap<String, String>());
         } else {
-            _otherAttributes = Collections.unmodifiableMap(new HashMap<>(otherAttributes));
+            Map<String, String> filteredOtherAttributes = new HashMap<>(otherAttributes);
+            filteredOtherAttributes.keySet().removeAll(attributeNames);
+            _otherAttributes = Collections.unmodifiableMap(filteredOtherAttributes);
         }
     }
 
