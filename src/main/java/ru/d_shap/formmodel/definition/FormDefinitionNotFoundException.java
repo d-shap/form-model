@@ -19,7 +19,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.formmodel.definition;
 
-import ru.d_shap.formmodel.Messages;
 import ru.d_shap.formmodel.definition.model.FormDefinitionKey;
 
 /**
@@ -38,16 +37,6 @@ public final class FormDefinitionNotFoundException extends FormDefinitionExcepti
      */
     public FormDefinitionNotFoundException(final FormDefinitionKey formDefinitionKey) {
         super("[Form definition was not found: " + formDefinitionKey + "]");
-    }
-
-    /**
-     * Create new object.
-     *
-     * @param group the form's group.
-     * @param id    the form's ID.
-     */
-    public FormDefinitionNotFoundException(final String group, final String id) {
-        super("[Form definition was not found: " + Messages.Representation.getIdRepresentation(group, id) + "]");
     }
 
 }
