@@ -291,30 +291,4 @@ public final class NodeDataTest {
         return result;
     }
 
-    /**
-     * Test class.
-     *
-     * @author Dmitry Shapovalov
-     */
-    private static final class NodeDefinitionImpl implements NodeDefinition {
-
-        NodeDefinitionImpl() {
-            super();
-        }
-
-    }
-
-    /**
-     * Test class.
-     *
-     * @author Dmitry Shapovalov
-     */
-    private static final class OtherNodeDefinitionImpl implements OtherNodeDefinition {
-
-        OtherNodeDefinitionImpl() {
-            super();
-        }
-
-    }
-
 }
