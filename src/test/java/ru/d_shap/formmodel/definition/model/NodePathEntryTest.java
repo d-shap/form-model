@@ -43,11 +43,15 @@ public final class NodePathEntryTest extends BaseFormModelTest {
      */
     @Test
     public void toStringTest() {
-        Assertions.assertThat(new NodePathEntry(null).toString()).isNull();
-        Assertions.assertThat(new NodePathEntry("").toString()).isEqualTo("");
-        Assertions.assertThat(new NodePathEntry(" ").toString()).isEqualTo(" ");
-        Assertions.assertThat(new NodePathEntry("value").toString()).isEqualTo("value");
-        Assertions.assertThat(new NodePathEntry("vAlUe").toString()).isEqualTo("vAlUe");
+        Assertions.assertThat(new NodePathEntry((String) null).toString()).isNull();
+        Assertions.assertThat(new NodePathEntry("")).hasToString("");
+        Assertions.assertThat(new NodePathEntry(" ")).hasToString(" ");
+        Assertions.assertThat(new NodePathEntry("value")).hasToString("value");
+        Assertions.assertThat(new NodePathEntry("vAlUe")).hasToString("vAlUe");
+
+        Assertions.assertThat(new NodePathEntry((NodeDefinition) null).toString()).isNull();
+        Assertions.assertThat(new NodePathEntry(new FormDefinition("group", "id", createNodeDefinitions(), createOtherAttributes(), "source"))).hasToString("{source}form[@group:id]");
+        Assertions.assertThat(new ElementDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes())).hasToString("element[@id]");
     }
 
 }
