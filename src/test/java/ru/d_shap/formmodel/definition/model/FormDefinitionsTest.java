@@ -85,8 +85,20 @@ public final class FormDefinitionsTest extends BaseFormModelTest {
     /**
      * {@link FormDefinitions} class test.
      */
+    @Test(expected = NullPointerException.class)
+    public void getFormDefinitionForNullIdFailTest() {
+        FormDefinitions formDefinitions = new FormDefinitions();
+        FormDefinition formDefinition1 = new FormDefinition(null, "id", createNodeDefinitions(), createOtherAttributes(), "source1");
+        FormDefinition formDefinition2 = new FormDefinition("group", "id", createNodeDefinitions(), createOtherAttributes(), "source2");
+        formDefinitions.addFormDefinitions(Arrays.asList(formDefinition1, formDefinition2));
+        formDefinitions.getFormDefinition((String) null);
+    }
+
+    /**
+     * {@link FormDefinitions} class test.
+     */
     @Test
-    public void getFormDefinitionForGroupAndTest() {
+    public void getFormDefinitionForGroupAndIdTest() {
         FormDefinitions formDefinitions = new FormDefinitions();
         FormDefinition formDefinition1 = new FormDefinition(null, "id", createNodeDefinitions(), createOtherAttributes(), "source1");
         FormDefinition formDefinition2 = new FormDefinition("group", "id", createNodeDefinitions(), createOtherAttributes(), "source2");
@@ -110,6 +122,18 @@ public final class FormDefinitionsTest extends BaseFormModelTest {
         } catch (FormDefinitionNotFoundException ex) {
             Assertions.assertThat(ex).hasMessage("[Form definition was not found: @wrong group:id]");
         }
+    }
+
+    /**
+     * {@link FormDefinitions} class test.
+     */
+    @Test(expected = NullPointerException.class)
+    public void getFormDefinitionForGroupAndNullIdFailTest() {
+        FormDefinitions formDefinitions = new FormDefinitions();
+        FormDefinition formDefinition1 = new FormDefinition(null, "id", createNodeDefinitions(), createOtherAttributes(), "source1");
+        FormDefinition formDefinition2 = new FormDefinition("group", "id", createNodeDefinitions(), createOtherAttributes(), "source2");
+        formDefinitions.addFormDefinitions(Arrays.asList(formDefinition1, formDefinition2));
+        formDefinitions.getFormDefinition("group", null);
     }
 
     /**
@@ -140,6 +164,18 @@ public final class FormDefinitionsTest extends BaseFormModelTest {
         } catch (FormDefinitionNotFoundException ex) {
             Assertions.assertThat(ex).hasMessage("[Form definition was not found: @wrong group:id]");
         }
+    }
+
+    /**
+     * {@link FormDefinitions} class test.
+     */
+    @Test(expected = NullPointerException.class)
+    public void getFormDefinitionForNullFormReferenceFailTest() {
+        FormDefinitions formDefinitions = new FormDefinitions();
+        FormDefinition formDefinition1 = new FormDefinition(null, "id", createNodeDefinitions(), createOtherAttributes(), "source1");
+        FormDefinition formDefinition2 = new FormDefinition("group", "id", createNodeDefinitions(), createOtherAttributes(), "source2");
+        formDefinitions.addFormDefinitions(Arrays.asList(formDefinition1, formDefinition2));
+        formDefinitions.getFormDefinition((FormReferenceDefinition) null);
     }
 
 }
