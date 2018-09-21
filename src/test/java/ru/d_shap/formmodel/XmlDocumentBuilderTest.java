@@ -69,7 +69,17 @@ public final class XmlDocumentBuilderTest {
     @Test
     public void getDocumentBuilderTest() {
         Assertions.assertThat(XmlDocumentBuilder.getDocumentBuilder()).isNotNull();
+        Assertions.assertThat(XmlDocumentBuilder.getDocumentBuilder(null)).isNotNull();
+        Assertions.assertThat(XmlDocumentBuilder.getDocumentBuilder(new DocumentBuilderFactoryConfiguratorImpl())).isNotNull();
+
         Assertions.assertThat(XmlDocumentBuilder.getDocumentBuilder()).isNotSameAs(XmlDocumentBuilder.getDocumentBuilder());
+
+        try {
+            XmlDocumentBuilder.getDocumentBuilder(new ErrorDocumentBuilderFactoryConfiguratorImpl());
+            Assertions.fail("XmlDocumentBuilder test fail");
+        } catch (XmlDocumentBuilderException ex) {
+            Assertions.assertThat(ex).hasCause(ParserConfigurationException.class);
+        }
     }
 
     /**
