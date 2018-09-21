@@ -58,7 +58,9 @@ public final class NodePath {
      * @param nodeDefinition the node definition.
      */
     public NodePath(final NodeDefinition nodeDefinition) {
-        this(nodeDefinition.toString());
+        this();
+        NodePathEntry nodePathEntry = new NodePathEntry(nodeDefinition);
+        _nodePathEntries.add(nodePathEntry);
     }
 
     /**
@@ -81,7 +83,10 @@ public final class NodePath {
      * @param nodeDefinition the node definition.
      */
     public NodePath(final NodePath nodePath, final NodeDefinition nodeDefinition) {
-        this(nodePath, nodeDefinition.toString());
+        this();
+        _nodePathEntries.addAll(nodePath._nodePathEntries);
+        NodePathEntry nodePathEntry = new NodePathEntry(nodeDefinition);
+        _nodePathEntries.add(nodePathEntry);
     }
 
     @Override

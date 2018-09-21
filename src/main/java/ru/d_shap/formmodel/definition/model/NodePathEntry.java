@@ -33,6 +33,11 @@ final class NodePathEntry {
         _representation = representation;
     }
 
+    NodePathEntry(final NodeDefinition nodeDefinition) {
+        super();
+        _representation = nodeDefinition.toString();
+    }
+
     @Override
     public String toString() {
         return _representation;
