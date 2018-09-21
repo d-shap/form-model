@@ -71,7 +71,8 @@ public final class FormDefinitions {
      * @return the form definition.
      */
     public FormDefinition getFormDefinition(final String id) {
-        return getFormDefinition(null, id);
+        FormDefinitionKey formDefinitionKey = new FormDefinitionKey(null, id);
+        return getFormDefinition(formDefinitionKey);
     }
 
     /**
@@ -84,12 +85,7 @@ public final class FormDefinitions {
      */
     public FormDefinition getFormDefinition(final String group, final String id) {
         FormDefinitionKey formDefinitionKey = new FormDefinitionKey(group, id);
-        FormDefinition formDefinition = _formDefinitions.get(formDefinitionKey);
-        if (formDefinition == null) {
-            throw new FormDefinitionNotFoundException(group, id);
-        } else {
-            return formDefinition;
-        }
+        return getFormDefinition(formDefinitionKey);
     }
 
     /**
@@ -100,7 +96,17 @@ public final class FormDefinitions {
      * @return the form definition.
      */
     public FormDefinition getFormDefinition(final FormReferenceDefinition formReferenceDefinition) {
-        return getFormDefinition(formReferenceDefinition.getGroup(), formReferenceDefinition.getId());
+        FormDefinitionKey formDefinitionKey = new FormDefinitionKey(formReferenceDefinition);
+        return getFormDefinition(formDefinitionKey);
+    }
+
+    private FormDefinition getFormDefinition(final FormDefinitionKey formDefinitionKey) {
+        FormDefinition formDefinition = _formDefinitions.get(formDefinitionKey);
+        if (formDefinition == null) {
+            throw new FormDefinitionNotFoundException(formDefinitionKey);
+        } else {
+            return formDefinition;
+        }
     }
 
 }
