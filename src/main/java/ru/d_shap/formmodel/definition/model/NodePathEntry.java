@@ -35,7 +35,11 @@ final class NodePathEntry {
 
     NodePathEntry(final NodeDefinition nodeDefinition) {
         super();
-        _representation = nodeDefinition.toString();
+        if (nodeDefinition == null) {
+            _representation = null;
+        } else {
+            _representation = nodeDefinition.toString();
+        }
     }
 
     @Override
