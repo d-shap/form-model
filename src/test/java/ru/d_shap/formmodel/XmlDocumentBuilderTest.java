@@ -69,10 +69,10 @@ public final class XmlDocumentBuilderTest {
     @Test
     public void getDocumentBuilderTest() {
         Assertions.assertThat(XmlDocumentBuilder.getDocumentBuilder()).isNotNull();
+        Assertions.assertThat(XmlDocumentBuilder.getDocumentBuilder()).isNotSameAs(XmlDocumentBuilder.getDocumentBuilder());
+
         Assertions.assertThat(XmlDocumentBuilder.getDocumentBuilder(null)).isNotNull();
         Assertions.assertThat(XmlDocumentBuilder.getDocumentBuilder(new DocumentBuilderFactoryConfiguratorImpl())).isNotNull();
-
-        Assertions.assertThat(XmlDocumentBuilder.getDocumentBuilder()).isNotSameAs(XmlDocumentBuilder.getDocumentBuilder());
 
         try {
             XmlDocumentBuilder.getDocumentBuilder(new ErrorDocumentBuilderFactoryConfiguratorImpl());
