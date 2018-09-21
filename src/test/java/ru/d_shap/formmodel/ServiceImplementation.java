@@ -24,7 +24,7 @@ package ru.d_shap.formmodel;
  *
  * @author Dmitry Shapovalov
  */
-public class ServiceImplementation implements ServiceInterface {
+public final class ServiceImplementation implements ServiceInterface {
 
     /**
      * Create new object.
