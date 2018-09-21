@@ -37,7 +37,7 @@ public final class FormDefinitionNotFoundException extends FormDefinitionExcepti
      * @param formDefinitionKey the form definition key.
      */
     public FormDefinitionNotFoundException(final FormDefinitionKey formDefinitionKey) {
-        this(formDefinitionKey.getGroup(), formDefinitionKey.getId());
+        super("[Form definition was not found: " + formDefinitionKey + "]");
     }
 
     /**
