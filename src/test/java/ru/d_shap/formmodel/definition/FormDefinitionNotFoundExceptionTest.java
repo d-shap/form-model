@@ -22,6 +22,7 @@ package ru.d_shap.formmodel.definition;
 import org.junit.Test;
 
 import ru.d_shap.assertions.Assertions;
+import ru.d_shap.formmodel.definition.model.FormDefinitionKey;
 
 /**
  * Tests for {@link FormDefinitionNotFoundException}.
@@ -42,6 +43,14 @@ public final class FormDefinitionNotFoundExceptionTest {
      */
     @Test
     public void errorMessageTest() {
+        Assertions.assertThat(new FormDefinitionNotFoundException(new FormDefinitionKey(null, "id"))).hasMessage("[Form definition was not found: @:id]");
+        Assertions.assertThat(new FormDefinitionNotFoundException(new FormDefinitionKey("", "id"))).hasMessage("[Form definition was not found: @:id]");
+        Assertions.assertThat(new FormDefinitionNotFoundException(new FormDefinitionKey(" ", "id"))).hasMessage("[Form definition was not found: @ :id]");
+        Assertions.assertThat(new FormDefinitionNotFoundException(new FormDefinitionKey("group", null))).hasMessage("[Form definition was not found: @group:]");
+        Assertions.assertThat(new FormDefinitionNotFoundException(new FormDefinitionKey("group", ""))).hasMessage("[Form definition was not found: @group:]");
+        Assertions.assertThat(new FormDefinitionNotFoundException(new FormDefinitionKey("group", " "))).hasMessage("[Form definition was not found: @group: ]");
+        Assertions.assertThat(new FormDefinitionNotFoundException(new FormDefinitionKey("group", "id"))).hasMessage("[Form definition was not found: @group:id]");
+
         Assertions.assertThat(new FormDefinitionNotFoundException(null, "id")).hasMessage("[Form definition was not found: @:id]");
         Assertions.assertThat(new FormDefinitionNotFoundException("", "id")).hasMessage("[Form definition was not found: @:id]");
         Assertions.assertThat(new FormDefinitionNotFoundException(" ", "id")).hasMessage("[Form definition was not found: @ :id]");
