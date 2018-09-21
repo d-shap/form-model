@@ -267,6 +267,10 @@ public final class NodeDataTest {
         Assertions.assertThat(new NodeData(null, null).getOtherAttributeValue("")).isNull();
         Assertions.assertThat(new NodeData(null, null).getOtherAttributeValue("name")).isNull();
 
+        Assertions.assertThat(new NodeData(null, createOtherAttributeNames()).getOtherAttributeValue(null)).isNull();
+        Assertions.assertThat(new NodeData(null, createOtherAttributeNames()).getOtherAttributeValue("")).isNull();
+        Assertions.assertThat(new NodeData(null, createOtherAttributeNames()).getOtherAttributeValue("name")).isNull();
+
         Assertions.assertThat(new NodeData(null, createOtherAttributeNames("name", "value")).getOtherAttributeValue(null)).isNull();
         Assertions.assertThat(new NodeData(null, createOtherAttributeNames("name", "value")).getOtherAttributeValue("")).isNull();
         Assertions.assertThat(new NodeData(null, createOtherAttributeNames("name", "value")).getOtherAttributeValue("name")).isEqualTo("value");
