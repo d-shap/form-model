@@ -267,6 +267,9 @@ public final class NodeDataTest {
         Assertions.assertThat(new NodeData(null, createValidElements(), createOtherAttributes("name", "value"), createSkipAttributes()).getOtherAttributeNames()).containsExactly("name");
         Assertions.assertThat(new NodeData(null, createValidElements(), createOtherAttributes("name1", "value1", "name2", "value2"), createSkipAttributes()).getOtherAttributeNames()).containsExactly("name1", "name2");
         Assertions.assertThat(new NodeData(null, createValidElements(), createOtherAttributes("name1", "value1", "name2", "value2", "name3", "value3"), createSkipAttributes()).getOtherAttributeNames()).containsExactly("name1", "name2", "name3");
+        Assertions.assertThat(new NodeData(null, createValidElements(), createOtherAttributes("name1", "value1", "name2", "value2", "name3", "value3"), createSkipAttributes("name1")).getOtherAttributeNames()).containsExactly("name2", "name3");
+        Assertions.assertThat(new NodeData(null, createValidElements(), createOtherAttributes("name1", "value1", "name2", "value2", "name3", "value3"), createSkipAttributes("name1", "name2")).getOtherAttributeNames()).containsExactly("name3");
+        Assertions.assertThat(new NodeData(null, createValidElements(), createOtherAttributes("name1", "value1", "name2", "value2", "name3", "value3"), createSkipAttributes("name1", "name2", "name3")).getOtherAttributeNames()).isEmpty();
     }
 
     /**
@@ -300,6 +303,27 @@ public final class NodeDataTest {
         Assertions.assertThat(new NodeData(null, createValidElements(), createOtherAttributes("name1", "value1", "name2", "value2", "name3", "value3"), createSkipAttributes()).getOtherAttributeValue("name1")).isEqualTo("value1");
         Assertions.assertThat(new NodeData(null, createValidElements(), createOtherAttributes("name1", "value1", "name2", "value2", "name3", "value3"), createSkipAttributes()).getOtherAttributeValue("name2")).isEqualTo("value2");
         Assertions.assertThat(new NodeData(null, createValidElements(), createOtherAttributes("name1", "value1", "name2", "value2", "name3", "value3"), createSkipAttributes()).getOtherAttributeValue("name3")).isEqualTo("value3");
+
+        Assertions.assertThat(new NodeData(null, createValidElements(), createOtherAttributes("name1", "value1", "name2", "value2", "name3", "value3"), createSkipAttributes("name1")).getOtherAttributeValue(null)).isNull();
+        Assertions.assertThat(new NodeData(null, createValidElements(), createOtherAttributes("name1", "value1", "name2", "value2", "name3", "value3"), createSkipAttributes("name1")).getOtherAttributeValue("")).isNull();
+        Assertions.assertThat(new NodeData(null, createValidElements(), createOtherAttributes("name1", "value1", "name2", "value2", "name3", "value3"), createSkipAttributes("name1")).getOtherAttributeValue("name")).isNull();
+        Assertions.assertThat(new NodeData(null, createValidElements(), createOtherAttributes("name1", "value1", "name2", "value2", "name3", "value3"), createSkipAttributes("name1")).getOtherAttributeValue("name1")).isNull();
+        Assertions.assertThat(new NodeData(null, createValidElements(), createOtherAttributes("name1", "value1", "name2", "value2", "name3", "value3"), createSkipAttributes("name1")).getOtherAttributeValue("name2")).isEqualTo("value2");
+        Assertions.assertThat(new NodeData(null, createValidElements(), createOtherAttributes("name1", "value1", "name2", "value2", "name3", "value3"), createSkipAttributes("name1")).getOtherAttributeValue("name3")).isEqualTo("value3");
+
+        Assertions.assertThat(new NodeData(null, createValidElements(), createOtherAttributes("name1", "value1", "name2", "value2", "name3", "value3"), createSkipAttributes("name1", "name2")).getOtherAttributeValue(null)).isNull();
+        Assertions.assertThat(new NodeData(null, createValidElements(), createOtherAttributes("name1", "value1", "name2", "value2", "name3", "value3"), createSkipAttributes("name1", "name2")).getOtherAttributeValue("")).isNull();
+        Assertions.assertThat(new NodeData(null, createValidElements(), createOtherAttributes("name1", "value1", "name2", "value2", "name3", "value3"), createSkipAttributes("name1", "name2")).getOtherAttributeValue("name")).isNull();
+        Assertions.assertThat(new NodeData(null, createValidElements(), createOtherAttributes("name1", "value1", "name2", "value2", "name3", "value3"), createSkipAttributes("name1", "name2")).getOtherAttributeValue("name1")).isNull();
+        Assertions.assertThat(new NodeData(null, createValidElements(), createOtherAttributes("name1", "value1", "name2", "value2", "name3", "value3"), createSkipAttributes("name1", "name2")).getOtherAttributeValue("name2")).isNull();
+        Assertions.assertThat(new NodeData(null, createValidElements(), createOtherAttributes("name1", "value1", "name2", "value2", "name3", "value3"), createSkipAttributes("name1", "name2")).getOtherAttributeValue("name3")).isEqualTo("value3");
+
+        Assertions.assertThat(new NodeData(null, createValidElements(), createOtherAttributes("name1", "value1", "name2", "value2", "name3", "value3"), createSkipAttributes("name1", "name2", "name3")).getOtherAttributeValue(null)).isNull();
+        Assertions.assertThat(new NodeData(null, createValidElements(), createOtherAttributes("name1", "value1", "name2", "value2", "name3", "value3"), createSkipAttributes("name1", "name2", "name3")).getOtherAttributeValue("")).isNull();
+        Assertions.assertThat(new NodeData(null, createValidElements(), createOtherAttributes("name1", "value1", "name2", "value2", "name3", "value3"), createSkipAttributes("name1", "name2", "name3")).getOtherAttributeValue("name")).isNull();
+        Assertions.assertThat(new NodeData(null, createValidElements(), createOtherAttributes("name1", "value1", "name2", "value2", "name3", "value3"), createSkipAttributes("name1", "name2", "name3")).getOtherAttributeValue("name1")).isNull();
+        Assertions.assertThat(new NodeData(null, createValidElements(), createOtherAttributes("name1", "value1", "name2", "value2", "name3", "value3"), createSkipAttributes("name1", "name2", "name3")).getOtherAttributeValue("name2")).isNull();
+        Assertions.assertThat(new NodeData(null, createValidElements(), createOtherAttributes("name1", "value1", "name2", "value2", "name3", "value3"), createSkipAttributes("name1", "name2", "name3")).getOtherAttributeValue("name3")).isNull();
     }
 
     private List<NodeDefinition> createNodeDefinitions(final NodeDefinition... nodeDefinitions) {
