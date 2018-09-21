@@ -49,6 +49,8 @@ public final class NodeDataTest {
     public void getAttributeDefinitionsTest() {
         Assertions.assertThat(new NodeData(null, null).getAttributeDefinitions()).isEmpty();
 
+        Assertions.assertThat(new NodeData(createNodeDefinitions(), null).getAttributeDefinitions()).isEmpty();
+
         AttributeDefinition attributeDefinition1 = new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributeNames());
         Assertions.assertThat(new NodeData(createNodeDefinitions(attributeDefinition1), null).getAttributeDefinitions()).hasSize(1);
         Assertions.assertThat(new NodeData(createNodeDefinitions(attributeDefinition1), null).getAttributeDefinitions().get(0)).isSameAs(attributeDefinition1);
@@ -87,6 +89,8 @@ public final class NodeDataTest {
     @Test
     public void getElementDefinitionsTest() {
         Assertions.assertThat(new NodeData(null, null).getElementDefinitions()).isEmpty();
+
+        Assertions.assertThat(new NodeData(createNodeDefinitions(), null).getElementDefinitions()).isEmpty();
 
         AttributeDefinition attributeDefinition = new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributeNames());
         Assertions.assertThat(new NodeData(createNodeDefinitions(attributeDefinition), null).getElementDefinitions()).isEmpty();
@@ -127,6 +131,8 @@ public final class NodeDataTest {
     public void getChoiceDefinitionsTest() {
         Assertions.assertThat(new NodeData(null, null).getChoiceDefinitions()).isEmpty();
 
+        Assertions.assertThat(new NodeData(createNodeDefinitions(), null).getChoiceDefinitions()).isEmpty();
+
         AttributeDefinition attributeDefinition = new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributeNames());
         Assertions.assertThat(new NodeData(createNodeDefinitions(attributeDefinition), null).getChoiceDefinitions()).isEmpty();
 
@@ -166,6 +172,8 @@ public final class NodeDataTest {
     public void getFormReferenceDefinitionsTest() {
         Assertions.assertThat(new NodeData(null, null).getFormReferenceDefinitions()).isEmpty();
 
+        Assertions.assertThat(new NodeData(createNodeDefinitions(), null).getFormReferenceDefinitions()).isEmpty();
+
         AttributeDefinition attributeDefinition = new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributeNames());
         Assertions.assertThat(new NodeData(createNodeDefinitions(attributeDefinition), null).getFormReferenceDefinitions()).isEmpty();
 
@@ -204,6 +212,8 @@ public final class NodeDataTest {
     @Test
     public void getOtherNodeDefinitionsTest() {
         Assertions.assertThat(new NodeData(null, null).getOtherNodeDefinitions()).isEmpty();
+
+        Assertions.assertThat(new NodeData(createNodeDefinitions(), null).getOtherNodeDefinitions()).isEmpty();
 
         AttributeDefinition attributeDefinition = new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributeNames());
         Assertions.assertThat(new NodeData(createNodeDefinitions(attributeDefinition), null).getOtherNodeDefinitions()).isEmpty();
