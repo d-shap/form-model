@@ -170,11 +170,11 @@ public final class ChoiceDefinitionTest {
      */
     @Test
     public void getOtherAttributeNamesTest() {
-        Assertions.assertThat(new ChoiceDefinition("id", CardinalityDefinition.REQUIRED, createNodeDefinitions(), null).getOtherAttributeNames()).isEmpty();
-        Assertions.assertThat(new ChoiceDefinition("id", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributeNames()).getOtherAttributeNames()).isEmpty();
-        Assertions.assertThat(new ChoiceDefinition("id", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributeNames("name", "value")).getOtherAttributeNames()).containsExactly("name");
-        Assertions.assertThat(new ChoiceDefinition("id", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributeNames("name1", "value1", "name2", "value2")).getOtherAttributeNames()).containsExactly("name1", "name2");
-        Assertions.assertThat(new ChoiceDefinition("id", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributeNames("name1", "value1", "name2", "value2", "name3", "value3")).getOtherAttributeNames()).containsExactly("name1", "name2", "name3");
+        Assertions.assertThat(new ChoiceDefinition("id", CardinalityDefinition.REQUIRED, null, null).getOtherAttributeNames()).isEmpty();
+        Assertions.assertThat(new ChoiceDefinition("id", CardinalityDefinition.REQUIRED, null, createOtherAttributeNames()).getOtherAttributeNames()).isEmpty();
+        Assertions.assertThat(new ChoiceDefinition("id", CardinalityDefinition.REQUIRED, null, createOtherAttributeNames("name", "value")).getOtherAttributeNames()).containsExactly("name");
+        Assertions.assertThat(new ChoiceDefinition("id", CardinalityDefinition.REQUIRED, null, createOtherAttributeNames("name1", "value1", "name2", "value2")).getOtherAttributeNames()).containsExactly("name1", "name2");
+        Assertions.assertThat(new ChoiceDefinition("id", CardinalityDefinition.REQUIRED, null, createOtherAttributeNames("name1", "value1", "name2", "value2", "name3", "value3")).getOtherAttributeNames()).containsExactly("name1", "name2", "name3");
     }
 
     /**
@@ -182,24 +182,24 @@ public final class ChoiceDefinitionTest {
      */
     @Test
     public void getOtherAttributeValueTest() {
-        Assertions.assertThat(new ChoiceDefinition("id", CardinalityDefinition.REQUIRED, createNodeDefinitions(), null).getOtherAttributeValue(null)).isNull();
-        Assertions.assertThat(new ChoiceDefinition("id", CardinalityDefinition.REQUIRED, createNodeDefinitions(), null).getOtherAttributeValue("")).isNull();
-        Assertions.assertThat(new ChoiceDefinition("id", CardinalityDefinition.REQUIRED, createNodeDefinitions(), null).getOtherAttributeValue("name")).isNull();
+        Assertions.assertThat(new ChoiceDefinition("id", CardinalityDefinition.REQUIRED, null, null).getOtherAttributeValue(null)).isNull();
+        Assertions.assertThat(new ChoiceDefinition("id", CardinalityDefinition.REQUIRED, null, null).getOtherAttributeValue("")).isNull();
+        Assertions.assertThat(new ChoiceDefinition("id", CardinalityDefinition.REQUIRED, null, null).getOtherAttributeValue("name")).isNull();
 
-        Assertions.assertThat(new ChoiceDefinition("id", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributeNames()).getOtherAttributeValue(null)).isNull();
-        Assertions.assertThat(new ChoiceDefinition("id", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributeNames()).getOtherAttributeValue("")).isNull();
-        Assertions.assertThat(new ChoiceDefinition("id", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributeNames()).getOtherAttributeValue("name")).isNull();
+        Assertions.assertThat(new ChoiceDefinition("id", CardinalityDefinition.REQUIRED, null, createOtherAttributeNames()).getOtherAttributeValue(null)).isNull();
+        Assertions.assertThat(new ChoiceDefinition("id", CardinalityDefinition.REQUIRED, null, createOtherAttributeNames()).getOtherAttributeValue("")).isNull();
+        Assertions.assertThat(new ChoiceDefinition("id", CardinalityDefinition.REQUIRED, null, createOtherAttributeNames()).getOtherAttributeValue("name")).isNull();
 
-        Assertions.assertThat(new ChoiceDefinition("id", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributeNames("name", "value")).getOtherAttributeValue(null)).isNull();
-        Assertions.assertThat(new ChoiceDefinition("id", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributeNames("name", "value")).getOtherAttributeValue("")).isNull();
-        Assertions.assertThat(new ChoiceDefinition("id", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributeNames("name", "value")).getOtherAttributeValue("name")).isEqualTo("value");
+        Assertions.assertThat(new ChoiceDefinition("id", CardinalityDefinition.REQUIRED, null, createOtherAttributeNames("name", "value")).getOtherAttributeValue(null)).isNull();
+        Assertions.assertThat(new ChoiceDefinition("id", CardinalityDefinition.REQUIRED, null, createOtherAttributeNames("name", "value")).getOtherAttributeValue("")).isNull();
+        Assertions.assertThat(new ChoiceDefinition("id", CardinalityDefinition.REQUIRED, null, createOtherAttributeNames("name", "value")).getOtherAttributeValue("name")).isEqualTo("value");
 
-        Assertions.assertThat(new ChoiceDefinition("id", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributeNames("name1", "value1", "name2", "value2", "name3", "value3")).getOtherAttributeValue(null)).isNull();
-        Assertions.assertThat(new ChoiceDefinition("id", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributeNames("name1", "value1", "name2", "value2", "name3", "value3")).getOtherAttributeValue("")).isNull();
-        Assertions.assertThat(new ChoiceDefinition("id", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributeNames("name1", "value1", "name2", "value2", "name3", "value3")).getOtherAttributeValue("name")).isNull();
-        Assertions.assertThat(new ChoiceDefinition("id", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributeNames("name1", "value1", "name2", "value2", "name3", "value3")).getOtherAttributeValue("name1")).isEqualTo("value1");
-        Assertions.assertThat(new ChoiceDefinition("id", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributeNames("name1", "value1", "name2", "value2", "name3", "value3")).getOtherAttributeValue("name2")).isEqualTo("value2");
-        Assertions.assertThat(new ChoiceDefinition("id", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributeNames("name1", "value1", "name2", "value2", "name3", "value3")).getOtherAttributeValue("name3")).isEqualTo("value3");
+        Assertions.assertThat(new ChoiceDefinition("id", CardinalityDefinition.REQUIRED, null, createOtherAttributeNames("name1", "value1", "name2", "value2", "name3", "value3")).getOtherAttributeValue(null)).isNull();
+        Assertions.assertThat(new ChoiceDefinition("id", CardinalityDefinition.REQUIRED, null, createOtherAttributeNames("name1", "value1", "name2", "value2", "name3", "value3")).getOtherAttributeValue("")).isNull();
+        Assertions.assertThat(new ChoiceDefinition("id", CardinalityDefinition.REQUIRED, null, createOtherAttributeNames("name1", "value1", "name2", "value2", "name3", "value3")).getOtherAttributeValue("name")).isNull();
+        Assertions.assertThat(new ChoiceDefinition("id", CardinalityDefinition.REQUIRED, null, createOtherAttributeNames("name1", "value1", "name2", "value2", "name3", "value3")).getOtherAttributeValue("name1")).isEqualTo("value1");
+        Assertions.assertThat(new ChoiceDefinition("id", CardinalityDefinition.REQUIRED, null, createOtherAttributeNames("name1", "value1", "name2", "value2", "name3", "value3")).getOtherAttributeValue("name2")).isEqualTo("value2");
+        Assertions.assertThat(new ChoiceDefinition("id", CardinalityDefinition.REQUIRED, null, createOtherAttributeNames("name1", "value1", "name2", "value2", "name3", "value3")).getOtherAttributeValue("name3")).isEqualTo("value3");
     }
 
     /**
