@@ -28,7 +28,6 @@ import ru.d_shap.formmodel.ServiceFinder;
 import ru.d_shap.formmodel.definition.FormDefinitionValidationException;
 import ru.d_shap.formmodel.definition.model.FormDefinition;
 import ru.d_shap.formmodel.definition.model.FormDefinitionKey;
-import ru.d_shap.formmodel.definition.model.NodePath;
 
 /**
  * Validator for the form definitions.
@@ -60,7 +59,7 @@ public final class FormDefinitionsValidator {
             if (allFormSources.containsKey(formDefinitionKey)) {
                 String source1 = allFormSources.get(formDefinitionKey);
                 String source2 = formDefinition.getSource();
-                throw new FormDefinitionValidationException(Messages.Validation.getFormIsNotUniqueMessage(formDefinitionKey, source1, source2), new NodePath());
+                throw new FormDefinitionValidationException(Messages.Validation.getFormIsNotUniqueMessage(formDefinitionKey, source1, source2));
             } else {
                 allFormSources.put(formDefinitionKey, formDefinition.getSource());
             }
