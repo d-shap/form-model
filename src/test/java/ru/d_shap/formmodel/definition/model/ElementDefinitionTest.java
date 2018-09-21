@@ -290,16 +290,16 @@ public final class ElementDefinitionTest extends BaseFormModelTest {
      * {@link ElementDefinition} class test.
      */
     @Test
-    public void attributeNamesTest() {
-        Assertions.assertThat(ElementDefinition.ATTRIBUTE_NAMES).containsExactly("id", "lookup", "type");
+    public void childElementNamesTest() {
+        Assertions.assertThat(ElementDefinition.CHILD_ELEMENT_NAMES).containsExactly("attribute", "element", "choice", "form");
     }
 
     /**
      * {@link ElementDefinition} class test.
      */
     @Test
-    public void childElementNamesTest() {
-        Assertions.assertThat(ElementDefinition.CHILD_ELEMENT_NAMES).containsExactly("attribute", "element", "choice", "form");
+    public void attributeNamesTest() {
+        Assertions.assertThat(ElementDefinition.ATTRIBUTE_NAMES).containsExactly("id", "lookup", "type");
     }
 
 }
