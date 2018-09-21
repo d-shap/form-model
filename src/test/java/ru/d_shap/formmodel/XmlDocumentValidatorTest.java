@@ -32,7 +32,7 @@ import ru.d_shap.assertions.Assertions;
  *
  * @author Dmitry Shapovalov
  */
-public final class XmlDocumentValidatorTest {
+public final class XmlDocumentValidatorTest extends BaseFormModelTest {
 
     /**
      * Test class constructor.

@@ -30,7 +30,7 @@ import ru.d_shap.assertions.Assertions;
  *
  * @author Dmitry Shapovalov
  */
-public final class FormModelExceptionTest {
+public final class FormModelExceptionTest extends BaseFormModelTest {
 
     /**
      * Test class constructor.

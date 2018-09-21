@@ -38,7 +38,7 @@ import ru.d_shap.formmodel.definition.model.NodeDefinition;
  *
  * @author Dmitry Shapovalov
  */
-public final class MessagesTest {
+public final class MessagesTest extends BaseFormModelTest {
 
     /**
      * Test class constructor.

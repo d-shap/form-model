@@ -30,7 +30,7 @@ import ru.d_shap.assertions.Assertions;
  *
  * @author Dmitry Shapovalov
  */
-public final class InputSourceReadExceptionTest {
+public final class InputSourceReadExceptionTest extends BaseFormModelTest {
 
     /**
      * Test class constructor.

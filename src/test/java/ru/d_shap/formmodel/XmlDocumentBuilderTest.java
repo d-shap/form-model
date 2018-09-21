@@ -37,7 +37,7 @@ import ru.d_shap.assertions.Assertions;
  *
  * @author Dmitry Shapovalov
  */
-public final class XmlDocumentBuilderTest {
+public final class XmlDocumentBuilderTest extends BaseFormModelTest {
 
     /**
      * Test class constructor.

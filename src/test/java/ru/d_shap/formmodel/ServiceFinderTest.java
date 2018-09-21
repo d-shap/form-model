@@ -30,7 +30,7 @@ import ru.d_shap.assertions.Assertions;
  *
  * @author Dmitry Shapovalov
  */
-public final class ServiceFinderTest {
+public final class ServiceFinderTest extends BaseFormModelTest {
 
     /**
      * Test class constructor.
