@@ -22,6 +22,7 @@ package ru.d_shap.formmodel.definition;
 import org.junit.Test;
 
 import ru.d_shap.assertions.Assertions;
+import ru.d_shap.formmodel.BaseFormModelTest;
 import ru.d_shap.formmodel.definition.model.FormDefinitionKey;
 
 /**
@@ -29,7 +30,7 @@ import ru.d_shap.formmodel.definition.model.FormDefinitionKey;
  *
  * @author Dmitry Shapovalov
  */
-public final class FormDefinitionNotFoundExceptionTest {
+public final class FormDefinitionNotFoundExceptionTest extends BaseFormModelTest {
 
     /**
      * Test class constructor.

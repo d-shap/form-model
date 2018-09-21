@@ -24,13 +24,14 @@ import java.io.IOException;
 import org.junit.Test;
 
 import ru.d_shap.assertions.Assertions;
+import ru.d_shap.formmodel.BaseFormModelTest;
 
 /**
  * Tests for {@link FormDefinitionException}.
  *
  * @author Dmitry Shapovalov
  */
-public final class FormDefinitionExceptionTest {
+public final class FormDefinitionExceptionTest extends BaseFormModelTest {
 
     /**
      * Test class constructor.
