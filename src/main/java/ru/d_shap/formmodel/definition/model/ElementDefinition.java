@@ -42,16 +42,6 @@ public final class ElementDefinition implements NodeDefinition {
 
     public static final String ATTRIBUTE_TYPE = "type";
 
-    public static final Set<String> ATTRIBUTE_NAMES;
-
-    static {
-        Set<String> attributeNames = new HashSet<>();
-        attributeNames.add(ATTRIBUTE_ID);
-        attributeNames.add(ATTRIBUTE_LOOKUP);
-        attributeNames.add(ATTRIBUTE_TYPE);
-        ATTRIBUTE_NAMES = Collections.unmodifiableSet(attributeNames);
-    }
-
     public static final Set<String> CHILD_ELEMENT_NAMES;
 
     static {
@@ -61,6 +51,16 @@ public final class ElementDefinition implements NodeDefinition {
         childElementNames.add(ChoiceDefinition.ELEMENT_NAME);
         childElementNames.add(FormReferenceDefinition.ELEMENT_NAME);
         CHILD_ELEMENT_NAMES = Collections.unmodifiableSet(childElementNames);
+    }
+
+    public static final Set<String> ATTRIBUTE_NAMES;
+
+    static {
+        Set<String> attributeNames = new HashSet<>();
+        attributeNames.add(ATTRIBUTE_ID);
+        attributeNames.add(ATTRIBUTE_LOOKUP);
+        attributeNames.add(ATTRIBUTE_TYPE);
+        ATTRIBUTE_NAMES = Collections.unmodifiableSet(attributeNames);
     }
 
     private final String _id;

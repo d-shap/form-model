@@ -40,15 +40,6 @@ public final class ChoiceDefinition implements NodeDefinition {
 
     public static final String ATTRIBUTE_TYPE = "type";
 
-    public static final Set<String> ATTRIBUTE_NAMES;
-
-    static {
-        Set<String> attributeNames = new HashSet<>();
-        attributeNames.add(ATTRIBUTE_ID);
-        attributeNames.add(ATTRIBUTE_TYPE);
-        ATTRIBUTE_NAMES = Collections.unmodifiableSet(attributeNames);
-    }
-
     public static final Set<String> CHILD_ELEMENT_NAMES;
 
     static {
@@ -56,6 +47,15 @@ public final class ChoiceDefinition implements NodeDefinition {
         childElementNames.add(ElementDefinition.ELEMENT_NAME);
         childElementNames.add(ELEMENT_NAME);
         CHILD_ELEMENT_NAMES = Collections.unmodifiableSet(childElementNames);
+    }
+
+    public static final Set<String> ATTRIBUTE_NAMES;
+
+    static {
+        Set<String> attributeNames = new HashSet<>();
+        attributeNames.add(ATTRIBUTE_ID);
+        attributeNames.add(ATTRIBUTE_TYPE);
+        ATTRIBUTE_NAMES = Collections.unmodifiableSet(attributeNames);
     }
 
     private final String _id;

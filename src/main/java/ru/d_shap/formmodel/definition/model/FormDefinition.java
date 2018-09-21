@@ -40,15 +40,6 @@ public final class FormDefinition implements NodeDefinition {
 
     public static final String ATTRIBUTE_ID = "id";
 
-    public static final Set<String> ATTRIBUTE_NAMES;
-
-    static {
-        Set<String> attributeNames = new HashSet<>();
-        attributeNames.add(ATTRIBUTE_GROUP);
-        attributeNames.add(ATTRIBUTE_ID);
-        ATTRIBUTE_NAMES = Collections.unmodifiableSet(attributeNames);
-    }
-
     public static final Set<String> CHILD_ELEMENT_NAMES;
 
     static {
@@ -57,6 +48,15 @@ public final class FormDefinition implements NodeDefinition {
         childElementNames.add(ChoiceDefinition.ELEMENT_NAME);
         childElementNames.add(FormReferenceDefinition.ELEMENT_NAME);
         CHILD_ELEMENT_NAMES = Collections.unmodifiableSet(childElementNames);
+    }
+
+    public static final Set<String> ATTRIBUTE_NAMES;
+
+    static {
+        Set<String> attributeNames = new HashSet<>();
+        attributeNames.add(ATTRIBUTE_GROUP);
+        attributeNames.add(ATTRIBUTE_ID);
+        ATTRIBUTE_NAMES = Collections.unmodifiableSet(attributeNames);
     }
 
     private final String _group;

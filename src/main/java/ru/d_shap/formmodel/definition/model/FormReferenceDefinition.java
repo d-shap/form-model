@@ -40,6 +40,12 @@ public final class FormReferenceDefinition implements NodeDefinition {
 
     public static final String ATTRIBUTE_ID = "id";
 
+    public static final Set<String> CHILD_ELEMENT_NAMES;
+
+    static {
+        CHILD_ELEMENT_NAMES = Collections.unmodifiableSet(new HashSet<String>());
+    }
+
     public static final Set<String> ATTRIBUTE_NAMES;
 
     static {
@@ -47,12 +53,6 @@ public final class FormReferenceDefinition implements NodeDefinition {
         attributeNames.add(ATTRIBUTE_GROUP);
         attributeNames.add(ATTRIBUTE_ID);
         ATTRIBUTE_NAMES = Collections.unmodifiableSet(attributeNames);
-    }
-
-    public static final Set<String> CHILD_ELEMENT_NAMES;
-
-    static {
-        CHILD_ELEMENT_NAMES = Collections.unmodifiableSet(new HashSet<String>());
     }
 
     private final String _group;
