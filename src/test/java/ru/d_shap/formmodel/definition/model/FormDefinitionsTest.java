@@ -25,6 +25,7 @@ import org.junit.Test;
 
 import ru.d_shap.assertions.Assertions;
 import ru.d_shap.formmodel.BaseFormModelTest;
+import ru.d_shap.formmodel.definition.FormDefinitionNotFoundException;
 import ru.d_shap.formmodel.definition.FormDefinitionValidationException;
 
 /**
@@ -47,9 +48,9 @@ public final class FormDefinitionsTest extends BaseFormModelTest {
     @Test
     public void addFormDefinitionsTest() {
         FormDefinitions formDefinitions = new FormDefinitions();
-
         FormDefinition formDefinition1 = new FormDefinition("group", "id1", createNodeDefinitions(), createOtherAttributes(), "source1");
         FormDefinition formDefinition2 = new FormDefinition("group", "id2", createNodeDefinitions(), createOtherAttributes(), "source2");
+
         formDefinitions.addFormDefinitions(Arrays.asList(formDefinition1, formDefinition2));
 
         try {
@@ -65,7 +66,20 @@ public final class FormDefinitionsTest extends BaseFormModelTest {
      */
     @Test
     public void getFormDefinitionForIdTest() {
+        FormDefinitions formDefinitions = new FormDefinitions();
+        FormDefinition formDefinition1 = new FormDefinition(null, "id", createNodeDefinitions(), createOtherAttributes(), "source1");
+        FormDefinition formDefinition2 = new FormDefinition("group", "id", createNodeDefinitions(), createOtherAttributes(), "source2");
+        formDefinitions.addFormDefinitions(Arrays.asList(formDefinition1, formDefinition2));
 
+        Assertions.assertThat(formDefinitions.getFormDefinition("id")).isNotNull();
+        Assertions.assertThat(formDefinitions.getFormDefinition("id")).isSameAs(formDefinition1);
+
+        try {
+            formDefinitions.getFormDefinition("wrong id");
+            Assertions.fail("FormDefinitions test fail");
+        } catch (FormDefinitionNotFoundException ex) {
+            Assertions.assertThat(ex).hasMessage("[Form definition was not found: @:wrong id]");
+        }
     }
 
     /**
@@ -73,7 +87,29 @@ public final class FormDefinitionsTest extends BaseFormModelTest {
      */
     @Test
     public void getFormDefinitionForGroupAndTest() {
+        FormDefinitions formDefinitions = new FormDefinitions();
+        FormDefinition formDefinition1 = new FormDefinition(null, "id", createNodeDefinitions(), createOtherAttributes(), "source1");
+        FormDefinition formDefinition2 = new FormDefinition("group", "id", createNodeDefinitions(), createOtherAttributes(), "source2");
+        formDefinitions.addFormDefinitions(Arrays.asList(formDefinition1, formDefinition2));
 
+        Assertions.assertThat(formDefinitions.getFormDefinition(null, "id")).isNotNull();
+        Assertions.assertThat(formDefinitions.getFormDefinition(null, "id")).isSameAs(formDefinition1);
+
+        Assertions.assertThat(formDefinitions.getFormDefinition("group", "id")).isNotNull();
+        Assertions.assertThat(formDefinitions.getFormDefinition("group", "id")).isSameAs(formDefinition2);
+
+        try {
+            formDefinitions.getFormDefinition("group", "wrong id");
+            Assertions.fail("FormDefinitions test fail");
+        } catch (FormDefinitionNotFoundException ex) {
+            Assertions.assertThat(ex).hasMessage("[Form definition was not found: @group:wrong id]");
+        }
+        try {
+            formDefinitions.getFormDefinition("wrong group", "id");
+            Assertions.fail("FormDefinitions test fail");
+        } catch (FormDefinitionNotFoundException ex) {
+            Assertions.assertThat(ex).hasMessage("[Form definition was not found: @wrong group:id]");
+        }
     }
 
     /**
@@ -81,7 +117,29 @@ public final class FormDefinitionsTest extends BaseFormModelTest {
      */
     @Test
     public void getFormDefinitionForFormReferenceTest() {
+        FormDefinitions formDefinitions = new FormDefinitions();
+        FormDefinition formDefinition1 = new FormDefinition(null, "id", createNodeDefinitions(), createOtherAttributes(), "source1");
+        FormDefinition formDefinition2 = new FormDefinition("group", "id", createNodeDefinitions(), createOtherAttributes(), "source2");
+        formDefinitions.addFormDefinitions(Arrays.asList(formDefinition1, formDefinition2));
 
+        Assertions.assertThat(formDefinitions.getFormDefinition(new FormReferenceDefinition(null, "id", createNodeDefinitions(), createOtherAttributes()))).isNotNull();
+        Assertions.assertThat(formDefinitions.getFormDefinition(new FormReferenceDefinition(null, "id", createNodeDefinitions(), createOtherAttributes()))).isSameAs(formDefinition1);
+
+        Assertions.assertThat(formDefinitions.getFormDefinition(new FormReferenceDefinition("group", "id", createNodeDefinitions(), createOtherAttributes()))).isNotNull();
+        Assertions.assertThat(formDefinitions.getFormDefinition(new FormReferenceDefinition("group", "id", createNodeDefinitions(), createOtherAttributes()))).isSameAs(formDefinition2);
+
+        try {
+            formDefinitions.getFormDefinition(new FormReferenceDefinition("group", "wrong id", createNodeDefinitions(), createOtherAttributes()));
+            Assertions.fail("FormDefinitions test fail");
+        } catch (FormDefinitionNotFoundException ex) {
+            Assertions.assertThat(ex).hasMessage("[Form definition was not found: @group:wrong id]");
+        }
+        try {
+            formDefinitions.getFormDefinition(new FormReferenceDefinition("wrong group", "id", createNodeDefinitions(), createOtherAttributes()));
+            Assertions.fail("FormDefinitions test fail");
+        } catch (FormDefinitionNotFoundException ex) {
+            Assertions.assertThat(ex).hasMessage("[Form definition was not found: @wrong group:id]");
+        }
     }
 
 }
