@@ -51,7 +51,7 @@ public final class FormDefinitionValidationException extends FormDefinitionExcep
 
     private static String getMessage(final String message, final NodePath nodePath) {
         if (nodePath == null) {
-            return message;
+            return String.valueOf(message);
         } else {
             return message + ", " + nodePath;
         }
