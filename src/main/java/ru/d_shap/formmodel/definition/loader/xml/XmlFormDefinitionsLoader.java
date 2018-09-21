@@ -24,6 +24,8 @@ import java.util.List;
 import org.xml.sax.InputSource;
 
 import ru.d_shap.formmodel.ServiceFinder;
+import ru.d_shap.formmodel.XmlDocumentBuilder;
+import ru.d_shap.formmodel.XmlDocumentBuilderConfigurator;
 import ru.d_shap.formmodel.definition.loader.FormDefinitionsLoader;
 import ru.d_shap.formmodel.definition.model.FormDefinition;
 import ru.d_shap.formmodel.definition.model.FormDefinitions;
@@ -45,7 +47,21 @@ public class XmlFormDefinitionsLoader extends FormDefinitionsLoader {
     protected XmlFormDefinitionsLoader(final FormDefinitions formDefinitions) {
         super(formDefinitions);
         List<OtherNodeXmlDefinitionBuilder> otherNodeXmlDefinitionBuilders = ServiceFinder.find(OtherNodeXmlDefinitionBuilder.class);
-        _xmlFormDefinitionLoader = new XmlFormDefinitionLoader(otherNodeXmlDefinitionBuilders);
+        XmlDocumentBuilder xmlDocumentBuilder = XmlDocumentBuilder.getDocumentBuilder();
+        _xmlFormDefinitionLoader = new XmlFormDefinitionLoader(xmlDocumentBuilder, otherNodeXmlDefinitionBuilders);
+    }
+
+    /**
+     * Create new object.
+     *
+     * @param formDefinitions                container for all form definitions.
+     * @param xmlDocumentBuilderConfigurator configurator for the XML document builder.
+     */
+    protected XmlFormDefinitionsLoader(final FormDefinitions formDefinitions, final XmlDocumentBuilderConfigurator xmlDocumentBuilderConfigurator) {
+        super(formDefinitions);
+        List<OtherNodeXmlDefinitionBuilder> otherNodeXmlDefinitionBuilders = ServiceFinder.find(OtherNodeXmlDefinitionBuilder.class);
+        XmlDocumentBuilder xmlDocumentBuilder = XmlDocumentBuilder.getDocumentBuilder(xmlDocumentBuilderConfigurator);
+        _xmlFormDefinitionLoader = new XmlFormDefinitionLoader(xmlDocumentBuilder, otherNodeXmlDefinitionBuilders);
     }
 
     /**

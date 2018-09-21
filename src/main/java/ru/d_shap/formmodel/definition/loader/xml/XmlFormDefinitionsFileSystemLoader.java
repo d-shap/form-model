@@ -29,6 +29,7 @@ import java.util.List;
 import org.xml.sax.InputSource;
 
 import ru.d_shap.formmodel.InputSourceReadException;
+import ru.d_shap.formmodel.XmlDocumentBuilderConfigurator;
 import ru.d_shap.formmodel.definition.model.FormDefinition;
 import ru.d_shap.formmodel.definition.model.FormDefinitions;
 
@@ -48,6 +49,16 @@ public final class XmlFormDefinitionsFileSystemLoader extends XmlFormDefinitions
      */
     public XmlFormDefinitionsFileSystemLoader(final FormDefinitions formDefinitions) {
         super(formDefinitions);
+    }
+
+    /**
+     * Create new object.
+     *
+     * @param formDefinitions                container for all form definitions.
+     * @param xmlDocumentBuilderConfigurator configurator for the XML document builder.
+     */
+    public XmlFormDefinitionsFileSystemLoader(final FormDefinitions formDefinitions, final XmlDocumentBuilderConfigurator xmlDocumentBuilderConfigurator) {
+        super(formDefinitions, xmlDocumentBuilderConfigurator);
     }
 
     /**
