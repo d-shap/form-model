@@ -115,7 +115,7 @@ public class BaseFormModelTest {
      *
      * @return XML document.
      */
-    protected Document parse(final String xml) {
+    protected final Document parse(final String xml) {
         XmlDocumentBuilder documentBuilder = XmlDocumentBuilder.getDocumentBuilder();
         Reader reader = new StringReader(xml);
         InputSource inputSource = new InputSource(reader);
