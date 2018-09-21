@@ -46,6 +46,8 @@ public final class FormDefinitionKeyTest extends BaseFormModelTest {
      */
     @Test
     public void getGroupTest() {
+        Assertions.assertThat(new FormDefinitionKey("id").getGroup()).isEqualTo("");
+
         Assertions.assertThat(new FormDefinitionKey(null, "id").getGroup()).isEqualTo("");
         Assertions.assertThat(new FormDefinitionKey("", "id").getGroup()).isEqualTo("");
         Assertions.assertThat(new FormDefinitionKey(" ", "id").getGroup()).isEqualTo(" ");
@@ -70,6 +72,12 @@ public final class FormDefinitionKeyTest extends BaseFormModelTest {
      */
     @Test
     public void getIdTest() {
+        Assertions.assertThat(new FormDefinitionKey((String) null).getId()).isNull();
+        Assertions.assertThat(new FormDefinitionKey("").getId()).isEqualTo("");
+        Assertions.assertThat(new FormDefinitionKey(" ").getId()).isEqualTo(" ");
+        Assertions.assertThat(new FormDefinitionKey("id").getId()).isEqualTo("id");
+        Assertions.assertThat(new FormDefinitionKey("ID").getId()).isEqualTo("ID");
+
         Assertions.assertThat(new FormDefinitionKey(null, null).getId()).isNull();
         Assertions.assertThat(new FormDefinitionKey(null, "").getId()).isEqualTo("");
         Assertions.assertThat(new FormDefinitionKey(null, " ").getId()).isEqualTo(" ");
@@ -120,6 +128,7 @@ public final class FormDefinitionKeyTest extends BaseFormModelTest {
      */
     @Test
     public void hashCodeTest() {
+        Assertions.assertThat(new FormDefinitionKey("id")).hasHashCode(3355);
         Assertions.assertThat(new FormDefinitionKey(null, "id")).hasHashCode(3355);
         Assertions.assertThat(new FormDefinitionKey("", "id")).hasHashCode(3355);
         Assertions.assertThat(new FormDefinitionKey(" ", "id")).hasHashCode(3771);
@@ -140,6 +149,7 @@ public final class FormDefinitionKeyTest extends BaseFormModelTest {
      */
     @Test
     public void toStringTest() {
+        Assertions.assertThat(new FormDefinitionKey("id")).hasToString("@:id");
         Assertions.assertThat(new FormDefinitionKey(null, "id")).hasToString("@:id");
         Assertions.assertThat(new FormDefinitionKey("", "id")).hasToString("@:id");
         Assertions.assertThat(new FormDefinitionKey(" ", "id")).hasToString("@ :id");
