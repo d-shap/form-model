@@ -54,9 +54,20 @@ public final class FormDefinitionValidationExceptionTest extends BaseFormModelTe
     public void errorMessageTest() {
         FormDefinition formDefinition = new FormDefinition("group", "id", new ArrayList<NodeDefinition>(), new HashMap<String, String>(), "source");
         ElementDefinition elementDefinition = new ElementDefinition("id", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>());
+
+        Assertions.assertThat(new FormDefinitionValidationException(null)).hasMessage("null");
+        Assertions.assertThat(new FormDefinitionValidationException(null, null)).hasMessage("null");
+        Assertions.assertThat(new FormDefinitionValidationException(null, new NodePath())).hasMessage("null, ");
         Assertions.assertThat(new FormDefinitionValidationException(null, new NodePath(new NodePath(formDefinition), elementDefinition))).hasMessage("null, {source}form[@group:id]/element[@id]");
-        Assertions.assertThat(new FormDefinitionValidationException(Messages.Validation.getGroupIsNotValidMessage("-group"), null)).hasMessage("[Group is not valid: -group], null");
+
+        Assertions.assertThat(new FormDefinitionValidationException(Messages.Validation.getGroupIsNotValidMessage("-group"))).hasMessage("[Group is not valid: -group]");
+        Assertions.assertThat(new FormDefinitionValidationException(Messages.Validation.getGroupIsNotValidMessage("-group"), null)).hasMessage("[Group is not valid: -group]");
+        Assertions.assertThat(new FormDefinitionValidationException(Messages.Validation.getGroupIsNotValidMessage("-group"), new NodePath())).hasMessage("[Group is not valid: -group], ");
         Assertions.assertThat(new FormDefinitionValidationException(Messages.Validation.getGroupIsNotValidMessage("-group"), new NodePath(new NodePath(formDefinition), elementDefinition))).hasMessage("[Group is not valid: -group], {source}form[@group:id]/element[@id]");
+
+        Assertions.assertThat(new FormDefinitionValidationException(Messages.Validation.getIdIsEmptyMessage())).hasMessage("[ID is empty]");
+        Assertions.assertThat(new FormDefinitionValidationException(Messages.Validation.getIdIsEmptyMessage(), null)).hasMessage("[ID is empty]");
+        Assertions.assertThat(new FormDefinitionValidationException(Messages.Validation.getIdIsEmptyMessage(), new NodePath())).hasMessage("[ID is empty], ");
         Assertions.assertThat(new FormDefinitionValidationException(Messages.Validation.getIdIsEmptyMessage(), new NodePath(formDefinition))).hasMessage("[ID is empty], {source}form[@group:id]");
     }
 
