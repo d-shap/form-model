@@ -19,12 +19,17 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.formmodel;
 
+import java.io.Reader;
+import java.io.StringReader;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
 
 import ru.d_shap.formmodel.definition.model.AttributeDefinition;
 import ru.d_shap.formmodel.definition.model.ChoiceDefinition;
@@ -101,6 +106,20 @@ public class BaseFormModelTest {
      */
     protected final Set<String> createSkipAttributes(final String... attributes) {
         return new HashSet<>(Arrays.asList(attributes));
+    }
+
+    /**
+     * Parse XML document.
+     *
+     * @param xml XML document to parse.
+     *
+     * @return XML document.
+     */
+    protected Document parse(final String xml) {
+        XmlDocumentBuilder documentBuilder = XmlDocumentBuilder.getDocumentBuilder();
+        Reader reader = new StringReader(xml);
+        InputSource inputSource = new InputSource(reader);
+        return documentBuilder.parse(inputSource);
     }
 
 }
