@@ -59,9 +59,9 @@ final class XmlFormDefinitionLoader implements FormModelXmlDefinitionBuilder {
 
     private final OtherNodeXmlDefinitionBuilder _defaultOtherNodeXmlDefinitionBuilder;
 
-    XmlFormDefinitionLoader(final List<OtherNodeXmlDefinitionBuilder> otherNodeXmlDefinitionBuilders) {
+    XmlFormDefinitionLoader(final XmlDocumentBuilder xmlDocumentBuilder, final List<OtherNodeXmlDefinitionBuilder> otherNodeXmlDefinitionBuilders) {
         super();
-        _xmlDocumentBuilder = XmlDocumentBuilder.getDocumentBuilder();
+        _xmlDocumentBuilder = xmlDocumentBuilder;
         if (otherNodeXmlDefinitionBuilders == null) {
             _otherNodeXmlDefinitionBuilders = new ArrayList<>();
         } else {
