@@ -100,6 +100,22 @@ public final class FormDefinitionKeyTest extends BaseFormModelTest {
     /**
      * {@link FormDefinitionKey} class test.
      */
+    @Test(expected = NullPointerException.class)
+    public void createNewObjectNullFormDefinitionFailTest() {
+        new FormDefinitionKey((FormDefinition) null);
+    }
+
+    /**
+     * {@link FormDefinitionKey} class test.
+     */
+    @Test(expected = NullPointerException.class)
+    public void createNewObjectNullFormReferenceDefinitionFailTest() {
+        new FormDefinitionKey((FormReferenceDefinition) null);
+    }
+
+    /**
+     * {@link FormDefinitionKey} class test.
+     */
     @Test
     public void equalsTest() {
         FormDefinitionKey formDefinitionKey = new FormDefinitionKey(null, "id");
