@@ -19,6 +19,8 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.formmodel;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Reader;
 import java.io.StringReader;
 import java.util.Arrays;
@@ -27,6 +29,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
@@ -120,6 +125,70 @@ public class BaseFormModelTest {
         Reader reader = new StringReader(xml);
         InputSource inputSource = new InputSource(reader);
         return documentBuilder.parse(inputSource);
+    }
+
+    /**
+     * Test class.
+     *
+     * @author Dmitry Shapovalov
+     */
+    public static final class DocumentBuilderFactoryConfiguratorImpl implements XmlDocumentBuilderConfigurator {
+
+        /**
+         * Create new object.
+         */
+        public DocumentBuilderFactoryConfiguratorImpl() {
+            super();
+        }
+
+        @Override
+        public void configure(final DocumentBuilderFactory documentBuilderFactory) throws ParserConfigurationException {
+            documentBuilderFactory.setNamespaceAware(true);
+        }
+
+    }
+
+    /**
+     * Test class.
+     *
+     * @author Dmitry Shapovalov
+     */
+    public static final class ErrorDocumentBuilderFactoryConfiguratorImpl implements XmlDocumentBuilderConfigurator {
+
+        /**
+         * Create new object.
+         */
+        public ErrorDocumentBuilderFactoryConfiguratorImpl() {
+            super();
+        }
+
+        @Override
+        public void configure(final DocumentBuilderFactory documentBuilderFactory) throws ParserConfigurationException {
+            documentBuilderFactory.setNamespaceAware(true);
+            documentBuilderFactory.setFeature("some fake feature", true);
+        }
+
+    }
+
+    /**
+     * Test class.
+     *
+     * @author Dmitry Shapovalov
+     */
+    public static final class ErrorInputStream extends InputStream {
+
+        /**
+         * Create new object.
+         */
+        public ErrorInputStream() {
+            super();
+        }
+
+        @Override
+        public int read() throws IOException {
+            throw new IOException("ERROR!");
+        }
+
     }
 
 }

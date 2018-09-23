@@ -20,10 +20,8 @@
 package ru.d_shap.formmodel;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.StringReader;
 
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.junit.Test;
@@ -119,61 +117,6 @@ public final class XmlDocumentBuilderTest extends BaseFormModelTest {
             Assertions.assertThat(ex).hasMessage("ERROR!");
             Assertions.assertThat(ex).hasCause(IOException.class);
         }
-    }
-
-    /**
-     * Test class.
-     *
-     * @author Dmitry Shapovalov
-     */
-    private static final class DocumentBuilderFactoryConfiguratorImpl implements XmlDocumentBuilderConfigurator {
-
-        DocumentBuilderFactoryConfiguratorImpl() {
-            super();
-        }
-
-        @Override
-        public void configure(final DocumentBuilderFactory documentBuilderFactory) throws ParserConfigurationException {
-            documentBuilderFactory.setNamespaceAware(true);
-        }
-
-    }
-
-    /**
-     * Test class.
-     *
-     * @author Dmitry Shapovalov
-     */
-    private static final class ErrorDocumentBuilderFactoryConfiguratorImpl implements XmlDocumentBuilderConfigurator {
-
-        ErrorDocumentBuilderFactoryConfiguratorImpl() {
-            super();
-        }
-
-        @Override
-        public void configure(final DocumentBuilderFactory documentBuilderFactory) throws ParserConfigurationException {
-            documentBuilderFactory.setNamespaceAware(true);
-            documentBuilderFactory.setFeature("some fake feature", true);
-        }
-
-    }
-
-    /**
-     * Test class.
-     *
-     * @author Dmitry Shapovalov
-     */
-    private static final class ErrorInputStream extends InputStream {
-
-        ErrorInputStream() {
-            super();
-        }
-
-        @Override
-        public int read() throws IOException {
-            throw new IOException("ERROR!");
-        }
-
     }
 
 }
