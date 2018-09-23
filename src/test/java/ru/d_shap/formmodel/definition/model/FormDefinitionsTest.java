@@ -65,6 +65,32 @@ public final class FormDefinitionsTest extends BaseFormModelTest {
      * {@link FormDefinitions} class test.
      */
     @Test
+    public void copyOfTest() {
+        FormDefinitions formDefinitions = new FormDefinitions();
+        FormDefinition formDefinition1 = new FormDefinition("group", "id1", createNodeDefinitions(), createOtherAttributes(), "source1");
+        FormDefinition formDefinition2 = new FormDefinition("group", "id2", createNodeDefinitions(), createOtherAttributes(), "source2");
+        formDefinitions.addFormDefinitions(Arrays.asList(formDefinition1, formDefinition2));
+
+        FormDefinitions formDefinitionsCopy = formDefinitions.copyOf();
+        Assertions.assertThat(formDefinitionsCopy.getFormDefinition("group", "id1")).isSameAs(formDefinition1);
+        Assertions.assertThat(formDefinitionsCopy.getFormDefinition("group", "id2")).isSameAs(formDefinition2);
+
+        FormDefinition formDefinition3 = new FormDefinition("group", "id3", createNodeDefinitions(), createOtherAttributes(), "source3");
+        FormDefinition formDefinition4 = new FormDefinition("group", "id4", createNodeDefinitions(), createOtherAttributes(), "source4");
+        formDefinitions.addFormDefinitions(Arrays.asList(formDefinition3, formDefinition4));
+
+        try {
+            formDefinitionsCopy.getFormDefinition("group", "id3");
+            Assertions.fail("FormDefinitions test fail");
+        } catch (FormDefinitionNotFoundException ex) {
+            Assertions.assertThat(ex).hasMessage("[Form definition was not found: @group:id3]");
+        }
+    }
+
+    /**
+     * {@link FormDefinitions} class test.
+     */
+    @Test
     public void getFormDefinitionForIdTest() {
         FormDefinitions formDefinitions = new FormDefinitions();
         FormDefinition formDefinition1 = new FormDefinition(null, "id", createNodeDefinitions(), createOtherAttributes(), "source1");
