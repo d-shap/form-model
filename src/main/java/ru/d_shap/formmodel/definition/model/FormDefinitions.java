@@ -50,6 +50,18 @@ public final class FormDefinitions {
     }
 
     /**
+     * Create the copy of the form definitions container.
+     *
+     * @return the copy of the form definitions container.
+     */
+    public FormDefinitions copyOf() {
+        FormDefinitions formDefinitions = new FormDefinitions();
+        formDefinitions._formSources.putAll(_formSources);
+        formDefinitions._formDefinitions.putAll(_formDefinitions);
+        return formDefinitions;
+    }
+
+    /**
      * Add the specified form definitions to this container.
      *
      * @param formDefinitions the specified form definitions.
