@@ -66,7 +66,7 @@ public final class FormBinder {
      */
     public FormBinder(final FormDefinitions formDefinitions, final Binder binder) {
         super();
-        _formDefinitions = formDefinitions;
+        _formDefinitions = formDefinitions.copyOf();
         _binder = binder;
         _otherNodeInstanceBuilders = ServiceFinder.find(OtherNodeInstanceBuilder.class);
     }
