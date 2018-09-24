@@ -36,6 +36,8 @@ public final class OtherNodeDefinitionImpl implements OtherNodeDefinition {
 
     private FormReferenceDefinition _formReferenceDefinition;
 
+    private OtherNodeDefinition _otherNodeDefinition;
+
     /**
      * Create new object.
      */
@@ -132,6 +134,24 @@ public final class OtherNodeDefinitionImpl implements OtherNodeDefinition {
      */
     public void setFormReferenceDefinition(final FormReferenceDefinition formReferenceDefinition) {
         _formReferenceDefinition = formReferenceDefinition;
+    }
+
+    /**
+     * Get the child other node definition.
+     *
+     * @return the child other node definition.
+     */
+    public OtherNodeDefinition getOtherNodeDefinition() {
+        return _otherNodeDefinition;
+    }
+
+    /**
+     * Set the child other node definition.
+     *
+     * @param otherNodeDefinition the child other node definition.
+     */
+    public void setOtherNodeDefinition(final OtherNodeDefinition otherNodeDefinition) {
+        _otherNodeDefinition = otherNodeDefinition;
     }
 
 }
