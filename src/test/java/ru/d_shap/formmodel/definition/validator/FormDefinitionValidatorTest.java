@@ -19,14 +19,15 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.formmodel.definition.validator;
 
-import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.junit.Test;
 
 import ru.d_shap.assertions.Assertions;
 import ru.d_shap.formmodel.BaseFormModelTest;
+import ru.d_shap.formmodel.ServiceFinder;
 import ru.d_shap.formmodel.definition.FormDefinitionValidationException;
 import ru.d_shap.formmodel.definition.model.CardinalityDefinition;
 import ru.d_shap.formmodel.definition.model.ChoiceDefinition;
@@ -310,7 +311,8 @@ public final class FormDefinitionValidatorTest extends BaseFormModelTest {
             FormDefinitionKey formDefinitionKey = new FormDefinitionKey(groupsAndIds[i], groupsAndIds[i + 1]);
             formDefinitionKeys.add(formDefinitionKey);
         }
-        return new FormDefinitionValidator(formDefinitionKeys, new ArrayList<OtherNodeDefinitionValidator>());
+        List<OtherNodeDefinitionValidator> otherNodeDefinitionValidators = ServiceFinder.find(OtherNodeDefinitionValidator.class);
+        return new FormDefinitionValidator(formDefinitionKeys, otherNodeDefinitionValidators);
     }
 
 }
