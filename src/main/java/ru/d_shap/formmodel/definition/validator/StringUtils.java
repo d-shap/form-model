@@ -58,12 +58,7 @@ final class StringUtils {
         if (str == null) {
             return true;
         }
-        for (int i = 0; i < str.length(); i++) {
-            if (!Character.isWhitespace(str.charAt(i))) {
-                return false;
-            }
-        }
-        return true;
+        return "".equals(str);
     }
 
     static boolean hasValidCharacters(final String str) {
