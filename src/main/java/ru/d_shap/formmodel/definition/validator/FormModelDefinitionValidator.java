@@ -25,6 +25,7 @@ import ru.d_shap.formmodel.definition.model.ElementDefinition;
 import ru.d_shap.formmodel.definition.model.FormReferenceDefinition;
 import ru.d_shap.formmodel.definition.model.NodeDefinition;
 import ru.d_shap.formmodel.definition.model.NodePath;
+import ru.d_shap.formmodel.definition.model.OtherNodeDefinition;
 
 /**
  * Validator for the form definition elements.
@@ -61,6 +62,15 @@ public interface FormModelDefinitionValidator {
     boolean isStringHasValidCharacters(String str);
 
     /**
+     * Validate the attribute definition.
+     *
+     * @param parentNodeDefinition the parent node definition.
+     * @param attributeDefinition  the attribute definition.
+     * @param nodePath             the current node path.
+     */
+    void validateAttributeDefinition(NodeDefinition parentNodeDefinition, AttributeDefinition attributeDefinition, NodePath nodePath);
+
+    /**
      * Validate the element definition.
      *
      * @param parentNodeDefinition the parent node definition.
@@ -88,12 +98,12 @@ public interface FormModelDefinitionValidator {
     void validateFormReferenceDefinition(NodeDefinition parentNodeDefinition, FormReferenceDefinition formReferenceDefinition, NodePath nodePath);
 
     /**
-     * Validate the attribute definition.
+     * Validate the other node definition.
      *
      * @param parentNodeDefinition the parent node definition.
-     * @param attributeDefinition  the attribute definition.
+     * @param otherNodeDefinition  the other node definition.
      * @param nodePath             the current node path.
      */
-    void validateAttributeDefinition(NodeDefinition parentNodeDefinition, AttributeDefinition attributeDefinition, NodePath nodePath);
+    void validateOtherNodeDefinition(NodeDefinition parentNodeDefinition, OtherNodeDefinition otherNodeDefinition, NodePath nodePath);
 
 }
