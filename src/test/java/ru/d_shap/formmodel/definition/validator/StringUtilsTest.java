@@ -53,9 +53,10 @@ public final class StringUtilsTest extends BaseFormModelTest {
     public void isEmptyTest() {
         Assertions.assertThat(StringUtils.isEmpty(null)).isTrue();
         Assertions.assertThat(StringUtils.isEmpty("")).isTrue();
-        Assertions.assertThat(StringUtils.isEmpty(" ")).isTrue();
-        Assertions.assertThat(StringUtils.isEmpty("\t")).isTrue();
-        Assertions.assertThat(StringUtils.isEmpty("  \n\t   \r\n ")).isTrue();
+
+        Assertions.assertThat(StringUtils.isEmpty(" ")).isFalse();
+        Assertions.assertThat(StringUtils.isEmpty("\t")).isFalse();
+        Assertions.assertThat(StringUtils.isEmpty("  \n\t   \r\n ")).isFalse();
 
         Assertions.assertThat(StringUtils.isEmpty("a")).isFalse();
         Assertions.assertThat(StringUtils.isEmpty("X")).isFalse();
