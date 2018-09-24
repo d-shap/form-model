@@ -61,6 +61,18 @@ final class StringUtils {
         return "".equals(str);
     }
 
+    static boolean isBlank(final String str) {
+        if (isEmpty(str)) {
+            return true;
+        }
+        for (int i = 0; i < str.length(); i++) {
+            if (!Character.isWhitespace(str.charAt(i))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     static boolean hasValidCharacters(final String str) {
         if (!VALID_START_CHARACTERS.contains(str.charAt(0))) {
             return false;
