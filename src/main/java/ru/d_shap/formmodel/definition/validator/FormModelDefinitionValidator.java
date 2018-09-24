@@ -43,6 +43,15 @@ public interface FormModelDefinitionValidator {
     boolean isEmptyString(String str);
 
     /**
+     * Check if the string is blank (empty or contains only white characters).
+     *
+     * @param str the string to check.
+     *
+     * @return true if the string is blank.
+     */
+    boolean isBlankString(String str);
+
+    /**
      * Check if the string has only valid characters.
      *
      * @param str the string to check.
