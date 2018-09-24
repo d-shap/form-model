@@ -70,6 +70,26 @@ public final class StringUtilsTest extends BaseFormModelTest {
      * {@link StringUtils} class test.
      */
     @Test
+    public void isBlankTest() {
+        Assertions.assertThat(StringUtils.isBlank(null)).isTrue();
+        Assertions.assertThat(StringUtils.isBlank("")).isTrue();
+
+        Assertions.assertThat(StringUtils.isBlank(" ")).isTrue();
+        Assertions.assertThat(StringUtils.isBlank("\t")).isTrue();
+        Assertions.assertThat(StringUtils.isBlank("  \n\t   \r\n ")).isTrue();
+
+        Assertions.assertThat(StringUtils.isBlank("a")).isFalse();
+        Assertions.assertThat(StringUtils.isBlank("X")).isFalse();
+        Assertions.assertThat(StringUtils.isBlank(" X")).isFalse();
+        Assertions.assertThat(StringUtils.isBlank("X ")).isFalse();
+        Assertions.assertThat(StringUtils.isBlank(" X ")).isFalse();
+        Assertions.assertThat(StringUtils.isBlank("  \t \r\n X ")).isFalse();
+    }
+
+    /**
+     * {@link StringUtils} class test.
+     */
+    @Test
     public void hasValidCharactersTest() {
         Assertions.assertThat(StringUtils.hasValidCharacters("aVal")).isTrue();
         Assertions.assertThat(StringUtils.hasValidCharacters("AVal")).isTrue();
