@@ -88,7 +88,7 @@ public final class ChoiceDefinitionTest extends BaseFormModelTest {
         FormReferenceDefinition formReferenceDefinition = new FormReferenceDefinition("group", "id", createNodeDefinitions(), createOtherAttributes());
         Assertions.assertThat(new ChoiceDefinition("id", CardinalityDefinition.REQUIRED, createNodeDefinitions(formReferenceDefinition), null).getElementDefinitions()).isEmpty();
 
-        OtherNodeDefinition otherNodeDefinition = new OtherNodeDefinitionImpl();
+        OtherNodeDefinition otherNodeDefinition = new OtherNodeDefinitionImpl("", true);
         Assertions.assertThat(new ChoiceDefinition("id", CardinalityDefinition.REQUIRED, createNodeDefinitions(otherNodeDefinition), null).getElementDefinitions()).isEmpty();
 
         NodeDefinition nodeDefinition = new NodeDefinitionImpl();
@@ -121,7 +121,7 @@ public final class ChoiceDefinitionTest extends BaseFormModelTest {
         FormReferenceDefinition formReferenceDefinition = new FormReferenceDefinition("group", "id", createNodeDefinitions(), createOtherAttributes());
         Assertions.assertThat(new ChoiceDefinition("id", CardinalityDefinition.REQUIRED, createNodeDefinitions(formReferenceDefinition), null).getChoiceDefinitions()).isEmpty();
 
-        OtherNodeDefinition otherNodeDefinition = new OtherNodeDefinitionImpl();
+        OtherNodeDefinition otherNodeDefinition = new OtherNodeDefinitionImpl("", true);
         Assertions.assertThat(new ChoiceDefinition("id", CardinalityDefinition.REQUIRED, createNodeDefinitions(otherNodeDefinition), null).getChoiceDefinitions()).isEmpty();
 
         NodeDefinition nodeDefinition = new NodeDefinitionImpl();
@@ -149,10 +149,10 @@ public final class ChoiceDefinitionTest extends BaseFormModelTest {
         FormReferenceDefinition formReferenceDefinition = new FormReferenceDefinition("group", "id", createNodeDefinitions(), createOtherAttributes());
         Assertions.assertThat(new ChoiceDefinition("id", CardinalityDefinition.REQUIRED, createNodeDefinitions(formReferenceDefinition), null).getOtherNodeDefinitions()).isEmpty();
 
-        OtherNodeDefinition otherNodeDefinition1 = new OtherNodeDefinitionImpl();
+        OtherNodeDefinition otherNodeDefinition1 = new OtherNodeDefinitionImpl("", true);
         Assertions.assertThat(new ChoiceDefinition("id", CardinalityDefinition.REQUIRED, createNodeDefinitions(otherNodeDefinition1), null).getOtherNodeDefinitions()).hasSize(1);
         Assertions.assertThat(new ChoiceDefinition("id", CardinalityDefinition.REQUIRED, createNodeDefinitions(otherNodeDefinition1), null).getOtherNodeDefinitions().get(0)).isSameAs(otherNodeDefinition1);
-        OtherNodeDefinition otherNodeDefinition2 = new OtherNodeDefinitionImpl();
+        OtherNodeDefinition otherNodeDefinition2 = new OtherNodeDefinitionImpl("", true);
         Assertions.assertThat(new ChoiceDefinition("id", CardinalityDefinition.REQUIRED, createNodeDefinitions(otherNodeDefinition1, otherNodeDefinition2), null).getOtherNodeDefinitions()).hasSize(2);
         Assertions.assertThat(new ChoiceDefinition("id", CardinalityDefinition.REQUIRED, createNodeDefinitions(otherNodeDefinition1, otherNodeDefinition2), null).getOtherNodeDefinitions().get(0)).isSameAs(otherNodeDefinition1);
         Assertions.assertThat(new ChoiceDefinition("id", CardinalityDefinition.REQUIRED, createNodeDefinitions(otherNodeDefinition1, otherNodeDefinition2), null).getOtherNodeDefinitions().get(1)).isSameAs(otherNodeDefinition2);

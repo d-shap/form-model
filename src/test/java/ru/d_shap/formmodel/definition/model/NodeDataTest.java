@@ -66,7 +66,7 @@ public final class NodeDataTest extends BaseFormModelTest {
         FormReferenceDefinition formReferenceDefinition = new FormReferenceDefinition("group", "id", createNodeDefinitions(), createOtherAttributes());
         Assertions.assertThat(new NodeData(createNodeDefinitions(formReferenceDefinition), createValidElements(), null, createSkipAttributes()).getAttributeDefinitions()).isEmpty();
 
-        OtherNodeDefinition otherNodeDefinition = new OtherNodeDefinitionImpl();
+        OtherNodeDefinition otherNodeDefinition = new OtherNodeDefinitionImpl("", true);
         Assertions.assertThat(new NodeData(createNodeDefinitions(otherNodeDefinition), createValidElements(), null, createSkipAttributes()).getAttributeDefinitions()).isEmpty();
 
         NodeDefinition nodeDefinition = new NodeDefinitionImpl();
@@ -109,7 +109,7 @@ public final class NodeDataTest extends BaseFormModelTest {
         FormReferenceDefinition formReferenceDefinition = new FormReferenceDefinition("group", "id", createNodeDefinitions(), createOtherAttributes());
         Assertions.assertThat(new NodeData(createNodeDefinitions(formReferenceDefinition), createValidElements(), null, createSkipAttributes()).getElementDefinitions()).isEmpty();
 
-        OtherNodeDefinition otherNodeDefinition = new OtherNodeDefinitionImpl();
+        OtherNodeDefinition otherNodeDefinition = new OtherNodeDefinitionImpl("", true);
         Assertions.assertThat(new NodeData(createNodeDefinitions(otherNodeDefinition), createValidElements(), null, createSkipAttributes()).getElementDefinitions()).isEmpty();
 
         NodeDefinition nodeDefinition = new NodeDefinitionImpl();
@@ -152,7 +152,7 @@ public final class NodeDataTest extends BaseFormModelTest {
         FormReferenceDefinition formReferenceDefinition = new FormReferenceDefinition("group", "id", createNodeDefinitions(), createOtherAttributes());
         Assertions.assertThat(new NodeData(createNodeDefinitions(formReferenceDefinition), createValidElements(), null, createSkipAttributes()).getChoiceDefinitions()).isEmpty();
 
-        OtherNodeDefinition otherNodeDefinition = new OtherNodeDefinitionImpl();
+        OtherNodeDefinition otherNodeDefinition = new OtherNodeDefinitionImpl("", true);
         Assertions.assertThat(new NodeData(createNodeDefinitions(otherNodeDefinition), createValidElements(), null, createSkipAttributes()).getChoiceDefinitions()).isEmpty();
 
         NodeDefinition nodeDefinition = new NodeDefinitionImpl();
@@ -195,7 +195,7 @@ public final class NodeDataTest extends BaseFormModelTest {
         Assertions.assertThat(new NodeData(createNodeDefinitions(formReferenceDefinition1, formReferenceDefinition2), createValidElements(), null, createSkipAttributes()).getFormReferenceDefinitions().get(0)).isSameAs(formReferenceDefinition1);
         Assertions.assertThat(new NodeData(createNodeDefinitions(formReferenceDefinition1, formReferenceDefinition2), createValidElements(), null, createSkipAttributes()).getFormReferenceDefinitions().get(1)).isSameAs(formReferenceDefinition2);
 
-        OtherNodeDefinition otherNodeDefinition = new OtherNodeDefinitionImpl();
+        OtherNodeDefinition otherNodeDefinition = new OtherNodeDefinitionImpl("", true);
         Assertions.assertThat(new NodeData(createNodeDefinitions(otherNodeDefinition), createValidElements(), null, createSkipAttributes()).getFormReferenceDefinitions()).isEmpty();
 
         NodeDefinition nodeDefinition = new NodeDefinitionImpl();
@@ -231,10 +231,10 @@ public final class NodeDataTest extends BaseFormModelTest {
         FormReferenceDefinition formReferenceDefinition = new FormReferenceDefinition("group", "id", createNodeDefinitions(), createOtherAttributes());
         Assertions.assertThat(new NodeData(createNodeDefinitions(formReferenceDefinition), createValidElements(), null, createSkipAttributes()).getOtherNodeDefinitions()).isEmpty();
 
-        OtherNodeDefinition otherNodeDefinition1 = new OtherNodeDefinitionImpl();
+        OtherNodeDefinition otherNodeDefinition1 = new OtherNodeDefinitionImpl("", true);
         Assertions.assertThat(new NodeData(createNodeDefinitions(otherNodeDefinition1), createValidElements(), null, createSkipAttributes()).getOtherNodeDefinitions()).hasSize(1);
         Assertions.assertThat(new NodeData(createNodeDefinitions(otherNodeDefinition1), createValidElements(), null, createSkipAttributes()).getOtherNodeDefinitions().get(0)).isSameAs(otherNodeDefinition1);
-        OtherNodeDefinition otherNodeDefinition2 = new OtherNodeDefinitionImpl();
+        OtherNodeDefinition otherNodeDefinition2 = new OtherNodeDefinitionImpl("", true);
         Assertions.assertThat(new NodeData(createNodeDefinitions(otherNodeDefinition1, otherNodeDefinition2), createValidElements(), null, createSkipAttributes()).getOtherNodeDefinitions()).hasSize(2);
         Assertions.assertThat(new NodeData(createNodeDefinitions(otherNodeDefinition1, otherNodeDefinition2), createValidElements(), null, createSkipAttributes()).getOtherNodeDefinitions().get(0)).isSameAs(otherNodeDefinition1);
         Assertions.assertThat(new NodeData(createNodeDefinitions(otherNodeDefinition1, otherNodeDefinition2), createValidElements(), null, createSkipAttributes()).getOtherNodeDefinitions().get(1)).isSameAs(otherNodeDefinition2);

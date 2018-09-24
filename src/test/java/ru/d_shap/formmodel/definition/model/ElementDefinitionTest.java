@@ -99,7 +99,7 @@ public final class ElementDefinitionTest extends BaseFormModelTest {
         FormReferenceDefinition formReferenceDefinition = new FormReferenceDefinition("group", "id", createNodeDefinitions(), createOtherAttributes());
         Assertions.assertThat(new ElementDefinition("id", "lookup", CardinalityDefinition.PROHIBITED, createNodeDefinitions(formReferenceDefinition), null).getAttributeDefinitions()).isEmpty();
 
-        OtherNodeDefinition otherNodeDefinition = new OtherNodeDefinitionImpl();
+        OtherNodeDefinition otherNodeDefinition = new OtherNodeDefinitionImpl("", true);
         Assertions.assertThat(new ElementDefinition("id", "lookup", CardinalityDefinition.PROHIBITED, createNodeDefinitions(otherNodeDefinition), null).getAttributeDefinitions()).isEmpty();
 
         NodeDefinition nodeDefinition = new NodeDefinitionImpl();
@@ -132,7 +132,7 @@ public final class ElementDefinitionTest extends BaseFormModelTest {
         FormReferenceDefinition formReferenceDefinition = new FormReferenceDefinition("group", "id", createNodeDefinitions(), createOtherAttributes());
         Assertions.assertThat(new ElementDefinition("id", "lookup", CardinalityDefinition.PROHIBITED, createNodeDefinitions(formReferenceDefinition), null).getElementDefinitions()).isEmpty();
 
-        OtherNodeDefinition otherNodeDefinition = new OtherNodeDefinitionImpl();
+        OtherNodeDefinition otherNodeDefinition = new OtherNodeDefinitionImpl("", true);
         Assertions.assertThat(new ElementDefinition("id", "lookup", CardinalityDefinition.PROHIBITED, createNodeDefinitions(otherNodeDefinition), null).getElementDefinitions()).isEmpty();
 
         NodeDefinition nodeDefinition = new NodeDefinitionImpl();
@@ -165,7 +165,7 @@ public final class ElementDefinitionTest extends BaseFormModelTest {
         FormReferenceDefinition formReferenceDefinition = new FormReferenceDefinition("group", "id", createNodeDefinitions(), createOtherAttributes());
         Assertions.assertThat(new ElementDefinition("id", "lookup", CardinalityDefinition.PROHIBITED, createNodeDefinitions(formReferenceDefinition), null).getChoiceDefinitions()).isEmpty();
 
-        OtherNodeDefinition otherNodeDefinition = new OtherNodeDefinitionImpl();
+        OtherNodeDefinition otherNodeDefinition = new OtherNodeDefinitionImpl("", true);
         Assertions.assertThat(new ElementDefinition("id", "lookup", CardinalityDefinition.PROHIBITED, createNodeDefinitions(otherNodeDefinition), null).getChoiceDefinitions()).isEmpty();
 
         NodeDefinition nodeDefinition = new NodeDefinitionImpl();
@@ -198,7 +198,7 @@ public final class ElementDefinitionTest extends BaseFormModelTest {
         Assertions.assertThat(new ElementDefinition("id", "lookup", CardinalityDefinition.PROHIBITED, createNodeDefinitions(formReferenceDefinition1, formReferenceDefinition2), null).getFormReferenceDefinitions().get(0)).isSameAs(formReferenceDefinition1);
         Assertions.assertThat(new ElementDefinition("id", "lookup", CardinalityDefinition.PROHIBITED, createNodeDefinitions(formReferenceDefinition1, formReferenceDefinition2), null).getFormReferenceDefinitions().get(1)).isSameAs(formReferenceDefinition2);
 
-        OtherNodeDefinition otherNodeDefinition = new OtherNodeDefinitionImpl();
+        OtherNodeDefinition otherNodeDefinition = new OtherNodeDefinitionImpl("", true);
         Assertions.assertThat(new ElementDefinition("id", "lookup", CardinalityDefinition.PROHIBITED, createNodeDefinitions(otherNodeDefinition), null).getFormReferenceDefinitions()).isEmpty();
 
         NodeDefinition nodeDefinition = new NodeDefinitionImpl();
@@ -226,10 +226,10 @@ public final class ElementDefinitionTest extends BaseFormModelTest {
         FormReferenceDefinition formReferenceDefinition = new FormReferenceDefinition("group", "id", createNodeDefinitions(), createOtherAttributes());
         Assertions.assertThat(new ElementDefinition("id", "lookup", CardinalityDefinition.PROHIBITED, createNodeDefinitions(formReferenceDefinition), null).getOtherNodeDefinitions()).isEmpty();
 
-        OtherNodeDefinition otherNodeDefinition1 = new OtherNodeDefinitionImpl();
+        OtherNodeDefinition otherNodeDefinition1 = new OtherNodeDefinitionImpl("", true);
         Assertions.assertThat(new ElementDefinition("id", "lookup", CardinalityDefinition.PROHIBITED, createNodeDefinitions(otherNodeDefinition1), null).getOtherNodeDefinitions()).hasSize(1);
         Assertions.assertThat(new ElementDefinition("id", "lookup", CardinalityDefinition.PROHIBITED, createNodeDefinitions(otherNodeDefinition1), null).getOtherNodeDefinitions().get(0)).isSameAs(otherNodeDefinition1);
-        OtherNodeDefinition otherNodeDefinition2 = new OtherNodeDefinitionImpl();
+        OtherNodeDefinition otherNodeDefinition2 = new OtherNodeDefinitionImpl("", true);
         Assertions.assertThat(new ElementDefinition("id", "lookup", CardinalityDefinition.PROHIBITED, createNodeDefinitions(otherNodeDefinition1, otherNodeDefinition2), null).getOtherNodeDefinitions()).hasSize(2);
         Assertions.assertThat(new ElementDefinition("id", "lookup", CardinalityDefinition.PROHIBITED, createNodeDefinitions(otherNodeDefinition1, otherNodeDefinition2), null).getOtherNodeDefinitions().get(0)).isSameAs(otherNodeDefinition1);
         Assertions.assertThat(new ElementDefinition("id", "lookup", CardinalityDefinition.PROHIBITED, createNodeDefinitions(otherNodeDefinition1, otherNodeDefinition2), null).getOtherNodeDefinitions().get(1)).isSameAs(otherNodeDefinition2);

@@ -86,7 +86,7 @@ public final class FormDefinitionTest extends BaseFormModelTest {
         FormReferenceDefinition formReferenceDefinition = new FormReferenceDefinition("group", "id", createNodeDefinitions(), createOtherAttributes());
         Assertions.assertThat(new FormDefinition("group", "id", createNodeDefinitions(formReferenceDefinition), null, "source").getElementDefinitions()).isEmpty();
 
-        OtherNodeDefinition otherNodeDefinition = new OtherNodeDefinitionImpl();
+        OtherNodeDefinition otherNodeDefinition = new OtherNodeDefinitionImpl("", true);
         Assertions.assertThat(new FormDefinition("group", "id", createNodeDefinitions(otherNodeDefinition), null, "source").getElementDefinitions()).isEmpty();
 
         NodeDefinition nodeDefinition = new NodeDefinitionImpl();
@@ -119,7 +119,7 @@ public final class FormDefinitionTest extends BaseFormModelTest {
         FormReferenceDefinition formReferenceDefinition = new FormReferenceDefinition("group", "id", createNodeDefinitions(), createOtherAttributes());
         Assertions.assertThat(new FormDefinition("group", "id", createNodeDefinitions(formReferenceDefinition), null, "source").getChoiceDefinitions()).isEmpty();
 
-        OtherNodeDefinition otherNodeDefinition = new OtherNodeDefinitionImpl();
+        OtherNodeDefinition otherNodeDefinition = new OtherNodeDefinitionImpl("", true);
         Assertions.assertThat(new FormDefinition("group", "id", createNodeDefinitions(otherNodeDefinition), null, "source").getChoiceDefinitions()).isEmpty();
 
         NodeDefinition nodeDefinition = new NodeDefinitionImpl();
@@ -152,7 +152,7 @@ public final class FormDefinitionTest extends BaseFormModelTest {
         Assertions.assertThat(new FormDefinition("group", "id", createNodeDefinitions(formReferenceDefinition1, formReferenceDefinition2), null, "source").getFormReferenceDefinitions().get(0)).isSameAs(formReferenceDefinition1);
         Assertions.assertThat(new FormDefinition("group", "id", createNodeDefinitions(formReferenceDefinition1, formReferenceDefinition2), null, "source").getFormReferenceDefinitions().get(1)).isSameAs(formReferenceDefinition2);
 
-        OtherNodeDefinition otherNodeDefinition = new OtherNodeDefinitionImpl();
+        OtherNodeDefinition otherNodeDefinition = new OtherNodeDefinitionImpl("", true);
         Assertions.assertThat(new FormDefinition("group", "id", createNodeDefinitions(otherNodeDefinition), null, "source").getFormReferenceDefinitions()).isEmpty();
 
         NodeDefinition nodeDefinition = new NodeDefinitionImpl();
@@ -180,10 +180,10 @@ public final class FormDefinitionTest extends BaseFormModelTest {
         FormReferenceDefinition formReferenceDefinition = new FormReferenceDefinition("group", "id", createNodeDefinitions(), createOtherAttributes());
         Assertions.assertThat(new FormDefinition("group", "id", createNodeDefinitions(formReferenceDefinition), null, "source").getOtherNodeDefinitions()).isEmpty();
 
-        OtherNodeDefinition otherNodeDefinition1 = new OtherNodeDefinitionImpl();
+        OtherNodeDefinition otherNodeDefinition1 = new OtherNodeDefinitionImpl("", true);
         Assertions.assertThat(new FormDefinition("group", "id", createNodeDefinitions(otherNodeDefinition1), null, "source").getOtherNodeDefinitions()).hasSize(1);
         Assertions.assertThat(new FormDefinition("group", "id", createNodeDefinitions(otherNodeDefinition1), null, "source").getOtherNodeDefinitions().get(0)).isSameAs(otherNodeDefinition1);
-        OtherNodeDefinition otherNodeDefinition2 = new OtherNodeDefinitionImpl();
+        OtherNodeDefinition otherNodeDefinition2 = new OtherNodeDefinitionImpl("", true);
         Assertions.assertThat(new FormDefinition("group", "id", createNodeDefinitions(otherNodeDefinition1, otherNodeDefinition2), null, "source").getOtherNodeDefinitions()).hasSize(2);
         Assertions.assertThat(new FormDefinition("group", "id", createNodeDefinitions(otherNodeDefinition1, otherNodeDefinition2), null, "source").getOtherNodeDefinitions().get(0)).isSameAs(otherNodeDefinition1);
         Assertions.assertThat(new FormDefinition("group", "id", createNodeDefinitions(otherNodeDefinition1, otherNodeDefinition2), null, "source").getOtherNodeDefinitions().get(1)).isSameAs(otherNodeDefinition2);
