@@ -26,11 +26,112 @@ package ru.d_shap.formmodel.definition.model;
  */
 public final class OtherNodeDefinitionImpl implements OtherNodeDefinition {
 
+    private final boolean _valid;
+
+    private AttributeDefinition _attributeDefinition;
+
+    private ElementDefinition _elementDefinition;
+
+    private ChoiceDefinition _choiceDefinition;
+
+    private FormReferenceDefinition _formReferenceDefinition;
+
     /**
      * Create new object.
      */
     public OtherNodeDefinitionImpl() {
+        this(true);
+    }
+
+    /**
+     * Create new object.
+     *
+     * @param valid true if this definition is valid.
+     */
+    public OtherNodeDefinitionImpl(final boolean valid) {
         super();
+        _valid = valid;
+    }
+
+    /**
+     * Define if this definition is valid.
+     *
+     * @return true if this definition is valid.
+     */
+    public boolean isValid() {
+        return _valid;
+    }
+
+    /**
+     * Get the child attribute definition.
+     *
+     * @return the child attribute definition.
+     */
+    public AttributeDefinition getAttributeDefinition() {
+        return _attributeDefinition;
+    }
+
+    /**
+     * Set the child attribute definition.
+     *
+     * @param attributeDefinition the child attribute definition.
+     */
+    public void setAttributeDefinition(final AttributeDefinition attributeDefinition) {
+        _attributeDefinition = attributeDefinition;
+    }
+
+    /**
+     * Get the child element definition.
+     *
+     * @return the child element definition.
+     */
+    public ElementDefinition getElementDefinition() {
+        return _elementDefinition;
+    }
+
+    /**
+     * Set the child element definition.
+     *
+     * @param elementDefinition the child element definition.
+     */
+    public void setElementDefinition(final ElementDefinition elementDefinition) {
+        _elementDefinition = elementDefinition;
+    }
+
+    /**
+     * Get the child choice definition.
+     *
+     * @return the child choice definition.
+     */
+    public ChoiceDefinition getChoiceDefinition() {
+        return _choiceDefinition;
+    }
+
+    /**
+     * Set the child choice definition.
+     *
+     * @param choiceDefinition the child choice definition.
+     */
+    public void setChoiceDefinition(final ChoiceDefinition choiceDefinition) {
+        _choiceDefinition = choiceDefinition;
+    }
+
+    /**
+     * Get the child form reference definition.
+     *
+     * @return the child form reference definition.
+     */
+    public FormReferenceDefinition getFormReferenceDefinition() {
+        return _formReferenceDefinition;
+    }
+
+    /**
+     * Set the child form reference definition.
+     *
+     * @param formReferenceDefinition the child form reference definition.
+     */
+    public void setFormReferenceDefinition(final FormReferenceDefinition formReferenceDefinition) {
+        _formReferenceDefinition = formReferenceDefinition;
     }
 
 }
