@@ -26,6 +26,8 @@ package ru.d_shap.formmodel.definition.model;
  */
 public final class OtherNodeDefinitionImpl implements OtherNodeDefinition {
 
+    private final String _representation;
+
     private final boolean _valid;
 
     private AttributeDefinition _attributeDefinition;
@@ -40,18 +42,13 @@ public final class OtherNodeDefinitionImpl implements OtherNodeDefinition {
 
     /**
      * Create new object.
-     */
-    public OtherNodeDefinitionImpl() {
-        this(true);
-    }
-
-    /**
-     * Create new object.
      *
-     * @param valid true if this definition is valid.
+     * @param representation the string representation of this definition.
+     * @param valid          true if this definition is valid.
      */
-    public OtherNodeDefinitionImpl(final boolean valid) {
+    public OtherNodeDefinitionImpl(final String representation, final boolean valid) {
         super();
+        _representation = representation;
         _valid = valid;
     }
 
@@ -152,6 +149,11 @@ public final class OtherNodeDefinitionImpl implements OtherNodeDefinition {
      */
     public void setOtherNodeDefinition(final OtherNodeDefinition otherNodeDefinition) {
         _otherNodeDefinition = otherNodeDefinition;
+    }
+
+    @Override
+    public String toString() {
+        return String.valueOf(_representation);
     }
 
 }
