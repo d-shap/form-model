@@ -50,16 +50,8 @@ final class FormDefinitionValidator implements FormModelDefinitionValidator {
 
     FormDefinitionValidator(final Set<FormDefinitionKey> allFormDefinitionKeys, final List<OtherNodeDefinitionValidator> otherNodeDefinitionValidators) {
         super();
-        if (allFormDefinitionKeys == null) {
-            _allFormDefinitionKeys = new HashSet<>();
-        } else {
-            _allFormDefinitionKeys = new HashSet<>(allFormDefinitionKeys);
-        }
-        if (otherNodeDefinitionValidators == null) {
-            _otherNodeDefinitionValidators = new ArrayList<>();
-        } else {
-            _otherNodeDefinitionValidators = new ArrayList<>(otherNodeDefinitionValidators);
-        }
+        _allFormDefinitionKeys = new HashSet<>(allFormDefinitionKeys);
+        _otherNodeDefinitionValidators = new ArrayList<>(otherNodeDefinitionValidators);
     }
 
     @Override
