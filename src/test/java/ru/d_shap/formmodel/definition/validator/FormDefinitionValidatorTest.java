@@ -550,7 +550,7 @@ public final class FormDefinitionValidatorTest extends BaseFormModelTest {
             createValidator().validateAttributeDefinition(parentNodeDefinition, new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(validDefinition), createOtherAttributes()), new NodePath(parentNodeDefinition));
             Assertions.fail("FormDefinitionValidator test fail");
         } catch (FormDefinitionValidationException ex) {
-            Assertions.assertThat(ex).hasMessage(":Not valid!, parent/attribute[@id]/repr/invalid");
+            Assertions.assertThat(ex).hasMessage("Not valid!, parent/attribute[@id]/repr/invalid");
         }
 
     }
