@@ -35,6 +35,8 @@ import ru.d_shap.formmodel.definition.model.ElementDefinition;
 import ru.d_shap.formmodel.definition.model.FormDefinition;
 import ru.d_shap.formmodel.definition.model.FormDefinitionKey;
 import ru.d_shap.formmodel.definition.model.FormReferenceDefinition;
+import ru.d_shap.formmodel.definition.model.OtherNodeDefinition;
+import ru.d_shap.formmodel.definition.model.OtherNodeDefinitionImpl;
 
 /**
  * Tests for {@link FormDefinitionValidator}.
@@ -302,6 +304,23 @@ public final class FormDefinitionValidatorTest extends BaseFormModelTest {
             Assertions.fail("FormDefinitionValidator test fail");
         } catch (FormDefinitionValidationException ex) {
             Assertions.assertThat(ex).hasMessage("[Form reference is not unique: @group:id2], {source}form[@group:id]");
+        }
+    }
+
+    /**
+     * {@link FormDefinitionValidator} class test.
+     */
+    @Test
+    public void validateFormDefinitionChildOtherNodeDefinitionsTest() {
+        OtherNodeDefinition otherNodeDefinition1 = new OtherNodeDefinitionImpl("repr1", true);
+        OtherNodeDefinition otherNodeDefinition2 = new OtherNodeDefinitionImpl("repr2", true);
+        createValidator().validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(otherNodeDefinition1, otherNodeDefinition2), createOtherAttributes(), "source"));
+
+        try {
+            createValidator().validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(otherNodeDefinition1, new OtherNodeDefinitionImpl("repr3", false)), createOtherAttributes(), "source"));
+            Assertions.fail("FormDefinitionValidator test fail");
+        } catch (FormDefinitionValidationException ex) {
+            Assertions.assertThat(ex).hasMessage("Not valid!, {source}form[@group:id]/repr3");
         }
     }
 
