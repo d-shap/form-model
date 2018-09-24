@@ -100,6 +100,19 @@ final class FormDefinitionValidator implements FormModelDefinitionValidator {
     }
 
     @Override
+    public void validateAttributeDefinition(final NodeDefinition parentNodeDefinition, final AttributeDefinition attributeDefinition, final NodePath nodePath) {
+        NodePath currentNodePath = new NodePath(nodePath, attributeDefinition);
+
+        validateId(attributeDefinition.getId(), currentNodePath);
+        validateLookup(attributeDefinition.getLookup(), currentNodePath);
+        validateCardinalityDefinition(attributeDefinition.getCardinalityDefinition(), currentNodePath, CardinalityDefinition.REQUIRED, CardinalityDefinition.OPTIONAL, CardinalityDefinition.PROHIBITED);
+
+        for (OtherNodeDefinition childOtherNodeDefinition : attributeDefinition.getOtherNodeDefinitions()) {
+            validateOtherNodeDefinition(attributeDefinition, childOtherNodeDefinition, currentNodePath);
+        }
+    }
+
+    @Override
     public void validateElementDefinition(final NodeDefinition parentNodeDefinition, final ElementDefinition elementDefinition, final NodePath nodePath) {
         NodePath currentNodePath = new NodePath(nodePath, elementDefinition);
 
@@ -190,19 +203,7 @@ final class FormDefinitionValidator implements FormModelDefinitionValidator {
     }
 
     @Override
-    public void validateAttributeDefinition(final NodeDefinition parentNodeDefinition, final AttributeDefinition attributeDefinition, final NodePath nodePath) {
-        NodePath currentNodePath = new NodePath(nodePath, attributeDefinition);
-
-        validateId(attributeDefinition.getId(), currentNodePath);
-        validateLookup(attributeDefinition.getLookup(), currentNodePath);
-        validateCardinalityDefinition(attributeDefinition.getCardinalityDefinition(), currentNodePath, CardinalityDefinition.REQUIRED, CardinalityDefinition.OPTIONAL, CardinalityDefinition.PROHIBITED);
-
-        for (OtherNodeDefinition childOtherNodeDefinition : attributeDefinition.getOtherNodeDefinitions()) {
-            validateOtherNodeDefinition(attributeDefinition, childOtherNodeDefinition, currentNodePath);
-        }
-    }
-
-    private void validateOtherNodeDefinition(final NodeDefinition parentNodeDefinition, final OtherNodeDefinition otherNodeDefinition, final NodePath nodePath) {
+    public void validateOtherNodeDefinition(final NodeDefinition parentNodeDefinition, final OtherNodeDefinition otherNodeDefinition, final NodePath nodePath) {
         for (OtherNodeDefinitionValidator otherNodeDefinitionValidator : _otherNodeDefinitionValidators) {
             otherNodeDefinitionValidator.validate(parentNodeDefinition, otherNodeDefinition, this, nodePath);
         }
