@@ -201,37 +201,16 @@ public final class FormDefinitionValidatorTest extends BaseFormModelTest {
      * {@link FormDefinitionValidator} class test.
      */
     @Test
-    public void validateFormDefinitionChildNodesTest() {
+    public void validateFormDefinitionChildElementsTest() {
         ElementDefinition elementDefinition1 = new ElementDefinition("id1", "lookup1", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
         ElementDefinition elementDefinition2 = new ElementDefinition("id2", "lookup2", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
-        ChoiceDefinition choiceDefinition1 = new ChoiceDefinition("id1", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
-        ChoiceDefinition choiceDefinition2 = new ChoiceDefinition("id2", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
+        ChoiceDefinition choiceDefinition = new ChoiceDefinition("id2", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
 
         createValidator().validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(elementDefinition1, elementDefinition2), createOtherAttributes(), "source"));
-        createValidator().validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(elementDefinition1, choiceDefinition2), createOtherAttributes(), "source"));
-        createValidator().validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(choiceDefinition1, elementDefinition2), createOtherAttributes(), "source"));
-        createValidator().validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(choiceDefinition1, choiceDefinition2), createOtherAttributes(), "source"));
+        createValidator().validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(elementDefinition1, choiceDefinition), createOtherAttributes(), "source"));
 
         try {
             createValidator().validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(elementDefinition1, elementDefinition1), createOtherAttributes(), "source"));
-            Assertions.fail("FormDefinitionValidator test fail");
-        } catch (FormDefinitionValidationException ex) {
-            Assertions.assertThat(ex).hasMessage("[ID is not unique: id1], {source}form[@group:id]");
-        }
-        try {
-            createValidator().validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(elementDefinition1, choiceDefinition1), createOtherAttributes(), "source"));
-            Assertions.fail("FormDefinitionValidator test fail");
-        } catch (FormDefinitionValidationException ex) {
-            Assertions.assertThat(ex).hasMessage("[ID is not unique: id1], {source}form[@group:id]");
-        }
-        try {
-            createValidator().validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(choiceDefinition1, elementDefinition1), createOtherAttributes(), "source"));
-            Assertions.fail("FormDefinitionValidator test fail");
-        } catch (FormDefinitionValidationException ex) {
-            Assertions.assertThat(ex).hasMessage("[ID is not unique: id1], {source}form[@group:id]");
-        }
-        try {
-            createValidator().validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(choiceDefinition1, choiceDefinition1), createOtherAttributes(), "source"));
             Assertions.fail("FormDefinitionValidator test fail");
         } catch (FormDefinitionValidationException ex) {
             Assertions.assertThat(ex).hasMessage("[ID is not unique: id1], {source}form[@group:id]");
@@ -243,19 +222,39 @@ public final class FormDefinitionValidatorTest extends BaseFormModelTest {
             Assertions.assertThat(ex).hasMessage("[ID is not unique: id2], {source}form[@group:id]");
         }
         try {
-            createValidator().validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(elementDefinition2, choiceDefinition2), createOtherAttributes(), "source"));
+            createValidator().validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(elementDefinition2, choiceDefinition), createOtherAttributes(), "source"));
             Assertions.fail("FormDefinitionValidator test fail");
         } catch (FormDefinitionValidationException ex) {
             Assertions.assertThat(ex).hasMessage("[ID is not unique: id2], {source}form[@group:id]");
         }
+    }
+
+    /**
+     * {@link FormDefinitionValidator} class test.
+     */
+    @Test
+    public void validateFormDefinitionChildChoicesTest() {
+        ChoiceDefinition choiceDefinition1 = new ChoiceDefinition("id1", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
+        ChoiceDefinition choiceDefinition2 = new ChoiceDefinition("id2", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
+        ElementDefinition elementDefinition = new ElementDefinition("id2", "lookup2", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
+
+        createValidator().validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(choiceDefinition1, choiceDefinition2), createOtherAttributes(), "source"));
+        createValidator().validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(choiceDefinition1, elementDefinition), createOtherAttributes(), "source"));
+
         try {
-            createValidator().validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(choiceDefinition2, elementDefinition2), createOtherAttributes(), "source"));
+            createValidator().validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(choiceDefinition1, choiceDefinition1), createOtherAttributes(), "source"));
             Assertions.fail("FormDefinitionValidator test fail");
         } catch (FormDefinitionValidationException ex) {
-            Assertions.assertThat(ex).hasMessage("[ID is not unique: id2], {source}form[@group:id]");
+            Assertions.assertThat(ex).hasMessage("[ID is not unique: id1], {source}form[@group:id]");
         }
         try {
             createValidator().validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(choiceDefinition2, choiceDefinition2), createOtherAttributes(), "source"));
+            Assertions.fail("FormDefinitionValidator test fail");
+        } catch (FormDefinitionValidationException ex) {
+            Assertions.assertThat(ex).hasMessage("[ID is not unique: id2], {source}form[@group:id]");
+        }
+        try {
+            createValidator().validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(choiceDefinition2, elementDefinition), createOtherAttributes(), "source"));
             Assertions.fail("FormDefinitionValidator test fail");
         } catch (FormDefinitionValidationException ex) {
             Assertions.assertThat(ex).hasMessage("[ID is not unique: id2], {source}form[@group:id]");
@@ -311,7 +310,7 @@ public final class FormDefinitionValidatorTest extends BaseFormModelTest {
      * {@link FormDefinitionValidator} class test.
      */
     @Test
-    public void validateFormDefinitionChildOtherNodeDefinitionsTest() {
+    public void validateFormDefinitionChildOtherNodesTest() {
         OtherNodeDefinition otherNodeDefinition1 = new OtherNodeDefinitionImpl("repr1", true);
         OtherNodeDefinition otherNodeDefinition2 = new OtherNodeDefinitionImpl("repr2", true);
         createValidator().validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(otherNodeDefinition1, otherNodeDefinition2), createOtherAttributes(), "source"));
