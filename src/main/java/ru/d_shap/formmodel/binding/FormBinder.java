@@ -37,13 +37,14 @@ import ru.d_shap.formmodel.binding.model.BindedForm;
 import ru.d_shap.formmodel.binding.model.BindingSource;
 import ru.d_shap.formmodel.definition.model.AttributeDefinition;
 import ru.d_shap.formmodel.definition.model.CardinalityDefinition;
-import ru.d_shap.formmodel.definition.model.ChoiceDefinition;
 import ru.d_shap.formmodel.definition.model.ElementDefinition;
 import ru.d_shap.formmodel.definition.model.FormDefinition;
 import ru.d_shap.formmodel.definition.model.FormDefinitions;
 import ru.d_shap.formmodel.definition.model.FormReferenceDefinition;
+import ru.d_shap.formmodel.definition.model.NodeDefinition;
 import ru.d_shap.formmodel.definition.model.NodePath;
 import ru.d_shap.formmodel.definition.model.OtherNodeDefinition;
+import ru.d_shap.formmodel.definition.model.SingleElementDefinition;
 
 /**
  * The form binder.
@@ -141,17 +142,30 @@ public final class FormBinder {
             element.setUserData(Binder.ELEMENT_DEFINITION_KEY, formDefinition, null);
             element.setUserData(Binder.FORM_DEFINITION_KEY, formDefinition, null);
             NodePath currentNodePath = new NodePath(formDefinition);
-            for (ElementDefinition childElementDefinition : formDefinition.getElementDefinitions()) {
-                bindElementInstance(bindedForm, null, element, childElementDefinition, currentNodePath);
+            bindNodeDefinitions(bindedForm, null, element, formDefinition.getAllNodeDefinitions(), currentNodePath);
+        }
+
+        @Override
+        public void bindAttributeInstance(final BindedForm lastBindedForm, final BindedElement lastBindedElement, final Element parentElement, final AttributeDefinition attributeDefinition, final NodePath nodePath) {
+            BindedAttribute bindedAttribute = _binder.bindAttributeDefinition(_bindingSource, lastBindedForm, lastBindedElement, parentElement, attributeDefinition);
+            validateBindedAttribute(bindedAttribute, attributeDefinition, nodePath);
+            if (bindedAttribute != null) {
+                Element element = addXmlElement(attributeDefinition);
+                parentElement.appendChild(element);
+                element.setUserData(Binder.ELEMENT_DEFINITION_KEY, attributeDefinition, null);
+                element.setUserData(Binder.FORM_DEFINITION_KEY, parentElement.getUserData(Binder.FORM_DEFINITION_KEY), null);
+                element.setUserData(Binder.BINDED_OBJECT_KEY, bindedAttribute, null);
+                NodePath currentNodePath = new NodePath(nodePath, attributeDefinition);
+                bindNodeDefinitions(lastBindedForm, lastBindedElement, element, attributeDefinition.getAllNodeDefinitions(), currentNodePath);
             }
-            for (ChoiceDefinition childChoiceDefinition : formDefinition.getChoiceDefinitions()) {
-                bindChoiceInstance(bindedForm, null, element, childChoiceDefinition, currentNodePath);
+        }
+
+        private void validateBindedAttribute(final BindedAttribute bindedAttribute, final AttributeDefinition attributeDefinition, final NodePath nodePath) {
+            if (attributeDefinition.getCardinalityDefinition() == CardinalityDefinition.REQUIRED && bindedAttribute == null) {
+                throw new FormBindingException(Messages.Binding.getRequiredAttributeIsNotPresentMessage(attributeDefinition), nodePath);
             }
-            for (FormReferenceDefinition childFormReferenceDefinition : formDefinition.getFormReferenceDefinitions()) {
-                bindFormReferenceInstance(bindedForm, null, element, childFormReferenceDefinition, currentNodePath);
-            }
-            for (OtherNodeDefinition childOtherNodeDefinition : formDefinition.getOtherNodeDefinitions()) {
-                bindOtherNodeInstance(bindedForm, null, element, childOtherNodeDefinition, currentNodePath);
+            if (attributeDefinition.getCardinalityDefinition() == CardinalityDefinition.PROHIBITED && bindedAttribute != null) {
+                throw new FormBindingException(Messages.Binding.getProhibitedAttributeIsPresentMessage(attributeDefinition), nodePath);
             }
         }
 
@@ -166,21 +180,7 @@ public final class FormBinder {
                 element.setUserData(Binder.FORM_DEFINITION_KEY, parentElement.getUserData(Binder.FORM_DEFINITION_KEY), null);
                 element.setUserData(Binder.BINDED_OBJECT_KEY, bindedElement, null);
                 NodePath currentNodePath = new NodePath(nodePath, elementDefinition);
-                for (AttributeDefinition childAttributeDefinition : elementDefinition.getAttributeDefinitions()) {
-                    bindAttributeInstance(lastBindedForm, bindedElement, element, childAttributeDefinition, currentNodePath);
-                }
-                for (ElementDefinition childElementDefinition : elementDefinition.getElementDefinitions()) {
-                    bindElementInstance(lastBindedForm, bindedElement, element, childElementDefinition, currentNodePath);
-                }
-                for (ChoiceDefinition childChoiceDefinition : elementDefinition.getChoiceDefinitions()) {
-                    bindChoiceInstance(lastBindedForm, bindedElement, element, childChoiceDefinition, currentNodePath);
-                }
-                for (FormReferenceDefinition childFormReferenceDefinition : elementDefinition.getFormReferenceDefinitions()) {
-                    bindFormReferenceInstance(lastBindedForm, bindedElement, element, childFormReferenceDefinition, currentNodePath);
-                }
-                for (OtherNodeDefinition childOtherNodeDefinition : elementDefinition.getOtherNodeDefinitions()) {
-                    bindOtherNodeInstance(lastBindedForm, bindedElement, element, childOtherNodeDefinition, currentNodePath);
-                }
+                bindNodeDefinitions(lastBindedForm, bindedElement, element, elementDefinition.getAllNodeDefinitions(), currentNodePath);
             }
         }
 
@@ -212,29 +212,21 @@ public final class FormBinder {
         }
 
         @Override
-        public void bindChoiceInstance(final BindedForm lastBindedForm, final BindedElement lastBindedElement, final Element parentElement, final ChoiceDefinition choiceDefinition, final NodePath nodePath) {
-            Element element = addXmlElement(choiceDefinition);
-            NodePath currentNodePath = new NodePath(nodePath, choiceDefinition);
-            for (ElementDefinition childElementDefinition : choiceDefinition.getElementDefinitions()) {
-                bindElementInstance(lastBindedForm, lastBindedElement, element, childElementDefinition, currentNodePath);
-            }
-            for (ChoiceDefinition childChoiceDefinition : choiceDefinition.getChoiceDefinitions()) {
-                bindChoiceInstance(lastBindedForm, lastBindedElement, element, childChoiceDefinition, currentNodePath);
-            }
-            for (OtherNodeDefinition childOtherNodeDefinition : choiceDefinition.getOtherNodeDefinitions()) {
-                bindOtherNodeInstance(lastBindedForm, lastBindedElement, element, childOtherNodeDefinition, currentNodePath);
-            }
-            validateBindedChoice(element, choiceDefinition, nodePath);
+        public void bindSingleElementInstance(final BindedForm lastBindedForm, final BindedElement lastBindedElement, final Element parentElement, final SingleElementDefinition singleElementDefinition, final NodePath nodePath) {
+            Element element = addXmlElement(singleElementDefinition);
+            NodePath currentNodePath = new NodePath(nodePath, singleElementDefinition);
+            bindNodeDefinitions(lastBindedForm, lastBindedElement, element, singleElementDefinition.getAllNodeDefinitions(), currentNodePath);
+            validateBindedSingleElementDefinition(element, singleElementDefinition, nodePath);
             if (element.hasChildNodes()) {
                 parentElement.appendChild(element);
-                element.setUserData(Binder.ELEMENT_DEFINITION_KEY, choiceDefinition, null);
+                element.setUserData(Binder.ELEMENT_DEFINITION_KEY, singleElementDefinition, null);
                 element.setUserData(Binder.FORM_DEFINITION_KEY, parentElement.getUserData(Binder.FORM_DEFINITION_KEY), null);
             }
         }
 
-        private void validateBindedChoice(final Element element, final ChoiceDefinition choiceDefinition, final NodePath nodePath) {
+        private void validateBindedSingleElementDefinition(final Element element, final SingleElementDefinition singleElementDefinition, final NodePath nodePath) {
             if (element.getChildNodes().getLength() > 1) {
-                throw new FormBindingException(Messages.Binding.getMultipleChoiceElementsArePresentMessage(choiceDefinition), nodePath);
+                throw new FormBindingException(Messages.Binding.getMultipleSingleElementsArePresentMessage(singleElementDefinition), nodePath);
             }
         }
 
@@ -244,21 +236,7 @@ public final class FormBinder {
             BindedForm bindedForm = _binder.bindFormDefinition(_bindingSource, lastBindedForm, lastBindedElement, parentElement, formDefinition);
             Element element = addXmlElement(formReferenceDefinition);
             NodePath currentNodePath = new NodePath(nodePath, formReferenceDefinition);
-            for (ElementDefinition childElementDefinition : formDefinition.getElementDefinitions()) {
-                bindElementInstance(bindedForm, lastBindedElement, element, childElementDefinition, currentNodePath);
-            }
-            for (ChoiceDefinition childChoiceDefinition : formDefinition.getChoiceDefinitions()) {
-                bindChoiceInstance(bindedForm, lastBindedElement, element, childChoiceDefinition, currentNodePath);
-            }
-            for (FormReferenceDefinition childFormReferenceDefinition : formDefinition.getFormReferenceDefinitions()) {
-                bindFormReferenceInstance(bindedForm, lastBindedElement, element, childFormReferenceDefinition, currentNodePath);
-            }
-            for (OtherNodeDefinition childOtherNodeDefinition : formDefinition.getOtherNodeDefinitions()) {
-                bindOtherNodeInstance(bindedForm, lastBindedElement, element, childOtherNodeDefinition, currentNodePath);
-            }
-            for (OtherNodeDefinition childOtherNodeDefinition : formReferenceDefinition.getOtherNodeDefinitions()) {
-                bindOtherNodeInstance(bindedForm, lastBindedElement, element, childOtherNodeDefinition, currentNodePath);
-            }
+            bindNodeDefinitions(bindedForm, lastBindedElement, element, formDefinition.getAllNodeDefinitions(), currentNodePath);
             if (element.hasChildNodes()) {
                 parentElement.appendChild(element);
                 element.setUserData(Binder.ELEMENT_DEFINITION_KEY, formReferenceDefinition, null);
@@ -267,34 +245,29 @@ public final class FormBinder {
         }
 
         @Override
-        public void bindAttributeInstance(final BindedForm lastBindedForm, final BindedElement lastBindedElement, final Element parentElement, final AttributeDefinition attributeDefinition, final NodePath nodePath) {
-            BindedAttribute bindedAttribute = _binder.bindAttributeDefinition(_bindingSource, lastBindedForm, lastBindedElement, parentElement, attributeDefinition);
-            validateBindedAttribute(bindedAttribute, attributeDefinition, nodePath);
-            if (bindedAttribute != null) {
-                Element element = addXmlElement(attributeDefinition);
-                parentElement.appendChild(element);
-                element.setUserData(Binder.ELEMENT_DEFINITION_KEY, attributeDefinition, null);
-                element.setUserData(Binder.FORM_DEFINITION_KEY, parentElement.getUserData(Binder.FORM_DEFINITION_KEY), null);
-                element.setUserData(Binder.BINDED_OBJECT_KEY, bindedAttribute, null);
-                NodePath currentNodePath = new NodePath(nodePath, attributeDefinition);
-                for (OtherNodeDefinition childOtherNodeDefinition : attributeDefinition.getOtherNodeDefinitions()) {
-                    bindOtherNodeInstance(lastBindedForm, lastBindedElement, element, childOtherNodeDefinition, currentNodePath);
-                }
-            }
-        }
-
-        private void validateBindedAttribute(final BindedAttribute bindedAttribute, final AttributeDefinition attributeDefinition, final NodePath nodePath) {
-            if (attributeDefinition.getCardinalityDefinition() == CardinalityDefinition.REQUIRED && bindedAttribute == null) {
-                throw new FormBindingException(Messages.Binding.getRequiredAttributeIsNotPresentMessage(attributeDefinition), nodePath);
-            }
-            if (attributeDefinition.getCardinalityDefinition() == CardinalityDefinition.PROHIBITED && bindedAttribute != null) {
-                throw new FormBindingException(Messages.Binding.getProhibitedAttributeIsPresentMessage(attributeDefinition), nodePath);
-            }
-        }
-
-        private void bindOtherNodeInstance(final BindedForm lastBindedForm, final BindedElement lastBindedElement, final Element parentElement, final OtherNodeDefinition otherNodeDefinition, final NodePath nodePath) {
+        public void bindOtherNodeInstance(final BindedForm lastBindedForm, final BindedElement lastBindedElement, final Element parentElement, final OtherNodeDefinition otherNodeDefinition, final NodePath nodePath) {
             for (OtherNodeInstanceBuilder otherNodeInstanceBuilder : _otherNodeInstanceBuilders) {
                 otherNodeInstanceBuilder.addOtherNodeInstance(lastBindedForm, lastBindedElement, parentElement, otherNodeDefinition, this, nodePath);
+            }
+        }
+
+        private void bindNodeDefinitions(final BindedForm lastBindedForm, final BindedElement lastBindedElement, final Element parentElement, final List<NodeDefinition> nodeDefinitions, final NodePath nodePath) {
+            for (NodeDefinition nodeDefinition : nodeDefinitions) {
+                if (nodeDefinition instanceof AttributeDefinition) {
+                    bindAttributeInstance(lastBindedForm, lastBindedElement, parentElement, (AttributeDefinition) nodeDefinition, nodePath);
+                }
+                if (nodeDefinition instanceof ElementDefinition) {
+                    bindElementInstance(lastBindedForm, lastBindedElement, parentElement, (ElementDefinition) nodeDefinition, nodePath);
+                }
+                if (nodeDefinition instanceof SingleElementDefinition) {
+                    bindSingleElementInstance(lastBindedForm, lastBindedElement, parentElement, (SingleElementDefinition) nodeDefinition, nodePath);
+                }
+                if (nodeDefinition instanceof FormReferenceDefinition) {
+                    bindFormReferenceInstance(lastBindedForm, lastBindedElement, parentElement, (FormReferenceDefinition) nodeDefinition, nodePath);
+                }
+                if (nodeDefinition instanceof OtherNodeDefinition) {
+                    bindOtherNodeInstance(lastBindedForm, lastBindedElement, parentElement, (OtherNodeDefinition) nodeDefinition, nodePath);
+                }
             }
         }
 
@@ -317,11 +290,11 @@ public final class FormBinder {
             return element;
         }
 
-        private Element addXmlElement(final ChoiceDefinition choiceDefinition) {
-            Element element = _document.createElementNS(NAMESPACE, CHOICE_INSTANCE_ELEMENT_NAME);
-            element.setAttribute(CHOICE_INSTANCE_ATTRIBUTE_ID, choiceDefinition.getId());
-            for (String otherAttributeName : choiceDefinition.getOtherAttributeNames()) {
-                element.setAttribute(otherAttributeName, choiceDefinition.getOtherAttributeValue(otherAttributeName));
+        private Element addXmlElement(final SingleElementDefinition singleElementDefinition) {
+            Element element = _document.createElementNS(NAMESPACE, SINGLE_ELEMENT_INSTANCE_ELEMENT_NAME);
+            element.setAttribute(SINGLE_ELEMENT_INSTANCE_ATTRIBUTE_ID, singleElementDefinition.getId());
+            for (String otherAttributeName : singleElementDefinition.getOtherAttributeNames()) {
+                element.setAttribute(otherAttributeName, singleElementDefinition.getOtherAttributeValue(otherAttributeName));
             }
             return element;
         }
