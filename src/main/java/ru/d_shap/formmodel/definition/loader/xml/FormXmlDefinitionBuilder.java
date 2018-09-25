@@ -32,11 +32,11 @@ import ru.d_shap.formmodel.definition.model.OtherNodeDefinition;
 import ru.d_shap.formmodel.definition.model.SingleElementDefinition;
 
 /**
- * Builder for the form definition elements, XML implementation.
+ * Builder for the form definition, XML implementation.
  *
  * @author Dmitry Shapovalov
  */
-public interface FormModelXmlDefinitionBuilder {
+public interface FormXmlDefinitionBuilder {
 
     String NAMESPACE = "http://d-shap.ru/schema/form-model/1.0";
 
