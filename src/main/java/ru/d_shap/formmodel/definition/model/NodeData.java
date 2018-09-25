@@ -43,6 +43,8 @@ final class NodeData {
 
     private final List<OtherNodeDefinition> _otherNodeDefinitions;
 
+    private final List<NodeDefinition> _allNodeDefinitions;
+
     private final Map<String, String> _otherAttributes;
 
     NodeData(final List<NodeDefinition> nodeDefinitions, final Set<String> childElementNames, final Map<String, String> otherAttributes, final Set<String> attributeNames) {
@@ -52,22 +54,28 @@ final class NodeData {
         List<ChoiceDefinition> choiceDefinitions = new ArrayList<>();
         List<FormReferenceDefinition> formReferenceDefinitions = new ArrayList<>();
         List<OtherNodeDefinition> otherNodeDefinitions = new ArrayList<>();
+        List<NodeDefinition> allNodeDefinitions = new ArrayList<>();
         if (nodeDefinitions != null) {
             for (NodeDefinition nodeDefinition : nodeDefinitions) {
                 if (nodeDefinition instanceof AttributeDefinition && childElementNames.contains(AttributeDefinition.ELEMENT_NAME)) {
                     attributeDefinitions.add((AttributeDefinition) nodeDefinition);
+                    allNodeDefinitions.add(nodeDefinition);
                 }
                 if (nodeDefinition instanceof ElementDefinition && childElementNames.contains(ElementDefinition.ELEMENT_NAME)) {
                     elementDefinitions.add((ElementDefinition) nodeDefinition);
+                    allNodeDefinitions.add(nodeDefinition);
                 }
                 if (nodeDefinition instanceof ChoiceDefinition && childElementNames.contains(ChoiceDefinition.ELEMENT_NAME)) {
                     choiceDefinitions.add((ChoiceDefinition) nodeDefinition);
+                    allNodeDefinitions.add(nodeDefinition);
                 }
                 if (nodeDefinition instanceof FormReferenceDefinition && childElementNames.contains(FormReferenceDefinition.ELEMENT_NAME)) {
                     formReferenceDefinitions.add((FormReferenceDefinition) nodeDefinition);
+                    allNodeDefinitions.add(nodeDefinition);
                 }
                 if (nodeDefinition instanceof OtherNodeDefinition) {
                     otherNodeDefinitions.add((OtherNodeDefinition) nodeDefinition);
+                    allNodeDefinitions.add(nodeDefinition);
                 }
             }
         }
@@ -76,6 +84,7 @@ final class NodeData {
         _choiceDefinitions = Collections.unmodifiableList(choiceDefinitions);
         _formReferenceDefinitions = Collections.unmodifiableList(formReferenceDefinitions);
         _otherNodeDefinitions = Collections.unmodifiableList(otherNodeDefinitions);
+        _allNodeDefinitions = Collections.unmodifiableList(allNodeDefinitions);
         if (otherAttributes == null) {
             _otherAttributes = Collections.unmodifiableMap(new HashMap<String, String>());
         } else {
@@ -103,6 +112,10 @@ final class NodeData {
 
     List<OtherNodeDefinition> getOtherNodeDefinitions() {
         return _otherNodeDefinitions;
+    }
+
+    List<NodeDefinition> getAllNodeDefinitions() {
+        return _allNodeDefinitions;
     }
 
     Set<String> getOtherAttributeNames() {
