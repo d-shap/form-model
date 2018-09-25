@@ -2,48 +2,48 @@
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://d-shap.ru/schema/form-instance/1.0" targetNamespace="http://d-shap.ru/schema/form-instance/1.0" elementFormDefault="qualified">
     <xs:element name="form" type="tns:FormType" />
     <xs:complexType name="FormType">
-        <xs:sequence>
-            <xs:element name="element" minOccurs="0" maxOccurs="unbounded" type="tns:ElementType" />
-            <xs:element name="choice" minOccurs="0" maxOccurs="unbounded" type="tns:ChoiceType" />
-            <xs:element name="form" minOccurs="0" maxOccurs="unbounded" type="tns:FormReferenceType" />
-            <xs:any namespace="##other" processContents="skip" minOccurs="0" maxOccurs="unbounded" />
-        </xs:sequence>
-        <xs:attribute name="group" type="xs:string" />
-        <xs:attribute name="id" type="xs:string" />
-        <xs:anyAttribute processContents="skip" />
-    </xs:complexType>
-    <xs:complexType name="ElementType">
-        <xs:sequence>
-            <xs:element name="attribute" minOccurs="0" maxOccurs="unbounded" type="tns:AttributeType" />
-            <xs:element name="element" minOccurs="0" maxOccurs="unbounded" type="tns:ElementType" />
-            <xs:element name="choice" minOccurs="0" maxOccurs="unbounded" type="tns:ChoiceType" />
-            <xs:element name="form" minOccurs="0" maxOccurs="unbounded" type="tns:FormReferenceType" />
-            <xs:any namespace="##other" processContents="skip" minOccurs="0" maxOccurs="unbounded" />
-        </xs:sequence>
-        <xs:attribute name="id" type="xs:string" />
-        <xs:anyAttribute processContents="skip" />
-    </xs:complexType>
-    <xs:complexType name="ChoiceType">
-        <xs:sequence>
-            <xs:element name="element" minOccurs="0" maxOccurs="unbounded" type="tns:ElementType" />
-            <xs:element name="choice" minOccurs="0" maxOccurs="unbounded" type="tns:ChoiceType" />
-            <xs:any namespace="##other" processContents="skip" minOccurs="0" maxOccurs="unbounded" />
-        </xs:sequence>
-        <xs:attribute name="id" type="xs:string" />
-        <xs:anyAttribute processContents="skip" />
-    </xs:complexType>
-    <xs:complexType name="FormReferenceType">
-        <xs:sequence>
-            <xs:any namespace="##other" processContents="skip" minOccurs="0" maxOccurs="unbounded" />
-        </xs:sequence>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="element" type="tns:ElementType" />
+            <xs:element name="singleElement" type="tns:SingleElementType" />
+            <xs:element name="formReference" type="tns:FormReferenceType" />
+            <xs:any namespace="##other" processContents="skip" />
+        </xs:choice>
         <xs:attribute name="group" type="xs:string" />
         <xs:attribute name="id" type="xs:string" />
         <xs:anyAttribute processContents="skip" />
     </xs:complexType>
     <xs:complexType name="AttributeType">
-        <xs:sequence>
-            <xs:any namespace="##other" processContents="skip" minOccurs="0" maxOccurs="unbounded" />
-        </xs:sequence>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:any namespace="##other" processContents="skip" />
+        </xs:choice>
+        <xs:attribute name="id" type="xs:string" />
+        <xs:anyAttribute processContents="skip" />
+    </xs:complexType>
+    <xs:complexType name="ElementType">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="attribute" type="tns:AttributeType" />
+            <xs:element name="element" type="tns:ElementType" />
+            <xs:element name="singleElement" type="tns:SingleElementType" />
+            <xs:element name="formReference" type="tns:FormReferenceType" />
+            <xs:any namespace="##other" processContents="skip" />
+        </xs:choice>
+        <xs:attribute name="id" type="xs:string" />
+        <xs:anyAttribute processContents="skip" />
+    </xs:complexType>
+    <xs:complexType name="SingleElementType">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="element" type="tns:ElementType" />
+            <xs:element name="singleElement" type="tns:SingleElementType" />
+            <xs:any namespace="##other" processContents="skip" />
+        </xs:choice>
+        <xs:attribute name="id" type="xs:string" />
+        <xs:anyAttribute processContents="skip" />
+    </xs:complexType>
+    <xs:complexType name="FormReferenceType">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:any namespace="##other" processContents="skip" />
+        </xs:choice>
+        <xs:attribute name="group" type="xs:string" />
         <xs:attribute name="id" type="xs:string" />
         <xs:anyAttribute processContents="skip" />
     </xs:complexType>
