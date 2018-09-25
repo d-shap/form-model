@@ -28,13 +28,13 @@ import java.util.Set;
 import ru.d_shap.formmodel.Messages;
 
 /**
- * Node definition to define the choice of elements.
+ * Node definition to define the single element within the set of elements.
  *
  * @author Dmitry Shapovalov
  */
-public final class ChoiceDefinition implements NodeDefinition {
+public final class SingleElementDefinition implements NodeDefinition {
 
-    public static final String ELEMENT_NAME = "choice";
+    public static final String ELEMENT_NAME = "singleElement";
 
     public static final String ATTRIBUTE_ID = "id";
 
@@ -45,7 +45,7 @@ public final class ChoiceDefinition implements NodeDefinition {
     static {
         Set<String> childElementNames = new HashSet<>();
         childElementNames.add(ElementDefinition.ELEMENT_NAME);
-        childElementNames.add(ELEMENT_NAME);
+        childElementNames.add(SingleElementDefinition.ELEMENT_NAME);
         CHILD_ELEMENT_NAMES = Collections.unmodifiableSet(childElementNames);
     }
 
@@ -67,12 +67,12 @@ public final class ChoiceDefinition implements NodeDefinition {
     /**
      * Create new object.
      *
-     * @param id                    the choice's ID.
-     * @param cardinalityDefinition the choice's cardinality.
-     * @param nodeDefinitions       the choice's node definitions.
-     * @param otherAttributes       the choice's other attributes.
+     * @param id                    the single element's ID.
+     * @param cardinalityDefinition the single element's cardinality.
+     * @param nodeDefinitions       the single element's node definitions.
+     * @param otherAttributes       the single element's other attributes.
      */
-    public ChoiceDefinition(final String id, final CardinalityDefinition cardinalityDefinition, final List<NodeDefinition> nodeDefinitions, final Map<String, String> otherAttributes) {
+    public SingleElementDefinition(final String id, final CardinalityDefinition cardinalityDefinition, final List<NodeDefinition> nodeDefinitions, final Map<String, String> otherAttributes) {
         super();
         _id = id;
         _cardinalityDefinition = cardinalityDefinition;
@@ -80,65 +80,65 @@ public final class ChoiceDefinition implements NodeDefinition {
     }
 
     /**
-     * Get the choice's ID.
+     * Get the single element's ID.
      *
-     * @return the choice's ID.
+     * @return the single element's ID.
      */
     public String getId() {
         return _id;
     }
 
     /**
-     * Get the choice's cardinality.
+     * Get the single element's cardinality.
      *
-     * @return the choice's cardinality.
+     * @return the single element's cardinality.
      */
     public CardinalityDefinition getCardinalityDefinition() {
         return _cardinalityDefinition;
     }
 
     /**
-     * Get the choice's element definitions.
+     * Get the single element's element definitions.
      *
-     * @return the choice's element definitions.
+     * @return the single element's element definitions.
      */
     public List<ElementDefinition> getElementDefinitions() {
         return _nodeData.getElementDefinitions();
     }
 
     /**
-     * Get the choice's choice definitions.
+     * Get the single element's single element definitions.
      *
-     * @return the choice's choice definitions.
+     * @return the single element's single element definitions.
      */
-    public List<ChoiceDefinition> getChoiceDefinitions() {
-        return _nodeData.getChoiceDefinitions();
+    public List<SingleElementDefinition> getSingleElementDefinitions() {
+        return _nodeData.getSingleElementDefinitions();
     }
 
     /**
-     * Get the choice's other node definitions.
+     * Get the single element's other node definitions.
      *
-     * @return the choice's other node definitions.
+     * @return the single element's other node definitions.
      */
     public List<OtherNodeDefinition> getOtherNodeDefinitions() {
         return _nodeData.getOtherNodeDefinitions();
     }
 
     /**
-     * Get the choice's other attribute names.
+     * Get the single element's other attribute names.
      *
-     * @return the choice's other attribute names.
+     * @return the single element's other attribute names.
      */
     public Set<String> getOtherAttributeNames() {
         return _nodeData.getOtherAttributeNames();
     }
 
     /**
-     * Get the choice's other attribute value for the specified other attribute name.
+     * Get the single element's other attribute value for the specified other attribute name.
      *
      * @param otherAttributeName the specified other attribute name.
      *
-     * @return the choice's other attribute value.
+     * @return the single element's other attribute value.
      */
     public String getOtherAttributeValue(final String otherAttributeName) {
         return _nodeData.getOtherAttributeValue(otherAttributeName);
@@ -146,7 +146,7 @@ public final class ChoiceDefinition implements NodeDefinition {
 
     @Override
     public String toString() {
-        return Messages.Representation.getChoiceDefinitionRepresentation(_id);
+        return Messages.Representation.getSingleElementDefinitionRepresentation(_id);
     }
 
 }
