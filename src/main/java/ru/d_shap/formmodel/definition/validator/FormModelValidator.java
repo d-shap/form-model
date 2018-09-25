@@ -28,11 +28,11 @@ import ru.d_shap.formmodel.definition.model.OtherNodeDefinition;
 import ru.d_shap.formmodel.definition.model.SingleElementDefinition;
 
 /**
- * Validator for the form model definition.
+ * Validator for the form model.
  *
  * @author Dmitry Shapovalov
  */
-public interface FormModelDefinitionValidator {
+public interface FormModelValidator {
 
     /**
      * Check if the string is empty.
