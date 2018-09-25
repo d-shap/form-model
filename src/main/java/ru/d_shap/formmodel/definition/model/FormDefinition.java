@@ -45,7 +45,7 @@ public final class FormDefinition implements NodeDefinition {
     static {
         Set<String> childElementNames = new HashSet<>();
         childElementNames.add(ElementDefinition.ELEMENT_NAME);
-        childElementNames.add(ChoiceDefinition.ELEMENT_NAME);
+        childElementNames.add(SingleElementDefinition.ELEMENT_NAME);
         childElementNames.add(FormReferenceDefinition.ELEMENT_NAME);
         CHILD_ELEMENT_NAMES = Collections.unmodifiableSet(childElementNames);
     }
@@ -116,12 +116,12 @@ public final class FormDefinition implements NodeDefinition {
     }
 
     /**
-     * Get the form's choice definitions.
+     * Get the form's single element definitions.
      *
-     * @return the form's choice definitions.
+     * @return the form's single element definitions.
      */
-    public List<ChoiceDefinition> getChoiceDefinitions() {
-        return _nodeData.getChoiceDefinitions();
+    public List<SingleElementDefinition> getSingleElementDefinitions() {
+        return _nodeData.getSingleElementDefinitions();
     }
 
     /**
@@ -140,6 +140,15 @@ public final class FormDefinition implements NodeDefinition {
      */
     public List<OtherNodeDefinition> getOtherNodeDefinitions() {
         return _nodeData.getOtherNodeDefinitions();
+    }
+
+    /**
+     * Get the form's all node definitions.
+     *
+     * @return the form's all node definitions.
+     */
+    public List<NodeDefinition> getAllNodeDefinitions() {
+        return _nodeData.getAllNodeDefinitions();
     }
 
     /**
