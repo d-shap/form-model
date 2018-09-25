@@ -22,11 +22,11 @@ package ru.d_shap.formmodel;
 import org.w3c.dom.Element;
 
 import ru.d_shap.formmodel.definition.model.AttributeDefinition;
-import ru.d_shap.formmodel.definition.model.ChoiceDefinition;
 import ru.d_shap.formmodel.definition.model.ElementDefinition;
 import ru.d_shap.formmodel.definition.model.FormDefinition;
 import ru.d_shap.formmodel.definition.model.FormDefinitionKey;
 import ru.d_shap.formmodel.definition.model.FormReferenceDefinition;
+import ru.d_shap.formmodel.definition.model.SingleElementDefinition;
 
 /**
  * Helper class to create messages.
@@ -74,6 +74,17 @@ public final class Messages {
         }
 
         /**
+         * Get the attribute definition representation.
+         *
+         * @param id the attribute's ID.
+         *
+         * @return the attribute definition representation.
+         */
+        public static String getAttributeDefinitionRepresentation(final String id) {
+            return AttributeDefinition.ELEMENT_NAME + "[" + getIdRepresentation(id) + "]";
+        }
+
+        /**
          * Get the element definition representation.
          *
          * @param id the element's ID.
@@ -85,14 +96,14 @@ public final class Messages {
         }
 
         /**
-         * Get the choice definition representation.
+         * Get the single element definition representation.
          *
-         * @param id the choice's ID.
+         * @param id the single element's ID.
          *
-         * @return the choice definition representation.
+         * @return the single element definition representation.
          */
-        public static String getChoiceDefinitionRepresentation(final String id) {
-            return ChoiceDefinition.ELEMENT_NAME + "[" + getIdRepresentation(id) + "]";
+        public static String getSingleElementDefinitionRepresentation(final String id) {
+            return SingleElementDefinition.ELEMENT_NAME + "[" + getIdRepresentation(id) + "]";
         }
 
         /**
@@ -105,17 +116,6 @@ public final class Messages {
          */
         public static String getFormReferenceDefinitionRepresentation(final String group, final String id) {
             return FormReferenceDefinition.ELEMENT_NAME + "[" + getIdRepresentation(group, id) + "]";
-        }
-
-        /**
-         * Get the attribute definition representation.
-         *
-         * @param id the attribute's ID.
-         *
-         * @return the attribute definition representation.
-         */
-        public static String getAttributeDefinitionRepresentation(final String id) {
-            return AttributeDefinition.ELEMENT_NAME + "[" + getIdRepresentation(id) + "]";
         }
 
         /**
@@ -163,7 +163,7 @@ public final class Messages {
     }
 
     /**
-     * Helper class to create form definition validation exception messages.
+     * Helper class to create form validation exception messages.
      *
      * @author Dmitry Shapovalov
      */
@@ -174,58 +174,58 @@ public final class Messages {
         }
 
         /**
-         * Get the error message when the form definition element is not valid.
+         * Get the error message when the form definition is not valid.
          *
-         * @param element the invalid form definition element.
+         * @param element the invalid form definition.
          *
          * @return the error message.
          */
-        public static String getFormDefinitionElementIsNotValidMessage(final Element element) {
-            return "[Form definition element is not valid: " + Representation.getXmlElementRepresentation(element) + "]";
+        public static String getFormDefinitionIsNotValidMessage(final Element element) {
+            return "[Form definition is not valid: " + Representation.getXmlElementRepresentation(element) + "]";
         }
 
         /**
-         * Get the error message when the element definition element is not valid.
+         * Get the error message when the attribute definition is not valid.
          *
-         * @param element the invalid element definition element.
+         * @param element the invalid attribute definition.
          *
          * @return the error message.
          */
-        public static String getElementDefinitionElementIsNotValidMessage(final Element element) {
-            return "[Element definition element is not valid: " + Representation.getXmlElementRepresentation(element) + "]";
+        public static String getAttributeDefinitionIsNotValidMessage(final Element element) {
+            return "[Attribute definition is not valid: " + Representation.getXmlElementRepresentation(element) + "]";
         }
 
         /**
-         * Get the error message when the choice definition element is not valid.
+         * Get the error message when the element definition is not valid.
          *
-         * @param element the invalid choice definition element.
+         * @param element the invalid element definition.
          *
          * @return the error message.
          */
-        public static String getChoiceDefinitionElementIsNotValidMessage(final Element element) {
-            return "[Choice definition element is not valid: " + Representation.getXmlElementRepresentation(element) + "]";
+        public static String getElementDefinitionIsNotValidMessage(final Element element) {
+            return "[Element definition is not valid: " + Representation.getXmlElementRepresentation(element) + "]";
         }
 
         /**
-         * Get the error message when the form reference definition element is not valid.
+         * Get the error message when the single element definition is not valid.
          *
-         * @param element the invalid form reference definition element.
+         * @param element the invalid single element definition.
          *
          * @return the error message.
          */
-        public static String getFormReferenceDefinitionElementIsNotValidMessage(final Element element) {
-            return "[Form reference definition element is not valid: " + Representation.getXmlElementRepresentation(element) + "]";
+        public static String getSingleElementDefinitionIsNotValidMessage(final Element element) {
+            return "[Single element definition is not valid: " + Representation.getXmlElementRepresentation(element) + "]";
         }
 
         /**
-         * Get the error message when the attribute definition element is not valid.
+         * Get the error message when the form reference definition is not valid.
          *
-         * @param element the invalid attribute definition element.
+         * @param element the invalid form reference definition.
          *
          * @return the error message.
          */
-        public static String getAttributeDefinitionElementIsNotValidMessage(final Element element) {
-            return "[Attribute definition element is not valid: " + Representation.getXmlElementRepresentation(element) + "]";
+        public static String getFormReferenceDefinitionIsNotValidMessage(final Element element) {
+            return "[Form reference definition is not valid: " + Representation.getXmlElementRepresentation(element) + "]";
         }
 
         /**
@@ -368,7 +368,7 @@ public final class Messages {
     }
 
     /**
-     * Helper class to create form definition binding exception messages.
+     * Helper class to create form binding exception messages.
      *
      * @author Dmitry Shapovalov
      */
@@ -376,6 +376,28 @@ public final class Messages {
 
         private Binding() {
             super();
+        }
+
+        /**
+         * Get the error message when the required attribute is not present.
+         *
+         * @param attributeDefinition the attribute definition that can not be binded.
+         *
+         * @return the error message.
+         */
+        public static String getRequiredAttributeIsNotPresentMessage(final AttributeDefinition attributeDefinition) {
+            return "[Required attribute is not present: " + attributeDefinition + "]";
+        }
+
+        /**
+         * Get the error message when the prohibited attribute is present.
+         *
+         * @param attributeDefinition the attribute definition that can not be binded.
+         *
+         * @return the error message.
+         */
+        public static String getProhibitedAttributeIsPresentMessage(final AttributeDefinition attributeDefinition) {
+            return "[Prohibited attribute is present: " + attributeDefinition + "]";
         }
 
         /**
@@ -423,36 +445,14 @@ public final class Messages {
         }
 
         /**
-         * Get the error message when the required attribute is not present.
+         * Get the error message when multiple single element elements are present.
          *
-         * @param attributeDefinition the attribute definition that can not be binded.
-         *
-         * @return the error message.
-         */
-        public static String getRequiredAttributeIsNotPresentMessage(final AttributeDefinition attributeDefinition) {
-            return "[Required attribute is not present: " + attributeDefinition + "]";
-        }
-
-        /**
-         * Get the error message when the prohibited attribute is present.
-         *
-         * @param attributeDefinition the attribute definition that can not be binded.
+         * @param singleElementDefinition the single element definition that can not be binded.
          *
          * @return the error message.
          */
-        public static String getProhibitedAttributeIsPresentMessage(final AttributeDefinition attributeDefinition) {
-            return "[Prohibited attribute is present: " + attributeDefinition + "]";
-        }
-
-        /**
-         * Get the error message when multiple choice elements are present.
-         *
-         * @param choiceDefinition the choice definition that can not be binded.
-         *
-         * @return the error message.
-         */
-        public static String getMultipleChoiceElementsArePresentMessage(final ChoiceDefinition choiceDefinition) {
-            return "[Multiple choice elements are present: " + choiceDefinition + "]";
+        public static String getMultipleSingleElementsArePresentMessage(final SingleElementDefinition singleElementDefinition) {
+            return "[Multiple single elements are present: " + singleElementDefinition + "]";
         }
 
     }
