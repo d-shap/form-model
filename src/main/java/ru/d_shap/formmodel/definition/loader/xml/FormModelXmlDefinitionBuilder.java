@@ -24,11 +24,11 @@ import java.util.Set;
 import org.w3c.dom.Element;
 
 import ru.d_shap.formmodel.definition.model.AttributeDefinition;
-import ru.d_shap.formmodel.definition.model.ChoiceDefinition;
 import ru.d_shap.formmodel.definition.model.ElementDefinition;
 import ru.d_shap.formmodel.definition.model.FormDefinition;
 import ru.d_shap.formmodel.definition.model.FormReferenceDefinition;
 import ru.d_shap.formmodel.definition.model.NodePath;
+import ru.d_shap.formmodel.definition.model.SingleElementDefinition;
 
 /**
  * Builder for the form definition elements, XML implementation.
@@ -45,41 +45,9 @@ public interface FormModelXmlDefinitionBuilder {
 
     String FORM_DEFINITION_ATTRIBUTE_ID = FormDefinition.ATTRIBUTE_ID;
 
-    Set<String> FORM_DEFINITION_ATTRIBUTE_NAMES = FormDefinition.ATTRIBUTE_NAMES;
-
     Set<String> FORM_DEFINITION_CHILD_ELEMENT_NAMES = FormDefinition.CHILD_ELEMENT_NAMES;
 
-    String ELEMENT_DEFINITION_ELEMENT_NAME = ElementDefinition.ELEMENT_NAME;
-
-    String ELEMENT_DEFINITION_ATTRIBUTE_ID = ElementDefinition.ATTRIBUTE_ID;
-
-    String ELEMENT_DEFINITION_ATTRIBUTE_LOOKUP = ElementDefinition.ATTRIBUTE_LOOKUP;
-
-    String ELEMENT_DEFINITION_ATTRIBUTE_TYPE = ElementDefinition.ATTRIBUTE_TYPE;
-
-    Set<String> ELEMENT_DEFINITION_ATTRIBUTE_NAMES = ElementDefinition.ATTRIBUTE_NAMES;
-
-    Set<String> ELEMENT_DEFINITION_CHILD_ELEMENT_NAMES = ElementDefinition.CHILD_ELEMENT_NAMES;
-
-    String CHOICE_DEFINITION_ELEMENT_NAME = ChoiceDefinition.ELEMENT_NAME;
-
-    String CHOICE_DEFINITION_ATTRIBUTE_ID = ChoiceDefinition.ATTRIBUTE_ID;
-
-    String CHOICE_DEFINITION_ATTRIBUTE_TYPE = ChoiceDefinition.ATTRIBUTE_TYPE;
-
-    Set<String> CHOICE_DEFINITION_ATTRIBUTE_NAMES = ChoiceDefinition.ATTRIBUTE_NAMES;
-
-    Set<String> CHOICE_DEFINITION_CHILD_ELEMENT_NAMES = ChoiceDefinition.CHILD_ELEMENT_NAMES;
-
-    String FORM_REFERENCE_DEFINITION_ELEMENT_NAME = FormReferenceDefinition.ELEMENT_NAME;
-
-    String FORM_REFERENCE_DEFINITION_ATTRIBUTE_GROUP = FormReferenceDefinition.ATTRIBUTE_GROUP;
-
-    String FORM_REFERENCE_DEFINITION_ATTRIBUTE_ID = FormReferenceDefinition.ATTRIBUTE_ID;
-
-    Set<String> FORM_REFERENCE_DEFINITION_ATTRIBUTE_NAMES = FormReferenceDefinition.ATTRIBUTE_NAMES;
-
-    Set<String> FORM_REFERENCE_DEFINITION_CHILD_ELEMENT_NAMES = FormReferenceDefinition.CHILD_ELEMENT_NAMES;
+    Set<String> FORM_DEFINITION_ATTRIBUTE_NAMES = FormDefinition.ATTRIBUTE_NAMES;
 
     String ATTRIBUTE_DEFINITION_ELEMENT_NAME = AttributeDefinition.ELEMENT_NAME;
 
@@ -89,9 +57,61 @@ public interface FormModelXmlDefinitionBuilder {
 
     String ATTRIBUTE_DEFINITION_ATTRIBUTE_TYPE = AttributeDefinition.ATTRIBUTE_TYPE;
 
+    Set<String> ATTRIBUTE_DEFINITION_CHILD_ELEMENT_NAMES = AttributeDefinition.CHILD_ELEMENT_NAMES;
+
     Set<String> ATTRIBUTE_DEFINITION_ATTRIBUTE_NAMES = AttributeDefinition.ATTRIBUTE_NAMES;
 
-    Set<String> ATTRIBUTE_DEFINITION_CHILD_ELEMENT_NAMES = AttributeDefinition.CHILD_ELEMENT_NAMES;
+    String ELEMENT_DEFINITION_ELEMENT_NAME = ElementDefinition.ELEMENT_NAME;
+
+    String ELEMENT_DEFINITION_ATTRIBUTE_ID = ElementDefinition.ATTRIBUTE_ID;
+
+    String ELEMENT_DEFINITION_ATTRIBUTE_LOOKUP = ElementDefinition.ATTRIBUTE_LOOKUP;
+
+    String ELEMENT_DEFINITION_ATTRIBUTE_TYPE = ElementDefinition.ATTRIBUTE_TYPE;
+
+    Set<String> ELEMENT_DEFINITION_CHILD_ELEMENT_NAMES = ElementDefinition.CHILD_ELEMENT_NAMES;
+
+    Set<String> ELEMENT_DEFINITION_ATTRIBUTE_NAMES = ElementDefinition.ATTRIBUTE_NAMES;
+
+    String SINGLE_ELEMENT_DEFINITION_ELEMENT_NAME = SingleElementDefinition.ELEMENT_NAME;
+
+    String SINGLE_ELEMENT_DEFINITION_ATTRIBUTE_ID = SingleElementDefinition.ATTRIBUTE_ID;
+
+    String SINGLE_ELEMENT_DEFINITION_ATTRIBUTE_TYPE = SingleElementDefinition.ATTRIBUTE_TYPE;
+
+    Set<String> SINGLE_ELEMENT_DEFINITION_CHILD_ELEMENT_NAMES = SingleElementDefinition.CHILD_ELEMENT_NAMES;
+
+    Set<String> SINGLE_ELEMENT_DEFINITION_ATTRIBUTE_NAMES = SingleElementDefinition.ATTRIBUTE_NAMES;
+
+    String FORM_REFERENCE_DEFINITION_ELEMENT_NAME = FormReferenceDefinition.ELEMENT_NAME;
+
+    String FORM_REFERENCE_DEFINITION_ATTRIBUTE_GROUP = FormReferenceDefinition.ATTRIBUTE_GROUP;
+
+    String FORM_REFERENCE_DEFINITION_ATTRIBUTE_ID = FormReferenceDefinition.ATTRIBUTE_ID;
+
+    Set<String> FORM_REFERENCE_DEFINITION_CHILD_ELEMENT_NAMES = FormReferenceDefinition.CHILD_ELEMENT_NAMES;
+
+    Set<String> FORM_REFERENCE_DEFINITION_ATTRIBUTE_NAMES = FormReferenceDefinition.ATTRIBUTE_NAMES;
+
+    /**
+     * Check if the specified XML element is the attribute definition.
+     *
+     * @param element the specified XML element to check.
+     *
+     * @return if the specified XML element is the attribute definition.
+     */
+    boolean isAttributeDefinition(Element element);
+
+    /**
+     * Create the attribute definition for the specified XML element.
+     *
+     * @param parentElement the parent XML element.
+     * @param element       the specified XML element.
+     * @param nodePath      the current node path.
+     *
+     * @return the attribute definition.
+     */
+    AttributeDefinition createAttributeDefinition(Element parentElement, Element element, NodePath nodePath);
 
     /**
      * Check if the specified XML element is the element definition.
@@ -100,7 +120,7 @@ public interface FormModelXmlDefinitionBuilder {
      *
      * @return true if the specified XML element is the element definition.
      */
-    boolean isElementDefinitionElement(Element element);
+    boolean isElementDefinition(Element element);
 
     /**
      * Create the element definition for the specified XML element.
@@ -114,24 +134,24 @@ public interface FormModelXmlDefinitionBuilder {
     ElementDefinition createElementDefinition(Element parentElement, Element element, NodePath nodePath);
 
     /**
-     * Check if the specified XML element is the choice definition.
+     * Check if the specified XML element is the single element definition.
      *
      * @param element the specified XML element to check.
      *
-     * @return true if the specified XML element is the choice definition.
+     * @return true if the specified XML element is the single element definition.
      */
-    boolean isChoiceDefinitionElement(Element element);
+    boolean isSingleElementDefinition(Element element);
 
     /**
-     * Create the choice definition for the specified XML element.
+     * Create the single element definition for the specified XML element.
      *
      * @param parentElement the parent XML element.
      * @param element       the specified XML element.
      * @param nodePath      the current node path.
      *
-     * @return the choice definition.
+     * @return the single element definition.
      */
-    ChoiceDefinition createChoiceDefinition(Element parentElement, Element element, NodePath nodePath);
+    SingleElementDefinition createSingleElementDefinition(Element parentElement, Element element, NodePath nodePath);
 
     /**
      * Check if the specified XML element is the form reference definition.
@@ -140,7 +160,7 @@ public interface FormModelXmlDefinitionBuilder {
      *
      * @return true if the specified XML element is the form reference definition.
      */
-    boolean isFormReferenceDefinitionElement(Element element);
+    boolean isFormReferenceDefinition(Element element);
 
     /**
      * Create the form reference definition for the specified XML element.
@@ -152,25 +172,5 @@ public interface FormModelXmlDefinitionBuilder {
      * @return the form reference definition.
      */
     FormReferenceDefinition createFormReferenceDefinition(Element parentElement, Element element, NodePath nodePath);
-
-    /**
-     * Check if the specified XML element is the attribute definition.
-     *
-     * @param element the specified XML element to check.
-     *
-     * @return if the specified XML element is the attribute definition.
-     */
-    boolean isAttributeDefinitionElement(Element element);
-
-    /**
-     * Create the attribute definition for the specified XML element.
-     *
-     * @param parentElement the parent XML element.
-     * @param element       the specified XML element.
-     * @param nodePath      the current node path.
-     *
-     * @return the attribute definition.
-     */
-    AttributeDefinition createAttributeDefinition(Element parentElement, Element element, NodePath nodePath);
 
 }
