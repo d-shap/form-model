@@ -283,6 +283,15 @@ public final class FormBinder {
             return element;
         }
 
+        private Element addXmlElement(final AttributeDefinition attributeDefinition) {
+            Element element = _document.createElementNS(NAMESPACE, ATTRIBUTE_INSTANCE_ELEMENT_NAME);
+            element.setAttribute(ATTRIBUTE_INSTANCE_ATTRIBUTE_ID, attributeDefinition.getId());
+            for (String otherAttributeName : attributeDefinition.getOtherAttributeNames()) {
+                element.setAttribute(otherAttributeName, attributeDefinition.getOtherAttributeValue(otherAttributeName));
+            }
+            return element;
+        }
+
         private Element addXmlElement(final ElementDefinition elementDefinition) {
             Element element = _document.createElementNS(NAMESPACE, ELEMENT_INSTANCE_ELEMENT_NAME);
             element.setAttribute(ELEMENT_INSTANCE_ATTRIBUTE_ID, elementDefinition.getId());
@@ -307,15 +316,6 @@ public final class FormBinder {
             element.setAttribute(FORM_REFERENCE_INSTANCE_ATTRIBUTE_ID, formReferenceDefinition.getId());
             for (String otherAttributeName : formReferenceDefinition.getOtherAttributeNames()) {
                 element.setAttribute(otherAttributeName, formReferenceDefinition.getOtherAttributeValue(otherAttributeName));
-            }
-            return element;
-        }
-
-        private Element addXmlElement(final AttributeDefinition attributeDefinition) {
-            Element element = _document.createElementNS(NAMESPACE, ATTRIBUTE_INSTANCE_ELEMENT_NAME);
-            element.setAttribute(ATTRIBUTE_INSTANCE_ATTRIBUTE_ID, attributeDefinition.getId());
-            for (String otherAttributeName : attributeDefinition.getOtherAttributeNames()) {
-                element.setAttribute(otherAttributeName, attributeDefinition.getOtherAttributeValue(otherAttributeName));
             }
             return element;
         }
