@@ -26,6 +26,7 @@ import org.xml.sax.InputSource;
 import ru.d_shap.formmodel.ServiceFinder;
 import ru.d_shap.formmodel.XmlDocumentBuilder;
 import ru.d_shap.formmodel.XmlDocumentBuilderConfigurator;
+import ru.d_shap.formmodel.XmlDocumentValidator;
 import ru.d_shap.formmodel.definition.loader.FormDefinitionsLoader;
 import ru.d_shap.formmodel.definition.model.FormDefinition;
 import ru.d_shap.formmodel.definition.model.FormDefinitions;
@@ -48,7 +49,8 @@ public class XmlFormDefinitionsLoader extends FormDefinitionsLoader {
         super(formDefinitions);
         List<OtherNodeXmlDefinitionBuilder> otherNodeXmlDefinitionBuilders = ServiceFinder.find(OtherNodeXmlDefinitionBuilder.class);
         XmlDocumentBuilder xmlDocumentBuilder = XmlDocumentBuilder.getDocumentBuilder();
-        _xmlFormDefinitionLoader = new XmlFormDefinitionLoader(xmlDocumentBuilder, otherNodeXmlDefinitionBuilders);
+        XmlDocumentValidator xmlDocumentValidator = XmlDocumentValidator.getFormModelDocumentValidator();
+        _xmlFormDefinitionLoader = new XmlFormDefinitionLoader(xmlDocumentBuilder, xmlDocumentValidator, otherNodeXmlDefinitionBuilders);
     }
 
     /**
@@ -61,7 +63,8 @@ public class XmlFormDefinitionsLoader extends FormDefinitionsLoader {
         super(formDefinitions);
         List<OtherNodeXmlDefinitionBuilder> otherNodeXmlDefinitionBuilders = ServiceFinder.find(OtherNodeXmlDefinitionBuilder.class);
         XmlDocumentBuilder xmlDocumentBuilder = XmlDocumentBuilder.getDocumentBuilder(xmlDocumentBuilderConfigurator);
-        _xmlFormDefinitionLoader = new XmlFormDefinitionLoader(xmlDocumentBuilder, otherNodeXmlDefinitionBuilders);
+        XmlDocumentValidator xmlDocumentValidator = XmlDocumentValidator.getFormModelDocumentValidator();
+        _xmlFormDefinitionLoader = new XmlFormDefinitionLoader(xmlDocumentBuilder, xmlDocumentValidator, otherNodeXmlDefinitionBuilders);
     }
 
     /**
