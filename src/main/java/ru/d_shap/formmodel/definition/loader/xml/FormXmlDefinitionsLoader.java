@@ -21,6 +21,8 @@ package ru.d_shap.formmodel.definition.loader.xml;
 
 import java.util.List;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
 
 import ru.d_shap.formmodel.ServiceFinder;
@@ -37,6 +39,10 @@ import ru.d_shap.formmodel.definition.model.FormDefinition;
  */
 public abstract class FormXmlDefinitionsLoader extends FormDefinitionsLoader {
 
+    private final XmlDocumentBuilder _xmlDocumentBuilder;
+
+    private final XmlDocumentValidator _xmlDocumentValidator;
+
     private final FormXmlDefinitionBuilderImpl _formXmlDefinitionBuilder;
 
     /**
@@ -44,10 +50,10 @@ public abstract class FormXmlDefinitionsLoader extends FormDefinitionsLoader {
      */
     protected FormXmlDefinitionsLoader() {
         super();
-        XmlDocumentBuilder xmlDocumentBuilder = XmlDocumentBuilder.getDocumentBuilder();
-        XmlDocumentValidator xmlDocumentValidator = XmlDocumentValidator.getFormModelDocumentValidator();
+        _xmlDocumentBuilder = XmlDocumentBuilder.getDocumentBuilder();
+        _xmlDocumentValidator = XmlDocumentValidator.getFormModelDocumentValidator();
         List<OtherNodeXmlDefinitionBuilder> otherNodeXmlDefinitionBuilders = ServiceFinder.find(OtherNodeXmlDefinitionBuilder.class);
-        _formXmlDefinitionBuilder = new FormXmlDefinitionBuilderImpl(xmlDocumentBuilder, xmlDocumentValidator, otherNodeXmlDefinitionBuilders);
+        _formXmlDefinitionBuilder = new FormXmlDefinitionBuilderImpl(otherNodeXmlDefinitionBuilders);
     }
 
     /**
@@ -57,10 +63,10 @@ public abstract class FormXmlDefinitionsLoader extends FormDefinitionsLoader {
      */
     protected FormXmlDefinitionsLoader(final XmlDocumentBuilderConfigurator xmlDocumentBuilderConfigurator) {
         super();
-        XmlDocumentBuilder xmlDocumentBuilder = XmlDocumentBuilder.getDocumentBuilder(xmlDocumentBuilderConfigurator);
-        XmlDocumentValidator xmlDocumentValidator = XmlDocumentValidator.getFormModelDocumentValidator();
+        _xmlDocumentBuilder = XmlDocumentBuilder.getDocumentBuilder(xmlDocumentBuilderConfigurator);
+        _xmlDocumentValidator = XmlDocumentValidator.getFormModelDocumentValidator();
         List<OtherNodeXmlDefinitionBuilder> otherNodeXmlDefinitionBuilders = ServiceFinder.find(OtherNodeXmlDefinitionBuilder.class);
-        _formXmlDefinitionBuilder = new FormXmlDefinitionBuilderImpl(xmlDocumentBuilder, xmlDocumentValidator, otherNodeXmlDefinitionBuilders);
+        _formXmlDefinitionBuilder = new FormXmlDefinitionBuilderImpl(otherNodeXmlDefinitionBuilders);
     }
 
     /**
@@ -71,8 +77,15 @@ public abstract class FormXmlDefinitionsLoader extends FormDefinitionsLoader {
      *
      * @return the form definition.
      */
-    protected final FormDefinition getFormDefinition(final InputSource inputSource, final String source) {
-        return _formXmlDefinitionBuilder.getFormDefinition(inputSource, source);
+    protected final FormDefinition load(final InputSource inputSource, final String source) {
+        Document document = _xmlDocumentBuilder.parse(inputSource);
+        Element element = document.getDocumentElement();
+        if (_formXmlDefinitionBuilder.isFormDefinition(element)) {
+            _xmlDocumentValidator.validate(document);
+            return _formXmlDefinitionBuilder.createFormDefinition(element, source);
+        } else {
+            return null;
+        }
     }
 
 }
