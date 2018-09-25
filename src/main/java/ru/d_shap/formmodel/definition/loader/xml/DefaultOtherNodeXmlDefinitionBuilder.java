@@ -39,7 +39,7 @@ final class DefaultOtherNodeXmlDefinitionBuilder implements OtherNodeXmlDefiniti
     }
 
     @Override
-    public OtherNodeDefinition createOtherNodeDefinition(final Element parentElement, final Element element, final FormModelXmlDefinitionBuilder formModelXmlDefinitionBuilder, final NodePath nodePath) {
+    public OtherNodeDefinition createOtherNodeDefinition(final Element parentElement, final Element element, final FormXmlDefinitionBuilder formXmlDefinitionBuilder, final NodePath nodePath) {
         return new DefaultOtherNodeXmlDefinition(element);
     }
 
