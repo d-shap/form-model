@@ -26,11 +26,12 @@ import ru.d_shap.formmodel.binding.model.BindedElement;
 import ru.d_shap.formmodel.binding.model.BindedForm;
 import ru.d_shap.formmodel.binding.model.BindingSource;
 import ru.d_shap.formmodel.definition.model.AttributeDefinition;
-import ru.d_shap.formmodel.definition.model.ChoiceDefinition;
 import ru.d_shap.formmodel.definition.model.ElementDefinition;
 import ru.d_shap.formmodel.definition.model.FormDefinition;
 import ru.d_shap.formmodel.definition.model.FormReferenceDefinition;
 import ru.d_shap.formmodel.definition.model.NodePath;
+import ru.d_shap.formmodel.definition.model.OtherNodeDefinition;
+import ru.d_shap.formmodel.definition.model.SingleElementDefinition;
 
 /**
  * Builder for the form instance elements.
@@ -47,23 +48,23 @@ public interface FormModelInstanceBuilder {
 
     String FORM_INSTANCE_ATTRIBUTE_ID = FormDefinition.ATTRIBUTE_ID;
 
+    String ATTRIBUTE_INSTANCE_ELEMENT_NAME = AttributeDefinition.ELEMENT_NAME;
+
+    String ATTRIBUTE_INSTANCE_ATTRIBUTE_ID = AttributeDefinition.ATTRIBUTE_ID;
+
     String ELEMENT_INSTANCE_ELEMENT_NAME = ElementDefinition.ELEMENT_NAME;
 
     String ELEMENT_INSTANCE_ATTRIBUTE_ID = ElementDefinition.ATTRIBUTE_ID;
 
-    String CHOICE_INSTANCE_ELEMENT_NAME = ChoiceDefinition.ELEMENT_NAME;
+    String SINGLE_ELEMENT_INSTANCE_ELEMENT_NAME = SingleElementDefinition.ELEMENT_NAME;
 
-    String CHOICE_INSTANCE_ATTRIBUTE_ID = ChoiceDefinition.ATTRIBUTE_ID;
+    String SINGLE_ELEMENT_INSTANCE_ATTRIBUTE_ID = SingleElementDefinition.ATTRIBUTE_ID;
 
     String FORM_REFERENCE_INSTANCE_ELEMENT_NAME = FormReferenceDefinition.ELEMENT_NAME;
 
     String FORM_REFERENCE_INSTANCE_ATTRIBUTE_GROUP = FormReferenceDefinition.ATTRIBUTE_GROUP;
 
     String FORM_REFERENCE_INSTANCE_ATTRIBUTE_ID = FormReferenceDefinition.ATTRIBUTE_ID;
-
-    String ATTRIBUTE_INSTANCE_ELEMENT_NAME = AttributeDefinition.ELEMENT_NAME;
-
-    String ATTRIBUTE_INSTANCE_ATTRIBUTE_ID = AttributeDefinition.ATTRIBUTE_ID;
 
     /**
      * Get the binding source of the form instance.
@@ -80,6 +81,17 @@ public interface FormModelInstanceBuilder {
     Document getDocument();
 
     /**
+     * Create the binded XML element for the specified attribute definition and attach it to the owner document.
+     *
+     * @param lastBindedForm      the last binded form.
+     * @param lastBindedElement   the last binded element.
+     * @param parentElement       the parent XML element.
+     * @param attributeDefinition the specified attribute definition.
+     * @param nodePath            the current node path.
+     */
+    void bindAttributeInstance(BindedForm lastBindedForm, BindedElement lastBindedElement, Element parentElement, AttributeDefinition attributeDefinition, NodePath nodePath);
+
+    /**
      * Create the binded XML element for the specified element definition and attach it to the owner document.
      *
      * @param lastBindedForm    the last binded form.
@@ -91,15 +103,15 @@ public interface FormModelInstanceBuilder {
     void bindElementInstance(BindedForm lastBindedForm, BindedElement lastBindedElement, Element parentElement, ElementDefinition elementDefinition, NodePath nodePath);
 
     /**
-     * Create the binded XML element for the specified choice definition and attach it to the owner document.
+     * Create the binded XML element for the specified single element definition and attach it to the owner document.
      *
-     * @param lastBindedForm    the last binded form.
-     * @param lastBindedElement the last binded element.
-     * @param parentElement     the parent XML element.
-     * @param choiceDefinition  the specified choice definition.
-     * @param nodePath          the current node path.
+     * @param lastBindedForm          the last binded form.
+     * @param lastBindedElement       the last binded element.
+     * @param parentElement           the parent XML element.
+     * @param singleElementDefinition the specified single element definition.
+     * @param nodePath                the current node path.
      */
-    void bindChoiceInstance(BindedForm lastBindedForm, BindedElement lastBindedElement, Element parentElement, ChoiceDefinition choiceDefinition, NodePath nodePath);
+    void bindSingleElementInstance(BindedForm lastBindedForm, BindedElement lastBindedElement, Element parentElement, SingleElementDefinition singleElementDefinition, NodePath nodePath);
 
     /**
      * Create the binded XML element for the specified form reference definition and attach it to the owner document.
@@ -113,14 +125,14 @@ public interface FormModelInstanceBuilder {
     void bindFormReferenceInstance(BindedForm lastBindedForm, BindedElement lastBindedElement, Element parentElement, FormReferenceDefinition formReferenceDefinition, NodePath nodePath);
 
     /**
-     * Create the binded XML element for the specified attribute definition and attach it to the owner document.
+     * Create the binded XML element for the specified other node definition and attach it to the owner document.
      *
      * @param lastBindedForm      the last binded form.
      * @param lastBindedElement   the last binded element.
      * @param parentElement       the parent XML element.
-     * @param attributeDefinition the specified attribute definition.
+     * @param otherNodeDefinition the specified other node definition.
      * @param nodePath            the current node path.
      */
-    void bindAttributeInstance(BindedForm lastBindedForm, BindedElement lastBindedElement, Element parentElement, AttributeDefinition attributeDefinition, NodePath nodePath);
+    void bindOtherNodeInstance(BindedForm lastBindedForm, BindedElement lastBindedElement, Element parentElement, OtherNodeDefinition otherNodeDefinition, NodePath nodePath);
 
 }
