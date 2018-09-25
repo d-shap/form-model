@@ -69,7 +69,7 @@ final class FormXmlDefinitionBuilderImpl implements FormXmlDefinitionBuilder {
         _defaultOtherNodeXmlDefinitionBuilder = new DefaultOtherNodeXmlDefinitionBuilder();
     }
 
-    FormDefinition load(final InputSource inputSource, final String source) {
+    FormDefinition getFormDefinition(final InputSource inputSource, final String source) {
         Document document = _xmlDocumentBuilder.parse(inputSource);
         Element element = document.getDocumentElement();
         if (isFormDefinition(element)) {
