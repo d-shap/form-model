@@ -126,7 +126,7 @@ public final class FormXmlDefinitionsFileSystemLoader extends FormXmlDefinitions
         try {
             try (FileInputStream inputStream = new FileInputStream(file)) {
                 InputSource inputSource = new InputSource(inputStream);
-                FormDefinition formDefinition = getFormDefinition(inputSource, file.getAbsolutePath().substring(fileRootPathLength));
+                FormDefinition formDefinition = load(inputSource, file.getAbsolutePath().substring(fileRootPathLength));
                 if (formDefinition != null) {
                     formDefinitions.add(formDefinition);
                 }
