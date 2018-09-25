@@ -30,18 +30,18 @@ import ru.d_shap.formmodel.definition.model.FormDefinition;
 import ru.d_shap.formmodel.definition.model.FormDefinitionKey;
 
 /**
- * Validator for the form definitions.
+ * Validator for the form model definitions.
  *
  * @author Dmitry Shapovalov
  */
-public final class FormDefinitionsValidator {
+public final class FormModelDefinitionsValidator {
 
     private final List<OtherNodeDefinitionValidator> _otherNodeDefinitionValidators;
 
     /**
      * Create new object.
      */
-    public FormDefinitionsValidator() {
+    public FormModelDefinitionsValidator() {
         super();
         _otherNodeDefinitionValidators = ServiceFinder.find(OtherNodeDefinitionValidator.class);
     }
@@ -65,9 +65,9 @@ public final class FormDefinitionsValidator {
             }
         }
 
-        FormDefinitionValidator formDefinitionValidator = new FormDefinitionValidator(allFormSources.keySet(), _otherNodeDefinitionValidators);
+        FormModelDefinitionValidatorImpl formModelDefinitionValidator = new FormModelDefinitionValidatorImpl(allFormSources.keySet(), _otherNodeDefinitionValidators);
         for (FormDefinition formDefinition : formDefinitions) {
-            formDefinitionValidator.validateFormDefinition(formDefinition);
+            formModelDefinitionValidator.validateFormDefinition(formDefinition);
         }
     }
 
