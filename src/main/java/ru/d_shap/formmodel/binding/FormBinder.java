@@ -173,14 +173,16 @@ public final class FormBinder {
         public void bindElementInstance(final BindedForm lastBindedForm, final BindedElement lastBindedElement, final Element parentElement, final ElementDefinition elementDefinition, final NodePath nodePath) {
             List<BindedElement> bindedElements = _binder.bindElementDefinition(_bindingSource, lastBindedForm, lastBindedElement, parentElement, elementDefinition);
             validateBindedElement(bindedElements, elementDefinition, nodePath);
-            for (BindedElement bindedElement : bindedElements) {
-                Element element = addXmlElement(elementDefinition);
-                parentElement.appendChild(element);
-                element.setUserData(Binder.ELEMENT_DEFINITION_KEY, elementDefinition, null);
-                element.setUserData(Binder.FORM_DEFINITION_KEY, parentElement.getUserData(Binder.FORM_DEFINITION_KEY), null);
-                element.setUserData(Binder.BINDED_OBJECT_KEY, bindedElement, null);
-                NodePath currentNodePath = new NodePath(nodePath, elementDefinition);
-                bindNodeDefinitions(lastBindedForm, bindedElement, element, elementDefinition.getAllNodeDefinitions(), currentNodePath);
+            if (bindedElements != null) {
+                for (BindedElement bindedElement : bindedElements) {
+                    Element element = addXmlElement(elementDefinition);
+                    parentElement.appendChild(element);
+                    element.setUserData(Binder.ELEMENT_DEFINITION_KEY, elementDefinition, null);
+                    element.setUserData(Binder.FORM_DEFINITION_KEY, parentElement.getUserData(Binder.FORM_DEFINITION_KEY), null);
+                    element.setUserData(Binder.BINDED_OBJECT_KEY, bindedElement, null);
+                    NodePath currentNodePath = new NodePath(nodePath, elementDefinition);
+                    bindNodeDefinitions(lastBindedForm, bindedElement, element, elementDefinition.getAllNodeDefinitions(), currentNodePath);
+                }
             }
         }
 
