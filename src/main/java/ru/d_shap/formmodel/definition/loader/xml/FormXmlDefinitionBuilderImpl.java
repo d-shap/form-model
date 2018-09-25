@@ -25,16 +25,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
 
 import ru.d_shap.formmodel.Messages;
-import ru.d_shap.formmodel.XmlDocumentBuilder;
-import ru.d_shap.formmodel.XmlDocumentValidator;
 import ru.d_shap.formmodel.definition.FormDefinitionValidationException;
 import ru.d_shap.formmodel.definition.model.AttributeDefinition;
 import ru.d_shap.formmodel.definition.model.CardinalityDefinition;
@@ -53,38 +49,21 @@ import ru.d_shap.formmodel.definition.model.SingleElementDefinition;
  */
 final class FormXmlDefinitionBuilderImpl implements FormXmlDefinitionBuilder {
 
-    private final XmlDocumentBuilder _xmlDocumentBuilder;
-
-    private final XmlDocumentValidator _xmlDocumentValidator;
-
     private final List<OtherNodeXmlDefinitionBuilder> _otherNodeXmlDefinitionBuilders;
 
     private final OtherNodeXmlDefinitionBuilder _defaultOtherNodeXmlDefinitionBuilder;
 
-    FormXmlDefinitionBuilderImpl(final XmlDocumentBuilder xmlDocumentBuilder, final XmlDocumentValidator xmlDocumentValidator, final List<OtherNodeXmlDefinitionBuilder> otherNodeXmlDefinitionBuilders) {
+    FormXmlDefinitionBuilderImpl(final List<OtherNodeXmlDefinitionBuilder> otherNodeXmlDefinitionBuilders) {
         super();
-        _xmlDocumentBuilder = xmlDocumentBuilder;
-        _xmlDocumentValidator = xmlDocumentValidator;
         _otherNodeXmlDefinitionBuilders = new ArrayList<>(otherNodeXmlDefinitionBuilders);
         _defaultOtherNodeXmlDefinitionBuilder = new DefaultOtherNodeXmlDefinitionBuilder();
     }
 
-    FormDefinition getFormDefinition(final InputSource inputSource, final String source) {
-        Document document = _xmlDocumentBuilder.parse(inputSource);
-        Element element = document.getDocumentElement();
-        if (isFormDefinition(element)) {
-            _xmlDocumentValidator.validate(document);
-            return createFormDefinition(element, source);
-        } else {
-            return null;
-        }
-    }
-
-    private boolean isFormDefinition(final Element element) {
+    boolean isFormDefinition(final Element element) {
         return NAMESPACE.equals(element.getNamespaceURI()) && FORM_DEFINITION_ELEMENT_NAME.equals(element.getTagName());
     }
 
-    private FormDefinition createFormDefinition(final Element element, final String source) {
+    FormDefinition createFormDefinition(final Element element, final String source) {
         String group = getAttributeValue(element, FORM_DEFINITION_ATTRIBUTE_GROUP);
         String id = getAttributeValue(element, FORM_DEFINITION_ATTRIBUTE_ID);
         NodePath currentNodePath = new NodePath(Messages.Representation.getFormDefinitionRepresentation(source, group, id));
