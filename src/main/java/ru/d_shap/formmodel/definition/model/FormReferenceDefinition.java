@@ -108,6 +108,15 @@ public final class FormReferenceDefinition implements NodeDefinition {
     }
 
     /**
+     * Get the form reference's all node definitions.
+     *
+     * @return the form reference's all node definitions.
+     */
+    public List<NodeDefinition> getAllNodeDefinitions() {
+        return _nodeData.getAllNodeDefinitions();
+    }
+
+    /**
      * Get the form reference's other attribute names.
      *
      * @return the form reference's other attribute names.
