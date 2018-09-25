@@ -20,12 +20,12 @@
 package ru.d_shap.formmodel.definition.validator;
 
 import ru.d_shap.formmodel.definition.model.AttributeDefinition;
-import ru.d_shap.formmodel.definition.model.ChoiceDefinition;
 import ru.d_shap.formmodel.definition.model.ElementDefinition;
 import ru.d_shap.formmodel.definition.model.FormReferenceDefinition;
 import ru.d_shap.formmodel.definition.model.NodeDefinition;
 import ru.d_shap.formmodel.definition.model.NodePath;
 import ru.d_shap.formmodel.definition.model.OtherNodeDefinition;
+import ru.d_shap.formmodel.definition.model.SingleElementDefinition;
 
 /**
  * Validator for the form definition elements.
@@ -44,7 +44,7 @@ public interface FormModelDefinitionValidator {
     boolean isEmptyString(String str);
 
     /**
-     * Check if the string is blank (empty or contains only white characters).
+     * Check if the string is blank (empty or contains only white spaces).
      *
      * @param str the string to check.
      *
@@ -80,13 +80,13 @@ public interface FormModelDefinitionValidator {
     void validateElementDefinition(NodeDefinition parentNodeDefinition, ElementDefinition elementDefinition, NodePath nodePath);
 
     /**
-     * Validate the choice definition.
+     * Validate the single element definition.
      *
      * @param parentNodeDefinition the parent node definition.
-     * @param choiceDefinition     the choice definition.
+     * @param choiceDefinition     the single element definition.
      * @param nodePath             the current node path.
      */
-    void validateChoiceDefinition(NodeDefinition parentNodeDefinition, ChoiceDefinition choiceDefinition, NodePath nodePath);
+    void validateSingleElementDefinition(NodeDefinition parentNodeDefinition, SingleElementDefinition choiceDefinition, NodePath nodePath);
 
     /**
      * Validate the form reference definition.
