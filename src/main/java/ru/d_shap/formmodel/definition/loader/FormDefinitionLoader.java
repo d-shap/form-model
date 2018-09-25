@@ -19,44 +19,29 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.formmodel.definition.loader;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import ru.d_shap.formmodel.definition.model.FormDefinition;
-import ru.d_shap.formmodel.definition.model.FormDefinitions;
 
 /**
- * Base class for all form definitions loaders.
+ * Base class for all form definition loaders.
  *
  * @author Dmitry Shapovalov
  */
-public class FormDefinitionsLoader {
-
-    private final FormDefinitions _formDefinitions;
+public abstract class FormDefinitionLoader {
 
     /**
      * Create new object.
-     *
-     * @param formDefinitions container for all form definitions.
      */
-    protected FormDefinitionsLoader(final FormDefinitions formDefinitions) {
+    protected FormDefinitionLoader() {
         super();
-        _formDefinitions = formDefinitions;
     }
 
     /**
-     * Add the specified form definitions to the container for all form definitions.
+     * Get the loaded form definitions.
      *
-     * @param formDefinitions the specified form definitions.
+     * @return the loaded form definitions.
      */
-    protected final void addFormDefinitions(final List<FormDefinition> formDefinitions) {
-        List<FormDefinition> list = new ArrayList<>();
-        for (FormDefinition formDefinition : formDefinitions) {
-            if (formDefinition != null) {
-                list.add(formDefinition);
-            }
-        }
-        _formDefinitions.addFormDefinitions(list);
-    }
+    public abstract List<FormDefinition> getFormDefinitions();
 
 }
