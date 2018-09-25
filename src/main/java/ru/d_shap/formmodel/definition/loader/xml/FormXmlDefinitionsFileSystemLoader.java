@@ -31,60 +31,82 @@ import org.xml.sax.InputSource;
 import ru.d_shap.formmodel.InputSourceReadException;
 import ru.d_shap.formmodel.XmlDocumentBuilderConfigurator;
 import ru.d_shap.formmodel.definition.model.FormDefinition;
-import ru.d_shap.formmodel.definition.model.FormDefinitions;
 
 /**
- * Loader to load the form definitions from the file system, XML implementation.
+ * File system loader for the form definitions, XML implementation.
  *
  * @author Dmitry Shapovalov
  */
-public final class XmlFormDefinitionsFileSystemLoader extends XmlFormDefinitionsLoader {
+public final class FormXmlDefinitionsFileSystemLoader extends FormXmlDefinitionsLoader {
 
     private static final String DEFAULT_EXTENSION = "xml";
 
-    /**
-     * Create new object.
-     *
-     * @param formDefinitions container for all form definitions.
-     */
-    public XmlFormDefinitionsFileSystemLoader(final FormDefinitions formDefinitions) {
-        super(formDefinitions);
-    }
+    private final File _file;
+
+    private final FileFilter _fileFilter;
 
     /**
      * Create new object.
      *
-     * @param formDefinitions                container for all form definitions.
-     * @param xmlDocumentBuilderConfigurator configurator for the XML document builder.
+     * @param file the source file or directory.
      */
-    public XmlFormDefinitionsFileSystemLoader(final FormDefinitions formDefinitions, final XmlDocumentBuilderConfigurator xmlDocumentBuilderConfigurator) {
-        super(formDefinitions, xmlDocumentBuilderConfigurator);
+    public FormXmlDefinitionsFileSystemLoader(final File file) {
+        this(file, (FileFilter) null);
     }
 
     /**
-     * Load the form definitions from the specified file or directory.
+     * Create new object.
      *
-     * @param file the specified file or directory.
-     */
-    public void load(final File file) {
-        load(file, new DefaultFileFilter());
-    }
-
-    /**
-     * Load the form definitions from the specified file or directory.
-     *
-     * @param file       the specified file or directory.
+     * @param file       the source file or directory.
      * @param fileFilter the file filter.
      */
-    public void load(final File file, final FileFilter fileFilter) {
-        int fileRootPathLength = file.getAbsolutePath().length();
-        List<FormDefinition> formDefinitions = new ArrayList<>();
-        if (file.isDirectory()) {
-            processDirectory(file, fileRootPathLength, fileFilter, formDefinitions);
+    public FormXmlDefinitionsFileSystemLoader(final File file, final FileFilter fileFilter) {
+        super();
+        _file = file;
+        if (fileFilter == null) {
+            _fileFilter = new DefaultFileFilter();
         } else {
-            processFile(file, fileRootPathLength, formDefinitions);
+            _fileFilter = fileFilter;
         }
-        addFormDefinitions(formDefinitions);
+    }
+
+    /**
+     * Create new object.
+     *
+     * @param file                           the source file or directory.
+     * @param xmlDocumentBuilderConfigurator configurator for the XML document builder.
+     */
+    public FormXmlDefinitionsFileSystemLoader(final File file, final XmlDocumentBuilderConfigurator xmlDocumentBuilderConfigurator) {
+        this(file, null, xmlDocumentBuilderConfigurator);
+    }
+
+    /**
+     * Create new object.
+     *
+     * @param file                           the source file or directory.
+     * @param fileFilter                     the file filter.
+     * @param xmlDocumentBuilderConfigurator configurator for the XML document builder.
+     */
+    public FormXmlDefinitionsFileSystemLoader(final File file, final FileFilter fileFilter, final XmlDocumentBuilderConfigurator xmlDocumentBuilderConfigurator) {
+        super(xmlDocumentBuilderConfigurator);
+        _file = file;
+        if (fileFilter == null) {
+            _fileFilter = new DefaultFileFilter();
+        } else {
+            _fileFilter = fileFilter;
+        }
+    }
+
+    @Override
+    public List<FormDefinition> load() {
+        int fileRootPathLength = _file.getAbsolutePath().length();
+        List<FormDefinition> formDefinitions = new ArrayList<>();
+        if (_file.isDirectory()) {
+            processDirectory(_file, fileRootPathLength, _fileFilter, formDefinitions);
+        } else {
+            processFile(_file, fileRootPathLength, formDefinitions);
+        }
+        return formDefinitions;
     }
 
     private void processDirectory(final File file, final int fileRootPathLength, final FileFilter fileFilter, final List<FormDefinition> formDefinitions) {
@@ -104,8 +126,10 @@ public final class XmlFormDefinitionsFileSystemLoader extends XmlFormDefinitions
         try {
             try (FileInputStream inputStream = new FileInputStream(file)) {
                 InputSource inputSource = new InputSource(inputStream);
-                FormDefinition formDefinition = loadFormDefinition(inputSource, file.getAbsolutePath().substring(fileRootPathLength));
-                formDefinitions.add(formDefinition);
+                FormDefinition formDefinition = getFormDefinition(inputSource, file.getAbsolutePath().substring(fileRootPathLength));
+                if (formDefinition != null) {
+                    formDefinitions.add(formDefinition);
+                }
             }
         } catch (IOException ex) {
             throw new InputSourceReadException(ex);
