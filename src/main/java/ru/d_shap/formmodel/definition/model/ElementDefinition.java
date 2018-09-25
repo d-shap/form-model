@@ -47,8 +47,8 @@ public final class ElementDefinition implements NodeDefinition {
     static {
         Set<String> childElementNames = new HashSet<>();
         childElementNames.add(AttributeDefinition.ELEMENT_NAME);
-        childElementNames.add(ELEMENT_NAME);
-        childElementNames.add(ChoiceDefinition.ELEMENT_NAME);
+        childElementNames.add(ElementDefinition.ELEMENT_NAME);
+        childElementNames.add(SingleElementDefinition.ELEMENT_NAME);
         childElementNames.add(FormReferenceDefinition.ELEMENT_NAME);
         CHILD_ELEMENT_NAMES = Collections.unmodifiableSet(childElementNames);
     }
@@ -134,12 +134,12 @@ public final class ElementDefinition implements NodeDefinition {
     }
 
     /**
-     * Get the element's choice definitions.
+     * Get the element's single element definitions.
      *
-     * @return the element's choice definitions.
+     * @return the element's single element definitions.
      */
-    public List<ChoiceDefinition> getChoiceDefinitions() {
-        return _nodeData.getChoiceDefinitions();
+    public List<SingleElementDefinition> getSingleElementDefinitions() {
+        return _nodeData.getSingleElementDefinitions();
     }
 
     /**
@@ -158,6 +158,15 @@ public final class ElementDefinition implements NodeDefinition {
      */
     public List<OtherNodeDefinition> getOtherNodeDefinitions() {
         return _nodeData.getOtherNodeDefinitions();
+    }
+
+    /**
+     * Get the element's all node definitions.
+     *
+     * @return the element's all node definitions.
+     */
+    public List<NodeDefinition> getAllNodeDefinitions() {
+        return _nodeData.getAllNodeDefinitions();
     }
 
     /**
