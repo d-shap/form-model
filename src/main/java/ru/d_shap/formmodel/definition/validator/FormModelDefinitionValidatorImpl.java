@@ -38,17 +38,17 @@ import ru.d_shap.formmodel.definition.model.OtherNodeDefinition;
 import ru.d_shap.formmodel.definition.model.SingleElementDefinition;
 
 /**
- * Validator for the form definition.
+ * Validator for the form model definition.
  *
  * @author Dmitry Shapovalov
  */
-final class FormDefinitionValidator implements FormModelDefinitionValidator {
+final class FormModelDefinitionValidatorImpl implements FormModelDefinitionValidator {
 
     private final Set<FormDefinitionKey> _allFormDefinitionKeys;
 
     private final List<OtherNodeDefinitionValidator> _otherNodeDefinitionValidators;
 
-    FormDefinitionValidator(final Set<FormDefinitionKey> allFormDefinitionKeys, final List<OtherNodeDefinitionValidator> otherNodeDefinitionValidators) {
+    FormModelDefinitionValidatorImpl(final Set<FormDefinitionKey> allFormDefinitionKeys, final List<OtherNodeDefinitionValidator> otherNodeDefinitionValidators) {
         super();
         _allFormDefinitionKeys = new HashSet<>(allFormDefinitionKeys);
         _otherNodeDefinitionValidators = new ArrayList<>(otherNodeDefinitionValidators);
