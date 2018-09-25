@@ -111,18 +111,18 @@ public final class AttributeDefinition implements NodeDefinition {
     }
 
     /**
-     * Get the attribute's other node definitions.
+     * Get the attribute's other child node definitions.
      *
-     * @return the attribute's other node definitions.
+     * @return the attribute's other child node definitions.
      */
     public List<OtherNodeDefinition> getOtherNodeDefinitions() {
         return _nodeData.getOtherNodeDefinitions();
     }
 
     /**
-     * Get the attribute's all node definitions.
+     * Get the attribute's all child node definitions.
      *
-     * @return the attribute's all node definitions.
+     * @return the attribute's all child node definitions.
      */
     public List<NodeDefinition> getAllNodeDefinitions() {
         return _nodeData.getAllNodeDefinitions();

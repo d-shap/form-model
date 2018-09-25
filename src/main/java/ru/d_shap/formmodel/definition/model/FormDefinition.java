@@ -107,45 +107,45 @@ public final class FormDefinition implements NodeDefinition {
     }
 
     /**
-     * Get the form's element definitions.
+     * Get the form's child element definitions.
      *
-     * @return the form's element definitions.
+     * @return the form's child element definitions.
      */
     public List<ElementDefinition> getElementDefinitions() {
         return _nodeData.getElementDefinitions();
     }
 
     /**
-     * Get the form's single element definitions.
+     * Get the form's child single element definitions.
      *
-     * @return the form's single element definitions.
+     * @return the form's child single element definitions.
      */
     public List<SingleElementDefinition> getSingleElementDefinitions() {
         return _nodeData.getSingleElementDefinitions();
     }
 
     /**
-     * Get the form's form reference definitions.
+     * Get the form's child form reference definitions.
      *
-     * @return the form's form reference definitions.
+     * @return the form's child form reference definitions.
      */
     public List<FormReferenceDefinition> getFormReferenceDefinitions() {
         return _nodeData.getFormReferenceDefinitions();
     }
 
     /**
-     * Get the form's other node definitions.
+     * Get the form's other child node definitions.
      *
-     * @return the form's other node definitions.
+     * @return the form's other child node definitions.
      */
     public List<OtherNodeDefinition> getOtherNodeDefinitions() {
         return _nodeData.getOtherNodeDefinitions();
     }
 
     /**
-     * Get the form's all node definitions.
+     * Get the form's all child node definitions.
      *
-     * @return the form's all node definitions.
+     * @return the form's all child node definitions.
      */
     public List<NodeDefinition> getAllNodeDefinitions() {
         return _nodeData.getAllNodeDefinitions();

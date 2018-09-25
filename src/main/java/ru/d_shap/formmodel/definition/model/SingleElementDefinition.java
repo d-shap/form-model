@@ -28,7 +28,7 @@ import java.util.Set;
 import ru.d_shap.formmodel.Messages;
 
 /**
- * Node definition to define the single element within the set of elements.
+ * Node definition to define the only one child element.
  *
  * @author Dmitry Shapovalov
  */
@@ -98,30 +98,39 @@ public final class SingleElementDefinition implements NodeDefinition {
     }
 
     /**
-     * Get the single element's element definitions.
+     * Get the single element's child element definitions.
      *
-     * @return the single element's element definitions.
+     * @return the single element's child element definitions.
      */
     public List<ElementDefinition> getElementDefinitions() {
         return _nodeData.getElementDefinitions();
     }
 
     /**
-     * Get the single element's single element definitions.
+     * Get the single element's child single element definitions.
      *
-     * @return the single element's single element definitions.
+     * @return the single element's child single element definitions.
      */
     public List<SingleElementDefinition> getSingleElementDefinitions() {
         return _nodeData.getSingleElementDefinitions();
     }
 
     /**
-     * Get the single element's other node definitions.
+     * Get the single element's other child node definitions.
      *
-     * @return the single element's other node definitions.
+     * @return the single element's other child node definitions.
      */
     public List<OtherNodeDefinition> getOtherNodeDefinitions() {
         return _nodeData.getOtherNodeDefinitions();
+    }
+
+    /**
+     * Get the single element's all child node definitions.
+     *
+     * @return the single element's all child node definitions.
+     */
+    public List<NodeDefinition> getAllNodeDefinitions() {
+        return _nodeData.getAllNodeDefinitions();
     }
 
     /**

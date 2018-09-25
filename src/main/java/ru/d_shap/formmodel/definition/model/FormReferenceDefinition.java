@@ -99,18 +99,18 @@ public final class FormReferenceDefinition implements NodeDefinition {
     }
 
     /**
-     * Get the form reference's other node definitions.
+     * Get the form reference's other child node definitions.
      *
-     * @return the form reference's other node definitions.
+     * @return the form reference's other child node definitions.
      */
     public List<OtherNodeDefinition> getOtherNodeDefinitions() {
         return _nodeData.getOtherNodeDefinitions();
     }
 
     /**
-     * Get the form reference's all node definitions.
+     * Get the form reference's all child node definitions.
      *
-     * @return the form reference's all node definitions.
+     * @return the form reference's all child node definitions.
      */
     public List<NodeDefinition> getAllNodeDefinitions() {
         return _nodeData.getAllNodeDefinitions();

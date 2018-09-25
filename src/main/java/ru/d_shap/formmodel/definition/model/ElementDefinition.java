@@ -116,54 +116,54 @@ public final class ElementDefinition implements NodeDefinition {
     }
 
     /**
-     * Get the element's attribute definitions.
+     * Get the element's child attribute definitions.
      *
-     * @return the element's attribute definitions.
+     * @return the element's child attribute definitions.
      */
     public List<AttributeDefinition> getAttributeDefinitions() {
         return _nodeData.getAttributeDefinitions();
     }
 
     /**
-     * Get the element's element definitions.
+     * Get the element's child element definitions.
      *
-     * @return the element's element definitions.
+     * @return the element's child element definitions.
      */
     public List<ElementDefinition> getElementDefinitions() {
         return _nodeData.getElementDefinitions();
     }
 
     /**
-     * Get the element's single element definitions.
+     * Get the element's child single element definitions.
      *
-     * @return the element's single element definitions.
+     * @return the element's child single element definitions.
      */
     public List<SingleElementDefinition> getSingleElementDefinitions() {
         return _nodeData.getSingleElementDefinitions();
     }
 
     /**
-     * Get the element's form reference definitions.
+     * Get the element's child form reference definitions.
      *
-     * @return the element's form reference definitions.
+     * @return the element's child form reference definitions.
      */
     public List<FormReferenceDefinition> getFormReferenceDefinitions() {
         return _nodeData.getFormReferenceDefinitions();
     }
 
     /**
-     * Get the element's other node definitions.
+     * Get the element's other child node definitions.
      *
-     * @return the element's other node definitions.
+     * @return the element's other child node definitions.
      */
     public List<OtherNodeDefinition> getOtherNodeDefinitions() {
         return _nodeData.getOtherNodeDefinitions();
     }
 
     /**
-     * Get the element's all node definitions.
+     * Get the element's all child node definitions.
      *
-     * @return the element's all node definitions.
+     * @return the element's all child node definitions.
      */
     public List<NodeDefinition> getAllNodeDefinitions() {
         return _nodeData.getAllNodeDefinitions();
