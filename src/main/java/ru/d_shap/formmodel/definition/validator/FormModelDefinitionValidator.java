@@ -28,7 +28,7 @@ import ru.d_shap.formmodel.definition.model.OtherNodeDefinition;
 import ru.d_shap.formmodel.definition.model.SingleElementDefinition;
 
 /**
- * Validator for the form definition elements.
+ * Validator for the form model definition.
  *
  * @author Dmitry Shapovalov
  */
