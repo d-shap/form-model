@@ -28,7 +28,6 @@ import ru.d_shap.formmodel.Messages;
 import ru.d_shap.formmodel.definition.FormDefinitionValidationException;
 import ru.d_shap.formmodel.definition.model.AttributeDefinition;
 import ru.d_shap.formmodel.definition.model.CardinalityDefinition;
-import ru.d_shap.formmodel.definition.model.ChoiceDefinition;
 import ru.d_shap.formmodel.definition.model.ElementDefinition;
 import ru.d_shap.formmodel.definition.model.FormDefinition;
 import ru.d_shap.formmodel.definition.model.FormDefinitionKey;
@@ -36,6 +35,7 @@ import ru.d_shap.formmodel.definition.model.FormReferenceDefinition;
 import ru.d_shap.formmodel.definition.model.NodeDefinition;
 import ru.d_shap.formmodel.definition.model.NodePath;
 import ru.d_shap.formmodel.definition.model.OtherNodeDefinition;
+import ru.d_shap.formmodel.definition.model.SingleElementDefinition;
 
 /**
  * Validator for the form definition.
@@ -81,9 +81,9 @@ final class FormDefinitionValidator implements FormModelDefinitionValidator {
             validateElementDefinition(formDefinition, childElementDefinition, currentNodePath);
             childNodeIds.add(childElementDefinition.getId());
         }
-        for (ChoiceDefinition childChoiceDefinition : formDefinition.getChoiceDefinitions()) {
-            validateChoiceDefinition(formDefinition, childChoiceDefinition, currentNodePath);
-            childNodeIds.add(childChoiceDefinition.getId());
+        for (SingleElementDefinition childSingleElementDefinition : formDefinition.getSingleElementDefinitions()) {
+            validateSingleElementDefinition(formDefinition, childSingleElementDefinition, currentNodePath);
+            childNodeIds.add(childSingleElementDefinition.getId());
         }
         validateUniqueNodeIds(childNodeIds, currentNodePath);
 
@@ -116,13 +116,13 @@ final class FormDefinitionValidator implements FormModelDefinitionValidator {
     public void validateElementDefinition(final NodeDefinition parentNodeDefinition, final ElementDefinition elementDefinition, final NodePath nodePath) {
         NodePath currentNodePath = new NodePath(nodePath, elementDefinition);
 
-        if (parentNodeDefinition instanceof ChoiceDefinition) {
+        if (parentNodeDefinition instanceof SingleElementDefinition) {
             validateEmptyId(elementDefinition.getId(), currentNodePath);
         } else {
             validateId(elementDefinition.getId(), currentNodePath);
         }
         validateLookup(elementDefinition.getLookup(), currentNodePath);
-        if (parentNodeDefinition instanceof ChoiceDefinition) {
+        if (parentNodeDefinition instanceof SingleElementDefinition) {
             validateCardinalityDefinition(elementDefinition.getCardinalityDefinition(), currentNodePath, CardinalityDefinition.OPTIONAL, CardinalityDefinition.OPTIONAL_MULTIPLE);
         } else {
             validateCardinalityDefinition(elementDefinition.getCardinalityDefinition(), currentNodePath, CardinalityDefinition.values());
@@ -140,9 +140,9 @@ final class FormDefinitionValidator implements FormModelDefinitionValidator {
             validateElementDefinition(elementDefinition, childElementDefinition, currentNodePath);
             childNodeIds.add(childElementDefinition.getId());
         }
-        for (ChoiceDefinition childChoiceDefinition : elementDefinition.getChoiceDefinitions()) {
-            validateChoiceDefinition(elementDefinition, childChoiceDefinition, currentNodePath);
-            childNodeIds.add(childChoiceDefinition.getId());
+        for (SingleElementDefinition childSingleElementDefinition : elementDefinition.getSingleElementDefinitions()) {
+            validateSingleElementDefinition(elementDefinition, childSingleElementDefinition, currentNodePath);
+            childNodeIds.add(childSingleElementDefinition.getId());
         }
         validateUniqueNodeIds(childNodeIds, currentNodePath);
 
@@ -159,33 +159,33 @@ final class FormDefinitionValidator implements FormModelDefinitionValidator {
     }
 
     @Override
-    public void validateChoiceDefinition(final NodeDefinition parentNodeDefinition, final ChoiceDefinition choiceDefinition, final NodePath nodePath) {
-        NodePath currentNodePath = new NodePath(nodePath, choiceDefinition);
+    public void validateSingleElementDefinition(final NodeDefinition parentNodeDefinition, final SingleElementDefinition singleElementDefinition, final NodePath nodePath) {
+        NodePath currentNodePath = new NodePath(nodePath, singleElementDefinition);
 
-        if (parentNodeDefinition instanceof ChoiceDefinition) {
-            validateEmptyId(choiceDefinition.getId(), currentNodePath);
+        if (parentNodeDefinition instanceof SingleElementDefinition) {
+            validateEmptyId(singleElementDefinition.getId(), currentNodePath);
         } else {
-            validateId(choiceDefinition.getId(), currentNodePath);
+            validateId(singleElementDefinition.getId(), currentNodePath);
         }
-        if (parentNodeDefinition instanceof ChoiceDefinition) {
-            validateCardinalityDefinition(choiceDefinition.getCardinalityDefinition(), currentNodePath, CardinalityDefinition.OPTIONAL);
+        if (parentNodeDefinition instanceof SingleElementDefinition) {
+            validateCardinalityDefinition(singleElementDefinition.getCardinalityDefinition(), currentNodePath, CardinalityDefinition.OPTIONAL);
         } else {
-            validateCardinalityDefinition(choiceDefinition.getCardinalityDefinition(), currentNodePath, CardinalityDefinition.REQUIRED, CardinalityDefinition.OPTIONAL, CardinalityDefinition.PROHIBITED);
+            validateCardinalityDefinition(singleElementDefinition.getCardinalityDefinition(), currentNodePath, CardinalityDefinition.REQUIRED, CardinalityDefinition.OPTIONAL, CardinalityDefinition.PROHIBITED);
         }
 
         List<String> childNodeIds = new ArrayList<>();
-        for (ElementDefinition childElementDefinition : choiceDefinition.getElementDefinitions()) {
-            validateElementDefinition(choiceDefinition, childElementDefinition, currentNodePath);
+        for (ElementDefinition childElementDefinition : singleElementDefinition.getElementDefinitions()) {
+            validateElementDefinition(singleElementDefinition, childElementDefinition, currentNodePath);
             childNodeIds.add(childElementDefinition.getId());
         }
-        for (ChoiceDefinition childChoiceDefinition : choiceDefinition.getChoiceDefinitions()) {
-            validateChoiceDefinition(choiceDefinition, childChoiceDefinition, currentNodePath);
-            childNodeIds.add(childChoiceDefinition.getId());
+        for (SingleElementDefinition childSingleElementDefinition : singleElementDefinition.getSingleElementDefinitions()) {
+            validateSingleElementDefinition(singleElementDefinition, childSingleElementDefinition, currentNodePath);
+            childNodeIds.add(childSingleElementDefinition.getId());
         }
         validateUniqueNodeIds(childNodeIds, currentNodePath);
 
-        for (OtherNodeDefinition childOtherNodeDefinition : choiceDefinition.getOtherNodeDefinitions()) {
-            validateOtherNodeDefinition(choiceDefinition, childOtherNodeDefinition, currentNodePath);
+        for (OtherNodeDefinition childOtherNodeDefinition : singleElementDefinition.getOtherNodeDefinitions()) {
+            validateOtherNodeDefinition(singleElementDefinition, childOtherNodeDefinition, currentNodePath);
         }
     }
 
