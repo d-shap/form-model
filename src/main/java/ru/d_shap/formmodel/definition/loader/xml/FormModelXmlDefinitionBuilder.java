@@ -28,6 +28,7 @@ import ru.d_shap.formmodel.definition.model.ElementDefinition;
 import ru.d_shap.formmodel.definition.model.FormDefinition;
 import ru.d_shap.formmodel.definition.model.FormReferenceDefinition;
 import ru.d_shap.formmodel.definition.model.NodePath;
+import ru.d_shap.formmodel.definition.model.OtherNodeDefinition;
 import ru.d_shap.formmodel.definition.model.SingleElementDefinition;
 
 /**
@@ -172,5 +173,25 @@ public interface FormModelXmlDefinitionBuilder {
      * @return the form reference definition.
      */
     FormReferenceDefinition createFormReferenceDefinition(Element parentElement, Element element, NodePath nodePath);
+
+    /**
+     * Check if the specified XML element is the other node definition.
+     *
+     * @param element the specified XML element to check.
+     *
+     * @return true if the specified XML element is the other node definition.
+     */
+    boolean isOtherNodeDefinition(Element element);
+
+    /**
+     * Create the other node definition for the specified XML element.
+     *
+     * @param parentElement the parent XML element.
+     * @param element       the specified XML element.
+     * @param nodePath      the current node path.
+     *
+     * @return the other node definition.
+     */
+    OtherNodeDefinition createOtherNodeDefinition(Element parentElement, Element element, NodePath nodePath);
 
 }
