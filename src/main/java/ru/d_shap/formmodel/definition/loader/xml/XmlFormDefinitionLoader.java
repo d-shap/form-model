@@ -55,13 +55,16 @@ final class XmlFormDefinitionLoader implements FormModelXmlDefinitionBuilder {
 
     private final XmlDocumentBuilder _xmlDocumentBuilder;
 
+    private final XmlDocumentValidator _xmlDocumentValidator;
+
     private final List<OtherNodeXmlDefinitionBuilder> _otherNodeXmlDefinitionBuilders;
 
     private final OtherNodeXmlDefinitionBuilder _defaultOtherNodeXmlDefinitionBuilder;
 
-    XmlFormDefinitionLoader(final XmlDocumentBuilder xmlDocumentBuilder, final List<OtherNodeXmlDefinitionBuilder> otherNodeXmlDefinitionBuilders) {
+    XmlFormDefinitionLoader(final XmlDocumentBuilder xmlDocumentBuilder, final XmlDocumentValidator xmlDocumentValidator, final List<OtherNodeXmlDefinitionBuilder> otherNodeXmlDefinitionBuilders) {
         super();
         _xmlDocumentBuilder = xmlDocumentBuilder;
+        _xmlDocumentValidator = xmlDocumentValidator;
         _otherNodeXmlDefinitionBuilders = new ArrayList<>(otherNodeXmlDefinitionBuilders);
         _defaultOtherNodeXmlDefinitionBuilder = new DefaultOtherNodeXmlDefinitionBuilder();
     }
@@ -70,7 +73,7 @@ final class XmlFormDefinitionLoader implements FormModelXmlDefinitionBuilder {
         Document document = _xmlDocumentBuilder.parse(inputSource);
         Element element = document.getDocumentElement();
         if (isFormDefinition(element)) {
-            XmlDocumentValidator.getFormModelDocumentValidator().validate(document);
+            _xmlDocumentValidator.validate(document);
             return createFormDefinition(element, source);
         } else {
             return null;
@@ -193,8 +196,7 @@ final class XmlFormDefinitionLoader implements FormModelXmlDefinitionBuilder {
                 return otherNodeDefinition;
             }
         }
-        OtherNodeDefinition otherNodeDefinition = _defaultOtherNodeXmlDefinitionBuilder.createOtherNodeDefinition(parentElement, element, this, nodePath);
-        return otherNodeDefinition;
+        return _defaultOtherNodeXmlDefinitionBuilder.createOtherNodeDefinition(parentElement, element, this, nodePath);
     }
 
     private String getAttributeValue(final Element element, final String attributeName) {
@@ -237,6 +239,11 @@ final class XmlFormDefinitionLoader implements FormModelXmlDefinitionBuilder {
 
     private void addNodeDefinition(final Element parentElement, final Element element, final List<NodeDefinition> nodeDefinitions, final Set<String> childElementNames, final NodePath nodePath) {
         String localName = element.getTagName();
+        if (ATTRIBUTE_DEFINITION_ELEMENT_NAME.equals(localName) && childElementNames.contains(localName)) {
+            NodeDefinition nodeDefinition = createAttributeDefinition(parentElement, element, nodePath);
+            nodeDefinitions.add(nodeDefinition);
+            return;
+        }
         if (ELEMENT_DEFINITION_ELEMENT_NAME.equals(localName) && childElementNames.contains(localName)) {
             NodeDefinition nodeDefinition = createElementDefinition(parentElement, element, nodePath);
             nodeDefinitions.add(nodeDefinition);
@@ -249,11 +256,6 @@ final class XmlFormDefinitionLoader implements FormModelXmlDefinitionBuilder {
         }
         if (FORM_REFERENCE_DEFINITION_ELEMENT_NAME.equals(localName) && childElementNames.contains(localName)) {
             NodeDefinition nodeDefinition = createFormReferenceDefinition(parentElement, element, nodePath);
-            nodeDefinitions.add(nodeDefinition);
-            return;
-        }
-        if (ATTRIBUTE_DEFINITION_ELEMENT_NAME.equals(localName) && childElementNames.contains(localName)) {
-            NodeDefinition nodeDefinition = createAttributeDefinition(parentElement, element, nodePath);
             nodeDefinitions.add(nodeDefinition);
             return;
         }
