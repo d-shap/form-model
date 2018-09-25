@@ -47,11 +47,11 @@ import ru.d_shap.formmodel.definition.model.OtherNodeDefinition;
 import ru.d_shap.formmodel.definition.model.SingleElementDefinition;
 
 /**
- * Form definition loader, XML implementation.
+ * Builder for the form definition, XML implementation.
  *
  * @author Dmitry Shapovalov
  */
-final class XmlFormDefinitionLoader implements FormModelXmlDefinitionBuilder {
+final class FormXmlDefinitionBuilderImpl implements FormXmlDefinitionBuilder {
 
     private final XmlDocumentBuilder _xmlDocumentBuilder;
 
@@ -61,7 +61,7 @@ final class XmlFormDefinitionLoader implements FormModelXmlDefinitionBuilder {
 
     private final OtherNodeXmlDefinitionBuilder _defaultOtherNodeXmlDefinitionBuilder;
 
-    XmlFormDefinitionLoader(final XmlDocumentBuilder xmlDocumentBuilder, final XmlDocumentValidator xmlDocumentValidator, final List<OtherNodeXmlDefinitionBuilder> otherNodeXmlDefinitionBuilders) {
+    FormXmlDefinitionBuilderImpl(final XmlDocumentBuilder xmlDocumentBuilder, final XmlDocumentValidator xmlDocumentValidator, final List<OtherNodeXmlDefinitionBuilder> otherNodeXmlDefinitionBuilders) {
         super();
         _xmlDocumentBuilder = xmlDocumentBuilder;
         _xmlDocumentValidator = xmlDocumentValidator;
