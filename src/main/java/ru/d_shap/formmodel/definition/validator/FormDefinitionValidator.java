@@ -44,7 +44,7 @@ public interface FormDefinitionValidator {
     boolean isEmptyString(String str);
 
     /**
-     * Check if the string is blank (empty or contains only white spaces).
+     * Check if the string is blank (empty or contains only whitespaces).
      *
      * @param str the string to check.
      *
