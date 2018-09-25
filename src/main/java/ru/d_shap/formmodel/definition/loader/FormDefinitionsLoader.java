@@ -22,26 +22,37 @@ package ru.d_shap.formmodel.definition.loader;
 import java.util.List;
 
 import ru.d_shap.formmodel.definition.model.FormDefinition;
+import ru.d_shap.formmodel.definition.model.FormDefinitions;
 
 /**
- * Base class for all form definition loaders.
+ * Base loader for the form definitions.
  *
  * @author Dmitry Shapovalov
  */
-public abstract class FormDefinitionLoader {
+public abstract class FormDefinitionsLoader {
 
     /**
      * Create new object.
      */
-    protected FormDefinitionLoader() {
+    protected FormDefinitionsLoader() {
         super();
     }
 
     /**
-     * Get the loaded form definitions.
+     * Load the form definitions.
      *
      * @return the loaded form definitions.
      */
-    public abstract List<FormDefinition> getFormDefinitions();
+    public abstract List<FormDefinition> load();
+
+    /**
+     * Load the form definitions and add them to the specified container for all form definitions.
+     *
+     * @param formDefinitions the specified container for all form definitions.
+     */
+    public final void load(final FormDefinitions formDefinitions) {
+        List<FormDefinition> loadedFormDefinition = load();
+        formDefinitions.addFormDefinitions(loadedFormDefinition);
+    }
 
 }
