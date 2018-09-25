@@ -82,11 +82,11 @@ public interface FormModelDefinitionValidator {
     /**
      * Validate the single element definition.
      *
-     * @param parentNodeDefinition the parent node definition.
-     * @param choiceDefinition     the single element definition.
-     * @param nodePath             the current node path.
+     * @param parentNodeDefinition    the parent node definition.
+     * @param singleElementDefinition the single element definition.
+     * @param nodePath                the current node path.
      */
-    void validateSingleElementDefinition(NodeDefinition parentNodeDefinition, SingleElementDefinition choiceDefinition, NodePath nodePath);
+    void validateSingleElementDefinition(NodeDefinition parentNodeDefinition, SingleElementDefinition singleElementDefinition, NodePath nodePath);
 
     /**
      * Validate the form reference definition.
