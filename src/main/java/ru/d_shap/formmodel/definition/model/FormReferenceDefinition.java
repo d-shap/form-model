@@ -34,7 +34,7 @@ import ru.d_shap.formmodel.Messages;
  */
 public final class FormReferenceDefinition implements NodeDefinition {
 
-    public static final String ELEMENT_NAME = "form";
+    public static final String ELEMENT_NAME = "formReference";
 
     public static final String ATTRIBUTE_GROUP = "group";
 
