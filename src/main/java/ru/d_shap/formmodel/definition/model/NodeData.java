@@ -37,7 +37,7 @@ final class NodeData {
 
     private final List<ElementDefinition> _elementDefinitions;
 
-    private final List<ChoiceDefinition> _choiceDefinitions;
+    private final List<SingleElementDefinition> _singleElementDefinitions;
 
     private final List<FormReferenceDefinition> _formReferenceDefinitions;
 
@@ -51,7 +51,7 @@ final class NodeData {
         super();
         List<AttributeDefinition> attributeDefinitions = new ArrayList<>();
         List<ElementDefinition> elementDefinitions = new ArrayList<>();
-        List<ChoiceDefinition> choiceDefinitions = new ArrayList<>();
+        List<SingleElementDefinition> singleElementDefinitions = new ArrayList<>();
         List<FormReferenceDefinition> formReferenceDefinitions = new ArrayList<>();
         List<OtherNodeDefinition> otherNodeDefinitions = new ArrayList<>();
         List<NodeDefinition> allNodeDefinitions = new ArrayList<>();
@@ -65,8 +65,8 @@ final class NodeData {
                     elementDefinitions.add((ElementDefinition) nodeDefinition);
                     allNodeDefinitions.add(nodeDefinition);
                 }
-                if (nodeDefinition instanceof ChoiceDefinition && childElementNames.contains(ChoiceDefinition.ELEMENT_NAME)) {
-                    choiceDefinitions.add((ChoiceDefinition) nodeDefinition);
+                if (nodeDefinition instanceof SingleElementDefinition && childElementNames.contains(SingleElementDefinition.ELEMENT_NAME)) {
+                    singleElementDefinitions.add((SingleElementDefinition) nodeDefinition);
                     allNodeDefinitions.add(nodeDefinition);
                 }
                 if (nodeDefinition instanceof FormReferenceDefinition && childElementNames.contains(FormReferenceDefinition.ELEMENT_NAME)) {
@@ -81,7 +81,7 @@ final class NodeData {
         }
         _attributeDefinitions = Collections.unmodifiableList(attributeDefinitions);
         _elementDefinitions = Collections.unmodifiableList(elementDefinitions);
-        _choiceDefinitions = Collections.unmodifiableList(choiceDefinitions);
+        _singleElementDefinitions = Collections.unmodifiableList(singleElementDefinitions);
         _formReferenceDefinitions = Collections.unmodifiableList(formReferenceDefinitions);
         _otherNodeDefinitions = Collections.unmodifiableList(otherNodeDefinitions);
         _allNodeDefinitions = Collections.unmodifiableList(allNodeDefinitions);
@@ -102,8 +102,8 @@ final class NodeData {
         return _elementDefinitions;
     }
 
-    List<ChoiceDefinition> getChoiceDefinitions() {
-        return _choiceDefinitions;
+    List<SingleElementDefinition> getSingleElementDefinitions() {
+        return _singleElementDefinitions;
     }
 
     List<FormReferenceDefinition> getFormReferenceDefinitions() {
