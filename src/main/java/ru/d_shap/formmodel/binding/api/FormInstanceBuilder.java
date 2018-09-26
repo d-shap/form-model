@@ -89,7 +89,7 @@ public interface FormInstanceBuilder {
      * @param attributeDefinition the specified attribute definition.
      * @param nodePath            the current node path.
      */
-    void bindAttributeInstance(BindedForm lastBindedForm, BindedElement lastBindedElement, Element parentElement, AttributeDefinition attributeDefinition, NodePath nodePath);
+    void buildAttributeInstance(BindedForm lastBindedForm, BindedElement lastBindedElement, Element parentElement, AttributeDefinition attributeDefinition, NodePath nodePath);
 
     /**
      * Create the binded XML element for the specified element definition and attach it to the owner document.
@@ -100,7 +100,7 @@ public interface FormInstanceBuilder {
      * @param elementDefinition the specified element definition.
      * @param nodePath          the current node path.
      */
-    void bindElementInstance(BindedForm lastBindedForm, BindedElement lastBindedElement, Element parentElement, ElementDefinition elementDefinition, NodePath nodePath);
+    void buildElementInstance(BindedForm lastBindedForm, BindedElement lastBindedElement, Element parentElement, ElementDefinition elementDefinition, NodePath nodePath);
 
     /**
      * Create the binded XML element for the specified single element definition and attach it to the owner document.
@@ -111,7 +111,7 @@ public interface FormInstanceBuilder {
      * @param singleElementDefinition the specified single element definition.
      * @param nodePath                the current node path.
      */
-    void bindSingleElementInstance(BindedForm lastBindedForm, BindedElement lastBindedElement, Element parentElement, SingleElementDefinition singleElementDefinition, NodePath nodePath);
+    void buildSingleElementInstance(BindedForm lastBindedForm, BindedElement lastBindedElement, Element parentElement, SingleElementDefinition singleElementDefinition, NodePath nodePath);
 
     /**
      * Create the binded XML element for the specified form reference definition and attach it to the owner document.
@@ -122,7 +122,7 @@ public interface FormInstanceBuilder {
      * @param formReferenceDefinition the specified form reference definition.
      * @param nodePath                the current node path.
      */
-    void bindFormReferenceInstance(BindedForm lastBindedForm, BindedElement lastBindedElement, Element parentElement, FormReferenceDefinition formReferenceDefinition, NodePath nodePath);
+    void buildFormReferenceInstance(BindedForm lastBindedForm, BindedElement lastBindedElement, Element parentElement, FormReferenceDefinition formReferenceDefinition, NodePath nodePath);
 
     /**
      * Create the binded XML element for the specified other node definition and attach it to the owner document.
@@ -133,6 +133,6 @@ public interface FormInstanceBuilder {
      * @param otherNodeDefinition the specified other node definition.
      * @param nodePath            the current node path.
      */
-    void bindOtherNodeInstance(BindedForm lastBindedForm, BindedElement lastBindedElement, Element parentElement, OtherNodeDefinition otherNodeDefinition, NodePath nodePath);
+    void buildOtherNodeInstance(BindedForm lastBindedForm, BindedElement lastBindedElement, Element parentElement, OtherNodeDefinition otherNodeDefinition, NodePath nodePath);
 
 }
