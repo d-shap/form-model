@@ -20,6 +20,7 @@
 package ru.d_shap.formmodel.definition.model;
 
 import ru.d_shap.formmodel.Messages;
+import ru.d_shap.formmodel.NullValueHelper;
 
 /**
  * Form definition key.
@@ -49,11 +50,7 @@ public final class FormDefinitionKey {
      */
     public FormDefinitionKey(final String group, final String id) {
         super();
-        if (group == null) {
-            _group = "";
-        } else {
-            _group = group;
-        }
+        _group = NullValueHelper.getValue(group);
         _id = id;
     }
 
