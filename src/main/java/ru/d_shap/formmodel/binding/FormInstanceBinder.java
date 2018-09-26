@@ -47,9 +47,10 @@ public interface FormInstanceBinder {
     /**
      * Callback method is called before the form definition is binded with the binding source.
      *
-     * @param bindingSource the binding source.
+     * @param bindingSource  the binding source.
+     * @param formDefinition the form definition.
      */
-    void preBind(BindingSource bindingSource);
+    void preBind(BindingSource bindingSource, FormDefinition formDefinition);
 
     /**
      * Bind the form definition with the binding source.
@@ -93,8 +94,9 @@ public interface FormInstanceBinder {
     /**
      * Callback method is called after the form definition is binded with the binding source.
      *
-     * @param bindingSource the binding source.
+     * @param bindingSource  the binding source.
+     * @param formDefinition the form definition.
      */
-    void postBind(BindingSource bindingSource);
+    void postBind(BindingSource bindingSource, FormDefinition formDefinition);
 
 }

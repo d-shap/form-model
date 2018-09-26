@@ -88,10 +88,10 @@ public final class FormBinder {
         XmlDocumentBuilder xmlDocumentBuilder = XmlDocumentBuilder.getDocumentBuilder();
         Document document = xmlDocumentBuilder.newDocument();
         try {
-            _formInstanceBinder.preBind(bindingSource);
+            _formInstanceBinder.preBind(bindingSource, formDefinition);
             _formInstanceBuilder.buildFormInstance(bindingSource, document, formDefinition);
         } finally {
-            _formInstanceBinder.postBind(bindingSource);
+            _formInstanceBinder.postBind(bindingSource, formDefinition);
         }
         XmlDocumentValidator.getFormInstanceDocumentValidator().validate(document);
         return document;
