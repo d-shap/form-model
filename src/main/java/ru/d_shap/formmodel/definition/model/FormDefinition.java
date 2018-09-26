@@ -26,6 +26,7 @@ import java.util.Map;
 import java.util.Set;
 
 import ru.d_shap.formmodel.Messages;
+import ru.d_shap.formmodel.NullValueHelper;
 
 /**
  * Node definition to define the form.
@@ -78,11 +79,7 @@ public final class FormDefinition implements NodeDefinition {
      */
     public FormDefinition(final String group, final String id, final List<NodeDefinition> nodeDefinitions, final Map<String, String> otherAttributes, final String source) {
         super();
-        if (group == null) {
-            _group = "";
-        } else {
-            _group = group;
-        }
+        _group = NullValueHelper.getValue(group);
         _id = id;
         _nodeData = new NodeData(nodeDefinitions, CHILD_ELEMENT_NAMES, otherAttributes, ATTRIBUTE_NAMES);
         _source = source;
