@@ -39,7 +39,7 @@ public final class FormBinder {
 
     private final FormDefinitions _formDefinitions;
 
-    private FormInstanceBinder _formInstanceBinder;
+    private final FormInstanceBinder _formInstanceBinder;
 
     private final FormInstanceBuilderImpl _formInstanceBuilder;
 
