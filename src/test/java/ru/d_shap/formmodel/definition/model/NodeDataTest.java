@@ -60,8 +60,8 @@ public final class NodeDataTest extends BaseFormModelTest {
         ElementDefinition elementDefinition = new ElementDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
         Assertions.assertThat(new NodeData(createNodeDefinitions(elementDefinition), createValidElements(), null, createSkipAttributes()).getAttributeDefinitions()).isEmpty();
 
-        ChoiceDefinition choiceDefinition = new ChoiceDefinition("id", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
-        Assertions.assertThat(new NodeData(createNodeDefinitions(choiceDefinition), createValidElements(), null, createSkipAttributes()).getAttributeDefinitions()).isEmpty();
+        SingleElementDefinition singleElementDefinition = new SingleElementDefinition("id", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
+        Assertions.assertThat(new NodeData(createNodeDefinitions(singleElementDefinition), createValidElements(), null, createSkipAttributes()).getAttributeDefinitions()).isEmpty();
 
         FormReferenceDefinition formReferenceDefinition = new FormReferenceDefinition("group", "id", createNodeDefinitions(), createOtherAttributes());
         Assertions.assertThat(new NodeData(createNodeDefinitions(formReferenceDefinition), createValidElements(), null, createSkipAttributes()).getAttributeDefinitions()).isEmpty();
@@ -103,8 +103,8 @@ public final class NodeDataTest extends BaseFormModelTest {
         Assertions.assertThat(new NodeData(createNodeDefinitions(elementDefinition1, elementDefinition2), createValidElements(), null, createSkipAttributes()).getElementDefinitions().get(0)).isSameAs(elementDefinition1);
         Assertions.assertThat(new NodeData(createNodeDefinitions(elementDefinition1, elementDefinition2), createValidElements(), null, createSkipAttributes()).getElementDefinitions().get(1)).isSameAs(elementDefinition2);
 
-        ChoiceDefinition choiceDefinition = new ChoiceDefinition("id", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
-        Assertions.assertThat(new NodeData(createNodeDefinitions(choiceDefinition), createValidElements(), null, createSkipAttributes()).getElementDefinitions()).isEmpty();
+        SingleElementDefinition singleElementDefinition = new SingleElementDefinition("id", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
+        Assertions.assertThat(new NodeData(createNodeDefinitions(singleElementDefinition), createValidElements(), null, createSkipAttributes()).getElementDefinitions()).isEmpty();
 
         FormReferenceDefinition formReferenceDefinition = new FormReferenceDefinition("group", "id", createNodeDefinitions(), createOtherAttributes());
         Assertions.assertThat(new NodeData(createNodeDefinitions(formReferenceDefinition), createValidElements(), null, createSkipAttributes()).getElementDefinitions()).isEmpty();
@@ -128,43 +128,43 @@ public final class NodeDataTest extends BaseFormModelTest {
      * {@link NodeData} class test.
      */
     @Test
-    public void getChoiceDefinitionsTest() {
-        Assertions.assertThat(new NodeData(null, createValidElements(), null, createSkipAttributes()).getChoiceDefinitions()).isEmpty();
+    public void getSingleElementDefinitionsTest() {
+        Assertions.assertThat(new NodeData(null, createValidElements(), null, createSkipAttributes()).getSingleElementDefinitions()).isEmpty();
 
-        Assertions.assertThat(new NodeData(createNodeDefinitions(), createValidElements(), null, createSkipAttributes()).getChoiceDefinitions()).isEmpty();
+        Assertions.assertThat(new NodeData(createNodeDefinitions(), createValidElements(), null, createSkipAttributes()).getSingleElementDefinitions()).isEmpty();
 
         AttributeDefinition attributeDefinition = new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
-        Assertions.assertThat(new NodeData(createNodeDefinitions(attributeDefinition), createValidElements(), null, createSkipAttributes()).getChoiceDefinitions()).isEmpty();
+        Assertions.assertThat(new NodeData(createNodeDefinitions(attributeDefinition), createValidElements(), null, createSkipAttributes()).getSingleElementDefinitions()).isEmpty();
 
         ElementDefinition elementDefinition = new ElementDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
-        Assertions.assertThat(new NodeData(createNodeDefinitions(elementDefinition), createValidElements(), null, createSkipAttributes()).getChoiceDefinitions()).isEmpty();
+        Assertions.assertThat(new NodeData(createNodeDefinitions(elementDefinition), createValidElements(), null, createSkipAttributes()).getSingleElementDefinitions()).isEmpty();
 
-        ChoiceDefinition choiceDefinition1 = new ChoiceDefinition("id", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
-        Assertions.assertThat(new NodeData(createNodeDefinitions(choiceDefinition1), createValidElements("value"), null, createSkipAttributes()).getChoiceDefinitions()).isEmpty();
-        Assertions.assertThat(new NodeData(createNodeDefinitions(choiceDefinition1), createValidElements(), null, createSkipAttributes()).getChoiceDefinitions()).hasSize(1);
-        Assertions.assertThat(new NodeData(createNodeDefinitions(choiceDefinition1), createValidElements(), null, createSkipAttributes()).getChoiceDefinitions().get(0)).isSameAs(choiceDefinition1);
-        ChoiceDefinition choiceDefinition2 = new ChoiceDefinition("id", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
-        Assertions.assertThat(new NodeData(createNodeDefinitions(choiceDefinition1, choiceDefinition2), createValidElements("value"), null, createSkipAttributes()).getChoiceDefinitions()).isEmpty();
-        Assertions.assertThat(new NodeData(createNodeDefinitions(choiceDefinition1, choiceDefinition2), createValidElements(), null, createSkipAttributes()).getChoiceDefinitions()).hasSize(2);
-        Assertions.assertThat(new NodeData(createNodeDefinitions(choiceDefinition1, choiceDefinition2), createValidElements(), null, createSkipAttributes()).getChoiceDefinitions().get(0)).isSameAs(choiceDefinition1);
-        Assertions.assertThat(new NodeData(createNodeDefinitions(choiceDefinition1, choiceDefinition2), createValidElements(), null, createSkipAttributes()).getChoiceDefinitions().get(1)).isSameAs(choiceDefinition2);
+        SingleElementDefinition singleElementDefinition1 = new SingleElementDefinition("id", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
+        Assertions.assertThat(new NodeData(createNodeDefinitions(singleElementDefinition1), createValidElements("value"), null, createSkipAttributes()).getSingleElementDefinitions()).isEmpty();
+        Assertions.assertThat(new NodeData(createNodeDefinitions(singleElementDefinition1), createValidElements(), null, createSkipAttributes()).getSingleElementDefinitions()).hasSize(1);
+        Assertions.assertThat(new NodeData(createNodeDefinitions(singleElementDefinition1), createValidElements(), null, createSkipAttributes()).getSingleElementDefinitions().get(0)).isSameAs(singleElementDefinition1);
+        SingleElementDefinition singleElementDefinition2 = new SingleElementDefinition("id", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
+        Assertions.assertThat(new NodeData(createNodeDefinitions(singleElementDefinition1, singleElementDefinition2), createValidElements("value"), null, createSkipAttributes()).getSingleElementDefinitions()).isEmpty();
+        Assertions.assertThat(new NodeData(createNodeDefinitions(singleElementDefinition1, singleElementDefinition2), createValidElements(), null, createSkipAttributes()).getSingleElementDefinitions()).hasSize(2);
+        Assertions.assertThat(new NodeData(createNodeDefinitions(singleElementDefinition1, singleElementDefinition2), createValidElements(), null, createSkipAttributes()).getSingleElementDefinitions().get(0)).isSameAs(singleElementDefinition1);
+        Assertions.assertThat(new NodeData(createNodeDefinitions(singleElementDefinition1, singleElementDefinition2), createValidElements(), null, createSkipAttributes()).getSingleElementDefinitions().get(1)).isSameAs(singleElementDefinition2);
 
         FormReferenceDefinition formReferenceDefinition = new FormReferenceDefinition("group", "id", createNodeDefinitions(), createOtherAttributes());
-        Assertions.assertThat(new NodeData(createNodeDefinitions(formReferenceDefinition), createValidElements(), null, createSkipAttributes()).getChoiceDefinitions()).isEmpty();
+        Assertions.assertThat(new NodeData(createNodeDefinitions(formReferenceDefinition), createValidElements(), null, createSkipAttributes()).getSingleElementDefinitions()).isEmpty();
 
         OtherNodeDefinition otherNodeDefinition = new OtherNodeDefinitionImpl("", true);
-        Assertions.assertThat(new NodeData(createNodeDefinitions(otherNodeDefinition), createValidElements(), null, createSkipAttributes()).getChoiceDefinitions()).isEmpty();
+        Assertions.assertThat(new NodeData(createNodeDefinitions(otherNodeDefinition), createValidElements(), null, createSkipAttributes()).getSingleElementDefinitions()).isEmpty();
 
         NodeDefinition nodeDefinition = new NodeDefinitionImpl();
-        Assertions.assertThat(new NodeData(createNodeDefinitions(nodeDefinition), createValidElements(), null, createSkipAttributes()).getChoiceDefinitions()).isEmpty();
+        Assertions.assertThat(new NodeData(createNodeDefinitions(nodeDefinition), createValidElements(), null, createSkipAttributes()).getSingleElementDefinitions()).isEmpty();
     }
 
     /**
      * {@link NodeData} class test.
      */
     @Test(expected = UnsupportedOperationException.class)
-    public void getChoiceDefinitionsUpdateFailTest() {
-        new NodeData(null, createValidElements(), null, createSkipAttributes()).getChoiceDefinitions().add(null);
+    public void getSingleElementDefinitionsUpdateFailTest() {
+        new NodeData(null, createValidElements(), null, createSkipAttributes()).getSingleElementDefinitions().add(null);
     }
 
     /**
@@ -182,8 +182,8 @@ public final class NodeDataTest extends BaseFormModelTest {
         ElementDefinition elementDefinition = new ElementDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
         Assertions.assertThat(new NodeData(createNodeDefinitions(elementDefinition), createValidElements(), null, createSkipAttributes()).getFormReferenceDefinitions()).isEmpty();
 
-        ChoiceDefinition choiceDefinition = new ChoiceDefinition("id", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
-        Assertions.assertThat(new NodeData(createNodeDefinitions(choiceDefinition), createValidElements(), null, createSkipAttributes()).getFormReferenceDefinitions()).isEmpty();
+        SingleElementDefinition singleElementDefinition = new SingleElementDefinition("id", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
+        Assertions.assertThat(new NodeData(createNodeDefinitions(singleElementDefinition), createValidElements(), null, createSkipAttributes()).getFormReferenceDefinitions()).isEmpty();
 
         FormReferenceDefinition formReferenceDefinition1 = new FormReferenceDefinition("group", "id", createNodeDefinitions(), createOtherAttributes());
         Assertions.assertThat(new NodeData(createNodeDefinitions(formReferenceDefinition1), createValidElements("value"), null, createSkipAttributes()).getFormReferenceDefinitions()).isEmpty();
@@ -225,8 +225,8 @@ public final class NodeDataTest extends BaseFormModelTest {
         ElementDefinition elementDefinition = new ElementDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
         Assertions.assertThat(new NodeData(createNodeDefinitions(elementDefinition), createValidElements(), null, createSkipAttributes()).getOtherNodeDefinitions()).isEmpty();
 
-        ChoiceDefinition choiceDefinition = new ChoiceDefinition("id", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
-        Assertions.assertThat(new NodeData(createNodeDefinitions(choiceDefinition), createValidElements(), null, createSkipAttributes()).getOtherNodeDefinitions()).isEmpty();
+        SingleElementDefinition singleElementDefinition = new SingleElementDefinition("id", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
+        Assertions.assertThat(new NodeData(createNodeDefinitions(singleElementDefinition), createValidElements(), null, createSkipAttributes()).getOtherNodeDefinitions()).isEmpty();
 
         FormReferenceDefinition formReferenceDefinition = new FormReferenceDefinition("group", "id", createNodeDefinitions(), createOtherAttributes());
         Assertions.assertThat(new NodeData(createNodeDefinitions(formReferenceDefinition), createValidElements(), null, createSkipAttributes()).getOtherNodeDefinitions()).isEmpty();
@@ -249,6 +249,54 @@ public final class NodeDataTest extends BaseFormModelTest {
     @Test(expected = UnsupportedOperationException.class)
     public void getOtherNodeDefinitionsUpdateFailTest() {
         new NodeData(null, createValidElements(), null, createSkipAttributes()).getOtherNodeDefinitions().add(null);
+    }
+
+    /**
+     * {@link NodeData} class test.
+     */
+    @Test
+    public void getAllNodeDefinitionsTest() {
+        Assertions.assertThat(new NodeData(null, createValidElements(), null, createSkipAttributes()).getAllNodeDefinitions()).isEmpty();
+
+        Assertions.assertThat(new NodeData(createNodeDefinitions(), createValidElements(), null, createSkipAttributes()).getAllNodeDefinitions()).isEmpty();
+
+        AttributeDefinition attributeDefinition = new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
+        Assertions.assertThat(new NodeData(createNodeDefinitions(attributeDefinition), createValidElements(), null, createSkipAttributes()).getAllNodeDefinitions()).hasSize(1);
+        Assertions.assertThat(new NodeData(createNodeDefinitions(attributeDefinition), createValidElements(), null, createSkipAttributes()).getAllNodeDefinitions().get(0)).isSameAs(attributeDefinition);
+        Assertions.assertThat(new NodeData(createNodeDefinitions(attributeDefinition), createValidElements("value"), null, createSkipAttributes()).getAllNodeDefinitions()).isEmpty();
+
+        ElementDefinition elementDefinition = new ElementDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
+        Assertions.assertThat(new NodeData(createNodeDefinitions(elementDefinition), createValidElements(), null, createSkipAttributes()).getAllNodeDefinitions()).hasSize(1);
+        Assertions.assertThat(new NodeData(createNodeDefinitions(elementDefinition), createValidElements(), null, createSkipAttributes()).getAllNodeDefinitions().get(0)).isSameAs(elementDefinition);
+        Assertions.assertThat(new NodeData(createNodeDefinitions(elementDefinition), createValidElements("value"), null, createSkipAttributes()).getAllNodeDefinitions()).isEmpty();
+
+        SingleElementDefinition singleElementDefinition = new SingleElementDefinition("id", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
+        Assertions.assertThat(new NodeData(createNodeDefinitions(singleElementDefinition), createValidElements(), null, createSkipAttributes()).getAllNodeDefinitions()).hasSize(1);
+        Assertions.assertThat(new NodeData(createNodeDefinitions(singleElementDefinition), createValidElements(), null, createSkipAttributes()).getAllNodeDefinitions().get(0)).isSameAs(singleElementDefinition);
+        Assertions.assertThat(new NodeData(createNodeDefinitions(singleElementDefinition), createValidElements("value"), null, createSkipAttributes()).getAllNodeDefinitions()).isEmpty();
+
+        FormReferenceDefinition formReferenceDefinition = new FormReferenceDefinition("group", "id", createNodeDefinitions(), createOtherAttributes());
+        Assertions.assertThat(new NodeData(createNodeDefinitions(formReferenceDefinition), createValidElements(), null, createSkipAttributes()).getAllNodeDefinitions()).hasSize(1);
+        Assertions.assertThat(new NodeData(createNodeDefinitions(formReferenceDefinition), createValidElements(), null, createSkipAttributes()).getAllNodeDefinitions().get(0)).isSameAs(formReferenceDefinition);
+        Assertions.assertThat(new NodeData(createNodeDefinitions(formReferenceDefinition), createValidElements("value"), null, createSkipAttributes()).getAllNodeDefinitions()).isEmpty();
+
+        OtherNodeDefinition otherNodeDefinition = new OtherNodeDefinitionImpl("", true);
+        Assertions.assertThat(new NodeData(createNodeDefinitions(otherNodeDefinition), createValidElements(), null, createSkipAttributes()).getAllNodeDefinitions()).hasSize(1);
+        Assertions.assertThat(new NodeData(createNodeDefinitions(otherNodeDefinition), createValidElements(), null, createSkipAttributes()).getAllNodeDefinitions().get(0)).isSameAs(otherNodeDefinition);
+        Assertions.assertThat(new NodeData(createNodeDefinitions(otherNodeDefinition), createValidElements("value"), null, createSkipAttributes()).getAllNodeDefinitions()).hasSize(1);
+        Assertions.assertThat(new NodeData(createNodeDefinitions(otherNodeDefinition), createValidElements("value"), null, createSkipAttributes()).getAllNodeDefinitions().get(0)).isSameAs(otherNodeDefinition);
+
+        NodeDefinition nodeDefinition = new NodeDefinitionImpl();
+        Assertions.assertThat(new NodeData(createNodeDefinitions(nodeDefinition), createValidElements(), null, createSkipAttributes()).getAllNodeDefinitions()).isEmpty();
+        Assertions.assertThat(new NodeData(createNodeDefinitions(nodeDefinition), createValidElements("value"), null, createSkipAttributes()).getAllNodeDefinitions()).isEmpty();
+    }
+
+    /**
+     * {@link NodeData} class test.
+     */
+    @Test(expected = UnsupportedOperationException.class)
+    public void getAllNodeDefinitionsUpdateFailTest() {
+        new NodeData(null, createValidElements(), null, createSkipAttributes()).getAllNodeDefinitions().add(null);
     }
 
     /**
