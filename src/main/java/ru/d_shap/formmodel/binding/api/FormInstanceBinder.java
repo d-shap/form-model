@@ -32,11 +32,11 @@ import ru.d_shap.formmodel.definition.model.ElementDefinition;
 import ru.d_shap.formmodel.definition.model.FormDefinition;
 
 /**
- * Binder instance binds form model definition elements with the binding source.
+ * Form instance binder binds form model definition with the binding source.
  *
  * @author Dmitry Shapovalov
  */
-public interface Binder {
+public interface FormInstanceBinder {
 
     String BINDED_OBJECT_KEY = "__BINDED_OBJECT_KEY__";
 
