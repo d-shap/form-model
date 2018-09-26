@@ -36,13 +36,13 @@ public interface OtherNodeInstanceBuilder {
     /**
      * Create the binded XML element for the specified other node definition and attach it to the owner document.
      *
-     * @param lastBindedForm           the last binded form.
-     * @param lastBindedElement        the last binded element.
-     * @param parentElement            the parent XML element.
-     * @param otherNodeDefinition      the specified other node definition.
-     * @param formModelInstanceBuilder builder for the form instance elements.
-     * @param nodePath                 the current node path.
+     * @param lastBindedForm      the last binded form.
+     * @param lastBindedElement   the last binded element.
+     * @param parentElement       the parent XML element.
+     * @param otherNodeDefinition the specified other node definition.
+     * @param formInstanceBuilder builder for the form instance.
+     * @param nodePath            the current node path.
      */
-    void addOtherNodeInstance(BindedForm lastBindedForm, BindedElement lastBindedElement, Element parentElement, OtherNodeDefinition otherNodeDefinition, FormModelInstanceBuilder formModelInstanceBuilder, NodePath nodePath);
+    void buildOtherNodeInstance(BindedForm lastBindedForm, BindedElement lastBindedElement, Element parentElement, OtherNodeDefinition otherNodeDefinition, FormInstanceBuilder formInstanceBuilder, NodePath nodePath);
 
 }
