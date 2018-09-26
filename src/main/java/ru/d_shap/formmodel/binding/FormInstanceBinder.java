@@ -32,7 +32,7 @@ import ru.d_shap.formmodel.definition.model.ElementDefinition;
 import ru.d_shap.formmodel.definition.model.FormDefinition;
 
 /**
- * Form instance binder binds form model definition with the binding source.
+ * Form instance binder binds form definition with the binding source.
  *
  * @author Dmitry Shapovalov
  */
