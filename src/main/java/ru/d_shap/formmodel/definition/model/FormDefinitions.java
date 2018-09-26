@@ -19,10 +19,12 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.formmodel.definition.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import ru.d_shap.formmodel.NullValueHelper;
 import ru.d_shap.formmodel.definition.FormDefinitionNotFoundException;
 import ru.d_shap.formmodel.definition.validator.FormDefinitionsValidator;
 
@@ -119,6 +121,33 @@ public final class FormDefinitions {
         } else {
             return formDefinition;
         }
+    }
+
+    /**
+     * Get all form definitions.
+     *
+     * @return all form definitions.
+     */
+    public List<FormDefinition> getFormDefinitions() {
+        return new ArrayList<>(_formDefinitions.values());
+    }
+
+    /**
+     * Get all form definitions for the specified form's group.
+     *
+     * @param group the specified form's group.
+     *
+     * @return all form definitions.
+     */
+    public List<FormDefinition> getFormDefinitions(final String group) {
+        List<FormDefinition> result = new ArrayList<>();
+        String validGroup = NullValueHelper.getValue(group);
+        for (FormDefinition formDefinition : _formDefinitions.values()) {
+            if (validGroup.equals(formDefinition.getGroup())) {
+                result.add(formDefinition);
+            }
+        }
+        return result;
     }
 
 }
