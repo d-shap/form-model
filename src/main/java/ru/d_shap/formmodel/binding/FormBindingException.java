@@ -38,7 +38,15 @@ public final class FormBindingException extends FormModelException {
      * @param nodePath node path.
      */
     public FormBindingException(final String message, final NodePath nodePath) {
-        super(message + " (" + nodePath + ")");
+        super(getMessage(message, nodePath));
+    }
+
+    private static String getMessage(final String message, final NodePath nodePath) {
+        if (nodePath == null) {
+            return String.valueOf(message);
+        } else {
+            return message + ", " + nodePath;
+        }
     }
 
 }
