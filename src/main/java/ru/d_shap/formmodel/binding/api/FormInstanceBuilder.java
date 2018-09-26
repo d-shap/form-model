@@ -34,11 +34,11 @@ import ru.d_shap.formmodel.definition.model.OtherNodeDefinition;
 import ru.d_shap.formmodel.definition.model.SingleElementDefinition;
 
 /**
- * Builder for the form instance elements.
+ * Builder for the form instance.
  *
  * @author Dmitry Shapovalov
  */
-public interface FormModelInstanceBuilder {
+public interface FormInstanceBuilder {
 
     String NAMESPACE = "http://d-shap.ru/schema/form-instance/1.0";
 
