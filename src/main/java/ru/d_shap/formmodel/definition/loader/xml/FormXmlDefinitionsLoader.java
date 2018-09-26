@@ -49,11 +49,7 @@ public abstract class FormXmlDefinitionsLoader extends FormDefinitionsLoader {
      * Create new object.
      */
     protected FormXmlDefinitionsLoader() {
-        super();
-        _xmlDocumentBuilder = XmlDocumentBuilder.getDocumentBuilder();
-        _xmlDocumentValidator = XmlDocumentValidator.getFormModelDocumentValidator();
-        List<OtherNodeXmlDefinitionBuilder> otherNodeXmlDefinitionBuilders = ServiceFinder.find(OtherNodeXmlDefinitionBuilder.class);
-        _formXmlDefinitionBuilder = new FormXmlDefinitionBuilderImpl(otherNodeXmlDefinitionBuilders);
+        this(null);
     }
 
     /**
@@ -77,7 +73,7 @@ public abstract class FormXmlDefinitionsLoader extends FormDefinitionsLoader {
      *
      * @return the form definition.
      */
-    protected final FormDefinition load(final InputSource inputSource, final String source) {
+    protected final FormDefinition getFormDefinition(final InputSource inputSource, final String source) {
         Document document = _xmlDocumentBuilder.parse(inputSource);
         Element element = document.getDocumentElement();
         if (_formXmlDefinitionBuilder.isFormDefinition(element)) {
