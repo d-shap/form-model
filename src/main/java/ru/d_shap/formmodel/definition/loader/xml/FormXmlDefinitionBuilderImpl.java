@@ -217,23 +217,23 @@ final class FormXmlDefinitionBuilderImpl implements FormXmlDefinitionBuilder {
     }
 
     private void addNodeDefinition(final Element parentElement, final Element element, final List<NodeDefinition> nodeDefinitions, final Set<String> childElementNames, final NodePath nodePath) {
-        String localName = element.getTagName();
-        if (ATTRIBUTE_DEFINITION_ELEMENT_NAME.equals(localName) && childElementNames.contains(localName)) {
+        String tagName = element.getTagName();
+        if (ATTRIBUTE_DEFINITION_ELEMENT_NAME.equals(tagName) && childElementNames.contains(tagName)) {
             NodeDefinition nodeDefinition = createAttributeDefinition(parentElement, element, nodePath);
             nodeDefinitions.add(nodeDefinition);
             return;
         }
-        if (ELEMENT_DEFINITION_ELEMENT_NAME.equals(localName) && childElementNames.contains(localName)) {
+        if (ELEMENT_DEFINITION_ELEMENT_NAME.equals(tagName) && childElementNames.contains(tagName)) {
             NodeDefinition nodeDefinition = createElementDefinition(parentElement, element, nodePath);
             nodeDefinitions.add(nodeDefinition);
             return;
         }
-        if (SINGLE_ELEMENT_DEFINITION_ELEMENT_NAME.equals(localName) && childElementNames.contains(localName)) {
+        if (SINGLE_ELEMENT_DEFINITION_ELEMENT_NAME.equals(tagName) && childElementNames.contains(tagName)) {
             NodeDefinition nodeDefinition = createSingleElementDefinition(parentElement, element, nodePath);
             nodeDefinitions.add(nodeDefinition);
             return;
         }
-        if (FORM_REFERENCE_DEFINITION_ELEMENT_NAME.equals(localName) && childElementNames.contains(localName)) {
+        if (FORM_REFERENCE_DEFINITION_ELEMENT_NAME.equals(tagName) && childElementNames.contains(tagName)) {
             NodeDefinition nodeDefinition = createFormReferenceDefinition(parentElement, element, nodePath);
             nodeDefinitions.add(nodeDefinition);
             return;
