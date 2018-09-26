@@ -41,14 +41,6 @@ public final class Messages {
         super();
     }
 
-    private static String getValueOrEmpty(final String value) {
-        if (value == null) {
-            return "";
-        } else {
-            return value;
-        }
-    }
-
     /**
      * Helper class to create node representation messages.
      *
@@ -70,7 +62,7 @@ public final class Messages {
          * @return the form definition representation.
          */
         public static String getFormDefinitionRepresentation(final String source, final String group, final String id) {
-            return "{" + getValueOrEmpty(source) + "}" + FormDefinition.ELEMENT_NAME + "[" + getIdRepresentation(group, id) + "]";
+            return "{" + NullValueHelper.getValue(source) + "}" + FormDefinition.ELEMENT_NAME + "[" + getIdRepresentation(group, id) + "]";
         }
 
         /**
@@ -126,7 +118,7 @@ public final class Messages {
          * @return the node's ID representation.
          */
         public static String getIdRepresentation(final String id) {
-            return "@" + getValueOrEmpty(id);
+            return "@" + NullValueHelper.getValue(id);
         }
 
         /**
@@ -138,7 +130,7 @@ public final class Messages {
          * @return the node's ID representation.
          */
         public static String getIdRepresentation(final String group, final String id) {
-            return "@" + getValueOrEmpty(group) + ":" + getValueOrEmpty(id);
+            return "@" + NullValueHelper.getValue(group) + ":" + NullValueHelper.getValue(id);
         }
 
         /**
