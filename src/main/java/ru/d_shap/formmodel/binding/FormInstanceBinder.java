@@ -32,7 +32,7 @@ import ru.d_shap.formmodel.definition.model.ElementDefinition;
 import ru.d_shap.formmodel.definition.model.FormDefinition;
 
 /**
- * Form instance binder to bind form definition with the binding source.
+ * Form instance binder to bind the form definition with the binding source.
  *
  * @author Dmitry Shapovalov
  */
@@ -43,6 +43,13 @@ public interface FormInstanceBinder {
     String ELEMENT_DEFINITION_KEY = "__ELEMENT_DEFINITION_KEY__";
 
     String FORM_DEFINITION_KEY = "__FORM_DEFINITION_KEY__";
+
+    /**
+     * Callback method is called before the form definition is binded with the binding source.
+     *
+     * @param bindingSource the binding source.
+     */
+    void preBind(BindingSource bindingSource);
 
     /**
      * Bind the form definition with the binding source.
@@ -82,5 +89,12 @@ public interface FormInstanceBinder {
      * @return the binded attribute.
      */
     BindedAttribute bindAttributeDefinition(BindingSource bindingSource, BindedForm lastBindedForm, BindedElement lastBindedElement, Element parentElement, AttributeDefinition attributeDefinition);
+
+    /**
+     * Callback method is called after the form definition is binded with the binding source.
+     *
+     * @param bindingSource the binding source.
+     */
+    void postBind(BindingSource bindingSource);
 
 }
