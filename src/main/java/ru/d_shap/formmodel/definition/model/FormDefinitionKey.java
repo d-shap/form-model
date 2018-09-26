@@ -106,7 +106,7 @@ public final class FormDefinitionKey {
 
     @Override
     public int hashCode() {
-        return _group.hashCode() * 13 + _id.hashCode();
+        return _group.hashCode() * 23 + _id.hashCode();
     }
 
     @Override
