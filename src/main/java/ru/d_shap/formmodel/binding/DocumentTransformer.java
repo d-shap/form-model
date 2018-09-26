@@ -48,7 +48,7 @@ public final class DocumentTransformer {
      * @param document the XML document.
      * @param writer   the specified writer
      *
-     * @throws IOException          IO Exception.
+     * @throws IOException          IO exception.
      * @throws TransformerException transformer exception.
      */
     public static void writeTo(final Document document, final Writer writer) throws IOException, TransformerException {
