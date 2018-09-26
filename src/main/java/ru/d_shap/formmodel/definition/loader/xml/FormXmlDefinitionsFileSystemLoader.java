@@ -51,7 +51,7 @@ public final class FormXmlDefinitionsFileSystemLoader extends FormXmlDefinitions
      * @param file the source file or directory.
      */
     public FormXmlDefinitionsFileSystemLoader(final File file) {
-        this(file, (FileFilter) null);
+        this(file, null, null);
     }
 
     /**
@@ -61,13 +61,7 @@ public final class FormXmlDefinitionsFileSystemLoader extends FormXmlDefinitions
      * @param fileFilter the file filter.
      */
     public FormXmlDefinitionsFileSystemLoader(final File file, final FileFilter fileFilter) {
-        super();
-        _file = file;
-        if (fileFilter == null) {
-            _fileFilter = new DefaultFileFilter();
-        } else {
-            _fileFilter = fileFilter;
-        }
+        this(file, fileFilter, null);
     }
 
     /**
@@ -126,7 +120,7 @@ public final class FormXmlDefinitionsFileSystemLoader extends FormXmlDefinitions
         try {
             try (FileInputStream inputStream = new FileInputStream(file)) {
                 InputSource inputSource = new InputSource(inputStream);
-                FormDefinition formDefinition = load(inputSource, file.getAbsolutePath().substring(fileRootPathLength));
+                FormDefinition formDefinition = getFormDefinition(inputSource, file.getAbsolutePath().substring(fileRootPathLength));
                 if (formDefinition != null) {
                     formDefinitions.add(formDefinition);
                 }
