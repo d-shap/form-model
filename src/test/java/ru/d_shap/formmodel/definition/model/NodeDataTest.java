@@ -289,6 +289,13 @@ public final class NodeDataTest extends BaseFormModelTest {
         NodeDefinition nodeDefinition = new NodeDefinitionImpl();
         Assertions.assertThat(new NodeData(createNodeDefinitions(nodeDefinition), createValidElements(), null, createSkipAttributes()).getAllNodeDefinitions()).isEmpty();
         Assertions.assertThat(new NodeData(createNodeDefinitions(nodeDefinition), createValidElements("value"), null, createSkipAttributes()).getAllNodeDefinitions()).isEmpty();
+
+        Assertions.assertThat(new NodeData(createNodeDefinitions(attributeDefinition, elementDefinition, singleElementDefinition, formReferenceDefinition, otherNodeDefinition, nodeDefinition), createValidElements(), null, createSkipAttributes()).getAllNodeDefinitions()).hasSize(5);
+        Assertions.assertThat(new NodeData(createNodeDefinitions(attributeDefinition, elementDefinition, singleElementDefinition, formReferenceDefinition, otherNodeDefinition, nodeDefinition), createValidElements(), null, createSkipAttributes()).getAllNodeDefinitions().get(0)).isSameAs(attributeDefinition);
+        Assertions.assertThat(new NodeData(createNodeDefinitions(attributeDefinition, elementDefinition, singleElementDefinition, formReferenceDefinition, otherNodeDefinition, nodeDefinition), createValidElements(), null, createSkipAttributes()).getAllNodeDefinitions().get(1)).isSameAs(elementDefinition);
+        Assertions.assertThat(new NodeData(createNodeDefinitions(attributeDefinition, elementDefinition, singleElementDefinition, formReferenceDefinition, otherNodeDefinition, nodeDefinition), createValidElements(), null, createSkipAttributes()).getAllNodeDefinitions().get(2)).isSameAs(singleElementDefinition);
+        Assertions.assertThat(new NodeData(createNodeDefinitions(attributeDefinition, elementDefinition, singleElementDefinition, formReferenceDefinition, otherNodeDefinition, nodeDefinition), createValidElements(), null, createSkipAttributes()).getAllNodeDefinitions().get(3)).isSameAs(formReferenceDefinition);
+        Assertions.assertThat(new NodeData(createNodeDefinitions(attributeDefinition, elementDefinition, singleElementDefinition, formReferenceDefinition, otherNodeDefinition, nodeDefinition), createValidElements(), null, createSkipAttributes()).getAllNodeDefinitions().get(4)).isSameAs(otherNodeDefinition);
     }
 
     /**
