@@ -216,7 +216,7 @@ final class FormDefinitionValidatorImpl implements FormDefinitionValidator {
     }
 
     private void validateEmptyId(final String id, final NodePath nodePath) {
-        if (!isBlankString(id)) {
+        if (!isEmptyString(id)) {
             throw new FormDefinitionValidationException(Messages.Validation.getIdIsNotEmptyMessage(id), nodePath);
         }
     }
