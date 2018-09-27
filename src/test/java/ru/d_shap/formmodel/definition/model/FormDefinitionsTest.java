@@ -54,7 +54,9 @@ public final class FormDefinitionsTest extends BaseFormModelTest {
         formDefinitions.addFormDefinitions(Arrays.asList(formDefinition1, formDefinition2));
 
         try {
-            formDefinitions.addFormDefinitions(Arrays.asList(formDefinition1, formDefinition2));
+            FormDefinition formDefinition3 = new FormDefinition("group", "id1", createNodeDefinitions(), createOtherAttributes(), "source1");
+            FormDefinition formDefinition4 = new FormDefinition("group", "id4", createNodeDefinitions(), createOtherAttributes(), "source4");
+            formDefinitions.addFormDefinitions(Arrays.asList(formDefinition3, formDefinition4));
             Assertions.fail("FormDefinitions test fail");
         } catch (FormDefinitionValidationException ex) {
             Assertions.assertThat(ex).hasMessage("[Form is not unique: @group:id1, (source1), (source1)]");
@@ -202,6 +204,94 @@ public final class FormDefinitionsTest extends BaseFormModelTest {
         FormDefinition formDefinition2 = new FormDefinition("group", "id", createNodeDefinitions(), createOtherAttributes(), "source2");
         formDefinitions.addFormDefinitions(Arrays.asList(formDefinition1, formDefinition2));
         formDefinitions.getFormDefinition((FormReferenceDefinition) null);
+    }
+
+    /**
+     * {@link FormDefinitions} class test.
+     */
+    @Test
+    public void getGroupsTest() {
+        FormDefinitions formDefinitions = new FormDefinitions();
+        Assertions.assertThat(formDefinitions.getGroups()).containsExactly();
+
+        FormDefinition formDefinition1 = new FormDefinition(null, "id1", createNodeDefinitions(), createOtherAttributes(), "source1");
+        FormDefinition formDefinition2 = new FormDefinition(null, "id2", createNodeDefinitions(), createOtherAttributes(), "source2");
+        formDefinitions.addFormDefinitions(Arrays.asList(formDefinition1, formDefinition2));
+        Assertions.assertThat(formDefinitions.getGroups()).containsExactly("");
+
+        FormDefinition formDefinition3 = new FormDefinition("group1", "id1", createNodeDefinitions(), createOtherAttributes(), "source3");
+        FormDefinition formDefinition4 = new FormDefinition("group2", "id1", createNodeDefinitions(), createOtherAttributes(), "source4");
+        formDefinitions.addFormDefinitions(Arrays.asList(formDefinition3, formDefinition4));
+        Assertions.assertThat(formDefinitions.getGroups()).containsExactly("", "group1", "group2");
+
+        FormDefinition formDefinition5 = new FormDefinition("group", "id1", createNodeDefinitions(), createOtherAttributes(), "source5");
+        FormDefinition formDefinition6 = new FormDefinition("group", "id2", createNodeDefinitions(), createOtherAttributes(), "source6");
+        formDefinitions.addFormDefinitions(Arrays.asList(formDefinition5, formDefinition6));
+        Assertions.assertThat(formDefinitions.getGroups()).containsExactly("", "group", "group1", "group2");
+    }
+
+    /**
+     * {@link FormDefinitions} class test.
+     */
+    @Test
+    public void getFormDefinitionsTest() {
+        FormDefinitions formDefinitions = new FormDefinitions();
+        Assertions.assertThat(formDefinitions.getFormDefinitions()).isEmpty();
+
+        FormDefinition formDefinition1 = new FormDefinition(null, "id1", createNodeDefinitions(), createOtherAttributes(), "source1");
+        FormDefinition formDefinition2 = new FormDefinition(null, "id2", createNodeDefinitions(), createOtherAttributes(), "source2");
+        formDefinitions.addFormDefinitions(Arrays.asList(formDefinition1, formDefinition2));
+        Assertions.assertThat(formDefinitions.getFormDefinitions()).hasSize(2);
+
+        FormDefinition formDefinition3 = new FormDefinition("group1", "id1", createNodeDefinitions(), createOtherAttributes(), "source3");
+        FormDefinition formDefinition4 = new FormDefinition("group2", "id1", createNodeDefinitions(), createOtherAttributes(), "source4");
+        formDefinitions.addFormDefinitions(Arrays.asList(formDefinition3, formDefinition4));
+        Assertions.assertThat(formDefinitions.getFormDefinitions()).hasSize(4);
+
+        FormDefinition formDefinition5 = new FormDefinition("group", "id1", createNodeDefinitions(), createOtherAttributes(), "source5");
+        FormDefinition formDefinition6 = new FormDefinition("group", "id2", createNodeDefinitions(), createOtherAttributes(), "source6");
+        formDefinitions.addFormDefinitions(Arrays.asList(formDefinition5, formDefinition6));
+        Assertions.assertThat(formDefinitions.getFormDefinitions()).hasSize(6);
+    }
+
+    /**
+     * {@link FormDefinitions} class test.
+     */
+    @Test
+    public void getFormDefinitionsForGroupTest() {
+        FormDefinitions formDefinitions = new FormDefinitions();
+        Assertions.assertThat(formDefinitions.getFormDefinitions(null)).hasSize(0);
+        Assertions.assertThat(formDefinitions.getFormDefinitions("")).hasSize(0);
+        Assertions.assertThat(formDefinitions.getFormDefinitions("group")).hasSize(0);
+        Assertions.assertThat(formDefinitions.getFormDefinitions("group1")).hasSize(0);
+        Assertions.assertThat(formDefinitions.getFormDefinitions("group2")).hasSize(0);
+
+        FormDefinition formDefinition1 = new FormDefinition(null, "id1", createNodeDefinitions(), createOtherAttributes(), "source1");
+        FormDefinition formDefinition2 = new FormDefinition(null, "id2", createNodeDefinitions(), createOtherAttributes(), "source2");
+        formDefinitions.addFormDefinitions(Arrays.asList(formDefinition1, formDefinition2));
+        Assertions.assertThat(formDefinitions.getFormDefinitions(null)).hasSize(2);
+        Assertions.assertThat(formDefinitions.getFormDefinitions("")).hasSize(2);
+        Assertions.assertThat(formDefinitions.getFormDefinitions("group")).hasSize(0);
+        Assertions.assertThat(formDefinitions.getFormDefinitions("group1")).hasSize(0);
+        Assertions.assertThat(formDefinitions.getFormDefinitions("group2")).hasSize(0);
+
+        FormDefinition formDefinition3 = new FormDefinition("group1", "id1", createNodeDefinitions(), createOtherAttributes(), "source3");
+        FormDefinition formDefinition4 = new FormDefinition("group2", "id1", createNodeDefinitions(), createOtherAttributes(), "source4");
+        formDefinitions.addFormDefinitions(Arrays.asList(formDefinition3, formDefinition4));
+        Assertions.assertThat(formDefinitions.getFormDefinitions(null)).hasSize(2);
+        Assertions.assertThat(formDefinitions.getFormDefinitions("")).hasSize(2);
+        Assertions.assertThat(formDefinitions.getFormDefinitions("group")).hasSize(0);
+        Assertions.assertThat(formDefinitions.getFormDefinitions("group1")).hasSize(1);
+        Assertions.assertThat(formDefinitions.getFormDefinitions("group2")).hasSize(1);
+
+        FormDefinition formDefinition5 = new FormDefinition("group", "id1", createNodeDefinitions(), createOtherAttributes(), "source5");
+        FormDefinition formDefinition6 = new FormDefinition("group", "id2", createNodeDefinitions(), createOtherAttributes(), "source6");
+        formDefinitions.addFormDefinitions(Arrays.asList(formDefinition5, formDefinition6));
+        Assertions.assertThat(formDefinitions.getFormDefinitions(null)).hasSize(2);
+        Assertions.assertThat(formDefinitions.getFormDefinitions("")).hasSize(2);
+        Assertions.assertThat(formDefinitions.getFormDefinitions("group")).hasSize(2);
+        Assertions.assertThat(formDefinitions.getFormDefinitions("group1")).hasSize(1);
+        Assertions.assertThat(formDefinitions.getFormDefinitions("group2")).hasSize(1);
     }
 
 }
