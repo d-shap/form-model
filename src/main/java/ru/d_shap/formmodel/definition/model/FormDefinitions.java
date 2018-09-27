@@ -139,6 +139,15 @@ public final class FormDefinitions {
     }
 
     /**
+     * Get all form definitions.
+     *
+     * @return all form definitions.
+     */
+    public List<FormDefinition> getFormDefinitions() {
+        return new ArrayList<>(_formDefinitions.values());
+    }
+
+    /**
      * Get all form definitions for the specified form's group.
      *
      * @param group the specified form's group.
@@ -154,15 +163,6 @@ public final class FormDefinitions {
             }
         }
         return result;
-    }
-
-    /**
-     * Get all form definitions.
-     *
-     * @return all form definitions.
-     */
-    public List<FormDefinition> getFormDefinitions() {
-        return new ArrayList<>(_formDefinitions.values());
     }
 
 }
