@@ -236,7 +236,7 @@ public final class FormDefinitionsTest extends BaseFormModelTest {
     @Test
     public void getFormDefinitionsTest() {
         FormDefinitions formDefinitions = new FormDefinitions();
-        Assertions.assertThat(formDefinitions.getFormDefinitions()).isEmpty();
+        Assertions.assertThat(formDefinitions.getFormDefinitions()).hasSize(0);
 
         FormDefinition formDefinition1 = new FormDefinition(null, "id1", createNodeDefinitions(), createOtherAttributes(), "source1");
         FormDefinition formDefinition2 = new FormDefinition(null, "id2", createNodeDefinitions(), createOtherAttributes(), "source2");
