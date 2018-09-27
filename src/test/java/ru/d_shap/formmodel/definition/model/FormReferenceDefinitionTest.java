@@ -65,21 +65,21 @@ public final class FormReferenceDefinitionTest extends BaseFormModelTest {
      */
     @Test
     public void getOtherNodeDefinitionsTest() {
-        Assertions.assertThat(new FormReferenceDefinition("group", "id", null, null).getOtherNodeDefinitions()).isEmpty();
+        Assertions.assertThat(new FormReferenceDefinition("group", "id", null, null).getOtherNodeDefinitions()).hasSize(0);
 
-        Assertions.assertThat(new FormReferenceDefinition("group", "id", createNodeDefinitions(), null).getOtherNodeDefinitions()).isEmpty();
+        Assertions.assertThat(new FormReferenceDefinition("group", "id", createNodeDefinitions(), null).getOtherNodeDefinitions()).hasSize(0);
 
         AttributeDefinition attributeDefinition = new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
-        Assertions.assertThat(new FormReferenceDefinition("group", "id", createNodeDefinitions(attributeDefinition), null).getOtherNodeDefinitions()).isEmpty();
+        Assertions.assertThat(new FormReferenceDefinition("group", "id", createNodeDefinitions(attributeDefinition), null).getOtherNodeDefinitions()).hasSize(0);
 
         ElementDefinition elementDefinition = new ElementDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
-        Assertions.assertThat(new FormReferenceDefinition("group", "id", createNodeDefinitions(elementDefinition), null).getOtherNodeDefinitions()).isEmpty();
+        Assertions.assertThat(new FormReferenceDefinition("group", "id", createNodeDefinitions(elementDefinition), null).getOtherNodeDefinitions()).hasSize(0);
 
         SingleElementDefinition singleElementDefinition = new SingleElementDefinition("id", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
-        Assertions.assertThat(new FormReferenceDefinition("group", "id", createNodeDefinitions(singleElementDefinition), null).getOtherNodeDefinitions()).isEmpty();
+        Assertions.assertThat(new FormReferenceDefinition("group", "id", createNodeDefinitions(singleElementDefinition), null).getOtherNodeDefinitions()).hasSize(0);
 
         FormReferenceDefinition formReferenceDefinition = new FormReferenceDefinition("group", "id", createNodeDefinitions(), createOtherAttributes());
-        Assertions.assertThat(new FormReferenceDefinition("group", "id", createNodeDefinitions(formReferenceDefinition), null).getOtherNodeDefinitions()).isEmpty();
+        Assertions.assertThat(new FormReferenceDefinition("group", "id", createNodeDefinitions(formReferenceDefinition), null).getOtherNodeDefinitions()).hasSize(0);
 
         OtherNodeDefinition otherNodeDefinition1 = new OtherNodeDefinitionImpl("", true);
         Assertions.assertThat(new FormReferenceDefinition("group", "id", createNodeDefinitions(otherNodeDefinition1), null).getOtherNodeDefinitions()).hasSize(1);
@@ -90,7 +90,7 @@ public final class FormReferenceDefinitionTest extends BaseFormModelTest {
         Assertions.assertThat(new FormReferenceDefinition("group", "id", createNodeDefinitions(otherNodeDefinition1, otherNodeDefinition2), null).getOtherNodeDefinitions().get(1)).isSameAs(otherNodeDefinition2);
 
         NodeDefinition nodeDefinition = new NodeDefinitionImpl();
-        Assertions.assertThat(new FormReferenceDefinition("group", "id", createNodeDefinitions(nodeDefinition), null).getOtherNodeDefinitions()).isEmpty();
+        Assertions.assertThat(new FormReferenceDefinition("group", "id", createNodeDefinitions(nodeDefinition), null).getOtherNodeDefinitions()).hasSize(0);
     }
 
     /**
@@ -98,9 +98,9 @@ public final class FormReferenceDefinitionTest extends BaseFormModelTest {
      */
     @Test
     public void getAllNodeDefinitionsTest() {
-        Assertions.assertThat(new FormReferenceDefinition("group", "id", null, null).getAllNodeDefinitions()).isEmpty();
+        Assertions.assertThat(new FormReferenceDefinition("group", "id", null, null).getAllNodeDefinitions()).hasSize(0);
 
-        Assertions.assertThat(new FormReferenceDefinition("group", "id", createNodeDefinitions(), null).getAllNodeDefinitions()).isEmpty();
+        Assertions.assertThat(new FormReferenceDefinition("group", "id", createNodeDefinitions(), null).getAllNodeDefinitions()).hasSize(0);
 
         AttributeDefinition attributeDefinition = new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
         Assertions.assertThat(new FormReferenceDefinition("group", "id", createNodeDefinitions(attributeDefinition), null).getAllNodeDefinitions()).hasSize(0);
@@ -119,7 +119,7 @@ public final class FormReferenceDefinitionTest extends BaseFormModelTest {
         Assertions.assertThat(new FormReferenceDefinition("group", "id", createNodeDefinitions(otherNodeDefinition), null).getAllNodeDefinitions().get(0)).isSameAs(otherNodeDefinition);
 
         NodeDefinition nodeDefinition = new NodeDefinitionImpl();
-        Assertions.assertThat(new FormReferenceDefinition("group", "id", createNodeDefinitions(nodeDefinition), null).getAllNodeDefinitions()).isEmpty();
+        Assertions.assertThat(new FormReferenceDefinition("group", "id", createNodeDefinitions(nodeDefinition), null).getAllNodeDefinitions()).hasSize(0);
 
         Assertions.assertThat(new FormReferenceDefinition("group", "id", createNodeDefinitions(attributeDefinition, elementDefinition, singleElementDefinition, formReferenceDefinition, otherNodeDefinition, nodeDefinition), null).getAllNodeDefinitions()).hasSize(1);
         Assertions.assertThat(new FormReferenceDefinition("group", "id", createNodeDefinitions(attributeDefinition, elementDefinition, singleElementDefinition, formReferenceDefinition, otherNodeDefinition, nodeDefinition), null).getAllNodeDefinitions().get(0)).isSameAs(otherNodeDefinition);
@@ -130,8 +130,8 @@ public final class FormReferenceDefinitionTest extends BaseFormModelTest {
      */
     @Test
     public void getOtherAttributeNamesTest() {
-        Assertions.assertThat(new FormReferenceDefinition("group", "id", null, null).getOtherAttributeNames()).isEmpty();
-        Assertions.assertThat(new FormReferenceDefinition("group", "id", null, createOtherAttributes()).getOtherAttributeNames()).isEmpty();
+        Assertions.assertThat(new FormReferenceDefinition("group", "id", null, null).getOtherAttributeNames()).containsExactly();
+        Assertions.assertThat(new FormReferenceDefinition("group", "id", null, createOtherAttributes()).getOtherAttributeNames()).containsExactly();
         Assertions.assertThat(new FormReferenceDefinition("group", "id", null, createOtherAttributes("name", "value")).getOtherAttributeNames()).containsExactly("name");
         Assertions.assertThat(new FormReferenceDefinition("group", "id", null, createOtherAttributes("name1", "value1", "name2", "value2")).getOtherAttributeNames()).containsExactly("name1", "name2");
         Assertions.assertThat(new FormReferenceDefinition("group", "id", null, createOtherAttributes("name1", "value1", "name2", "value2", "name3", "value3")).getOtherAttributeNames()).containsExactly("name1", "name2", "name3");
