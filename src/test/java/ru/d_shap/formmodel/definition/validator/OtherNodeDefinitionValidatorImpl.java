@@ -40,7 +40,7 @@ public final class OtherNodeDefinitionValidatorImpl implements OtherNodeDefiniti
     }
 
     @Override
-    public void validate(final NodeDefinition parentNodeDefinition, final OtherNodeDefinition otherNodeDefinition, final FormModelDefinitionValidator formModelDefinitionValidator, final NodePath nodePath) {
+    public void validate(final NodeDefinition parentNodeDefinition, final OtherNodeDefinition otherNodeDefinition, final FormDefinitionValidator formDefinitionValidator, final NodePath nodePath) {
         NodePath currentNodePath = new NodePath(nodePath, otherNodeDefinition);
 
         if (!((OtherNodeDefinitionImpl) otherNodeDefinition).isValid()) {
@@ -48,19 +48,19 @@ public final class OtherNodeDefinitionValidatorImpl implements OtherNodeDefiniti
         }
 
         if (((OtherNodeDefinitionImpl) otherNodeDefinition).getAttributeDefinition() != null) {
-            formModelDefinitionValidator.validateAttributeDefinition(otherNodeDefinition, ((OtherNodeDefinitionImpl) otherNodeDefinition).getAttributeDefinition(), currentNodePath);
+            formDefinitionValidator.validateAttributeDefinition(otherNodeDefinition, ((OtherNodeDefinitionImpl) otherNodeDefinition).getAttributeDefinition(), currentNodePath);
         }
         if (((OtherNodeDefinitionImpl) otherNodeDefinition).getElementDefinition() != null) {
-            formModelDefinitionValidator.validateElementDefinition(otherNodeDefinition, ((OtherNodeDefinitionImpl) otherNodeDefinition).getElementDefinition(), currentNodePath);
+            formDefinitionValidator.validateElementDefinition(otherNodeDefinition, ((OtherNodeDefinitionImpl) otherNodeDefinition).getElementDefinition(), currentNodePath);
         }
-        if (((OtherNodeDefinitionImpl) otherNodeDefinition).getChoiceDefinition() != null) {
-            formModelDefinitionValidator.validateChoiceDefinition(otherNodeDefinition, ((OtherNodeDefinitionImpl) otherNodeDefinition).getChoiceDefinition(), currentNodePath);
+        if (((OtherNodeDefinitionImpl) otherNodeDefinition).getSingleElementDefinition() != null) {
+            formDefinitionValidator.validateSingleElementDefinition(otherNodeDefinition, ((OtherNodeDefinitionImpl) otherNodeDefinition).getSingleElementDefinition(), currentNodePath);
         }
         if (((OtherNodeDefinitionImpl) otherNodeDefinition).getFormReferenceDefinition() != null) {
-            formModelDefinitionValidator.validateFormReferenceDefinition(otherNodeDefinition, ((OtherNodeDefinitionImpl) otherNodeDefinition).getFormReferenceDefinition(), currentNodePath);
+            formDefinitionValidator.validateFormReferenceDefinition(otherNodeDefinition, ((OtherNodeDefinitionImpl) otherNodeDefinition).getFormReferenceDefinition(), currentNodePath);
         }
         if (((OtherNodeDefinitionImpl) otherNodeDefinition).getOtherNodeDefinition() != null) {
-            formModelDefinitionValidator.validateOtherNodeDefinition(otherNodeDefinition, ((OtherNodeDefinitionImpl) otherNodeDefinition).getOtherNodeDefinition(), currentNodePath);
+            formDefinitionValidator.validateOtherNodeDefinition(otherNodeDefinition, ((OtherNodeDefinitionImpl) otherNodeDefinition).getOtherNodeDefinition(), currentNodePath);
         }
     }
 
