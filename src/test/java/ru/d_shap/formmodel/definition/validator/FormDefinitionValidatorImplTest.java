@@ -977,6 +977,149 @@ public final class FormDefinitionValidatorImplTest extends BaseFormModelTest {
         }
     }
 
+    /**
+     * {@link FormDefinitionValidatorImpl} class test.
+     */
+    @Test
+    public void validateSingleElementDefinitionIdTest() {
+        SingleElementDefinition parentNodeDefinition1 = new SingleElementDefinition("id", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
+        OtherNodeDefinition parentNodeDefinition2 = new OtherNodeDefinitionImpl("parent", true);
+
+        createValidator().validateSingleElementDefinition(parentNodeDefinition1, new SingleElementDefinition(null, CardinalityDefinition.OPTIONAL, createNodeDefinitions(), createOtherAttributes()), new NodePath(parentNodeDefinition1));
+        createValidator().validateSingleElementDefinition(parentNodeDefinition1, new SingleElementDefinition("", CardinalityDefinition.OPTIONAL, createNodeDefinitions(), createOtherAttributes()), new NodePath(parentNodeDefinition1));
+        createValidator().validateSingleElementDefinition(parentNodeDefinition2, new SingleElementDefinition("id", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes()), new NodePath(parentNodeDefinition2));
+
+        try {
+            createValidator().validateSingleElementDefinition(parentNodeDefinition1, new SingleElementDefinition(" ", CardinalityDefinition.OPTIONAL, createNodeDefinitions(), createOtherAttributes()), new NodePath(parentNodeDefinition1));
+            Assertions.fail("FormDefinitionValidatorImpl test fail");
+        } catch (FormDefinitionValidationException ex) {
+            Assertions.assertThat(ex).hasMessage("[ID is not empty:  ], singleElement[@id]/singleElement[@ ]");
+        }
+        try {
+            createValidator().validateSingleElementDefinition(parentNodeDefinition1, new SingleElementDefinition("id", CardinalityDefinition.OPTIONAL, createNodeDefinitions(), createOtherAttributes()), new NodePath(parentNodeDefinition1));
+            Assertions.fail("FormDefinitionValidatorImpl test fail");
+        } catch (FormDefinitionValidationException ex) {
+            Assertions.assertThat(ex).hasMessage("[ID is not empty: id], singleElement[@id]/singleElement[@id]");
+        }
+        try {
+            createValidator().validateSingleElementDefinition(parentNodeDefinition1, new SingleElementDefinition("-id", CardinalityDefinition.OPTIONAL, createNodeDefinitions(), createOtherAttributes()), new NodePath(parentNodeDefinition1));
+            Assertions.fail("FormDefinitionValidatorImpl test fail");
+        } catch (FormDefinitionValidationException ex) {
+            Assertions.assertThat(ex).hasMessage("[ID is not empty: -id], singleElement[@id]/singleElement[@-id]");
+        }
+        try {
+            createValidator().validateSingleElementDefinition(parentNodeDefinition2, new SingleElementDefinition(null, CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes()), new NodePath(parentNodeDefinition2));
+            Assertions.fail("FormDefinitionValidatorImpl test fail");
+        } catch (FormDefinitionValidationException ex) {
+            Assertions.assertThat(ex).hasMessage("[ID is empty], parent/singleElement[@]");
+        }
+        try {
+            createValidator().validateSingleElementDefinition(parentNodeDefinition2, new SingleElementDefinition("", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes()), new NodePath(parentNodeDefinition2));
+            Assertions.fail("FormDefinitionValidatorImpl test fail");
+        } catch (FormDefinitionValidationException ex) {
+            Assertions.assertThat(ex).hasMessage("[ID is empty], parent/singleElement[@]");
+        }
+        try {
+            createValidator().validateSingleElementDefinition(parentNodeDefinition2, new SingleElementDefinition(" ", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes()), new NodePath(parentNodeDefinition2));
+            Assertions.fail("FormDefinitionValidatorImpl test fail");
+        } catch (FormDefinitionValidationException ex) {
+            Assertions.assertThat(ex).hasMessage("[ID is not valid:  ], parent/singleElement[@ ]");
+        }
+        try {
+            createValidator().validateSingleElementDefinition(parentNodeDefinition2, new SingleElementDefinition("-id", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes()), new NodePath(parentNodeDefinition2));
+            Assertions.fail("FormDefinitionValidatorImpl test fail");
+        } catch (FormDefinitionValidationException ex) {
+            Assertions.assertThat(ex).hasMessage("[ID is not valid: -id], parent/singleElement[@-id]");
+        }
+    }
+
+    /**
+     * {@link FormDefinitionValidatorImpl} class test.
+     */
+    @Test
+    public void validateSingleElementDefinitionCardinalityDefinitionTest() {
+        SingleElementDefinition parentNodeDefinition1 = new SingleElementDefinition("id", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
+        OtherNodeDefinition parentNodeDefinition2 = new OtherNodeDefinitionImpl("parent", true);
+
+        createValidator().validateSingleElementDefinition(parentNodeDefinition1, new SingleElementDefinition(null, CardinalityDefinition.OPTIONAL, createNodeDefinitions(), createOtherAttributes()), new NodePath(parentNodeDefinition1));
+        createValidator().validateSingleElementDefinition(parentNodeDefinition2, new SingleElementDefinition("id", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes()), new NodePath(parentNodeDefinition2));
+        createValidator().validateSingleElementDefinition(parentNodeDefinition2, new SingleElementDefinition("id", CardinalityDefinition.OPTIONAL, createNodeDefinitions(), createOtherAttributes()), new NodePath(parentNodeDefinition2));
+        createValidator().validateSingleElementDefinition(parentNodeDefinition2, new SingleElementDefinition("id", CardinalityDefinition.PROHIBITED, createNodeDefinitions(), createOtherAttributes()), new NodePath(parentNodeDefinition2));
+
+        try {
+            createValidator().validateSingleElementDefinition(parentNodeDefinition1, new SingleElementDefinition(null, null, createNodeDefinitions(), createOtherAttributes()), new NodePath(parentNodeDefinition1));
+            Assertions.fail("FormDefinitionValidatorImpl test fail");
+        } catch (FormDefinitionValidationException ex) {
+            Assertions.assertThat(ex).hasMessage("[Cardinality is empty], singleElement[@id]/singleElement[@]");
+        }
+        try {
+            createValidator().validateSingleElementDefinition(parentNodeDefinition1, new SingleElementDefinition(null, CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes()), new NodePath(parentNodeDefinition1));
+            Assertions.fail("FormDefinitionValidatorImpl test fail");
+        } catch (FormDefinitionValidationException ex) {
+            Assertions.assertThat(ex).hasMessage("[Cardinality is not valid: required], singleElement[@id]/singleElement[@]");
+        }
+        try {
+            createValidator().validateSingleElementDefinition(parentNodeDefinition1, new SingleElementDefinition(null, CardinalityDefinition.REQUIRED_MULTIPLE, createNodeDefinitions(), createOtherAttributes()), new NodePath(parentNodeDefinition1));
+            Assertions.fail("FormDefinitionValidatorImpl test fail");
+        } catch (FormDefinitionValidationException ex) {
+            Assertions.assertThat(ex).hasMessage("[Cardinality is not valid: required+], singleElement[@id]/singleElement[@]");
+        }
+        try {
+            createValidator().validateSingleElementDefinition(parentNodeDefinition1, new SingleElementDefinition(null, CardinalityDefinition.OPTIONAL_MULTIPLE, createNodeDefinitions(), createOtherAttributes()), new NodePath(parentNodeDefinition1));
+            Assertions.fail("FormDefinitionValidatorImpl test fail");
+        } catch (FormDefinitionValidationException ex) {
+            Assertions.assertThat(ex).hasMessage("[Cardinality is not valid: optional+], singleElement[@id]/singleElement[@]");
+        }
+        try {
+            createValidator().validateSingleElementDefinition(parentNodeDefinition1, new SingleElementDefinition(null, CardinalityDefinition.PROHIBITED, createNodeDefinitions(), createOtherAttributes()), new NodePath(parentNodeDefinition1));
+            Assertions.fail("FormDefinitionValidatorImpl test fail");
+        } catch (FormDefinitionValidationException ex) {
+            Assertions.assertThat(ex).hasMessage("[Cardinality is not valid: prohibited], singleElement[@id]/singleElement[@]");
+        }
+        try {
+            createValidator().validateSingleElementDefinition(parentNodeDefinition2, new SingleElementDefinition("id", null, createNodeDefinitions(), createOtherAttributes()), new NodePath(parentNodeDefinition2));
+            Assertions.fail("FormDefinitionValidatorImpl test fail");
+        } catch (FormDefinitionValidationException ex) {
+            Assertions.assertThat(ex).hasMessage("[Cardinality is empty], parent/singleElement[@id]");
+        }
+        try {
+            createValidator().validateSingleElementDefinition(parentNodeDefinition2, new SingleElementDefinition("id", CardinalityDefinition.REQUIRED_MULTIPLE, createNodeDefinitions(), createOtherAttributes()), new NodePath(parentNodeDefinition2));
+            Assertions.fail("FormDefinitionValidatorImpl test fail");
+        } catch (FormDefinitionValidationException ex) {
+            Assertions.assertThat(ex).hasMessage("[Cardinality is not valid: required+], parent/singleElement[@id]");
+        }
+        try {
+            createValidator().validateSingleElementDefinition(parentNodeDefinition2, new SingleElementDefinition("id", CardinalityDefinition.OPTIONAL_MULTIPLE, createNodeDefinitions(), createOtherAttributes()), new NodePath(parentNodeDefinition2));
+            Assertions.fail("FormDefinitionValidatorImpl test fail");
+        } catch (FormDefinitionValidationException ex) {
+            Assertions.assertThat(ex).hasMessage("[Cardinality is not valid: optional+], parent/singleElement[@id]");
+        }
+    }
+
+    /**
+     * {@link FormDefinitionValidatorImpl} class test.
+     */
+    @Test
+    public void validateSingleElementDefinitionChildElementsTest() {
+
+    }
+
+    /**
+     * {@link FormDefinitionValidatorImpl} class test.
+     */
+    @Test
+    public void validateSingleElementDefinitionChildSingleElementsTest() {
+
+    }
+
+    /**
+     * {@link FormDefinitionValidatorImpl} class test.
+     */
+    @Test
+    public void validateSingleElementDefinitionChildOtherNodesTest() {
+
+    }
+
     private FormDefinitionValidatorImpl createValidator(final String... groupsAndIds) {
         Set<FormDefinitionKey> formDefinitionKeys = new HashSet<>();
         for (int i = 0; i < groupsAndIds.length; i += 2) {
