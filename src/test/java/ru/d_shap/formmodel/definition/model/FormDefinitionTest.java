@@ -80,8 +80,8 @@ public final class FormDefinitionTest extends BaseFormModelTest {
         Assertions.assertThat(new FormDefinition("group", "id", createNodeDefinitions(elementDefinition1, elementDefinition2), null, "source").getElementDefinitions().get(0)).isSameAs(elementDefinition1);
         Assertions.assertThat(new FormDefinition("group", "id", createNodeDefinitions(elementDefinition1, elementDefinition2), null, "source").getElementDefinitions().get(1)).isSameAs(elementDefinition2);
 
-        ChoiceDefinition choiceDefinition = new ChoiceDefinition("id", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
-        Assertions.assertThat(new FormDefinition("group", "id", createNodeDefinitions(choiceDefinition), null, "source").getElementDefinitions()).isEmpty();
+        SingleElementDefinition singleElementDefinition = new SingleElementDefinition("id", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
+        Assertions.assertThat(new FormDefinition("group", "id", createNodeDefinitions(singleElementDefinition), null, "source").getElementDefinitions()).isEmpty();
 
         FormReferenceDefinition formReferenceDefinition = new FormReferenceDefinition("group", "id", createNodeDefinitions(), createOtherAttributes());
         Assertions.assertThat(new FormDefinition("group", "id", createNodeDefinitions(formReferenceDefinition), null, "source").getElementDefinitions()).isEmpty();
@@ -97,33 +97,33 @@ public final class FormDefinitionTest extends BaseFormModelTest {
      * {@link FormDefinition} class test.
      */
     @Test
-    public void getChoiceDefinitionsTest() {
-        Assertions.assertThat(new FormDefinition("group", "id", null, null, "source").getChoiceDefinitions()).isEmpty();
+    public void getSingleElementDefinitionsTest() {
+        Assertions.assertThat(new FormDefinition("group", "id", null, null, "source").getSingleElementDefinitions()).isEmpty();
 
-        Assertions.assertThat(new FormDefinition("group", "id", createNodeDefinitions(), null, "source").getChoiceDefinitions()).isEmpty();
+        Assertions.assertThat(new FormDefinition("group", "id", createNodeDefinitions(), null, "source").getSingleElementDefinitions()).isEmpty();
 
         AttributeDefinition attributeDefinition = new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
-        Assertions.assertThat(new FormDefinition("group", "id", createNodeDefinitions(attributeDefinition), null, "source").getChoiceDefinitions()).isEmpty();
+        Assertions.assertThat(new FormDefinition("group", "id", createNodeDefinitions(attributeDefinition), null, "source").getSingleElementDefinitions()).isEmpty();
 
         ElementDefinition elementDefinition = new ElementDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
-        Assertions.assertThat(new FormDefinition("group", "id", createNodeDefinitions(elementDefinition), null, "source").getChoiceDefinitions()).isEmpty();
+        Assertions.assertThat(new FormDefinition("group", "id", createNodeDefinitions(elementDefinition), null, "source").getSingleElementDefinitions()).isEmpty();
 
-        ChoiceDefinition choiceDefinition1 = new ChoiceDefinition("id", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
-        Assertions.assertThat(new FormDefinition("group", "id", createNodeDefinitions(choiceDefinition1), null, "source").getChoiceDefinitions()).hasSize(1);
-        Assertions.assertThat(new FormDefinition("group", "id", createNodeDefinitions(choiceDefinition1), null, "source").getChoiceDefinitions().get(0)).isSameAs(choiceDefinition1);
-        ChoiceDefinition choiceDefinition2 = new ChoiceDefinition("id", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
-        Assertions.assertThat(new FormDefinition("group", "id", createNodeDefinitions(choiceDefinition1, choiceDefinition2), null, "source").getChoiceDefinitions()).hasSize(2);
-        Assertions.assertThat(new FormDefinition("group", "id", createNodeDefinitions(choiceDefinition1, choiceDefinition2), null, "source").getChoiceDefinitions().get(0)).isSameAs(choiceDefinition1);
-        Assertions.assertThat(new FormDefinition("group", "id", createNodeDefinitions(choiceDefinition1, choiceDefinition2), null, "source").getChoiceDefinitions().get(1)).isSameAs(choiceDefinition2);
+        SingleElementDefinition singleElementDefinition1 = new SingleElementDefinition("id", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
+        Assertions.assertThat(new FormDefinition("group", "id", createNodeDefinitions(singleElementDefinition1), null, "source").getSingleElementDefinitions()).hasSize(1);
+        Assertions.assertThat(new FormDefinition("group", "id", createNodeDefinitions(singleElementDefinition1), null, "source").getSingleElementDefinitions().get(0)).isSameAs(singleElementDefinition1);
+        SingleElementDefinition singleElementDefinition2 = new SingleElementDefinition("id", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
+        Assertions.assertThat(new FormDefinition("group", "id", createNodeDefinitions(singleElementDefinition1, singleElementDefinition2), null, "source").getSingleElementDefinitions()).hasSize(2);
+        Assertions.assertThat(new FormDefinition("group", "id", createNodeDefinitions(singleElementDefinition1, singleElementDefinition2), null, "source").getSingleElementDefinitions().get(0)).isSameAs(singleElementDefinition1);
+        Assertions.assertThat(new FormDefinition("group", "id", createNodeDefinitions(singleElementDefinition1, singleElementDefinition2), null, "source").getSingleElementDefinitions().get(1)).isSameAs(singleElementDefinition2);
 
         FormReferenceDefinition formReferenceDefinition = new FormReferenceDefinition("group", "id", createNodeDefinitions(), createOtherAttributes());
-        Assertions.assertThat(new FormDefinition("group", "id", createNodeDefinitions(formReferenceDefinition), null, "source").getChoiceDefinitions()).isEmpty();
+        Assertions.assertThat(new FormDefinition("group", "id", createNodeDefinitions(formReferenceDefinition), null, "source").getSingleElementDefinitions()).isEmpty();
 
         OtherNodeDefinition otherNodeDefinition = new OtherNodeDefinitionImpl("", true);
-        Assertions.assertThat(new FormDefinition("group", "id", createNodeDefinitions(otherNodeDefinition), null, "source").getChoiceDefinitions()).isEmpty();
+        Assertions.assertThat(new FormDefinition("group", "id", createNodeDefinitions(otherNodeDefinition), null, "source").getSingleElementDefinitions()).isEmpty();
 
         NodeDefinition nodeDefinition = new NodeDefinitionImpl();
-        Assertions.assertThat(new FormDefinition("group", "id", createNodeDefinitions(nodeDefinition), null, "source").getChoiceDefinitions()).isEmpty();
+        Assertions.assertThat(new FormDefinition("group", "id", createNodeDefinitions(nodeDefinition), null, "source").getSingleElementDefinitions()).isEmpty();
     }
 
     /**
@@ -141,8 +141,8 @@ public final class FormDefinitionTest extends BaseFormModelTest {
         ElementDefinition elementDefinition = new ElementDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
         Assertions.assertThat(new FormDefinition("group", "id", createNodeDefinitions(elementDefinition), null, "source").getFormReferenceDefinitions()).isEmpty();
 
-        ChoiceDefinition choiceDefinition = new ChoiceDefinition("id", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
-        Assertions.assertThat(new FormDefinition("group", "id", createNodeDefinitions(choiceDefinition), null, "source").getFormReferenceDefinitions()).isEmpty();
+        SingleElementDefinition singleElementDefinition = new SingleElementDefinition("id", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
+        Assertions.assertThat(new FormDefinition("group", "id", createNodeDefinitions(singleElementDefinition), null, "source").getFormReferenceDefinitions()).isEmpty();
 
         FormReferenceDefinition formReferenceDefinition1 = new FormReferenceDefinition("group", "id", createNodeDefinitions(), createOtherAttributes());
         Assertions.assertThat(new FormDefinition("group", "id", createNodeDefinitions(formReferenceDefinition1), null, "source").getFormReferenceDefinitions()).hasSize(1);
@@ -174,8 +174,8 @@ public final class FormDefinitionTest extends BaseFormModelTest {
         ElementDefinition elementDefinition = new ElementDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
         Assertions.assertThat(new FormDefinition("group", "id", createNodeDefinitions(elementDefinition), null, "source").getOtherNodeDefinitions()).isEmpty();
 
-        ChoiceDefinition choiceDefinition = new ChoiceDefinition("id", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
-        Assertions.assertThat(new FormDefinition("group", "id", createNodeDefinitions(choiceDefinition), null, "source").getOtherNodeDefinitions()).isEmpty();
+        SingleElementDefinition singleElementDefinition = new SingleElementDefinition("id", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
+        Assertions.assertThat(new FormDefinition("group", "id", createNodeDefinitions(singleElementDefinition), null, "source").getOtherNodeDefinitions()).isEmpty();
 
         FormReferenceDefinition formReferenceDefinition = new FormReferenceDefinition("group", "id", createNodeDefinitions(), createOtherAttributes());
         Assertions.assertThat(new FormDefinition("group", "id", createNodeDefinitions(formReferenceDefinition), null, "source").getOtherNodeDefinitions()).isEmpty();
@@ -190,6 +190,44 @@ public final class FormDefinitionTest extends BaseFormModelTest {
 
         NodeDefinition nodeDefinition = new NodeDefinitionImpl();
         Assertions.assertThat(new FormDefinition("group", "id", createNodeDefinitions(nodeDefinition), null, "source").getOtherNodeDefinitions()).isEmpty();
+    }
+
+    /**
+     * {@link FormDefinition} class test.
+     */
+    @Test
+    public void getAllNodeDefinitions() {
+        Assertions.assertThat(new FormDefinition("group", "id", null, null, "source").getAllNodeDefinitions()).isEmpty();
+
+        Assertions.assertThat(new FormDefinition("group", "id", createNodeDefinitions(), null, "source").getAllNodeDefinitions()).isEmpty();
+
+        AttributeDefinition attributeDefinition = new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
+        Assertions.assertThat(new FormDefinition("group", "id", createNodeDefinitions(attributeDefinition), null, "source").getAllNodeDefinitions()).isEmpty();
+
+        ElementDefinition elementDefinition = new ElementDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
+        Assertions.assertThat(new FormDefinition("group", "id", createNodeDefinitions(elementDefinition), null, "source").getAllNodeDefinitions()).hasSize(1);
+        Assertions.assertThat(new FormDefinition("group", "id", createNodeDefinitions(elementDefinition), null, "source").getAllNodeDefinitions().get(0)).isSameAs(elementDefinition);
+
+        SingleElementDefinition singleElementDefinition = new SingleElementDefinition("id", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
+        Assertions.assertThat(new FormDefinition("group", "id", createNodeDefinitions(singleElementDefinition), null, "source").getAllNodeDefinitions()).hasSize(1);
+        Assertions.assertThat(new FormDefinition("group", "id", createNodeDefinitions(singleElementDefinition), null, "source").getAllNodeDefinitions().get(0)).isSameAs(singleElementDefinition);
+
+        FormReferenceDefinition formReferenceDefinition = new FormReferenceDefinition("group", "id", createNodeDefinitions(), createOtherAttributes());
+        Assertions.assertThat(new FormDefinition("group", "id", createNodeDefinitions(formReferenceDefinition), null, "source").getAllNodeDefinitions()).hasSize(1);
+        Assertions.assertThat(new FormDefinition("group", "id", createNodeDefinitions(formReferenceDefinition), null, "source").getAllNodeDefinitions().get(0)).isSameAs(formReferenceDefinition);
+
+        OtherNodeDefinition otherNodeDefinition = new OtherNodeDefinitionImpl("", true);
+        Assertions.assertThat(new FormDefinition("group", "id", createNodeDefinitions(otherNodeDefinition), null, "source").getAllNodeDefinitions()).hasSize(1);
+        Assertions.assertThat(new FormDefinition("group", "id", createNodeDefinitions(otherNodeDefinition), null, "source").getAllNodeDefinitions().get(0)).isSameAs(otherNodeDefinition);
+
+        NodeDefinition nodeDefinition = new NodeDefinitionImpl();
+        Assertions.assertThat(new FormDefinition("group", "id", createNodeDefinitions(nodeDefinition), null, "source").getAllNodeDefinitions()).isEmpty();
+
+        Assertions.assertThat(new FormDefinition("group", "id", createNodeDefinitions(attributeDefinition, elementDefinition, singleElementDefinition, formReferenceDefinition, otherNodeDefinition, nodeDefinition), null, "source").getAllNodeDefinitions()).hasSize(4);
+        Assertions.assertThat(new FormDefinition("group", "id", createNodeDefinitions(attributeDefinition, elementDefinition, singleElementDefinition, formReferenceDefinition, otherNodeDefinition, nodeDefinition), null, "source").getAllNodeDefinitions().get(0)).isSameAs(elementDefinition);
+        Assertions.assertThat(new FormDefinition("group", "id", createNodeDefinitions(attributeDefinition, elementDefinition, singleElementDefinition, formReferenceDefinition, otherNodeDefinition, nodeDefinition), null, "source").getAllNodeDefinitions().get(1)).isSameAs(singleElementDefinition);
+        Assertions.assertThat(new FormDefinition("group", "id", createNodeDefinitions(attributeDefinition, elementDefinition, singleElementDefinition, formReferenceDefinition, otherNodeDefinition, nodeDefinition), null, "source").getAllNodeDefinitions().get(2)).isSameAs(formReferenceDefinition);
+        Assertions.assertThat(new FormDefinition("group", "id", createNodeDefinitions(attributeDefinition, elementDefinition, singleElementDefinition, formReferenceDefinition, otherNodeDefinition, nodeDefinition), null, "source").getAllNodeDefinitions().get(3)).isSameAs(otherNodeDefinition);
     }
 
     /**
@@ -262,7 +300,7 @@ public final class FormDefinitionTest extends BaseFormModelTest {
      */
     @Test
     public void childElementNamesTest() {
-        Assertions.assertThat(FormDefinition.CHILD_ELEMENT_NAMES).containsExactly("element", "choice", "form");
+        Assertions.assertThat(FormDefinition.CHILD_ELEMENT_NAMES).containsExactly("element", "singleElement", "formReference");
     }
 
     /**
