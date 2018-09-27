@@ -34,7 +34,7 @@ public final class OtherNodeDefinitionImpl implements OtherNodeDefinition {
 
     private ElementDefinition _elementDefinition;
 
-    private ChoiceDefinition _choiceDefinition;
+    private SingleElementDefinition _singleElementDefinition;
 
     private FormReferenceDefinition _formReferenceDefinition;
 
@@ -98,21 +98,21 @@ public final class OtherNodeDefinitionImpl implements OtherNodeDefinition {
     }
 
     /**
-     * Get the child choice definition.
+     * Get the child single element definition.
      *
-     * @return the child choice definition.
+     * @return the child single element definition.
      */
-    public ChoiceDefinition getChoiceDefinition() {
-        return _choiceDefinition;
+    public SingleElementDefinition getSingleElementDefinition() {
+        return _singleElementDefinition;
     }
 
     /**
-     * Set the child choice definition.
+     * Set the child single element definition.
      *
-     * @param choiceDefinition the child choice definition.
+     * @param singleElementDefinition the child single element definition.
      */
-    public void setChoiceDefinition(final ChoiceDefinition choiceDefinition) {
-        _choiceDefinition = choiceDefinition;
+    public void setSingleElementDefinition(final SingleElementDefinition singleElementDefinition) {
+        _singleElementDefinition = singleElementDefinition;
     }
 
     /**
