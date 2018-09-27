@@ -147,9 +147,9 @@ public final class FormDefinitionKeyTest extends BaseFormModelTest {
         Assertions.assertThat(new FormDefinitionKey("id")).hasHashCode(3355);
         Assertions.assertThat(new FormDefinitionKey(null, "id")).hasHashCode(3355);
         Assertions.assertThat(new FormDefinitionKey("", "id")).hasHashCode(3355);
-        Assertions.assertThat(new FormDefinitionKey(" ", "id")).hasHashCode(3771);
-        Assertions.assertThat(new FormDefinitionKey("group", "id")).hasHashCode(1282183566);
-        Assertions.assertThat(new FormDefinitionKey("group", "ID")).hasHashCode(1282182542);
+        Assertions.assertThat(new FormDefinitionKey(" ", "id")).hasHashCode(4091);
+        Assertions.assertThat(new FormDefinitionKey("group", "id")).hasHashCode(-2026491260);
+        Assertions.assertThat(new FormDefinitionKey("group", "ID")).hasHashCode(-2026492284);
     }
 
     /**
