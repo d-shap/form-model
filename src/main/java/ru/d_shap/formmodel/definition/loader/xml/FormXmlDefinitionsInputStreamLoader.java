@@ -45,7 +45,7 @@ public final class FormXmlDefinitionsInputStreamLoader extends FormXmlDefinition
     /**
      * Create new object.
      *
-     * @param inputStream the specified input source.
+     * @param inputStream the source input stream.
      * @param source      the form's source.
      */
     public FormXmlDefinitionsInputStreamLoader(final InputStream inputStream, final String source) {
@@ -58,7 +58,7 @@ public final class FormXmlDefinitionsInputStreamLoader extends FormXmlDefinition
      * Create new object.
      *
      * @param xmlDocumentBuilderConfigurator configurator for the XML document builder.
-     * @param inputStream                    the specified input source.
+     * @param inputStream                    the source input stream.
      * @param source                         the form's source.
      */
     public FormXmlDefinitionsInputStreamLoader(final XmlDocumentBuilderConfigurator xmlDocumentBuilderConfigurator, final InputStream inputStream, final String source) {
@@ -71,7 +71,7 @@ public final class FormXmlDefinitionsInputStreamLoader extends FormXmlDefinition
      * Create new object.
      *
      * @param formDefinitionsLoader another loader for the form definitions.
-     * @param inputStream           the specified input source.
+     * @param inputStream           the source input stream.
      * @param source                the form's source.
      */
     public FormXmlDefinitionsInputStreamLoader(final FormXmlDefinitionsLoader formDefinitionsLoader, final InputStream inputStream, final String source) {
