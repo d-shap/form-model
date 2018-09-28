@@ -240,7 +240,7 @@ public final class FormDefinitionValidatorImplTest extends BaseFormModelTest {
             Assertions.assertThat(ex).hasMessage("[ID is empty], {source}form[@group:id]/element[@id]/element[@]");
         }
         try {
-            ElementDefinition invalidDefinition = new ElementDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
+            ElementDefinition invalidDefinition = new ElementDefinition("id", "lookup", CardinalityDefinition.OPTIONAL, createNodeDefinitions(), createOtherAttributes());
             SingleElementDefinition validDefinition = new SingleElementDefinition("id", CardinalityDefinition.REQUIRED, createNodeDefinitions(invalidDefinition), createOtherAttributes());
             createValidator().validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(validDefinition), createOtherAttributes(), "source"));
             Assertions.fail("FormDefinitionValidatorImpl test fail");
@@ -298,7 +298,7 @@ public final class FormDefinitionValidatorImplTest extends BaseFormModelTest {
             Assertions.assertThat(ex).hasMessage("[ID is empty], {source}form[@group:id]/element[@id]/singleElement[@]");
         }
         try {
-            SingleElementDefinition invalidDefinition = new SingleElementDefinition("id", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
+            SingleElementDefinition invalidDefinition = new SingleElementDefinition("id", CardinalityDefinition.OPTIONAL, createNodeDefinitions(), createOtherAttributes());
             SingleElementDefinition validDefinition = new SingleElementDefinition("id", CardinalityDefinition.REQUIRED, createNodeDefinitions(invalidDefinition), createOtherAttributes());
             createValidator().validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(validDefinition), createOtherAttributes(), "source"));
             Assertions.fail("FormDefinitionValidatorImpl test fail");
