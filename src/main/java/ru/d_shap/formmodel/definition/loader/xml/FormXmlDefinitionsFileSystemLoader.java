@@ -26,8 +26,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.xml.sax.InputSource;
-
 import ru.d_shap.formmodel.InputSourceReadException;
 import ru.d_shap.formmodel.XmlDocumentBuilderConfigurator;
 import ru.d_shap.formmodel.definition.model.FormDefinition;
@@ -51,7 +49,9 @@ public final class FormXmlDefinitionsFileSystemLoader extends FormXmlDefinitions
      * @param file the source file or directory.
      */
     public FormXmlDefinitionsFileSystemLoader(final File file) {
-        this(file, null, null);
+        super();
+        _file = file;
+        _fileFilter = getFileFilter(null);
     }
 
     /**
@@ -61,33 +61,66 @@ public final class FormXmlDefinitionsFileSystemLoader extends FormXmlDefinitions
      * @param fileFilter the file filter.
      */
     public FormXmlDefinitionsFileSystemLoader(final File file, final FileFilter fileFilter) {
-        this(file, fileFilter, null);
+        super();
+        _file = file;
+        _fileFilter = getFileFilter(fileFilter);
     }
 
     /**
      * Create new object.
      *
-     * @param file                           the source file or directory.
      * @param xmlDocumentBuilderConfigurator configurator for the XML document builder.
-     */
-    public FormXmlDefinitionsFileSystemLoader(final File file, final XmlDocumentBuilderConfigurator xmlDocumentBuilderConfigurator) {
-        this(file, null, xmlDocumentBuilderConfigurator);
-    }
-
-    /**
-     * Create new object.
-     *
      * @param file                           the source file or directory.
-     * @param fileFilter                     the file filter.
-     * @param xmlDocumentBuilderConfigurator configurator for the XML document builder.
      */
-    public FormXmlDefinitionsFileSystemLoader(final File file, final FileFilter fileFilter, final XmlDocumentBuilderConfigurator xmlDocumentBuilderConfigurator) {
+    public FormXmlDefinitionsFileSystemLoader(final XmlDocumentBuilderConfigurator xmlDocumentBuilderConfigurator, final File file) {
         super(xmlDocumentBuilderConfigurator);
         _file = file;
+        _fileFilter = getFileFilter(null);
+    }
+
+    /**
+     * Create new object.
+     *
+     * @param xmlDocumentBuilderConfigurator configurator for the XML document builder.
+     * @param file                           the source file or directory.
+     * @param fileFilter                     the file filter.
+     */
+    public FormXmlDefinitionsFileSystemLoader(final XmlDocumentBuilderConfigurator xmlDocumentBuilderConfigurator, final File file, final FileFilter fileFilter) {
+        super(xmlDocumentBuilderConfigurator);
+        _file = file;
+        _fileFilter = getFileFilter(fileFilter);
+    }
+
+    /**
+     * Create new object.
+     *
+     * @param formDefinitionsLoader another loader for the form definitions.
+     * @param file                  the source file or directory.
+     */
+    public FormXmlDefinitionsFileSystemLoader(final FormXmlDefinitionsLoader formDefinitionsLoader, final File file) {
+        super(formDefinitionsLoader);
+        _file = file;
+        _fileFilter = getFileFilter(null);
+    }
+
+    /**
+     * Create new object.
+     *
+     * @param formDefinitionsLoader another loader for the form definitions.
+     * @param file                  the source file or directory.
+     * @param fileFilter            the file filter.
+     */
+    public FormXmlDefinitionsFileSystemLoader(final FormXmlDefinitionsLoader formDefinitionsLoader, final File file, final FileFilter fileFilter) {
+        super(formDefinitionsLoader);
+        _file = file;
+        _fileFilter = getFileFilter(fileFilter);
+    }
+
+    private FileFilter getFileFilter(final FileFilter fileFilter) {
         if (fileFilter == null) {
-            _fileFilter = new DefaultFileFilter();
+            return new DefaultFileFilter();
         } else {
-            _fileFilter = fileFilter;
+            return fileFilter;
         }
     }
 
@@ -118,12 +151,9 @@ public final class FormXmlDefinitionsFileSystemLoader extends FormXmlDefinitions
 
     private void processFile(final File file, final int fileRootPathLength, final List<FormDefinition> formDefinitions) {
         try {
-            try (FileInputStream inputStream = new FileInputStream(file)) {
-                InputSource inputSource = new InputSource(inputStream);
-                FormDefinition formDefinition = getFormDefinition(inputSource, file.getAbsolutePath().substring(fileRootPathLength));
-                if (formDefinition != null) {
-                    formDefinitions.add(formDefinition);
-                }
+            String source = file.getAbsolutePath().substring(fileRootPathLength);
+            try (FormXmlDefinitionsInputStreamLoader loader = new FormXmlDefinitionsInputStreamLoader(new FileInputStream(file), source)) {
+                formDefinitions.addAll(loader.load());
             }
         } catch (IOException ex) {
             throw new InputSourceReadException(ex);
