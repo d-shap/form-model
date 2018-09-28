@@ -44,7 +44,7 @@ public final class OtherNodeDefinitionValidatorImpl implements OtherNodeDefiniti
         NodePath currentNodePath = new NodePath(nodePath, otherNodeDefinition);
 
         if (!((OtherNodeDefinitionImpl) otherNodeDefinition).isValid()) {
-            throw new FormDefinitionValidationException("Not valid!", currentNodePath);
+            throw new FormDefinitionValidationException("[Not valid!]", currentNodePath);
         }
 
         if (((OtherNodeDefinitionImpl) otherNodeDefinition).getAttributeDefinition() != null) {
