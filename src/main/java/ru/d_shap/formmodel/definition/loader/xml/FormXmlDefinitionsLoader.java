@@ -49,7 +49,7 @@ public abstract class FormXmlDefinitionsLoader extends FormDefinitionsLoader {
      * Create new object.
      */
     protected FormXmlDefinitionsLoader() {
-        this(null);
+        this((XmlDocumentBuilderConfigurator) null);
     }
 
     /**
@@ -63,6 +63,18 @@ public abstract class FormXmlDefinitionsLoader extends FormDefinitionsLoader {
         _xmlDocumentValidator = XmlDocumentValidator.getFormModelDocumentValidator();
         List<OtherNodeXmlDefinitionBuilder> otherNodeXmlDefinitionBuilders = ServiceFinder.find(OtherNodeXmlDefinitionBuilder.class);
         _formXmlDefinitionBuilder = new FormXmlDefinitionBuilderImpl(otherNodeXmlDefinitionBuilders);
+    }
+
+    /**
+     * Create new object.
+     *
+     * @param formDefinitionsLoader another loader for the form definitions.
+     */
+    protected FormXmlDefinitionsLoader(final FormXmlDefinitionsLoader formDefinitionsLoader) {
+        super();
+        _xmlDocumentBuilder = formDefinitionsLoader._xmlDocumentBuilder;
+        _xmlDocumentValidator = formDefinitionsLoader._xmlDocumentValidator;
+        _formXmlDefinitionBuilder = formDefinitionsLoader._formXmlDefinitionBuilder;
     }
 
     /**
