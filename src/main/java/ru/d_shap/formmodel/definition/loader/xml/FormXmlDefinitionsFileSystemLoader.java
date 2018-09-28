@@ -152,7 +152,7 @@ public final class FormXmlDefinitionsFileSystemLoader extends FormXmlDefinitions
     private void processFile(final File file, final int fileRootPathLength, final List<FormDefinition> formDefinitions) {
         try {
             String source = file.getAbsolutePath().substring(fileRootPathLength);
-            try (FormXmlDefinitionsInputStreamLoader loader = new FormXmlDefinitionsInputStreamLoader(new FileInputStream(file), source)) {
+            try (FormXmlDefinitionsInputStreamLoader loader = new FormXmlDefinitionsInputStreamLoader(this, new FileInputStream(file), source)) {
                 formDefinitions.addAll(loader.load());
             }
         } catch (IOException ex) {
