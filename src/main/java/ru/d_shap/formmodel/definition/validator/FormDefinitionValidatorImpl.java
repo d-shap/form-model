@@ -173,16 +173,12 @@ final class FormDefinitionValidatorImpl implements FormDefinitionValidator {
             validateCardinalityDefinition(singleElementDefinition.getCardinalityDefinition(), currentNodePath, CardinalityDefinition.REQUIRED, CardinalityDefinition.OPTIONAL, CardinalityDefinition.PROHIBITED);
         }
 
-        List<String> childNodeIds = new ArrayList<>();
         for (ElementDefinition childElementDefinition : singleElementDefinition.getElementDefinitions()) {
             validateElementDefinition(singleElementDefinition, childElementDefinition, currentNodePath);
-            childNodeIds.add(childElementDefinition.getId());
         }
         for (SingleElementDefinition childSingleElementDefinition : singleElementDefinition.getSingleElementDefinitions()) {
             validateSingleElementDefinition(singleElementDefinition, childSingleElementDefinition, currentNodePath);
-            childNodeIds.add(childSingleElementDefinition.getId());
         }
-        validateUniqueNodeIds(childNodeIds, currentNodePath);
 
         for (OtherNodeDefinition childOtherNodeDefinition : singleElementDefinition.getOtherNodeDefinitions()) {
             validateOtherNodeDefinition(singleElementDefinition, childOtherNodeDefinition, currentNodePath);
