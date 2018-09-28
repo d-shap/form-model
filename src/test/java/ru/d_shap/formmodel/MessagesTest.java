@@ -28,10 +28,10 @@ import org.w3c.dom.Document;
 import ru.d_shap.assertions.Assertions;
 import ru.d_shap.formmodel.definition.model.AttributeDefinition;
 import ru.d_shap.formmodel.definition.model.CardinalityDefinition;
-import ru.d_shap.formmodel.definition.model.ChoiceDefinition;
 import ru.d_shap.formmodel.definition.model.ElementDefinition;
 import ru.d_shap.formmodel.definition.model.FormDefinitionKey;
 import ru.d_shap.formmodel.definition.model.NodeDefinition;
+import ru.d_shap.formmodel.definition.model.SingleElementDefinition;
 
 /**
  * Tests for {@link Messages}.
@@ -79,6 +79,17 @@ public final class MessagesTest extends BaseFormModelTest {
      * {@link Messages} class test.
      */
     @Test
+    public void getAttributeDefinitionRepresentationTest() {
+        Assertions.assertThat(Messages.Representation.getAttributeDefinitionRepresentation(null)).isEqualTo("attribute[@]");
+        Assertions.assertThat(Messages.Representation.getAttributeDefinitionRepresentation("")).isEqualTo("attribute[@]");
+        Assertions.assertThat(Messages.Representation.getAttributeDefinitionRepresentation(" ")).isEqualTo("attribute[@ ]");
+        Assertions.assertThat(Messages.Representation.getAttributeDefinitionRepresentation("id")).isEqualTo("attribute[@id]");
+    }
+
+    /**
+     * {@link Messages} class test.
+     */
+    @Test
     public void getElementDefinitionRepresentationTest() {
         Assertions.assertThat(Messages.Representation.getElementDefinitionRepresentation(null)).isEqualTo("element[@]");
         Assertions.assertThat(Messages.Representation.getElementDefinitionRepresentation("")).isEqualTo("element[@]");
@@ -90,11 +101,11 @@ public final class MessagesTest extends BaseFormModelTest {
      * {@link Messages} class test.
      */
     @Test
-    public void getChoiceDefinitionRepresentationTest() {
-        Assertions.assertThat(Messages.Representation.getChoiceDefinitionRepresentation(null)).isEqualTo("choice[@]");
-        Assertions.assertThat(Messages.Representation.getChoiceDefinitionRepresentation("")).isEqualTo("choice[@]");
-        Assertions.assertThat(Messages.Representation.getChoiceDefinitionRepresentation(" ")).isEqualTo("choice[@ ]");
-        Assertions.assertThat(Messages.Representation.getChoiceDefinitionRepresentation("id")).isEqualTo("choice[@id]");
+    public void getSingleElementDefinitionRepresentationTest() {
+        Assertions.assertThat(Messages.Representation.getSingleElementDefinitionRepresentation(null)).isEqualTo("singleElement[@]");
+        Assertions.assertThat(Messages.Representation.getSingleElementDefinitionRepresentation("")).isEqualTo("singleElement[@]");
+        Assertions.assertThat(Messages.Representation.getSingleElementDefinitionRepresentation(" ")).isEqualTo("singleElement[@ ]");
+        Assertions.assertThat(Messages.Representation.getSingleElementDefinitionRepresentation("id")).isEqualTo("singleElement[@id]");
     }
 
     /**
@@ -102,24 +113,13 @@ public final class MessagesTest extends BaseFormModelTest {
      */
     @Test
     public void getFormReferenceDefinitionRepresentationTest() {
-        Assertions.assertThat(Messages.Representation.getFormReferenceDefinitionRepresentation(null, "id")).isEqualTo("form[@:id]");
-        Assertions.assertThat(Messages.Representation.getFormReferenceDefinitionRepresentation("", "id")).isEqualTo("form[@:id]");
-        Assertions.assertThat(Messages.Representation.getFormReferenceDefinitionRepresentation(" ", "id")).isEqualTo("form[@ :id]");
-        Assertions.assertThat(Messages.Representation.getFormReferenceDefinitionRepresentation("group", null)).isEqualTo("form[@group:]");
-        Assertions.assertThat(Messages.Representation.getFormReferenceDefinitionRepresentation("group", "")).isEqualTo("form[@group:]");
-        Assertions.assertThat(Messages.Representation.getFormReferenceDefinitionRepresentation("group", " ")).isEqualTo("form[@group: ]");
-        Assertions.assertThat(Messages.Representation.getFormReferenceDefinitionRepresentation("group", "id")).isEqualTo("form[@group:id]");
-    }
-
-    /**
-     * {@link Messages} class test.
-     */
-    @Test
-    public void getAttributeDefinitionRepresentationTest() {
-        Assertions.assertThat(Messages.Representation.getAttributeDefinitionRepresentation(null)).isEqualTo("attribute[@]");
-        Assertions.assertThat(Messages.Representation.getAttributeDefinitionRepresentation("")).isEqualTo("attribute[@]");
-        Assertions.assertThat(Messages.Representation.getAttributeDefinitionRepresentation(" ")).isEqualTo("attribute[@ ]");
-        Assertions.assertThat(Messages.Representation.getAttributeDefinitionRepresentation("id")).isEqualTo("attribute[@id]");
+        Assertions.assertThat(Messages.Representation.getFormReferenceDefinitionRepresentation(null, "id")).isEqualTo("formReference[@:id]");
+        Assertions.assertThat(Messages.Representation.getFormReferenceDefinitionRepresentation("", "id")).isEqualTo("formReference[@:id]");
+        Assertions.assertThat(Messages.Representation.getFormReferenceDefinitionRepresentation(" ", "id")).isEqualTo("formReference[@ :id]");
+        Assertions.assertThat(Messages.Representation.getFormReferenceDefinitionRepresentation("group", null)).isEqualTo("formReference[@group:]");
+        Assertions.assertThat(Messages.Representation.getFormReferenceDefinitionRepresentation("group", "")).isEqualTo("formReference[@group:]");
+        Assertions.assertThat(Messages.Representation.getFormReferenceDefinitionRepresentation("group", " ")).isEqualTo("formReference[@group: ]");
+        Assertions.assertThat(Messages.Representation.getFormReferenceDefinitionRepresentation("group", "id")).isEqualTo("formReference[@group:id]");
     }
 
     /**
@@ -162,55 +162,55 @@ public final class MessagesTest extends BaseFormModelTest {
      * {@link Messages} class test.
      */
     @Test
-    public void getFormDefinitionElementIsNotValidMessageTest() {
+    public void getFormDefinitionIsNotValidMessageTest() {
         Document document = XmlDocumentBuilder.getDocumentBuilder().newDocument();
-        Assertions.assertThat(Messages.Validation.getFormDefinitionElementIsNotValidMessage(null)).isEqualTo("[Form definition element is not valid: null]");
-        Assertions.assertThat(Messages.Validation.getFormDefinitionElementIsNotValidMessage(document.createElement("someElement"))).isEqualTo("[Form definition element is not valid: someElement]");
-        Assertions.assertThat(Messages.Validation.getFormDefinitionElementIsNotValidMessage(document.createElementNS("http://example.com", "someElement"))).isEqualTo("[Form definition element is not valid: {http://example.com}someElement]");
+        Assertions.assertThat(Messages.Validation.getFormDefinitionIsNotValidMessage(null)).isEqualTo("[Form definition is not valid: null]");
+        Assertions.assertThat(Messages.Validation.getFormDefinitionIsNotValidMessage(document.createElement("someElement"))).isEqualTo("[Form definition is not valid: someElement]");
+        Assertions.assertThat(Messages.Validation.getFormDefinitionIsNotValidMessage(document.createElementNS("http://example.com", "someElement"))).isEqualTo("[Form definition is not valid: {http://example.com}someElement]");
     }
 
     /**
      * {@link Messages} class test.
      */
     @Test
-    public void getElementDefinitionElementIsNotValidMessageTest() {
+    public void getAttributeDefinitionIsNotValidMessageTest() {
         Document document = XmlDocumentBuilder.getDocumentBuilder().newDocument();
-        Assertions.assertThat(Messages.Validation.getElementDefinitionElementIsNotValidMessage(null)).isEqualTo("[Element definition element is not valid: null]");
-        Assertions.assertThat(Messages.Validation.getElementDefinitionElementIsNotValidMessage(document.createElement("someElement"))).isEqualTo("[Element definition element is not valid: someElement]");
-        Assertions.assertThat(Messages.Validation.getElementDefinitionElementIsNotValidMessage(document.createElementNS("http://example.com", "someElement"))).isEqualTo("[Element definition element is not valid: {http://example.com}someElement]");
+        Assertions.assertThat(Messages.Validation.getAttributeDefinitionIsNotValidMessage(null)).isEqualTo("[Attribute definition is not valid: null]");
+        Assertions.assertThat(Messages.Validation.getAttributeDefinitionIsNotValidMessage(document.createElement("someElement"))).isEqualTo("[Attribute definition is not valid: someElement]");
+        Assertions.assertThat(Messages.Validation.getAttributeDefinitionIsNotValidMessage(document.createElementNS("http://example.com", "someElement"))).isEqualTo("[Attribute definition is not valid: {http://example.com}someElement]");
     }
 
     /**
      * {@link Messages} class test.
      */
     @Test
-    public void getChoiceDefinitionElementIsNotValidMessageTest() {
+    public void getElementDefinitionIsNotValidMessageTest() {
         Document document = XmlDocumentBuilder.getDocumentBuilder().newDocument();
-        Assertions.assertThat(Messages.Validation.getChoiceDefinitionElementIsNotValidMessage(null)).isEqualTo("[Choice definition element is not valid: null]");
-        Assertions.assertThat(Messages.Validation.getChoiceDefinitionElementIsNotValidMessage(document.createElement("someElement"))).isEqualTo("[Choice definition element is not valid: someElement]");
-        Assertions.assertThat(Messages.Validation.getChoiceDefinitionElementIsNotValidMessage(document.createElementNS("http://example.com", "someElement"))).isEqualTo("[Choice definition element is not valid: {http://example.com}someElement]");
+        Assertions.assertThat(Messages.Validation.getElementDefinitionIsNotValidMessage(null)).isEqualTo("[Element definition is not valid: null]");
+        Assertions.assertThat(Messages.Validation.getElementDefinitionIsNotValidMessage(document.createElement("someElement"))).isEqualTo("[Element definition is not valid: someElement]");
+        Assertions.assertThat(Messages.Validation.getElementDefinitionIsNotValidMessage(document.createElementNS("http://example.com", "someElement"))).isEqualTo("[Element definition is not valid: {http://example.com}someElement]");
     }
 
     /**
      * {@link Messages} class test.
      */
     @Test
-    public void getFormReferenceDefinitionElementIsNotValidMessageTest() {
+    public void getSingleElementDefinitionIsNotValidMessageTest() {
         Document document = XmlDocumentBuilder.getDocumentBuilder().newDocument();
-        Assertions.assertThat(Messages.Validation.getFormReferenceDefinitionElementIsNotValidMessage(null)).isEqualTo("[Form reference definition element is not valid: null]");
-        Assertions.assertThat(Messages.Validation.getFormReferenceDefinitionElementIsNotValidMessage(document.createElement("someElement"))).isEqualTo("[Form reference definition element is not valid: someElement]");
-        Assertions.assertThat(Messages.Validation.getFormReferenceDefinitionElementIsNotValidMessage(document.createElementNS("http://example.com", "someElement"))).isEqualTo("[Form reference definition element is not valid: {http://example.com}someElement]");
+        Assertions.assertThat(Messages.Validation.getSingleElementDefinitionIsNotValidMessage(null)).isEqualTo("[Single element definition is not valid: null]");
+        Assertions.assertThat(Messages.Validation.getSingleElementDefinitionIsNotValidMessage(document.createElement("someElement"))).isEqualTo("[Single element definition is not valid: someElement]");
+        Assertions.assertThat(Messages.Validation.getSingleElementDefinitionIsNotValidMessage(document.createElementNS("http://example.com", "someElement"))).isEqualTo("[Single element definition is not valid: {http://example.com}someElement]");
     }
 
     /**
      * {@link Messages} class test.
      */
     @Test
-    public void getAttributeDefinitionElementIsNotValidMessageTest() {
+    public void getFormReferenceDefinitionIsNotValidMessageTest() {
         Document document = XmlDocumentBuilder.getDocumentBuilder().newDocument();
-        Assertions.assertThat(Messages.Validation.getAttributeDefinitionElementIsNotValidMessage(null)).isEqualTo("[Attribute definition element is not valid: null]");
-        Assertions.assertThat(Messages.Validation.getAttributeDefinitionElementIsNotValidMessage(document.createElement("someElement"))).isEqualTo("[Attribute definition element is not valid: someElement]");
-        Assertions.assertThat(Messages.Validation.getAttributeDefinitionElementIsNotValidMessage(document.createElementNS("http://example.com", "someElement"))).isEqualTo("[Attribute definition element is not valid: {http://example.com}someElement]");
+        Assertions.assertThat(Messages.Validation.getFormReferenceDefinitionIsNotValidMessage(null)).isEqualTo("[Form reference definition is not valid: null]");
+        Assertions.assertThat(Messages.Validation.getFormReferenceDefinitionIsNotValidMessage(document.createElement("someElement"))).isEqualTo("[Form reference definition is not valid: someElement]");
+        Assertions.assertThat(Messages.Validation.getFormReferenceDefinitionIsNotValidMessage(document.createElementNS("http://example.com", "someElement"))).isEqualTo("[Form reference definition is not valid: {http://example.com}someElement]");
     }
 
     /**
@@ -366,6 +366,30 @@ public final class MessagesTest extends BaseFormModelTest {
      * {@link Messages} class test.
      */
     @Test
+    public void getRequiredAttributeIsNotPresentMessageTest() {
+        Assertions.assertThat(Messages.Binding.getRequiredAttributeIsNotPresentMessage(null)).isEqualTo("[Required attribute is not present: null]");
+        Assertions.assertThat(Messages.Binding.getRequiredAttributeIsNotPresentMessage(new AttributeDefinition(null, "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>()))).isEqualTo("[Required attribute is not present: attribute[@]]");
+        Assertions.assertThat(Messages.Binding.getRequiredAttributeIsNotPresentMessage(new AttributeDefinition("", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>()))).isEqualTo("[Required attribute is not present: attribute[@]]");
+        Assertions.assertThat(Messages.Binding.getRequiredAttributeIsNotPresentMessage(new AttributeDefinition(" ", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>()))).isEqualTo("[Required attribute is not present: attribute[@ ]]");
+        Assertions.assertThat(Messages.Binding.getRequiredAttributeIsNotPresentMessage(new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>()))).isEqualTo("[Required attribute is not present: attribute[@id]]");
+    }
+
+    /**
+     * {@link Messages} class test.
+     */
+    @Test
+    public void getProhibitedAttributeIsPresentMessageTest() {
+        Assertions.assertThat(Messages.Binding.getProhibitedAttributeIsPresentMessage(null)).isEqualTo("[Prohibited attribute is present: null]");
+        Assertions.assertThat(Messages.Binding.getProhibitedAttributeIsPresentMessage(new AttributeDefinition(null, "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>()))).isEqualTo("[Prohibited attribute is present: attribute[@]]");
+        Assertions.assertThat(Messages.Binding.getProhibitedAttributeIsPresentMessage(new AttributeDefinition("", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>()))).isEqualTo("[Prohibited attribute is present: attribute[@]]");
+        Assertions.assertThat(Messages.Binding.getProhibitedAttributeIsPresentMessage(new AttributeDefinition(" ", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>()))).isEqualTo("[Prohibited attribute is present: attribute[@ ]]");
+        Assertions.assertThat(Messages.Binding.getProhibitedAttributeIsPresentMessage(new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>()))).isEqualTo("[Prohibited attribute is present: attribute[@id]]");
+    }
+
+    /**
+     * {@link Messages} class test.
+     */
+    @Test
     public void getRequiredElementIsNotPresentMessageTest() {
         Assertions.assertThat(Messages.Binding.getRequiredElementIsNotPresentMessage(null)).isEqualTo("[Required element is not present: null]");
         Assertions.assertThat(Messages.Binding.getRequiredElementIsNotPresentMessage(new ElementDefinition(null, "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>()))).isEqualTo("[Required element is not present: element[@]]");
@@ -414,36 +438,12 @@ public final class MessagesTest extends BaseFormModelTest {
      * {@link Messages} class test.
      */
     @Test
-    public void getRequiredAttributeIsNotPresentMessageTest() {
-        Assertions.assertThat(Messages.Binding.getRequiredAttributeIsNotPresentMessage(null)).isEqualTo("[Required attribute is not present: null]");
-        Assertions.assertThat(Messages.Binding.getRequiredAttributeIsNotPresentMessage(new AttributeDefinition(null, "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>()))).isEqualTo("[Required attribute is not present: attribute[@]]");
-        Assertions.assertThat(Messages.Binding.getRequiredAttributeIsNotPresentMessage(new AttributeDefinition("", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>()))).isEqualTo("[Required attribute is not present: attribute[@]]");
-        Assertions.assertThat(Messages.Binding.getRequiredAttributeIsNotPresentMessage(new AttributeDefinition(" ", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>()))).isEqualTo("[Required attribute is not present: attribute[@ ]]");
-        Assertions.assertThat(Messages.Binding.getRequiredAttributeIsNotPresentMessage(new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>()))).isEqualTo("[Required attribute is not present: attribute[@id]]");
-    }
-
-    /**
-     * {@link Messages} class test.
-     */
-    @Test
-    public void getProhibitedAttributeIsPresentMessageTest() {
-        Assertions.assertThat(Messages.Binding.getProhibitedAttributeIsPresentMessage(null)).isEqualTo("[Prohibited attribute is present: null]");
-        Assertions.assertThat(Messages.Binding.getProhibitedAttributeIsPresentMessage(new AttributeDefinition(null, "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>()))).isEqualTo("[Prohibited attribute is present: attribute[@]]");
-        Assertions.assertThat(Messages.Binding.getProhibitedAttributeIsPresentMessage(new AttributeDefinition("", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>()))).isEqualTo("[Prohibited attribute is present: attribute[@]]");
-        Assertions.assertThat(Messages.Binding.getProhibitedAttributeIsPresentMessage(new AttributeDefinition(" ", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>()))).isEqualTo("[Prohibited attribute is present: attribute[@ ]]");
-        Assertions.assertThat(Messages.Binding.getProhibitedAttributeIsPresentMessage(new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>()))).isEqualTo("[Prohibited attribute is present: attribute[@id]]");
-    }
-
-    /**
-     * {@link Messages} class test.
-     */
-    @Test
-    public void getMultipleChoiceElementsArePresentMessageTest() {
-        Assertions.assertThat(Messages.Binding.getMultipleChoiceElementsArePresentMessage(null)).isEqualTo("[Multiple choice elements are present: null]");
-        Assertions.assertThat(Messages.Binding.getMultipleChoiceElementsArePresentMessage(new ChoiceDefinition(null, CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>()))).isEqualTo("[Multiple choice elements are present: choice[@]]");
-        Assertions.assertThat(Messages.Binding.getMultipleChoiceElementsArePresentMessage(new ChoiceDefinition("", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>()))).isEqualTo("[Multiple choice elements are present: choice[@]]");
-        Assertions.assertThat(Messages.Binding.getMultipleChoiceElementsArePresentMessage(new ChoiceDefinition(" ", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>()))).isEqualTo("[Multiple choice elements are present: choice[@ ]]");
-        Assertions.assertThat(Messages.Binding.getMultipleChoiceElementsArePresentMessage(new ChoiceDefinition("id", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>()))).isEqualTo("[Multiple choice elements are present: choice[@id]]");
+    public void getMultipleSingleElementsArePresentMessageTest() {
+        Assertions.assertThat(Messages.Binding.getMultipleSingleElementsArePresentMessage(null)).isEqualTo("[Multiple single elements are present: null]");
+        Assertions.assertThat(Messages.Binding.getMultipleSingleElementsArePresentMessage(new SingleElementDefinition(null, CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>()))).isEqualTo("[Multiple single elements are present: singleElement[@]]");
+        Assertions.assertThat(Messages.Binding.getMultipleSingleElementsArePresentMessage(new SingleElementDefinition("", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>()))).isEqualTo("[Multiple single elements are present: singleElement[@]]");
+        Assertions.assertThat(Messages.Binding.getMultipleSingleElementsArePresentMessage(new SingleElementDefinition(" ", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>()))).isEqualTo("[Multiple single elements are present: singleElement[@ ]]");
+        Assertions.assertThat(Messages.Binding.getMultipleSingleElementsArePresentMessage(new SingleElementDefinition("id", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>()))).isEqualTo("[Multiple single elements are present: singleElement[@id]]");
     }
 
 }
