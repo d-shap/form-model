@@ -37,10 +37,10 @@ import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 
 import ru.d_shap.formmodel.definition.model.AttributeDefinition;
-import ru.d_shap.formmodel.definition.model.ChoiceDefinition;
 import ru.d_shap.formmodel.definition.model.ElementDefinition;
 import ru.d_shap.formmodel.definition.model.FormReferenceDefinition;
 import ru.d_shap.formmodel.definition.model.NodeDefinition;
+import ru.d_shap.formmodel.definition.model.SingleElementDefinition;
 
 /**
  * Base form model test class.
@@ -94,7 +94,7 @@ public class BaseFormModelTest {
             Set<String> result = new HashSet<>();
             result.add(AttributeDefinition.ELEMENT_NAME);
             result.add(ElementDefinition.ELEMENT_NAME);
-            result.add(ChoiceDefinition.ELEMENT_NAME);
+            result.add(SingleElementDefinition.ELEMENT_NAME);
             result.add(FormReferenceDefinition.ELEMENT_NAME);
             return result;
         } else {
