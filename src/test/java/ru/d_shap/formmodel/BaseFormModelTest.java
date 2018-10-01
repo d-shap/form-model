@@ -202,6 +202,11 @@ public class BaseFormModelTest {
 
         private final List<FormDefinition> _formDefinitions;
 
+        /**
+         * Create new object.
+         *
+         * @param formDefinitions the form definitions for this loader.
+         */
         public FormDefinitionsLoaderImpl(final FormDefinition... formDefinitions) {
             super();
             _formDefinitions = Arrays.asList(formDefinitions);
