@@ -147,7 +147,7 @@ public final class Messages {
                 if (element.getNamespaceURI() == null) {
                     return element.getTagName();
                 } else {
-                    return "{" + element.getNamespaceURI() + "}" + element.getTagName();
+                    return "{" + element.getNamespaceURI() + "}" + element.getLocalName();
                 }
             }
         }
