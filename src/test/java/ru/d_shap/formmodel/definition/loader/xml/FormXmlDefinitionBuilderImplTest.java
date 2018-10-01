@@ -28,6 +28,8 @@ import org.w3c.dom.Element;
 import ru.d_shap.assertions.Assertions;
 import ru.d_shap.formmodel.BaseFormModelTest;
 import ru.d_shap.formmodel.ServiceFinder;
+import ru.d_shap.formmodel.definition.FormDefinitionValidationException;
+import ru.d_shap.formmodel.definition.model.FormDefinition;
 
 /**
  * Tests for {@link FormXmlDefinitionBuilderImpl}.
@@ -84,7 +86,62 @@ public final class FormXmlDefinitionBuilderImplTest extends BaseFormModelTest {
      */
     @Test
     public void createFormDefinitionTest() {
+        String xml1 = "<?xml version='1.0'?>\n";
+        xml1 += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml1 += "</ns1:form>";
+        Document document1 = parse(xml1);
+        FormDefinition formDefinition1 = createBuilder().createFormDefinition(document1.getDocumentElement(), "source1");
+        Assertions.assertThat(formDefinition1).isNotNull();
+        Assertions.assertThat(formDefinition1.getGroup()).isEqualTo("");
+        Assertions.assertThat(formDefinition1.getId()).isEqualTo("id1");
+        Assertions.assertThat(formDefinition1.getSource()).isEqualTo("source1");
+        Assertions.assertThat(formDefinition1.getAllNodeDefinitions()).hasSize(0);
+        Assertions.assertThat(formDefinition1.getOtherAttributeNames()).containsExactly();
 
+        String xml2 = "<?xml version='1.0'?>\n";
+        xml2 += "<form id='id1' xmlns='http://d-shap.ru/schema/form-model/1.0'>";
+        xml2 += "</form>";
+        Document document2 = parse(xml2);
+        FormDefinition formDefinition2 = createBuilder().createFormDefinition(document2.getDocumentElement(), "source2");
+        Assertions.assertThat(formDefinition2).isNotNull();
+        Assertions.assertThat(formDefinition2.getGroup()).isEqualTo("");
+        Assertions.assertThat(formDefinition2.getId()).isEqualTo("id1");
+        Assertions.assertThat(formDefinition2.getSource()).isEqualTo("source2");
+        Assertions.assertThat(formDefinition2.getAllNodeDefinitions()).hasSize(0);
+        Assertions.assertThat(formDefinition2.getOtherAttributeNames()).containsExactly();
+
+        try {
+            String xml3 = "<?xml version='1.0'?>\n";
+            xml3 += "<ns1:form id='id1' xmlns:ns1='http://example.com'>";
+            xml3 += "</ns1:form>";
+            Document document3 = parse(xml3);
+            createBuilder().createFormDefinition(document3.getDocumentElement(), "source3");
+            Assertions.fail("FormXmlDefinitionBuilderImpl test fail");
+        } catch (FormDefinitionValidationException ex) {
+            Assertions.assertThat(ex).hasMessage("[Form definition is not valid: {http://example.com}form]");
+        }
+
+        try {
+            String xml4 = "<?xml version='1.0'?>\n";
+            xml4 += "<ns1:FORM id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+            xml4 += "</ns1:FORM>";
+            Document document4 = parse(xml4);
+            createBuilder().createFormDefinition(document4.getDocumentElement(), "source4");
+            Assertions.fail("FormXmlDefinitionBuilderImpl test fail");
+        } catch (FormDefinitionValidationException ex) {
+            Assertions.assertThat(ex).hasMessage("[Form definition is not valid: {http://d-shap.ru/schema/form-model/1.0}FORM]");
+        }
+
+        try {
+            String xml5 = "<?xml version='1.0'?>\n";
+            xml5 += "<form id='id1'>";
+            xml5 += "</form>";
+            Document document5 = parse(xml5);
+            createBuilder().createFormDefinition(document5.getDocumentElement(), "source5");
+            Assertions.fail("FormXmlDefinitionBuilderImpl test fail");
+        } catch (FormDefinitionValidationException ex) {
+            Assertions.assertThat(ex).hasMessage("[Form definition is not valid: form]");
+        }
     }
 
     /**
