@@ -36,8 +36,10 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 
+import ru.d_shap.formmodel.definition.loader.FormDefinitionsLoader;
 import ru.d_shap.formmodel.definition.model.AttributeDefinition;
 import ru.d_shap.formmodel.definition.model.ElementDefinition;
+import ru.d_shap.formmodel.definition.model.FormDefinition;
 import ru.d_shap.formmodel.definition.model.FormReferenceDefinition;
 import ru.d_shap.formmodel.definition.model.NodeDefinition;
 import ru.d_shap.formmodel.definition.model.SingleElementDefinition;
@@ -187,6 +189,27 @@ public class BaseFormModelTest {
         @Override
         public int read() throws IOException {
             throw new IOException("ERROR!");
+        }
+
+    }
+
+    /**
+     * Test class.
+     *
+     * @author Dmitry Shapovalov
+     */
+    public static final class FormDefinitionsLoaderImpl extends FormDefinitionsLoader {
+
+        private final List<FormDefinition> _formDefinitions;
+
+        public FormDefinitionsLoaderImpl(final FormDefinition... formDefinitions) {
+            super();
+            _formDefinitions = Arrays.asList(formDefinitions);
+        }
+
+        @Override
+        public List<FormDefinition> load() {
+            return _formDefinitions;
         }
 
     }
