@@ -318,7 +318,53 @@ public final class FormXmlDefinitionBuilderImplTest extends BaseFormModelTest {
      */
     @Test
     public void isOtherNodeDefinitionTest() {
+        String xml1 = "<?xml version='1.0'?>\n";
+        xml1 += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml1 += "<otherNode>";
+        xml1 += "</otherNode>";
+        xml1 += "</ns1:form>";
+        Document document1 = parse(xml1);
+        Assertions.assertThat(createBuilder().isOtherNodeDefinition((Element) document1.getDocumentElement().getFirstChild())).isTrue();
 
+        String xml2 = "<?xml version='1.0'?>\n";
+        xml2 += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0' xmlns:ns2='http://example.com'>";
+        xml2 += "<ns2:otherNode>";
+        xml2 += "</ns2:otherNode>";
+        xml2 += "</ns1:form>";
+        Document document2 = parse(xml2);
+        Assertions.assertThat(createBuilder().isOtherNodeDefinition((Element) document2.getDocumentElement().getFirstChild())).isTrue();
+
+        String xml3 = "<?xml version='1.0'?>\n";
+        xml3 += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml3 += "<ns2:otherNode xmlns:ns2='http://example.com'>";
+        xml3 += "</ns2:otherNode>";
+        xml3 += "</ns1:form>";
+        Document document3 = parse(xml3);
+        Assertions.assertThat(createBuilder().isOtherNodeDefinition((Element) document3.getDocumentElement().getFirstChild())).isTrue();
+
+        String xml4 = "<?xml version='1.0'?>\n";
+        xml4 += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml4 += "<otherNode xmlns='http://example.com'>";
+        xml4 += "</otherNode>";
+        xml4 += "</ns1:form>";
+        Document document4 = parse(xml4);
+        Assertions.assertThat(createBuilder().isOtherNodeDefinition((Element) document4.getDocumentElement().getFirstChild())).isTrue();
+
+        String xml5 = "<?xml version='1.0'?>\n";
+        xml5 += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml5 += "<ns1:otherNode>";
+        xml5 += "</ns1:otherNode>";
+        xml5 += "</ns1:form>";
+        Document document5 = parse(xml5);
+        Assertions.assertThat(createBuilder().isOtherNodeDefinition((Element) document5.getDocumentElement().getFirstChild())).isFalse();
+
+        String xml6 = "<?xml version='1.0'?>\n";
+        xml6 += "<form id='id1' xmlns='http://d-shap.ru/schema/form-model/1.0'>";
+        xml6 += "<otherNode>";
+        xml6 += "</otherNode>";
+        xml6 += "</form>";
+        Document document6 = parse(xml6);
+        Assertions.assertThat(createBuilder().isOtherNodeDefinition((Element) document6.getDocumentElement().getFirstChild())).isFalse();
     }
 
     /**
