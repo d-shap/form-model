@@ -64,12 +64,16 @@ final class FormXmlDefinitionBuilderImpl implements FormXmlDefinitionBuilder {
     }
 
     FormDefinition createFormDefinition(final Element element, final String source) {
-        String group = getAttributeValue(element, FORM_DEFINITION_ATTRIBUTE_GROUP);
-        String id = getAttributeValue(element, FORM_DEFINITION_ATTRIBUTE_ID);
-        NodePath currentNodePath = new NodePath(Messages.Representation.getFormDefinitionRepresentation(source, group, id));
-        List<NodeDefinition> nodeDefinitions = getNodeDefinitions(element, FORM_DEFINITION_CHILD_ELEMENT_NAMES, currentNodePath);
-        Map<String, String> otherAttributes = getOtherAttributes(element, FORM_DEFINITION_ATTRIBUTE_NAMES);
-        return new FormDefinition(group, id, nodeDefinitions, otherAttributes, source);
+        if (isFormDefinition(element)) {
+            String group = getAttributeValue(element, FORM_DEFINITION_ATTRIBUTE_GROUP);
+            String id = getAttributeValue(element, FORM_DEFINITION_ATTRIBUTE_ID);
+            NodePath currentNodePath = new NodePath(Messages.Representation.getFormDefinitionRepresentation(source, group, id));
+            List<NodeDefinition> nodeDefinitions = getNodeDefinitions(element, FORM_DEFINITION_CHILD_ELEMENT_NAMES, currentNodePath);
+            Map<String, String> otherAttributes = getOtherAttributes(element, FORM_DEFINITION_ATTRIBUTE_NAMES);
+            return new FormDefinition(group, id, nodeDefinitions, otherAttributes, source);
+        } else {
+            throw new FormDefinitionValidationException(Messages.Validation.getFormDefinitionIsNotValidMessage(element));
+        }
     }
 
     @Override
