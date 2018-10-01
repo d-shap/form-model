@@ -264,7 +264,45 @@ public final class FormXmlDefinitionBuilderImplTest extends BaseFormModelTest {
      */
     @Test
     public void isFormReferenceDefinitionTest() {
+        String xml1 = "<?xml version='1.0'?>\n";
+        xml1 += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml1 += "<ns1:formReference id='id2'>";
+        xml1 += "</ns1:formReference>";
+        xml1 += "</ns1:form>";
+        Document document1 = parse(xml1);
+        Assertions.assertThat(createBuilder().isFormReferenceDefinition((Element) document1.getDocumentElement().getFirstChild())).isTrue();
 
+        String xml2 = "<?xml version='1.0'?>\n";
+        xml2 += "<form id='id1' xmlns='http://d-shap.ru/schema/form-model/1.0'>";
+        xml2 += "<formReference id='id2'>";
+        xml2 += "</formReference>";
+        xml2 += "</form>";
+        Document document2 = parse(xml2);
+        Assertions.assertThat(createBuilder().isFormReferenceDefinition((Element) document2.getDocumentElement().getFirstChild())).isTrue();
+
+        String xml3 = "<?xml version='1.0'?>\n";
+        xml3 += "<ns1:form id='id1' xmlns:ns1='http://example.com'>";
+        xml3 += "<ns1:formReference id='id2'>";
+        xml3 += "</ns1:formReference>";
+        xml3 += "</ns1:form>";
+        Document document3 = parse(xml3);
+        Assertions.assertThat(createBuilder().isFormReferenceDefinition((Element) document3.getDocumentElement().getFirstChild())).isFalse();
+
+        String xml4 = "<?xml version='1.0'?>\n";
+        xml4 += "<ns1:FORM id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml4 += "<ns1:FORMREFERENCE id='id2'>";
+        xml4 += "</ns1:FORMREFERENCE>";
+        xml4 += "</ns1:FORM>";
+        Document document4 = parse(xml4);
+        Assertions.assertThat(createBuilder().isFormReferenceDefinition((Element) document4.getDocumentElement().getFirstChild())).isFalse();
+
+        String xml5 = "<?xml version='1.0'?>\n";
+        xml5 += "<form id='id1'>";
+        xml5 += "<formReference id='id2'>";
+        xml5 += "</formReference>";
+        xml5 += "</form>";
+        Document document5 = parse(xml5);
+        Assertions.assertThat(createBuilder().isFormReferenceDefinition((Element) document5.getDocumentElement().getFirstChild())).isFalse();
     }
 
     /**
