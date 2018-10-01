@@ -83,7 +83,7 @@ public final class DefaultOtherNodeXmlDefinitionTest extends BaseFormModelTest {
 
         Element element2 = (Element) element1.getFirstChild();
         DefaultOtherNodeXmlDefinition otherNodeXmlDefinition2 = new DefaultOtherNodeXmlDefinition(element2);
-        Assertions.assertThat(otherNodeXmlDefinition2).hasToString("{http://example.com}ns1:element");
+        Assertions.assertThat(otherNodeXmlDefinition2).hasToString("{http://example.com}element");
     }
 
 }
