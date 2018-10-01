@@ -26,6 +26,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.junit.Test;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
 
 import ru.d_shap.assertions.Assertions;
@@ -96,12 +97,17 @@ public final class XmlDocumentBuilderTest extends BaseFormModelTest {
     @Test
     public void parseTest() {
         String xml = "<?xml version='1.0'?>\n";
-        xml += "<document>";
-        xml += "value";
+        xml += "<document xmlns:ns1='http://example.com'>";
+        xml += "<ns1:element>value</ns1:element>";
         xml += "</document>";
         Document document = XmlDocumentBuilder.getDocumentBuilder().parse(new InputSource(new StringReader(xml)));
         Assertions.assertThat(document).isNotNull();
         Assertions.assertThat(document.getDocumentElement().getTagName()).isEqualTo("document");
+        Assertions.assertThat(document.getDocumentElement().getNamespaceURI()).isNull();
+        Assertions.assertThat(document.getDocumentElement().getLocalName()).isEqualTo("document");
+        Assertions.assertThat(((Element) document.getDocumentElement().getFirstChild()).getTagName()).isEqualTo("ns1:element");
+        Assertions.assertThat(document.getDocumentElement().getFirstChild().getNamespaceURI()).isEqualTo("http://example.com");
+        Assertions.assertThat(document.getDocumentElement().getFirstChild().getLocalName()).isEqualTo("element");
         Assertions.assertThat(document.getDocumentElement().getTextContent()).isEqualTo("value");
     }
 
