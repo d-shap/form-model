@@ -25,6 +25,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.xml.XMLConstants;
+
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -251,6 +253,9 @@ final class FormXmlDefinitionBuilderImpl implements FormXmlDefinitionBuilder {
         for (int i = 0; i < namedNodeMap.getLength(); i++) {
             Node node = namedNodeMap.item(i);
             String attributeName = node.getNodeName();
+            if (XMLConstants.XMLNS_ATTRIBUTE_NS_URI.equals(node.getNamespaceURI())) {
+                continue;
+            }
             if (skipAttributeNames.contains(attributeName)) {
                 continue;
             }
