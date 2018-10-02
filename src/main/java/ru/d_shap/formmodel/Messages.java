@@ -221,6 +221,17 @@ public final class Messages {
         }
 
         /**
+         * Get the error message when the other node definition is not valid.
+         *
+         * @param element the invalid other node definition.
+         *
+         * @return the error message.
+         */
+        public static String getOtherNodeDefinitionIsNotValidMessage(final Element element) {
+            return "[Other node definition is not valid: " + Representation.getXmlElementRepresentation(element) + "]";
+        }
+
+        /**
          * Get the error message when the child XML element is not valid.
          *
          * @param element the invalid child XML element.
