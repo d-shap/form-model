@@ -51,7 +51,7 @@ public final class NodePathTest extends BaseFormModelTest {
      */
     @Test
     public void toStringWithRepresentationTest() {
-        Assertions.assertThat(new NodePath((String) null)).hasToString("null");
+        Assertions.assertThat(new NodePath((String) null)).hasToString("");
         Assertions.assertThat(new NodePath("value")).hasToString("value");
         Assertions.assertThat(new NodePath("vAlUe")).hasToString("vAlUe");
     }
@@ -61,7 +61,7 @@ public final class NodePathTest extends BaseFormModelTest {
      */
     @Test
     public void toStringWithDefinitionTest() {
-        Assertions.assertThat(new NodePath((NodeDefinition) null)).hasToString("null");
+        Assertions.assertThat(new NodePath((NodeDefinition) null)).hasToString("");
         Assertions.assertThat(new NodePath(new FormDefinition("group", "id", createNodeDefinitions(), createOtherAttributes(), "source"))).hasToString("{source}form[@group:id]");
         Assertions.assertThat(new NodePath(new ElementDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes()))).hasToString("element[@id]");
     }
@@ -92,8 +92,8 @@ public final class NodePathTest extends BaseFormModelTest {
         Assertions.assertThat(new NodePath(parent5, "vAlUe")).hasToString("element[@id]/vAlUe");
 
         NodePath parent6 = new NodePath(parent2, (String) null);
-        Assertions.assertThat(new NodePath(parent6, "value")).hasToString("parent/null/value");
-        Assertions.assertThat(new NodePath(parent6, "vAlUe")).hasToString("parent/null/vAlUe");
+        Assertions.assertThat(new NodePath(parent6, "value")).hasToString("parent//value");
+        Assertions.assertThat(new NodePath(parent6, "vAlUe")).hasToString("parent//vAlUe");
     }
 
     /**
@@ -122,8 +122,8 @@ public final class NodePathTest extends BaseFormModelTest {
         Assertions.assertThat(new NodePath(parent5, new ElementDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes()))).hasToString("element[@id]/element[@id]");
 
         NodePath parent6 = new NodePath(parent2, (NodeDefinition) null);
-        Assertions.assertThat(new NodePath(parent6, new FormDefinition("group", "id", createNodeDefinitions(), createOtherAttributes(), "source"))).hasToString("parent/null/{source}form[@group:id]");
-        Assertions.assertThat(new NodePath(parent6, new ElementDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes()))).hasToString("parent/null/element[@id]");
+        Assertions.assertThat(new NodePath(parent6, new FormDefinition("group", "id", createNodeDefinitions(), createOtherAttributes(), "source"))).hasToString("parent//{source}form[@group:id]");
+        Assertions.assertThat(new NodePath(parent6, new ElementDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes()))).hasToString("parent//element[@id]");
     }
 
 }
