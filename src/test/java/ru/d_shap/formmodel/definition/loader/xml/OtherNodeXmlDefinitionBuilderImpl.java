@@ -25,6 +25,7 @@ import org.w3c.dom.NodeList;
 
 import ru.d_shap.formmodel.Messages;
 import ru.d_shap.formmodel.definition.model.AttributeDefinition;
+import ru.d_shap.formmodel.definition.model.CardinalityDefinition;
 import ru.d_shap.formmodel.definition.model.ElementDefinition;
 import ru.d_shap.formmodel.definition.model.FormReferenceDefinition;
 import ru.d_shap.formmodel.definition.model.NodePath;
@@ -92,6 +93,16 @@ public final class OtherNodeXmlDefinitionBuilderImpl implements OtherNodeXmlDefi
             OtherNodeDefinition childOtherNodeDefinition = formXmlDefinitionBuilder.createOtherNodeDefinition(parentElement, element, nodePath);
             otherNodeDefinition.setOtherNodeDefinition(childOtherNodeDefinition);
         }
+    }
+
+    @Override
+    public CardinalityDefinition getChildElementDefinitionDefaultCardinality(final Element element) {
+        return CardinalityDefinition.PROHIBITED;
+    }
+
+    @Override
+    public CardinalityDefinition getChildSingleElementDefinitionDefaultCardinality(final Element element) {
+        return CardinalityDefinition.PROHIBITED;
     }
 
 }
