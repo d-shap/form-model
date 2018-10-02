@@ -96,12 +96,12 @@ public final class OtherNodeXmlDefinitionBuilderImpl implements OtherNodeXmlDefi
     }
 
     @Override
-    public CardinalityDefinition getChildElementDefinitionDefaultCardinality(final Element element) {
+    public CardinalityDefinition getElementDefinitionDefaultCardinality(final Element parentElement) {
         return CardinalityDefinition.PROHIBITED;
     }
 
     @Override
-    public CardinalityDefinition getChildSingleElementDefinitionDefaultCardinality(final Element element) {
+    public CardinalityDefinition getSingleElementDefinitionDefaultCardinality(final Element parentElement) {
         return CardinalityDefinition.PROHIBITED;
     }
 
