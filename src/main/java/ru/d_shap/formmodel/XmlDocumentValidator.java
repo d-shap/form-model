@@ -30,7 +30,7 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
-import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
 /**
@@ -97,13 +97,13 @@ public final class XmlDocumentValidator {
     }
 
     /**
-     * Validate the XML element against the schema.
+     * Validate the XML node against the schema.
      *
-     * @param element the XML element to validate.
+     * @param node the XML node to validate.
      */
-    public void validate(final Element element) {
+    public void validate(final Node node) {
         try {
-            _validator.validate(new DOMSource(element));
+            _validator.validate(new DOMSource(node));
         } catch (IOException | SAXException ex) {
             throw new XmlDocumentValidatorException(ex);
         }
