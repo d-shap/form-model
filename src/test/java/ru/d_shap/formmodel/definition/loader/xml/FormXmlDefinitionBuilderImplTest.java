@@ -54,31 +54,36 @@ public final class FormXmlDefinitionBuilderImplTest extends BaseFormModelTest {
         xml1 += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
         xml1 += "</ns1:form>";
         Document document1 = parse(xml1);
-        Assertions.assertThat(createBuilder().isFormDefinition(document1.getDocumentElement())).isTrue();
+        Element element1 = document1.getDocumentElement();
+        Assertions.assertThat(createBuilder().isFormDefinition(element1)).isTrue();
 
         String xml2 = "<?xml version='1.0'?>\n";
         xml2 += "<form id='id1' xmlns='http://d-shap.ru/schema/form-model/1.0'>";
         xml2 += "</form>";
         Document document2 = parse(xml2);
-        Assertions.assertThat(createBuilder().isFormDefinition(document2.getDocumentElement())).isTrue();
+        Element element2 = document2.getDocumentElement();
+        Assertions.assertThat(createBuilder().isFormDefinition(element2)).isTrue();
 
         String xml3 = "<?xml version='1.0'?>\n";
         xml3 += "<ns1:form id='id1' xmlns:ns1='http://example.com'>";
         xml3 += "</ns1:form>";
         Document document3 = parse(xml3);
-        Assertions.assertThat(createBuilder().isFormDefinition(document3.getDocumentElement())).isFalse();
+        Element element3 = document3.getDocumentElement();
+        Assertions.assertThat(createBuilder().isFormDefinition(element3)).isFalse();
 
         String xml4 = "<?xml version='1.0'?>\n";
         xml4 += "<ns1:FORM id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
         xml4 += "</ns1:FORM>";
         Document document4 = parse(xml4);
-        Assertions.assertThat(createBuilder().isFormDefinition(document4.getDocumentElement())).isFalse();
+        Element element4 = document4.getDocumentElement();
+        Assertions.assertThat(createBuilder().isFormDefinition(element4)).isFalse();
 
         String xml5 = "<?xml version='1.0'?>\n";
         xml5 += "<form id='id1'>";
         xml5 += "</form>";
         Document document5 = parse(xml5);
-        Assertions.assertThat(createBuilder().isFormDefinition(document5.getDocumentElement())).isFalse();
+        Element element5 = document5.getDocumentElement();
+        Assertions.assertThat(createBuilder().isFormDefinition(element5)).isFalse();
     }
 
     /**
@@ -90,11 +95,12 @@ public final class FormXmlDefinitionBuilderImplTest extends BaseFormModelTest {
         xml1 += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
         xml1 += "</ns1:form>";
         Document document1 = parse(xml1);
-        FormDefinition formDefinition1 = createBuilder().createFormDefinition(document1.getDocumentElement(), "source1");
+        Element element1 = document1.getDocumentElement();
+        FormDefinition formDefinition1 = createBuilder().createFormDefinition(element1, "source");
         Assertions.assertThat(formDefinition1).isNotNull();
         Assertions.assertThat(formDefinition1.getGroup()).isEqualTo("");
         Assertions.assertThat(formDefinition1.getId()).isEqualTo("id1");
-        Assertions.assertThat(formDefinition1.getSource()).isEqualTo("source1");
+        Assertions.assertThat(formDefinition1.getSource()).isEqualTo("source");
         Assertions.assertThat(formDefinition1.getAllNodeDefinitions()).hasSize(0);
         Assertions.assertThat(formDefinition1.getOtherAttributeNames()).containsExactly();
 
@@ -102,11 +108,12 @@ public final class FormXmlDefinitionBuilderImplTest extends BaseFormModelTest {
         xml2 += "<form id='id1' xmlns='http://d-shap.ru/schema/form-model/1.0'>";
         xml2 += "</form>";
         Document document2 = parse(xml2);
-        FormDefinition formDefinition2 = createBuilder().createFormDefinition(document2.getDocumentElement(), "source2");
+        Element element2 = document2.getDocumentElement();
+        FormDefinition formDefinition2 = createBuilder().createFormDefinition(element2, "source");
         Assertions.assertThat(formDefinition2).isNotNull();
         Assertions.assertThat(formDefinition2.getGroup()).isEqualTo("");
         Assertions.assertThat(formDefinition2.getId()).isEqualTo("id1");
-        Assertions.assertThat(formDefinition2.getSource()).isEqualTo("source2");
+        Assertions.assertThat(formDefinition2.getSource()).isEqualTo("source");
         Assertions.assertThat(formDefinition2.getAllNodeDefinitions()).hasSize(0);
         Assertions.assertThat(formDefinition2.getOtherAttributeNames()).containsExactly();
 
@@ -115,7 +122,8 @@ public final class FormXmlDefinitionBuilderImplTest extends BaseFormModelTest {
             xml3 += "<ns1:form id='id1' xmlns:ns1='http://example.com'>";
             xml3 += "</ns1:form>";
             Document document3 = parse(xml3);
-            createBuilder().createFormDefinition(document3.getDocumentElement(), "source3");
+            Element element3 = document3.getDocumentElement();
+            createBuilder().createFormDefinition(element3, "source");
             Assertions.fail("FormXmlDefinitionBuilderImpl test fail");
         } catch (FormDefinitionValidationException ex) {
             Assertions.assertThat(ex).hasMessage("[Form definition is not valid: {http://example.com}form]");
@@ -126,7 +134,8 @@ public final class FormXmlDefinitionBuilderImplTest extends BaseFormModelTest {
             xml4 += "<ns1:FORM id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
             xml4 += "</ns1:FORM>";
             Document document4 = parse(xml4);
-            createBuilder().createFormDefinition(document4.getDocumentElement(), "source4");
+            Element element4 = document4.getDocumentElement();
+            createBuilder().createFormDefinition(element4, "source4");
             Assertions.fail("FormXmlDefinitionBuilderImpl test fail");
         } catch (FormDefinitionValidationException ex) {
             Assertions.assertThat(ex).hasMessage("[Form definition is not valid: {http://d-shap.ru/schema/form-model/1.0}FORM]");
@@ -137,7 +146,8 @@ public final class FormXmlDefinitionBuilderImplTest extends BaseFormModelTest {
             xml5 += "<form id='id1'>";
             xml5 += "</form>";
             Document document5 = parse(xml5);
-            createBuilder().createFormDefinition(document5.getDocumentElement(), "source5");
+            Element element5 = document5.getDocumentElement();
+            createBuilder().createFormDefinition(element5, "source5");
             Assertions.fail("FormXmlDefinitionBuilderImpl test fail");
         } catch (FormDefinitionValidationException ex) {
             Assertions.assertThat(ex).hasMessage("[Form definition is not valid: form]");
@@ -150,34 +160,54 @@ public final class FormXmlDefinitionBuilderImplTest extends BaseFormModelTest {
     @Test
     public void isAttributeDefinitionTest() {
         String xml1 = "<?xml version='1.0'?>\n";
-        xml1 += "<ns1:attribute id='id3' lookup='lookup3' type='required' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml1 += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml1 += "<ns1:element id='id2' lookup='lookup2' type='required'>";
+        xml1 += "<ns1:attribute id='id3' lookup='lookup3' type='required'>";
         xml1 += "</ns1:attribute>";
+        xml1 += "</ns1:element>";
+        xml1 += "</ns1:form>";
         Document document1 = parse(xml1);
-        Assertions.assertThat(createBuilder().isAttributeDefinition(document1.getDocumentElement())).isTrue();
+        Assertions.assertThat(createBuilder().isAttributeDefinition((Element) document1.getDocumentElement().getFirstChild().getFirstChild())).isTrue();
 
         String xml2 = "<?xml version='1.0'?>\n";
-        xml2 += "<attribute id='id3' lookup='lookup3' type='required' xmlns='http://d-shap.ru/schema/form-model/1.0'>";
+        xml2 += "<form id='id1' xmlns='http://d-shap.ru/schema/form-model/1.0'>";
+        xml2 += "<element id='id2' lookup='lookup2' type='required'>";
+        xml2 += "<attribute id='id3' lookup='lookup3' type='required'>";
         xml2 += "</attribute>";
+        xml2 += "</element>";
+        xml2 += "</form>";
         Document document2 = parse(xml2);
-        Assertions.assertThat(createBuilder().isAttributeDefinition(document2.getDocumentElement())).isTrue();
+        Assertions.assertThat(createBuilder().isAttributeDefinition((Element) document2.getDocumentElement().getFirstChild().getFirstChild())).isTrue();
 
         String xml3 = "<?xml version='1.0'?>\n";
-        xml3 += "<ns1:attribute id='id3' lookup='lookup3' type='required' xmlns:ns1='http://example.com'>";
+        xml3 += "<ns1:form id='id1' xmlns:ns1='http://example.com'>";
+        xml3 += "<ns1:element id='id2' lookup='lookup2' type='required'>";
+        xml3 += "<ns1:attribute id='id3' lookup='lookup3' type='required'>";
         xml3 += "</ns1:attribute>";
+        xml3 += "</ns1:element>";
+        xml3 += "</ns1:form>";
         Document document3 = parse(xml3);
-        Assertions.assertThat(createBuilder().isAttributeDefinition(document3.getDocumentElement())).isFalse();
+        Assertions.assertThat(createBuilder().isAttributeDefinition((Element) document3.getDocumentElement().getFirstChild().getFirstChild())).isFalse();
 
         String xml4 = "<?xml version='1.0'?>\n";
-        xml4 += "<ns1:ATTRIBUTE id='id3' lookup='lookup3' type='required' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml4 += "<ns1:FORM id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml4 += "<ns1:ELEMENT id='id2' lookup='lookup2' type='required'>";
+        xml4 += "<ns1:ATTRIBUTE id='id3' lookup='lookup3' type='required'>";
         xml4 += "</ns1:ATTRIBUTE>";
+        xml4 += "</ns1:ELEMENT>";
+        xml4 += "</ns1:FORM>";
         Document document4 = parse(xml4);
-        Assertions.assertThat(createBuilder().isAttributeDefinition(document4.getDocumentElement())).isFalse();
+        Assertions.assertThat(createBuilder().isAttributeDefinition((Element) document4.getDocumentElement().getFirstChild().getFirstChild())).isFalse();
 
         String xml5 = "<?xml version='1.0'?>\n";
+        xml5 += "<form id='id1'>";
+        xml5 += "<element id='id2' lookup='lookup2' type='required'>";
         xml5 += "<attribute id='id3' lookup='lookup3' type='required'>";
         xml5 += "</attribute>";
+        xml5 += "</element>";
+        xml5 += "</form>";
         Document document5 = parse(xml5);
-        Assertions.assertThat(createBuilder().isAttributeDefinition(document5.getDocumentElement())).isFalse();
+        Assertions.assertThat(createBuilder().isAttributeDefinition((Element) document5.getDocumentElement().getFirstChild().getFirstChild())).isFalse();
     }
 
     /**
@@ -194,34 +224,44 @@ public final class FormXmlDefinitionBuilderImplTest extends BaseFormModelTest {
     @Test
     public void isElementDefinitionTest() {
         String xml1 = "<?xml version='1.0'?>\n";
-        xml1 += "<ns1:element id='id2' lookup='lookup2' type='required' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml1 += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml1 += "<ns1:element id='id2' lookup='lookup2' type='required'>";
         xml1 += "</ns1:element>";
+        xml1 += "</ns1:form>";
         Document document1 = parse(xml1);
-        Assertions.assertThat(createBuilder().isElementDefinition(document1.getDocumentElement())).isTrue();
+        Assertions.assertThat(createBuilder().isElementDefinition((Element) document1.getDocumentElement().getFirstChild())).isTrue();
 
         String xml2 = "<?xml version='1.0'?>\n";
-        xml2 += "<element id='id2' lookup='lookup2' type='required' xmlns='http://d-shap.ru/schema/form-model/1.0'>";
+        xml2 += "<form id='id1' xmlns='http://d-shap.ru/schema/form-model/1.0'>";
+        xml2 += "<element id='id2' lookup='lookup2' type='required'>";
         xml2 += "</element>";
+        xml2 += "</form>";
         Document document2 = parse(xml2);
-        Assertions.assertThat(createBuilder().isElementDefinition(document2.getDocumentElement())).isTrue();
+        Assertions.assertThat(createBuilder().isElementDefinition((Element) document2.getDocumentElement().getFirstChild())).isTrue();
 
         String xml3 = "<?xml version='1.0'?>\n";
-        xml3 += "<ns1:element id='id2' lookup='lookup2' type='required' xmlns:ns1='http://example.com'>";
+        xml3 += "<ns1:form id='id1' xmlns:ns1='http://example.com'>";
+        xml3 += "<ns1:element id='id2' lookup='lookup2' type='required'>";
         xml3 += "</ns1:element>";
+        xml3 += "</ns1:form>";
         Document document3 = parse(xml3);
-        Assertions.assertThat(createBuilder().isElementDefinition(document3.getDocumentElement())).isFalse();
+        Assertions.assertThat(createBuilder().isElementDefinition((Element) document3.getDocumentElement().getFirstChild())).isFalse();
 
         String xml4 = "<?xml version='1.0'?>\n";
-        xml4 += "<ns1:ELEMENT id='id2' lookup='lookup2' type='required' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml4 += "<ns1:FORM id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml4 += "<ns1:ELEMENT id='id2' lookup='lookup2' type='required'>";
         xml4 += "</ns1:ELEMENT>";
+        xml4 += "</ns1:FORM>";
         Document document4 = parse(xml4);
-        Assertions.assertThat(createBuilder().isElementDefinition(document4.getDocumentElement())).isFalse();
+        Assertions.assertThat(createBuilder().isElementDefinition((Element) document4.getDocumentElement().getFirstChild())).isFalse();
 
         String xml5 = "<?xml version='1.0'?>\n";
+        xml5 += "<form id='id1'>";
         xml5 += "<element id='id2' lookup='lookup2' type='required'>";
         xml5 += "</element>";
+        xml5 += "</form>";
         Document document5 = parse(xml5);
-        Assertions.assertThat(createBuilder().isElementDefinition(document5.getDocumentElement())).isFalse();
+        Assertions.assertThat(createBuilder().isElementDefinition((Element) document5.getDocumentElement().getFirstChild())).isFalse();
     }
 
     /**
@@ -238,34 +278,44 @@ public final class FormXmlDefinitionBuilderImplTest extends BaseFormModelTest {
     @Test
     public void isSingleElementDefinitionTest() {
         String xml1 = "<?xml version='1.0'?>\n";
-        xml1 += "<ns1:singleElement id='id2' type='required' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml1 += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml1 += "<ns1:singleElement id='id2' type='required'>";
         xml1 += "</ns1:singleElement>";
+        xml1 += "</ns1:form>";
         Document document1 = parse(xml1);
-        Assertions.assertThat(createBuilder().isSingleElementDefinition(document1.getDocumentElement())).isTrue();
+        Assertions.assertThat(createBuilder().isSingleElementDefinition((Element) document1.getDocumentElement().getFirstChild())).isTrue();
 
         String xml2 = "<?xml version='1.0'?>\n";
-        xml2 += "<singleElement id='id2' type='required' xmlns='http://d-shap.ru/schema/form-model/1.0'>";
+        xml2 += "<form id='id1' xmlns='http://d-shap.ru/schema/form-model/1.0'>";
+        xml2 += "<singleElement id='id2' type='required'>";
         xml2 += "</singleElement>";
+        xml2 += "</form>";
         Document document2 = parse(xml2);
-        Assertions.assertThat(createBuilder().isSingleElementDefinition(document2.getDocumentElement())).isTrue();
+        Assertions.assertThat(createBuilder().isSingleElementDefinition((Element) document2.getDocumentElement().getFirstChild())).isTrue();
 
         String xml3 = "<?xml version='1.0'?>\n";
-        xml3 += "<ns1:singleElement id='id2' type='required' xmlns:ns1='http://example.com'>";
+        xml3 += "<ns1:form id='id1' xmlns:ns1='http://example.com'>";
+        xml3 += "<ns1:singleElement id='id2' type='required'>";
         xml3 += "</ns1:singleElement>";
+        xml3 += "</ns1:form>";
         Document document3 = parse(xml3);
-        Assertions.assertThat(createBuilder().isSingleElementDefinition(document3.getDocumentElement())).isFalse();
+        Assertions.assertThat(createBuilder().isSingleElementDefinition((Element) document3.getDocumentElement().getFirstChild())).isFalse();
 
         String xml4 = "<?xml version='1.0'?>\n";
-        xml4 += "<ns1:SINGLEELEMENT id='id2' type='required' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml4 += "<ns1:FORM id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml4 += "<ns1:SINGLEELEMENT id='id2' type='required'>";
         xml4 += "</ns1:SINGLEELEMENT>";
+        xml4 += "</ns1:FORM>";
         Document document4 = parse(xml4);
-        Assertions.assertThat(createBuilder().isSingleElementDefinition(document4.getDocumentElement())).isFalse();
+        Assertions.assertThat(createBuilder().isSingleElementDefinition((Element) document4.getDocumentElement().getFirstChild())).isFalse();
 
         String xml5 = "<?xml version='1.0'?>\n";
+        xml5 += "<form id='id1'>";
         xml5 += "<singleElement id='id2' type='required'>";
         xml5 += "</singleElement>";
+        xml5 += "</form>";
         Document document5 = parse(xml5);
-        Assertions.assertThat(createBuilder().isSingleElementDefinition(document5.getDocumentElement())).isFalse();
+        Assertions.assertThat(createBuilder().isSingleElementDefinition((Element) document5.getDocumentElement().getFirstChild())).isFalse();
     }
 
     /**
@@ -282,34 +332,44 @@ public final class FormXmlDefinitionBuilderImplTest extends BaseFormModelTest {
     @Test
     public void isFormReferenceDefinitionTest() {
         String xml1 = "<?xml version='1.0'?>\n";
-        xml1 += "<ns1:formReference id='id2' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml1 += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml1 += "<ns1:formReference id='id2'>";
         xml1 += "</ns1:formReference>";
+        xml1 += "</ns1:form>";
         Document document1 = parse(xml1);
-        Assertions.assertThat(createBuilder().isFormReferenceDefinition(document1.getDocumentElement())).isTrue();
+        Assertions.assertThat(createBuilder().isFormReferenceDefinition((Element) document1.getDocumentElement().getFirstChild())).isTrue();
 
         String xml2 = "<?xml version='1.0'?>\n";
-        xml2 += "<formReference id='id2' xmlns='http://d-shap.ru/schema/form-model/1.0'>";
+        xml2 += "<form id='id1' xmlns='http://d-shap.ru/schema/form-model/1.0'>";
+        xml2 += "<formReference id='id2'>";
         xml2 += "</formReference>";
+        xml2 += "</form>";
         Document document2 = parse(xml2);
-        Assertions.assertThat(createBuilder().isFormReferenceDefinition(document2.getDocumentElement())).isTrue();
+        Assertions.assertThat(createBuilder().isFormReferenceDefinition((Element) document2.getDocumentElement().getFirstChild())).isTrue();
 
         String xml3 = "<?xml version='1.0'?>\n";
-        xml3 += "<ns1:formReference id='id2' xmlns:ns1='http://example.com'>";
+        xml3 += "<ns1:form id='id1' xmlns:ns1='http://example.com'>";
+        xml3 += "<ns1:formReference id='id2'>";
         xml3 += "</ns1:formReference>";
+        xml3 += "</ns1:form>";
         Document document3 = parse(xml3);
-        Assertions.assertThat(createBuilder().isFormReferenceDefinition(document3.getDocumentElement())).isFalse();
+        Assertions.assertThat(createBuilder().isFormReferenceDefinition((Element) document3.getDocumentElement().getFirstChild())).isFalse();
 
         String xml4 = "<?xml version='1.0'?>\n";
-        xml4 += "<ns1:FORMREFERENCE id='id2' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml4 += "<ns1:FORM id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml4 += "<ns1:FORMREFERENCE id='id2'>";
         xml4 += "</ns1:FORMREFERENCE>";
+        xml4 += "</ns1:FORM>";
         Document document4 = parse(xml4);
-        Assertions.assertThat(createBuilder().isFormReferenceDefinition(document4.getDocumentElement())).isFalse();
+        Assertions.assertThat(createBuilder().isFormReferenceDefinition((Element) document4.getDocumentElement().getFirstChild())).isFalse();
 
         String xml5 = "<?xml version='1.0'?>\n";
+        xml5 += "<form id='id1'>";
         xml5 += "<formReference id='id2'>";
         xml5 += "</formReference>";
+        xml5 += "</form>";
         Document document5 = parse(xml5);
-        Assertions.assertThat(createBuilder().isFormReferenceDefinition(document5.getDocumentElement())).isFalse();
+        Assertions.assertThat(createBuilder().isFormReferenceDefinition((Element) document5.getDocumentElement().getFirstChild())).isFalse();
     }
 
     /**
