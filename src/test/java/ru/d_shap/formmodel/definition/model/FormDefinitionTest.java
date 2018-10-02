@@ -47,6 +47,7 @@ public final class FormDefinitionTest extends BaseFormModelTest {
         Assertions.assertThat(new FormDefinition("", "id", createNodeDefinitions(), createOtherAttributes(), "source").getGroup()).isEqualTo("");
         Assertions.assertThat(new FormDefinition(" ", "id", createNodeDefinitions(), createOtherAttributes(), "source").getGroup()).isEqualTo(" ");
         Assertions.assertThat(new FormDefinition("group", "id", createNodeDefinitions(), createOtherAttributes(), "source").getGroup()).isEqualTo("group");
+        Assertions.assertThat(new FormDefinition("-group", "id", createNodeDefinitions(), createOtherAttributes(), "source").getGroup()).isEqualTo("-group");
     }
 
     /**
@@ -54,10 +55,11 @@ public final class FormDefinitionTest extends BaseFormModelTest {
      */
     @Test
     public void getIdTest() {
-        Assertions.assertThat(new FormDefinition("group", null, createNodeDefinitions(), createOtherAttributes(), "source").getId()).isNull();
+        Assertions.assertThat(new FormDefinition("group", null, createNodeDefinitions(), createOtherAttributes(), "source").getId()).isEqualTo("");
         Assertions.assertThat(new FormDefinition("group", "", createNodeDefinitions(), createOtherAttributes(), "source").getId()).isEqualTo("");
         Assertions.assertThat(new FormDefinition("group", " ", createNodeDefinitions(), createOtherAttributes(), "source").getId()).isEqualTo(" ");
         Assertions.assertThat(new FormDefinition("group", "id", createNodeDefinitions(), createOtherAttributes(), "source").getId()).isEqualTo("id");
+        Assertions.assertThat(new FormDefinition("group", "-id", createNodeDefinitions(), createOtherAttributes(), "source").getId()).isEqualTo("-id");
     }
 
     /**
@@ -286,9 +288,15 @@ public final class FormDefinitionTest extends BaseFormModelTest {
         Assertions.assertThat(new FormDefinition(null, "id", createNodeDefinitions(), createOtherAttributes(), "source")).hasToString("{source}form[@:id]");
         Assertions.assertThat(new FormDefinition("", "id", createNodeDefinitions(), createOtherAttributes(), "source")).hasToString("{source}form[@:id]");
         Assertions.assertThat(new FormDefinition(" ", "id", createNodeDefinitions(), createOtherAttributes(), "source")).hasToString("{source}form[@ :id]");
+        Assertions.assertThat(new FormDefinition("group", "id", createNodeDefinitions(), createOtherAttributes(), "source")).hasToString("{source}form[@group:id]");
+        Assertions.assertThat(new FormDefinition("-group", "id", createNodeDefinitions(), createOtherAttributes(), "source")).hasToString("{source}form[@-group:id]");
+
         Assertions.assertThat(new FormDefinition("group", null, createNodeDefinitions(), createOtherAttributes(), "source")).hasToString("{source}form[@group:]");
         Assertions.assertThat(new FormDefinition("group", "", createNodeDefinitions(), createOtherAttributes(), "source")).hasToString("{source}form[@group:]");
         Assertions.assertThat(new FormDefinition("group", " ", createNodeDefinitions(), createOtherAttributes(), "source")).hasToString("{source}form[@group: ]");
+        Assertions.assertThat(new FormDefinition("group", "id", createNodeDefinitions(), createOtherAttributes(), "source")).hasToString("{source}form[@group:id]");
+        Assertions.assertThat(new FormDefinition("group", "-id", createNodeDefinitions(), createOtherAttributes(), "source")).hasToString("{source}form[@group:-id]");
+
         Assertions.assertThat(new FormDefinition("group", "id", createNodeDefinitions(), createOtherAttributes(), null)).hasToString("{}form[@group:id]");
         Assertions.assertThat(new FormDefinition("group", "id", createNodeDefinitions(), createOtherAttributes(), "")).hasToString("{}form[@group:id]");
         Assertions.assertThat(new FormDefinition("group", "id", createNodeDefinitions(), createOtherAttributes(), " ")).hasToString("{ }form[@group:id]");
