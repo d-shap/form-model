@@ -738,52 +738,74 @@ public final class FormXmlDefinitionBuilderImplTest extends BaseFormModelTest {
     @Test
     public void isOtherNodeDefinitionTest() {
         String xml1 = "<?xml version='1.0'?>\n";
-        xml1 += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
-        xml1 += "<otherNode>";
-        xml1 += "</otherNode>";
+        xml1 += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0' xmlns:ns2='http://d-shap.ru/schema/form-model-other-node/1.0'>";
+        xml1 += "<ns2:otherNode>";
+        xml1 += "</ns2:otherNode>";
         xml1 += "</ns1:form>";
         Document document1 = parse(xml1);
-        Assertions.assertThat(createBuilder().isOtherNodeDefinition((Element) document1.getDocumentElement().getFirstChild())).isTrue();
+        Element parentElement1 = document1.getDocumentElement();
+        Element element1 = (Element) parentElement1.getFirstChild();
+        Assertions.assertThat(createBuilder().isOtherNodeDefinition(element1)).isTrue();
 
         String xml2 = "<?xml version='1.0'?>\n";
-        xml2 += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0' xmlns:ns2='http://example.com'>";
-        xml2 += "<ns2:otherNode>";
-        xml2 += "</ns2:otherNode>";
+        xml2 += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml2 += "<otherNode>";
+        xml2 += "</otherNode>";
         xml2 += "</ns1:form>";
         Document document2 = parse(xml2);
-        Assertions.assertThat(createBuilder().isOtherNodeDefinition((Element) document2.getDocumentElement().getFirstChild())).isTrue();
+        Element parentElement2 = document2.getDocumentElement();
+        Element element2 = (Element) parentElement2.getFirstChild();
+        Assertions.assertThat(createBuilder().isOtherNodeDefinition(element2)).isTrue();
 
         String xml3 = "<?xml version='1.0'?>\n";
-        xml3 += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
-        xml3 += "<ns2:otherNode xmlns:ns2='http://example.com'>";
-        xml3 += "</ns2:otherNode>";
+        xml3 += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0' xmlns:ns2='http://d-shap.ru/schema/form-model-other-node/1.0'>";
+        xml3 += "<ns2:someNode>";
+        xml3 += "</ns2:someNode>";
         xml3 += "</ns1:form>";
         Document document3 = parse(xml3);
-        Assertions.assertThat(createBuilder().isOtherNodeDefinition((Element) document3.getDocumentElement().getFirstChild())).isTrue();
+        Element parentElement3 = document3.getDocumentElement();
+        Element element3 = (Element) parentElement3.getFirstChild();
+        Assertions.assertThat(createBuilder().isOtherNodeDefinition(element3)).isTrue();
 
         String xml4 = "<?xml version='1.0'?>\n";
         xml4 += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
-        xml4 += "<otherNode xmlns='http://example.com'>";
-        xml4 += "</otherNode>";
+        xml4 += "<ns2:otherNode xmlns:ns2='http://d-shap.ru/schema/form-model-other-node/1.0'>";
+        xml4 += "</ns2:otherNode>";
         xml4 += "</ns1:form>";
         Document document4 = parse(xml4);
-        Assertions.assertThat(createBuilder().isOtherNodeDefinition((Element) document4.getDocumentElement().getFirstChild())).isTrue();
+        Element parentElement4 = document4.getDocumentElement();
+        Element element4 = (Element) parentElement4.getFirstChild();
+        Assertions.assertThat(createBuilder().isOtherNodeDefinition(element4)).isTrue();
 
         String xml5 = "<?xml version='1.0'?>\n";
         xml5 += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
-        xml5 += "<ns1:otherNode>";
-        xml5 += "</ns1:otherNode>";
+        xml5 += "<otherNode xmlns='http://d-shap.ru/schema/form-model-other-node/1.0'>";
+        xml5 += "</otherNode>";
         xml5 += "</ns1:form>";
         Document document5 = parse(xml5);
-        Assertions.assertThat(createBuilder().isOtherNodeDefinition((Element) document5.getDocumentElement().getFirstChild())).isFalse();
+        Element parentElement5 = document5.getDocumentElement();
+        Element element5 = (Element) parentElement5.getFirstChild();
+        Assertions.assertThat(createBuilder().isOtherNodeDefinition(element5)).isTrue();
 
         String xml6 = "<?xml version='1.0'?>\n";
-        xml6 += "<form id='id1' xmlns='http://d-shap.ru/schema/form-model/1.0'>";
-        xml6 += "<otherNode>";
-        xml6 += "</otherNode>";
-        xml6 += "</form>";
+        xml6 += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml6 += "<ns1:otherNode>";
+        xml6 += "</ns1:otherNode>";
+        xml6 += "</ns1:form>";
         Document document6 = parse(xml6);
-        Assertions.assertThat(createBuilder().isOtherNodeDefinition((Element) document6.getDocumentElement().getFirstChild())).isFalse();
+        Element parentElement6 = document6.getDocumentElement();
+        Element element6 = (Element) parentElement6.getFirstChild();
+        Assertions.assertThat(createBuilder().isOtherNodeDefinition(element6)).isFalse();
+
+        String xml7 = "<?xml version='1.0'?>\n";
+        xml7 += "<form id='id1' xmlns='http://d-shap.ru/schema/form-model/1.0'>";
+        xml7 += "<otherNode>";
+        xml7 += "</otherNode>";
+        xml7 += "</form>";
+        Document document7 = parse(xml7);
+        Element parentElement7 = document7.getDocumentElement();
+        Element element7 = (Element) parentElement7.getFirstChild();
+        Assertions.assertThat(createBuilder().isOtherNodeDefinition(element7)).isFalse();
     }
 
     /**
