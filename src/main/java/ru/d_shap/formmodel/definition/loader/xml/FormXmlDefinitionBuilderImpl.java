@@ -278,7 +278,7 @@ final class FormXmlDefinitionBuilderImpl implements FormXmlDefinitionBuilder {
         NamedNodeMap namedNodeMap = element.getAttributes();
         for (int i = 0; i < namedNodeMap.getLength(); i++) {
             Node node = namedNodeMap.item(i);
-            String attributeName = node.getNodeName();
+            String attributeName = node.getLocalName();
             if (XMLConstants.XMLNS_ATTRIBUTE_NS_URI.equals(node.getNamespaceURI())) {
                 continue;
             }
