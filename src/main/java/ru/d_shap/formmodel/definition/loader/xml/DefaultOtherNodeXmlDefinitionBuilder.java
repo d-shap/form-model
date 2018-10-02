@@ -21,6 +21,7 @@ package ru.d_shap.formmodel.definition.loader.xml;
 
 import org.w3c.dom.Element;
 
+import ru.d_shap.formmodel.definition.model.CardinalityDefinition;
 import ru.d_shap.formmodel.definition.model.NodePath;
 import ru.d_shap.formmodel.definition.model.OtherNodeDefinition;
 
@@ -41,6 +42,16 @@ final class DefaultOtherNodeXmlDefinitionBuilder implements OtherNodeXmlDefiniti
     @Override
     public OtherNodeDefinition createOtherNodeDefinition(final Element parentElement, final Element element, final FormXmlDefinitionBuilder formXmlDefinitionBuilder, final NodePath nodePath) {
         return new DefaultOtherNodeXmlDefinition(element);
+    }
+
+    @Override
+    public CardinalityDefinition getChildElementDefinitionDefaultCardinality(final Element element) {
+        return null;
+    }
+
+    @Override
+    public CardinalityDefinition getChildSingleElementDefinitionDefaultCardinality(final Element element) {
+        return null;
     }
 
 }
