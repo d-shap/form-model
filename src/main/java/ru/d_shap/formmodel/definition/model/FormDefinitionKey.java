@@ -60,7 +60,7 @@ public final class FormDefinitionKey {
      * @param formDefinition the form definition.
      */
     public FormDefinitionKey(final FormDefinition formDefinition) {
-        this(formDefinition.getGroup(), formDefinition.getId());
+        this(getGroup(formDefinition), getId(formDefinition));
     }
 
     /**
@@ -69,7 +69,7 @@ public final class FormDefinitionKey {
      * @param formReferenceDefinition the form reference definition.
      */
     public FormDefinitionKey(final FormReferenceDefinition formReferenceDefinition) {
-        this(formReferenceDefinition.getGroup(), formReferenceDefinition.getId());
+        this(getGroup(formReferenceDefinition), getId(formReferenceDefinition));
     }
 
     /**
@@ -81,6 +81,22 @@ public final class FormDefinitionKey {
         return _group;
     }
 
+    private static String getGroup(final FormDefinition formDefinition) {
+        if (formDefinition == null) {
+            return null;
+        } else {
+            return formDefinition.getGroup();
+        }
+    }
+
+    private static String getGroup(final FormReferenceDefinition formReferenceDefinition) {
+        if (formReferenceDefinition == null) {
+            return null;
+        } else {
+            return formReferenceDefinition.getGroup();
+        }
+    }
+
     /**
      * Get the form's ID.
      *
@@ -88,6 +104,22 @@ public final class FormDefinitionKey {
      */
     public String getId() {
         return _id;
+    }
+
+    private static String getId(final FormDefinition formDefinition) {
+        if (formDefinition == null) {
+            return null;
+        } else {
+            return formDefinition.getId();
+        }
+    }
+
+    private static String getId(final FormReferenceDefinition formReferenceDefinition) {
+        if (formReferenceDefinition == null) {
+            return null;
+        } else {
+            return formReferenceDefinition.getId();
+        }
     }
 
     @Override
