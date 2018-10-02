@@ -175,13 +175,17 @@ final class FormXmlDefinitionBuilderImpl implements FormXmlDefinitionBuilder {
 
     @Override
     public OtherNodeDefinition createOtherNodeDefinition(final Element parentElement, final Element element, final NodePath nodePath) {
-        for (OtherNodeXmlDefinitionBuilder otherNodeXmlDefinitionBuilder : _otherNodeXmlDefinitionBuilders) {
-            OtherNodeDefinition otherNodeDefinition = otherNodeXmlDefinitionBuilder.createOtherNodeDefinition(parentElement, element, this, nodePath);
-            if (otherNodeDefinition != null) {
-                return otherNodeDefinition;
+        if (isOtherNodeDefinition(element)) {
+            for (OtherNodeXmlDefinitionBuilder otherNodeXmlDefinitionBuilder : _otherNodeXmlDefinitionBuilders) {
+                OtherNodeDefinition otherNodeDefinition = otherNodeXmlDefinitionBuilder.createOtherNodeDefinition(parentElement, element, this, nodePath);
+                if (otherNodeDefinition != null) {
+                    return otherNodeDefinition;
+                }
             }
+            return _defaultOtherNodeXmlDefinitionBuilder.createOtherNodeDefinition(parentElement, element, this, nodePath);
+        } else {
+            throw new FormDefinitionValidationException(Messages.Validation.getOtherNodeDefinitionIsNotValidMessage(element), nodePath);
         }
-        return _defaultOtherNodeXmlDefinitionBuilder.createOtherNodeDefinition(parentElement, element, this, nodePath);
     }
 
     private String getAttributeValue(final Element element, final String attributeName) {
