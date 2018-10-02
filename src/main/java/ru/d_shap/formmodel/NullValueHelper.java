@@ -45,4 +45,19 @@ public final class NullValueHelper {
         }
     }
 
+    /**
+     * Get the empty string if the value is null, otherwise the string representation of the value.
+     *
+     * @param value the original value.
+     *
+     * @return the empty string if the value is null, otherwise the string representation of the value.
+     */
+    public static String getValue(final Object value) {
+        if (value == null) {
+            return "";
+        } else {
+            return getValue(value.toString());
+        }
+    }
+
 }
