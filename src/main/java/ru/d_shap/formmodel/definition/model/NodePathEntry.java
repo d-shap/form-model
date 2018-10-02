@@ -19,6 +19,8 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.formmodel.definition.model;
 
+import ru.d_shap.formmodel.NullValueHelper;
+
 /**
  * Single path entry within the node path.
  *
@@ -30,16 +32,12 @@ final class NodePathEntry {
 
     NodePathEntry(final String representation) {
         super();
-        _representation = representation;
+        _representation = NullValueHelper.getValue(representation);
     }
 
     NodePathEntry(final NodeDefinition nodeDefinition) {
         super();
-        if (nodeDefinition == null) {
-            _representation = null;
-        } else {
-            _representation = nodeDefinition.toString();
-        }
+        _representation = NullValueHelper.getValue(nodeDefinition);
     }
 
     @Override
