@@ -48,6 +48,8 @@ public interface OtherNodeXmlDefinitionBuilder {
      * Get the default cardinality definition of the child element definition for the specified XML element.
      *
      * @param element the specified XML element.
+     *
+     * @return the default cardinality definition of the child single element definition.
      */
     CardinalityDefinition getChildElementDefinitionDefaultCardinality(Element element);
 
