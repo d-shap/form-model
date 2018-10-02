@@ -45,21 +45,21 @@ public interface OtherNodeXmlDefinitionBuilder {
     OtherNodeDefinition createOtherNodeDefinition(Element parentElement, Element element, FormXmlDefinitionBuilder formXmlDefinitionBuilder, NodePath nodePath);
 
     /**
-     * Get the default cardinality definition of the child element definition for the specified XML element.
+     * Get the default cardinality definition of the element definition for the specified parent XML element.
      *
-     * @param element the specified XML element.
+     * @param parentElement the specified parent XML element.
      *
-     * @return the default cardinality definition of the child single element definition.
+     * @return the default cardinality definition of the element definition.
      */
-    CardinalityDefinition getChildElementDefinitionDefaultCardinality(Element element);
+    CardinalityDefinition getElementDefinitionDefaultCardinality(Element parentElement);
 
     /**
-     * Get the default cardinality definition of the child single element definition for the specified XML element.
+     * Get the default cardinality definition of the single element definition for the specified parent XML element.
      *
-     * @param element the specified XML element.
+     * @param parentElement the specified parent XML element.
      *
-     * @return the default cardinality definition of the child single element definition.
+     * @return the default cardinality definition of the single element definition.
      */
-    CardinalityDefinition getChildSingleElementDefinitionDefaultCardinality(Element element);
+    CardinalityDefinition getSingleElementDefinitionDefaultCardinality(Element parentElement);
 
 }
