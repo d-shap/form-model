@@ -49,11 +49,22 @@ public final class NullValueHelperTest {
      * {@link NullValueHelper} class test.
      */
     @Test
-    public void getValueTest() {
+    public void getValueStringTest() {
         Assertions.assertThat(NullValueHelper.getValue(null)).isEqualTo("");
         Assertions.assertThat(NullValueHelper.getValue("")).isEqualTo("");
         Assertions.assertThat(NullValueHelper.getValue(" ")).isEqualTo(" ");
         Assertions.assertThat(NullValueHelper.getValue("value")).isEqualTo("value");
+    }
+
+    /**
+     * {@link NullValueHelper} class test.
+     */
+    @Test
+    public void getValueObjectgTest() {
+        Assertions.assertThat(NullValueHelper.getValue((StringBuilder) null)).isEqualTo("");
+        Assertions.assertThat(NullValueHelper.getValue(new StringBuilder())).isEqualTo("");
+        Assertions.assertThat(NullValueHelper.getValue(new StringBuilder(" "))).isEqualTo(" ");
+        Assertions.assertThat(NullValueHelper.getValue(new StringBuilder("value"))).isEqualTo("value");
     }
 
 }
