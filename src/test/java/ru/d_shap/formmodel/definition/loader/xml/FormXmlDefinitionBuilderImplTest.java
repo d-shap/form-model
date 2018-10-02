@@ -166,6 +166,130 @@ public final class FormXmlDefinitionBuilderImplTest extends BaseFormModelTest {
      * {@link FormXmlDefinitionBuilderImpl} class test.
      */
     @Test
+    public void createFormDefinitionAttributeGroupTest() {
+        String xml1 = "<?xml version='1.0'?>\n";
+        xml1 += "<ns1:form id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml1 += "</ns1:form>";
+        Document document1 = parse(xml1);
+        Element element1 = document1.getDocumentElement();
+        FormDefinition formDefinition1 = createBuilder().createFormDefinition(element1, "source");
+        Assertions.assertThat(formDefinition1.getGroup()).isEqualTo("");
+
+        String xml2 = "<?xml version='1.0'?>\n";
+        xml2 += "<ns1:form group='' id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml2 += "</ns1:form>";
+        Document document2 = parse(xml2);
+        Element element2 = document2.getDocumentElement();
+        FormDefinition formDefinition2 = createBuilder().createFormDefinition(element2, "source");
+        Assertions.assertThat(formDefinition2.getGroup()).isEqualTo("");
+
+        String xml3 = "<?xml version='1.0'?>\n";
+        xml3 += "<ns1:form group=' ' id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml3 += "</ns1:form>";
+        Document document3 = parse(xml3);
+        Element element3 = document3.getDocumentElement();
+        FormDefinition formDefinition3 = createBuilder().createFormDefinition(element3, "source");
+        Assertions.assertThat(formDefinition3.getGroup()).isEqualTo(" ");
+
+        String xml4 = "<?xml version='1.0'?>\n";
+        xml4 += "<ns1:form group='group' id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml4 += "</ns1:form>";
+        Document document4 = parse(xml4);
+        Element element4 = document4.getDocumentElement();
+        FormDefinition formDefinition4 = createBuilder().createFormDefinition(element4, "source");
+        Assertions.assertThat(formDefinition4.getGroup()).isEqualTo("group");
+
+        String xml5 = "<?xml version='1.0'?>\n";
+        xml5 += "<ns1:form group='-group' id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml5 += "</ns1:form>";
+        Document document5 = parse(xml5);
+        Element element5 = document5.getDocumentElement();
+        FormDefinition formDefinition5 = createBuilder().createFormDefinition(element5, "source");
+        Assertions.assertThat(formDefinition5.getGroup()).isEqualTo("-group");
+    }
+
+    /**
+     * {@link FormXmlDefinitionBuilderImpl} class test.
+     */
+    @Test
+    public void createFormDefinitionAttributeIdTest() {
+        String xml1 = "<?xml version='1.0'?>\n";
+        xml1 += "<ns1:form xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml1 += "</ns1:form>";
+        Document document1 = parse(xml1);
+        Element element1 = document1.getDocumentElement();
+        FormDefinition formDefinition1 = createBuilder().createFormDefinition(element1, "source");
+        Assertions.assertThat(formDefinition1.getId()).isEqualTo("");
+
+        String xml2 = "<?xml version='1.0'?>\n";
+        xml2 += "<ns1:form id='' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml2 += "</ns1:form>";
+        Document document2 = parse(xml2);
+        Element element2 = document2.getDocumentElement();
+        FormDefinition formDefinition2 = createBuilder().createFormDefinition(element2, "source");
+        Assertions.assertThat(formDefinition2.getId()).isEqualTo("");
+
+        String xml3 = "<?xml version='1.0'?>\n";
+        xml3 += "<ns1:form id=' ' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml3 += "</ns1:form>";
+        Document document3 = parse(xml3);
+        Element element3 = document3.getDocumentElement();
+        FormDefinition formDefinition3 = createBuilder().createFormDefinition(element3, "source");
+        Assertions.assertThat(formDefinition3.getId()).isEqualTo(" ");
+
+        String xml4 = "<?xml version='1.0'?>\n";
+        xml4 += "<ns1:form id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml4 += "</ns1:form>";
+        Document document4 = parse(xml4);
+        Element element4 = document4.getDocumentElement();
+        FormDefinition formDefinition4 = createBuilder().createFormDefinition(element4, "source");
+        Assertions.assertThat(formDefinition4.getId()).isEqualTo("id");
+
+        String xml5 = "<?xml version='1.0'?>\n";
+        xml5 += "<ns1:form id='-id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml5 += "</ns1:form>";
+        Document document5 = parse(xml5);
+        Element element5 = document5.getDocumentElement();
+        FormDefinition formDefinition5 = createBuilder().createFormDefinition(element5, "source");
+        Assertions.assertThat(formDefinition5.getId()).isEqualTo("-id");
+    }
+
+    /**
+     * {@link FormXmlDefinitionBuilderImpl} class test.
+     */
+    @Test
+    public void createFormDefinitionAttributeOtherTest() {
+        String xml1 = "<?xml version='1.0'?>\n";
+        xml1 += "<ns1:form xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml1 += "</ns1:form>";
+        Document document1 = parse(xml1);
+        Element element1 = document1.getDocumentElement();
+        FormDefinition formDefinition1 = createBuilder().createFormDefinition(element1, "source");
+        Assertions.assertThat(formDefinition1.getOtherAttributeNames()).containsExactly();
+
+        String xml2 = "<?xml version='1.0'?>\n";
+        xml2 += "<ns1:form attr='value' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml2 += "</ns1:form>";
+        Document document2 = parse(xml2);
+        Element element2 = document2.getDocumentElement();
+        FormDefinition formDefinition2 = createBuilder().createFormDefinition(element2, "source");
+        Assertions.assertThat(formDefinition2.getOtherAttributeNames()).containsExactly("attr");
+        Assertions.assertThat(formDefinition2.getOtherAttributeValue("attr")).isEqualTo("value");
+
+        String xml3 = "<?xml version='1.0'?>\n";
+        xml3 += "<ns1:form ns2:xmlns='value' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0' xmlns:ns2='http://example.com'>";
+        xml3 += "</ns1:form>";
+        Document document3 = parse(xml3);
+        Element element3 = document3.getDocumentElement();
+        FormDefinition formDefinition3 = createBuilder().createFormDefinition(element3, "source");
+        Assertions.assertThat(formDefinition3.getOtherAttributeNames()).containsExactly("xmlns");
+        Assertions.assertThat(formDefinition3.getOtherAttributeValue("xmlns")).isEqualTo("value");
+    }
+
+    /**
+     * {@link FormXmlDefinitionBuilderImpl} class test.
+     */
+    @Test
     public void isAttributeDefinitionTest() {
         String xml1 = "<?xml version='1.0'?>\n";
         xml1 += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
