@@ -108,12 +108,7 @@ final class FormXmlDefinitionBuilderImpl implements FormXmlDefinitionBuilder {
         if (isElementDefinition(element)) {
             String id = getAttributeValue(element, ELEMENT_DEFINITION_ATTRIBUTE_ID);
             String lookup = getAttributeValue(element, ELEMENT_DEFINITION_ATTRIBUTE_LOOKUP);
-            CardinalityDefinition defaultCardinalityDefinition;
-            if (isSingleElementDefinition(parentElement)) {
-                defaultCardinalityDefinition = CardinalityDefinition.OPTIONAL;
-            } else {
-                defaultCardinalityDefinition = CardinalityDefinition.REQUIRED;
-            }
+            CardinalityDefinition defaultCardinalityDefinition = getChildElementDefinitionDefaultCardinality(parentElement);
             CardinalityDefinition cardinalityDefinition = getCardinalityDefinition(element, ELEMENT_DEFINITION_ATTRIBUTE_TYPE, defaultCardinalityDefinition);
             NodePath currentNodePath = new NodePath(nodePath, Messages.Representation.getElementDefinitionRepresentation(id));
             List<NodeDefinition> nodeDefinitions = getNodeDefinitions(element, ELEMENT_DEFINITION_CHILD_ELEMENT_NAMES, currentNodePath);
@@ -121,6 +116,22 @@ final class FormXmlDefinitionBuilderImpl implements FormXmlDefinitionBuilder {
             return new ElementDefinition(id, lookup, cardinalityDefinition, nodeDefinitions, otherAttributes);
         } else {
             throw new FormDefinitionValidationException(Messages.Validation.getElementDefinitionIsNotValidMessage(element), nodePath);
+        }
+    }
+
+    private CardinalityDefinition getChildElementDefinitionDefaultCardinality(final Element element) {
+        if (isOtherNodeDefinition(element)) {
+            for (OtherNodeXmlDefinitionBuilder otherNodeXmlDefinitionBuilder : _otherNodeXmlDefinitionBuilders) {
+                CardinalityDefinition defaultCardinalityDefinition = otherNodeXmlDefinitionBuilder.getChildElementDefinitionDefaultCardinality(element);
+                if (defaultCardinalityDefinition != null) {
+                    return defaultCardinalityDefinition;
+                }
+            }
+        }
+        if (isSingleElementDefinition(element)) {
+            return CardinalityDefinition.OPTIONAL;
+        } else {
+            return CardinalityDefinition.REQUIRED;
         }
     }
 
@@ -133,12 +144,7 @@ final class FormXmlDefinitionBuilderImpl implements FormXmlDefinitionBuilder {
     public SingleElementDefinition createSingleElementDefinition(final Element parentElement, final Element element, final NodePath nodePath) {
         if (isSingleElementDefinition(element)) {
             String id = getAttributeValue(element, SINGLE_ELEMENT_DEFINITION_ATTRIBUTE_ID);
-            CardinalityDefinition defaultCardinalityDefinition;
-            if (isSingleElementDefinition(parentElement)) {
-                defaultCardinalityDefinition = CardinalityDefinition.OPTIONAL;
-            } else {
-                defaultCardinalityDefinition = CardinalityDefinition.REQUIRED;
-            }
+            CardinalityDefinition defaultCardinalityDefinition = getChildSingleElementDefinitionDefaultCardinality(parentElement);
             CardinalityDefinition cardinalityDefinition = getCardinalityDefinition(element, SINGLE_ELEMENT_DEFINITION_ATTRIBUTE_TYPE, defaultCardinalityDefinition);
             NodePath currentNodePath = new NodePath(nodePath, Messages.Representation.getSingleElementDefinitionRepresentation(id));
             List<NodeDefinition> nodeDefinitions = getNodeDefinitions(element, SINGLE_ELEMENT_DEFINITION_CHILD_ELEMENT_NAMES, currentNodePath);
@@ -146,6 +152,22 @@ final class FormXmlDefinitionBuilderImpl implements FormXmlDefinitionBuilder {
             return new SingleElementDefinition(id, cardinalityDefinition, nodeDefinitions, otherAttributes);
         } else {
             throw new FormDefinitionValidationException(Messages.Validation.getSingleElementDefinitionIsNotValidMessage(element), nodePath);
+        }
+    }
+
+    private CardinalityDefinition getChildSingleElementDefinitionDefaultCardinality(final Element element) {
+        if (isOtherNodeDefinition(element)) {
+            for (OtherNodeXmlDefinitionBuilder otherNodeXmlDefinitionBuilder : _otherNodeXmlDefinitionBuilders) {
+                CardinalityDefinition defaultCardinalityDefinition = otherNodeXmlDefinitionBuilder.getChildSingleElementDefinitionDefaultCardinality(element);
+                if (defaultCardinalityDefinition != null) {
+                    return defaultCardinalityDefinition;
+                }
+            }
+        }
+        if (isSingleElementDefinition(element)) {
+            return CardinalityDefinition.OPTIONAL;
+        } else {
+            return CardinalityDefinition.REQUIRED;
         }
     }
 
