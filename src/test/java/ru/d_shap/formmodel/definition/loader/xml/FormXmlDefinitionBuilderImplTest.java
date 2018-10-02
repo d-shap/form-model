@@ -35,6 +35,8 @@ import ru.d_shap.formmodel.definition.model.ElementDefinition;
 import ru.d_shap.formmodel.definition.model.FormDefinition;
 import ru.d_shap.formmodel.definition.model.FormReferenceDefinition;
 import ru.d_shap.formmodel.definition.model.NodePath;
+import ru.d_shap.formmodel.definition.model.OtherNodeDefinition;
+import ru.d_shap.formmodel.definition.model.OtherNodeDefinitionImpl;
 import ru.d_shap.formmodel.definition.model.SingleElementDefinition;
 
 /**
@@ -813,7 +815,95 @@ public final class FormXmlDefinitionBuilderImplTest extends BaseFormModelTest {
      */
     @Test
     public void createOtherNodeDefinitionTest() {
+        String xml1 = "<?xml version='1.0'?>\n";
+        xml1 += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0' xmlns:ns2='http://d-shap.ru/schema/form-model-other-node/1.0'>";
+        xml1 += "<ns2:otherNode>";
+        xml1 += "</ns2:otherNode>";
+        xml1 += "</ns1:form>";
+        Document document1 = parse(xml1);
+        Element parentElement1 = document1.getDocumentElement();
+        Element element1 = (Element) parentElement1.getFirstChild();
+        OtherNodeDefinition otherNodeDefinition1 = createBuilder().createOtherNodeDefinition(parentElement1, element1, new NodePath("parent"));
+        Assertions.assertThat(otherNodeDefinition1).isNotNull();
+        Assertions.assertThat(otherNodeDefinition1).isInstanceOf(OtherNodeDefinitionImpl.class);
 
+        String xml2 = "<?xml version='1.0'?>\n";
+        xml2 += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml2 += "<otherNode>";
+        xml2 += "</otherNode>";
+        xml2 += "</ns1:form>";
+        Document document2 = parse(xml2);
+        Element parentElement2 = document2.getDocumentElement();
+        Element element2 = (Element) parentElement2.getFirstChild();
+        OtherNodeDefinition otherNodeDefinition2 = createBuilder().createOtherNodeDefinition(parentElement2, element2, new NodePath("parent"));
+        Assertions.assertThat(otherNodeDefinition2).isNotNull();
+        Assertions.assertThat(otherNodeDefinition2).isInstanceOf(DefaultOtherNodeXmlDefinition.class);
+
+        String xml3 = "<?xml version='1.0'?>\n";
+        xml3 += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0' xmlns:ns2='http://d-shap.ru/schema/form-model-other-node/1.0'>";
+        xml3 += "<ns2:someNode>";
+        xml3 += "</ns2:someNode>";
+        xml3 += "</ns1:form>";
+        Document document3 = parse(xml3);
+        Element parentElement3 = document3.getDocumentElement();
+        Element element3 = (Element) parentElement3.getFirstChild();
+        OtherNodeDefinition otherNodeDefinition3 = createBuilder().createOtherNodeDefinition(parentElement3, element3, new NodePath("parent"));
+        Assertions.assertThat(otherNodeDefinition3).isNotNull();
+        Assertions.assertThat(otherNodeDefinition3).isInstanceOf(DefaultOtherNodeXmlDefinition.class);
+
+        String xml4 = "<?xml version='1.0'?>\n";
+        xml4 += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml4 += "<ns2:otherNode xmlns:ns2='http://d-shap.ru/schema/form-model-other-node/1.0'>";
+        xml4 += "</ns2:otherNode>";
+        xml4 += "</ns1:form>";
+        Document document4 = parse(xml4);
+        Element parentElement4 = document4.getDocumentElement();
+        Element element4 = (Element) parentElement4.getFirstChild();
+        OtherNodeDefinition otherNodeDefinition4 = createBuilder().createOtherNodeDefinition(parentElement4, element4, new NodePath("parent"));
+        Assertions.assertThat(otherNodeDefinition4).isNotNull();
+        Assertions.assertThat(otherNodeDefinition4).isInstanceOf(OtherNodeDefinitionImpl.class);
+
+        String xml5 = "<?xml version='1.0'?>\n";
+        xml5 += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml5 += "<otherNode xmlns='http://d-shap.ru/schema/form-model-other-node/1.0'>";
+        xml5 += "</otherNode>";
+        xml5 += "</ns1:form>";
+        Document document5 = parse(xml5);
+        Element parentElement5 = document5.getDocumentElement();
+        Element element5 = (Element) parentElement5.getFirstChild();
+        OtherNodeDefinition otherNodeDefinition5 = createBuilder().createOtherNodeDefinition(parentElement5, element5, new NodePath("parent"));
+        Assertions.assertThat(otherNodeDefinition5).isNotNull();
+        Assertions.assertThat(otherNodeDefinition5).isInstanceOf(OtherNodeDefinitionImpl.class);
+
+        try {
+            String xml6 = "<?xml version='1.0'?>\n";
+            xml6 += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+            xml6 += "<ns1:otherNode>";
+            xml6 += "</ns1:otherNode>";
+            xml6 += "</ns1:form>";
+            Document document6 = parse(xml6);
+            Element parentElement6 = document6.getDocumentElement();
+            Element element6 = (Element) parentElement6.getFirstChild();
+            createBuilder().createOtherNodeDefinition(parentElement6, element6, new NodePath("parent"));
+            Assertions.fail("FormXmlDefinitionBuilderImpl test fail");
+        } catch (FormDefinitionValidationException ex) {
+            Assertions.assertThat(ex).hasMessage("[Other node definition is not valid: {http://d-shap.ru/schema/form-model/1.0}otherNode], parent");
+        }
+
+        try {
+            String xml7 = "<?xml version='1.0'?>\n";
+            xml7 += "<form id='id1' xmlns='http://d-shap.ru/schema/form-model/1.0'>";
+            xml7 += "<otherNode>";
+            xml7 += "</otherNode>";
+            xml7 += "</form>";
+            Document document7 = parse(xml7);
+            Element parentElement7 = document7.getDocumentElement();
+            Element element7 = (Element) parentElement7.getFirstChild();
+            createBuilder().createOtherNodeDefinition(parentElement7, element7, new NodePath("parent"));
+            Assertions.fail("FormXmlDefinitionBuilderImpl test fail");
+        } catch (FormDefinitionValidationException ex) {
+            Assertions.assertThat(ex).hasMessage("[Other node definition is not valid: {http://d-shap.ru/schema/form-model/1.0}otherNode], parent");
+        }
     }
 
     private FormXmlDefinitionBuilderImpl createBuilder() {
