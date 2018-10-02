@@ -26,6 +26,7 @@ import java.util.Map;
 import java.util.Set;
 
 import ru.d_shap.formmodel.Messages;
+import ru.d_shap.formmodel.NullValueHelper;
 
 /**
  * Node definition to define the element's attribute mapping.
@@ -77,7 +78,7 @@ public final class AttributeDefinition implements NodeDefinition {
      */
     public AttributeDefinition(final String id, final String lookup, final CardinalityDefinition cardinalityDefinition, final List<NodeDefinition> nodeDefinitions, final Map<String, String> otherAttributes) {
         super();
-        _id = id;
+        _id = NullValueHelper.getValue(id);
         _lookup = lookup;
         _cardinalityDefinition = cardinalityDefinition;
         _nodeData = new NodeData(nodeDefinitions, CHILD_ELEMENT_NAMES, otherAttributes, ATTRIBUTE_NAMES);

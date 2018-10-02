@@ -80,7 +80,7 @@ public final class FormDefinition implements NodeDefinition {
     public FormDefinition(final String group, final String id, final List<NodeDefinition> nodeDefinitions, final Map<String, String> otherAttributes, final String source) {
         super();
         _group = NullValueHelper.getValue(group);
-        _id = id;
+        _id = NullValueHelper.getValue(id);
         _nodeData = new NodeData(nodeDefinitions, CHILD_ELEMENT_NAMES, otherAttributes, ATTRIBUTE_NAMES);
         _source = source;
     }

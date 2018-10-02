@@ -51,7 +51,7 @@ public final class FormDefinitionKey {
     public FormDefinitionKey(final String group, final String id) {
         super();
         _group = NullValueHelper.getValue(group);
-        _id = id;
+        _id = NullValueHelper.getValue(id);
     }
 
     /**

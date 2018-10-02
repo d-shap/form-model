@@ -73,7 +73,7 @@ public final class FormReferenceDefinition implements NodeDefinition {
     public FormReferenceDefinition(final String group, final String id, final List<NodeDefinition> nodeDefinitions, final Map<String, String> otherAttributes) {
         super();
         _group = NullValueHelper.getValue(group);
-        _id = id;
+        _id = NullValueHelper.getValue(id);
         _nodeData = new NodeData(nodeDefinitions, CHILD_ELEMENT_NAMES, otherAttributes, ATTRIBUTE_NAMES);
     }
 
