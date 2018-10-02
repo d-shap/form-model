@@ -227,6 +227,17 @@ public final class MessagesTest extends BaseFormModelTest {
      * {@link Messages} class test.
      */
     @Test
+    public void getOtherNodeDefinitionIsNotValidMessageTest() {
+        Document document = XmlDocumentBuilder.getDocumentBuilder().newDocument();
+        Assertions.assertThat(Messages.Validation.getOtherNodeDefinitionIsNotValidMessage(null)).isEqualTo("[Other node definition is not valid: null]");
+        Assertions.assertThat(Messages.Validation.getOtherNodeDefinitionIsNotValidMessage(document.createElement("someElement"))).isEqualTo("[Other node definition is not valid: someElement]");
+        Assertions.assertThat(Messages.Validation.getOtherNodeDefinitionIsNotValidMessage(document.createElementNS("http://example.com", "someElement"))).isEqualTo("[Other node definition is not valid: {http://example.com}someElement]");
+    }
+
+    /**
+     * {@link Messages} class test.
+     */
+    @Test
     public void getChildElementIsNotValidMessageTest() {
         Document document = XmlDocumentBuilder.getDocumentBuilder().newDocument();
         Assertions.assertThat(Messages.Validation.getChildElementIsNotValidMessage(null)).isEqualTo("[Child element is not valid: null]");
