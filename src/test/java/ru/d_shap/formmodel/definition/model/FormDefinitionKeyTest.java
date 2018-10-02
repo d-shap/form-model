@@ -51,20 +51,20 @@ public final class FormDefinitionKeyTest extends BaseFormModelTest {
         Assertions.assertThat(new FormDefinitionKey(null, "id").getGroup()).isEqualTo("");
         Assertions.assertThat(new FormDefinitionKey("", "id").getGroup()).isEqualTo("");
         Assertions.assertThat(new FormDefinitionKey(" ", "id").getGroup()).isEqualTo(" ");
-        Assertions.assertThat(new FormDefinitionKey("\t", "id").getGroup()).isEqualTo("\t");
-        Assertions.assertThat(new FormDefinitionKey("value", "id").getGroup()).isEqualTo("value");
+        Assertions.assertThat(new FormDefinitionKey("group", "id").getGroup()).isEqualTo("group");
+        Assertions.assertThat(new FormDefinitionKey("-group", "id").getGroup()).isEqualTo("-group");
 
         Assertions.assertThat(new FormDefinitionKey(new FormDefinition(null, "id", new ArrayList<NodeDefinition>(), new HashMap<String, String>(), "source")).getGroup()).isEqualTo("");
         Assertions.assertThat(new FormDefinitionKey(new FormDefinition("", "id", new ArrayList<NodeDefinition>(), new HashMap<String, String>(), "source")).getGroup()).isEqualTo("");
         Assertions.assertThat(new FormDefinitionKey(new FormDefinition(" ", "id", new ArrayList<NodeDefinition>(), new HashMap<String, String>(), "source")).getGroup()).isEqualTo(" ");
-        Assertions.assertThat(new FormDefinitionKey(new FormDefinition("\t", "id", new ArrayList<NodeDefinition>(), new HashMap<String, String>(), "source")).getGroup()).isEqualTo("\t");
-        Assertions.assertThat(new FormDefinitionKey(new FormDefinition("value", "id", new ArrayList<NodeDefinition>(), new HashMap<String, String>(), "source")).getGroup()).isEqualTo("value");
+        Assertions.assertThat(new FormDefinitionKey(new FormDefinition("group", "id", new ArrayList<NodeDefinition>(), new HashMap<String, String>(), "source")).getGroup()).isEqualTo("group");
+        Assertions.assertThat(new FormDefinitionKey(new FormDefinition("-group", "id", new ArrayList<NodeDefinition>(), new HashMap<String, String>(), "source")).getGroup()).isEqualTo("-group");
 
         Assertions.assertThat(new FormDefinitionKey(new FormReferenceDefinition(null, "id", new ArrayList<NodeDefinition>(), new HashMap<String, String>())).getGroup()).isEqualTo("");
         Assertions.assertThat(new FormDefinitionKey(new FormReferenceDefinition("", "id", new ArrayList<NodeDefinition>(), new HashMap<String, String>())).getGroup()).isEqualTo("");
         Assertions.assertThat(new FormDefinitionKey(new FormReferenceDefinition(" ", "id", new ArrayList<NodeDefinition>(), new HashMap<String, String>())).getGroup()).isEqualTo(" ");
-        Assertions.assertThat(new FormDefinitionKey(new FormReferenceDefinition("\t", "id", new ArrayList<NodeDefinition>(), new HashMap<String, String>())).getGroup()).isEqualTo("\t");
-        Assertions.assertThat(new FormDefinitionKey(new FormReferenceDefinition("value", "id", new ArrayList<NodeDefinition>(), new HashMap<String, String>())).getGroup()).isEqualTo("value");
+        Assertions.assertThat(new FormDefinitionKey(new FormReferenceDefinition("group", "id", new ArrayList<NodeDefinition>(), new HashMap<String, String>())).getGroup()).isEqualTo("group");
+        Assertions.assertThat(new FormDefinitionKey(new FormReferenceDefinition("-group", "id", new ArrayList<NodeDefinition>(), new HashMap<String, String>())).getGroup()).isEqualTo("-group");
     }
 
     /**
@@ -72,29 +72,29 @@ public final class FormDefinitionKeyTest extends BaseFormModelTest {
      */
     @Test
     public void getIdTest() {
-        Assertions.assertThat(new FormDefinitionKey((String) null).getId()).isNull();
+        Assertions.assertThat(new FormDefinitionKey((String) null).getId()).isEqualTo("");
         Assertions.assertThat(new FormDefinitionKey("").getId()).isEqualTo("");
         Assertions.assertThat(new FormDefinitionKey(" ").getId()).isEqualTo(" ");
         Assertions.assertThat(new FormDefinitionKey("id").getId()).isEqualTo("id");
-        Assertions.assertThat(new FormDefinitionKey("ID").getId()).isEqualTo("ID");
+        Assertions.assertThat(new FormDefinitionKey("-id").getId()).isEqualTo("-id");
 
-        Assertions.assertThat(new FormDefinitionKey(null, null).getId()).isNull();
+        Assertions.assertThat(new FormDefinitionKey(null, null).getId()).isEqualTo("");
         Assertions.assertThat(new FormDefinitionKey(null, "").getId()).isEqualTo("");
         Assertions.assertThat(new FormDefinitionKey(null, " ").getId()).isEqualTo(" ");
         Assertions.assertThat(new FormDefinitionKey(null, "id").getId()).isEqualTo("id");
-        Assertions.assertThat(new FormDefinitionKey(null, "ID").getId()).isEqualTo("ID");
+        Assertions.assertThat(new FormDefinitionKey(null, "-id").getId()).isEqualTo("-id");
 
-        Assertions.assertThat(new FormDefinitionKey(new FormDefinition(null, null, new ArrayList<NodeDefinition>(), new HashMap<String, String>(), "source")).getId()).isNull();
+        Assertions.assertThat(new FormDefinitionKey(new FormDefinition(null, null, new ArrayList<NodeDefinition>(), new HashMap<String, String>(), "source")).getId()).isEqualTo("");
         Assertions.assertThat(new FormDefinitionKey(new FormDefinition(null, "", new ArrayList<NodeDefinition>(), new HashMap<String, String>(), "source")).getId()).isEqualTo("");
         Assertions.assertThat(new FormDefinitionKey(new FormDefinition(null, " ", new ArrayList<NodeDefinition>(), new HashMap<String, String>(), "source")).getId()).isEqualTo(" ");
         Assertions.assertThat(new FormDefinitionKey(new FormDefinition(null, "id", new ArrayList<NodeDefinition>(), new HashMap<String, String>(), "source")).getId()).isEqualTo("id");
-        Assertions.assertThat(new FormDefinitionKey(new FormDefinition(null, "ID", new ArrayList<NodeDefinition>(), new HashMap<String, String>(), "source")).getId()).isEqualTo("ID");
+        Assertions.assertThat(new FormDefinitionKey(new FormDefinition(null, "-id", new ArrayList<NodeDefinition>(), new HashMap<String, String>(), "source")).getId()).isEqualTo("-id");
 
-        Assertions.assertThat(new FormDefinitionKey(new FormReferenceDefinition(null, null, new ArrayList<NodeDefinition>(), new HashMap<String, String>())).getId()).isNull();
+        Assertions.assertThat(new FormDefinitionKey(new FormReferenceDefinition(null, null, new ArrayList<NodeDefinition>(), new HashMap<String, String>())).getId()).isEqualTo("");
         Assertions.assertThat(new FormDefinitionKey(new FormReferenceDefinition(null, "", new ArrayList<NodeDefinition>(), new HashMap<String, String>())).getId()).isEqualTo("");
         Assertions.assertThat(new FormDefinitionKey(new FormReferenceDefinition(null, " ", new ArrayList<NodeDefinition>(), new HashMap<String, String>())).getId()).isEqualTo(" ");
         Assertions.assertThat(new FormDefinitionKey(new FormReferenceDefinition(null, "id", new ArrayList<NodeDefinition>(), new HashMap<String, String>())).getId()).isEqualTo("id");
-        Assertions.assertThat(new FormDefinitionKey(new FormReferenceDefinition(null, "ID", new ArrayList<NodeDefinition>(), new HashMap<String, String>())).getId()).isEqualTo("ID");
+        Assertions.assertThat(new FormDefinitionKey(new FormReferenceDefinition(null, "-id", new ArrayList<NodeDefinition>(), new HashMap<String, String>())).getId()).isEqualTo("-id");
     }
 
     /**
@@ -118,25 +118,27 @@ public final class FormDefinitionKeyTest extends BaseFormModelTest {
      */
     @Test
     public void equalsTest() {
-        FormDefinitionKey formDefinitionKey = new FormDefinitionKey(null, "id");
-        Assertions.assertThat(formDefinitionKey).isEqualTo(formDefinitionKey);
-        Assertions.assertThat(formDefinitionKey).isEqualTo(new FormDefinitionKey(null, "id"));
-        Assertions.assertThat(formDefinitionKey).isNotEqualTo(new Object());
+        FormDefinitionKey formDefinitionKey1 = new FormDefinitionKey(null, "id");
+        Assertions.assertThat(formDefinitionKey1).isEqualTo(formDefinitionKey1);
+        Assertions.assertThat(formDefinitionKey1).isEqualTo(new FormDefinitionKey("id"));
+        Assertions.assertThat(formDefinitionKey1).isEqualTo(new FormDefinitionKey(null, "id"));
+        Assertions.assertThat(formDefinitionKey1).isNotEqualTo(new Object());
+
+        FormDefinitionKey formDefinitionKey2 = new FormDefinitionKey("group", null);
+        Assertions.assertThat(formDefinitionKey2).isEqualTo(formDefinitionKey2);
+        Assertions.assertThat(formDefinitionKey2).isEqualTo(new FormDefinitionKey("group", null));
+        Assertions.assertThat(formDefinitionKey2).isNotEqualTo(new Object());
 
         Assertions.assertThat(new FormDefinitionKey("group1", "id1")).isEqualTo(new FormDefinitionKey("group1", "id1"));
         Assertions.assertThat(new FormDefinitionKey("group1", "id1")).isNotEqualTo(new FormDefinitionKey("group1", "id2"));
         Assertions.assertThat(new FormDefinitionKey("group1", "id1")).isNotEqualTo(new FormDefinitionKey("group2", "id1"));
         Assertions.assertThat(new FormDefinitionKey("group1", "id1")).isNotEqualTo(new FormDefinitionKey("group2", "id2"));
 
-        Assertions.assertThat(new FormDefinitionKey("group", "id")).isNotEqualTo(new FormDefinitionKey("group", null));
-    }
+        Assertions.assertThat(new FormDefinitionKey("group", "id")).isNotEqualTo(new FormDefinitionKey(null, "id"));
+        Assertions.assertThat(new FormDefinitionKey(null, "id")).isNotEqualTo(new FormDefinitionKey("group", "id"));
 
-    /**
-     * {@link FormDefinitionKey} class test.
-     */
-    @Test(expected = NullPointerException.class)
-    public void equalsNullIdFailTest() {
-        new FormDefinitionKey("group", null).equals(new FormDefinitionKey("group", "id"));
+        Assertions.assertThat(new FormDefinitionKey("group", "id")).isNotEqualTo(new FormDefinitionKey("group", null));
+        Assertions.assertThat(new FormDefinitionKey("group", null)).isNotEqualTo(new FormDefinitionKey("group", "id"));
     }
 
     /**
@@ -144,20 +146,23 @@ public final class FormDefinitionKeyTest extends BaseFormModelTest {
      */
     @Test
     public void hashCodeTest() {
+        Assertions.assertThat(new FormDefinitionKey((String) null)).hasHashCode(0);
+        Assertions.assertThat(new FormDefinitionKey("")).hasHashCode(0);
+        Assertions.assertThat(new FormDefinitionKey(" ")).hasHashCode(32);
         Assertions.assertThat(new FormDefinitionKey("id")).hasHashCode(3355);
+        Assertions.assertThat(new FormDefinitionKey("-id")).hasHashCode(46600);
+
         Assertions.assertThat(new FormDefinitionKey(null, "id")).hasHashCode(3355);
         Assertions.assertThat(new FormDefinitionKey("", "id")).hasHashCode(3355);
         Assertions.assertThat(new FormDefinitionKey(" ", "id")).hasHashCode(4091);
         Assertions.assertThat(new FormDefinitionKey("group", "id")).hasHashCode(-2026491260);
-        Assertions.assertThat(new FormDefinitionKey("group", "ID")).hasHashCode(-2026492284);
-    }
+        Assertions.assertThat(new FormDefinitionKey("-group", "id")).hasHashCode(1834876249);
 
-    /**
-     * {@link FormDefinitionKey} class test.
-     */
-    @Test(expected = NullPointerException.class)
-    public void hashCodeNullIdFailTest() {
-        new FormDefinitionKey("group", null).hashCode();
+        Assertions.assertThat(new FormDefinitionKey("group", null)).hasHashCode(-2026494615);
+        Assertions.assertThat(new FormDefinitionKey("group", "")).hasHashCode(-2026494615);
+        Assertions.assertThat(new FormDefinitionKey("group", " ")).hasHashCode(-2026494583);
+        Assertions.assertThat(new FormDefinitionKey("group", "id")).hasHashCode(-2026491260);
+        Assertions.assertThat(new FormDefinitionKey("group", "-id")).hasHashCode(-2026448015);
     }
 
     /**
@@ -165,15 +170,23 @@ public final class FormDefinitionKeyTest extends BaseFormModelTest {
      */
     @Test
     public void toStringTest() {
+        Assertions.assertThat(new FormDefinitionKey((String) null)).hasToString("@:");
+        Assertions.assertThat(new FormDefinitionKey("")).hasToString("@:");
+        Assertions.assertThat(new FormDefinitionKey(" ")).hasToString("@: ");
         Assertions.assertThat(new FormDefinitionKey("id")).hasToString("@:id");
+        Assertions.assertThat(new FormDefinitionKey("-id")).hasToString("@:-id");
+
         Assertions.assertThat(new FormDefinitionKey(null, "id")).hasToString("@:id");
         Assertions.assertThat(new FormDefinitionKey("", "id")).hasToString("@:id");
         Assertions.assertThat(new FormDefinitionKey(" ", "id")).hasToString("@ :id");
+        Assertions.assertThat(new FormDefinitionKey("group", "id")).hasToString("@group:id");
+        Assertions.assertThat(new FormDefinitionKey("-group", "id")).hasToString("@-group:id");
+
         Assertions.assertThat(new FormDefinitionKey("group", null)).hasToString("@group:");
         Assertions.assertThat(new FormDefinitionKey("group", "")).hasToString("@group:");
         Assertions.assertThat(new FormDefinitionKey("group", " ")).hasToString("@group: ");
         Assertions.assertThat(new FormDefinitionKey("group", "id")).hasToString("@group:id");
-        Assertions.assertThat(new FormDefinitionKey("group", "ID")).hasToString("@group:ID");
+        Assertions.assertThat(new FormDefinitionKey("group", "-id")).hasToString("@group:-id");
     }
 
 }
