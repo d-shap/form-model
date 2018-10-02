@@ -21,6 +21,7 @@ package ru.d_shap.formmodel.definition.loader.xml;
 
 import org.w3c.dom.Element;
 
+import ru.d_shap.formmodel.definition.model.CardinalityDefinition;
 import ru.d_shap.formmodel.definition.model.NodePath;
 import ru.d_shap.formmodel.definition.model.OtherNodeDefinition;
 
@@ -42,5 +43,21 @@ public interface OtherNodeXmlDefinitionBuilder {
      * @return the other node definition.
      */
     OtherNodeDefinition createOtherNodeDefinition(Element parentElement, Element element, FormXmlDefinitionBuilder formXmlDefinitionBuilder, NodePath nodePath);
+
+    /**
+     * Get the default cardinality definition of the child element definition for the specified XML element.
+     *
+     * @param element the specified XML element.
+     */
+    CardinalityDefinition getChildElementDefinitionDefaultCardinality(Element element);
+
+    /**
+     * Get the default cardinality definition of the child single element definition for the specified XML element.
+     *
+     * @param element the specified XML element.
+     *
+     * @return the default cardinality definition of the child single element definition.
+     */
+    CardinalityDefinition getChildSingleElementDefinitionDefaultCardinality(Element element);
 
 }
