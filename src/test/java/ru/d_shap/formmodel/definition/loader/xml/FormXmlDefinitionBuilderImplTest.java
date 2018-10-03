@@ -1668,6 +1668,169 @@ public final class FormXmlDefinitionBuilderImplTest extends BaseFormModelTest {
      * {@link FormXmlDefinitionBuilderImpl} class test.
      */
     @Test
+    public void createFormReferenceDefinitionAttributeGroupTest() {
+        String xml1 = "<?xml version='1.0'?>\n";
+        xml1 += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml1 += "<ns1:formReference id='id2'>";
+        xml1 += "</ns1:formReference>";
+        xml1 += "</ns1:form>";
+        Document document1 = parse(xml1);
+        Element parentElement1 = document1.getDocumentElement();
+        Element element1 = (Element) parentElement1.getFirstChild();
+        FormReferenceDefinition formReferenceDefinition1 = createBuilder().createFormReferenceDefinition(parentElement1, element1, new NodePath("parent"));
+        Assertions.assertThat(formReferenceDefinition1.getGroup()).isEqualTo("");
+
+        String xml2 = "<?xml version='1.0'?>\n";
+        xml2 += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml2 += "<ns1:formReference group='' id='id2'>";
+        xml2 += "</ns1:formReference>";
+        xml2 += "</ns1:form>";
+        Document document2 = parse(xml2);
+        Element parentElement2 = document2.getDocumentElement();
+        Element element2 = (Element) parentElement2.getFirstChild();
+        FormReferenceDefinition formReferenceDefinition2 = createBuilder().createFormReferenceDefinition(parentElement2, element2, new NodePath("parent"));
+        Assertions.assertThat(formReferenceDefinition2.getGroup()).isEqualTo("");
+
+        String xml3 = "<?xml version='1.0'?>\n";
+        xml3 += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml3 += "<ns1:formReference group=' ' id='id2'>";
+        xml3 += "</ns1:formReference>";
+        xml3 += "</ns1:form>";
+        Document document3 = parse(xml3);
+        Element parentElement3 = document3.getDocumentElement();
+        Element element3 = (Element) parentElement3.getFirstChild();
+        FormReferenceDefinition formReferenceDefinition3 = createBuilder().createFormReferenceDefinition(parentElement3, element3, new NodePath("parent"));
+        Assertions.assertThat(formReferenceDefinition3.getGroup()).isEqualTo(" ");
+
+        String xml4 = "<?xml version='1.0'?>\n";
+        xml4 += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml4 += "<ns1:formReference group='group' id='id2'>";
+        xml4 += "</ns1:formReference>";
+        xml4 += "</ns1:form>";
+        Document document4 = parse(xml4);
+        Element parentElement4 = document4.getDocumentElement();
+        Element element4 = (Element) parentElement4.getFirstChild();
+        FormReferenceDefinition formReferenceDefinition4 = createBuilder().createFormReferenceDefinition(parentElement4, element4, new NodePath("parent"));
+        Assertions.assertThat(formReferenceDefinition4.getGroup()).isEqualTo("group");
+
+        String xml5 = "<?xml version='1.0'?>\n";
+        xml5 += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml5 += "<ns1:formReference group='-group' id='id2'>";
+        xml5 += "</ns1:formReference>";
+        xml5 += "</ns1:form>";
+        Document document5 = parse(xml5);
+        Element parentElement5 = document5.getDocumentElement();
+        Element element5 = (Element) parentElement5.getFirstChild();
+        FormReferenceDefinition formReferenceDefinition5 = createBuilder().createFormReferenceDefinition(parentElement5, element5, new NodePath("parent"));
+        Assertions.assertThat(formReferenceDefinition5.getGroup()).isEqualTo("-group");
+    }
+
+    /**
+     * {@link FormXmlDefinitionBuilderImpl} class test.
+     */
+    @Test
+    public void createFormReferenceDefinitionAttributeIdTest() {
+        String xml1 = "<?xml version='1.0'?>\n";
+        xml1 += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml1 += "<ns1:formReference>";
+        xml1 += "</ns1:formReference>";
+        xml1 += "</ns1:form>";
+        Document document1 = parse(xml1);
+        Element parentElement1 = document1.getDocumentElement();
+        Element element1 = (Element) parentElement1.getFirstChild();
+        FormReferenceDefinition formReferenceDefinition1 = createBuilder().createFormReferenceDefinition(parentElement1, element1, new NodePath("parent"));
+        Assertions.assertThat(formReferenceDefinition1.getId()).isEqualTo("");
+
+        String xml2 = "<?xml version='1.0'?>\n";
+        xml2 += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml2 += "<ns1:formReference id=''>";
+        xml2 += "</ns1:formReference>";
+        xml2 += "</ns1:form>";
+        Document document2 = parse(xml2);
+        Element parentElement2 = document2.getDocumentElement();
+        Element element2 = (Element) parentElement2.getFirstChild();
+        FormReferenceDefinition formReferenceDefinition2 = createBuilder().createFormReferenceDefinition(parentElement2, element2, new NodePath("parent"));
+        Assertions.assertThat(formReferenceDefinition2.getId()).isEqualTo("");
+
+        String xml3 = "<?xml version='1.0'?>\n";
+        xml3 += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml3 += "<ns1:formReference id=' '>";
+        xml3 += "</ns1:formReference>";
+        xml3 += "</ns1:form>";
+        Document document3 = parse(xml3);
+        Element parentElement3 = document3.getDocumentElement();
+        Element element3 = (Element) parentElement3.getFirstChild();
+        FormReferenceDefinition formReferenceDefinition3 = createBuilder().createFormReferenceDefinition(parentElement3, element3, new NodePath("parent"));
+        Assertions.assertThat(formReferenceDefinition3.getId()).isEqualTo(" ");
+
+        String xml4 = "<?xml version='1.0'?>\n";
+        xml4 += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml4 += "<ns1:formReference id='id'>";
+        xml4 += "</ns1:formReference>";
+        xml4 += "</ns1:form>";
+        Document document4 = parse(xml4);
+        Element parentElement4 = document4.getDocumentElement();
+        Element element4 = (Element) parentElement4.getFirstChild();
+        FormReferenceDefinition formReferenceDefinition4 = createBuilder().createFormReferenceDefinition(parentElement4, element4, new NodePath("parent"));
+        Assertions.assertThat(formReferenceDefinition4.getId()).isEqualTo("id");
+
+        String xml5 = "<?xml version='1.0'?>\n";
+        xml5 += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml5 += "<ns1:formReference id='-id'>";
+        xml5 += "</ns1:formReference>";
+        xml5 += "</ns1:form>";
+        Document document5 = parse(xml5);
+        Element parentElement5 = document5.getDocumentElement();
+        Element element5 = (Element) parentElement5.getFirstChild();
+        FormReferenceDefinition formReferenceDefinition5 = createBuilder().createFormReferenceDefinition(parentElement5, element5, new NodePath("parent"));
+        Assertions.assertThat(formReferenceDefinition5.getId()).isEqualTo("-id");
+    }
+
+    /**
+     * {@link FormXmlDefinitionBuilderImpl} class test.
+     */
+    @Test
+    public void createFormReferenceDefinitionAttributeOtherTest() {
+        String xml1 = "<?xml version='1.0'?>\n";
+        xml1 += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml1 += "<ns1:formReference id='id2'>";
+        xml1 += "</ns1:formReference>";
+        xml1 += "</ns1:form>";
+        Document document1 = parse(xml1);
+        Element parentElement1 = document1.getDocumentElement();
+        Element element1 = (Element) parentElement1.getFirstChild();
+        FormReferenceDefinition formReferenceDefinition1 = createBuilder().createFormReferenceDefinition(parentElement1, element1, new NodePath("parent"));
+        Assertions.assertThat(formReferenceDefinition1.getOtherAttributeNames()).containsExactly();
+
+        String xml2 = "<?xml version='1.0'?>\n";
+        xml2 += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml2 += "<ns1:formReference id='id2' attr='value'>";
+        xml2 += "</ns1:formReference>";
+        xml2 += "</ns1:form>";
+        Document document2 = parse(xml2);
+        Element parentElement2 = document2.getDocumentElement();
+        Element element2 = (Element) parentElement2.getFirstChild();
+        FormReferenceDefinition formReferenceDefinition2 = createBuilder().createFormReferenceDefinition(parentElement2, element2, new NodePath("parent"));
+        Assertions.assertThat(formReferenceDefinition2.getOtherAttributeNames()).containsExactly("attr");
+        Assertions.assertThat(formReferenceDefinition2.getOtherAttributeValue("attr")).isEqualTo("value");
+
+        String xml3 = "<?xml version='1.0'?>\n";
+        xml3 += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0' xmlns:ns2='http://example.com'>";
+        xml3 += "<ns1:formReference id='id2' ns2:xmlns='value'>";
+        xml3 += "</ns1:formReference>";
+        xml3 += "</ns1:form>";
+        Document document3 = parse(xml3);
+        Element parentElement3 = document3.getDocumentElement();
+        Element element3 = (Element) parentElement3.getFirstChild();
+        FormReferenceDefinition formReferenceDefinition3 = createBuilder().createFormReferenceDefinition(parentElement3, element3, new NodePath("parent"));
+        Assertions.assertThat(formReferenceDefinition3.getOtherAttributeNames()).containsExactly("{http://example.com}xmlns");
+        Assertions.assertThat(formReferenceDefinition3.getOtherAttributeValue("{http://example.com}xmlns")).isEqualTo("value");
+    }
+
+    /**
+     * {@link FormXmlDefinitionBuilderImpl} class test.
+     */
+    @Test
     public void isOtherNodeDefinitionTest() {
         String xml1 = "<?xml version='1.0'?>\n";
         xml1 += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0' xmlns:ns2='http://d-shap.ru/schema/form-model-other-node/1.0'>";
