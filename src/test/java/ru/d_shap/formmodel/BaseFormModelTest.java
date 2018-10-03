@@ -239,6 +239,28 @@ public class BaseFormModelTest {
             _formDefinitions = Arrays.asList(formDefinitions);
         }
 
+        /**
+         * Create new object.
+         *
+         * @param xmlDocumentBuilderConfigurator configurator for the XML document builder.
+         * @param formDefinitions                the form definitions for this loader.
+         */
+        public FormXmlDefinitionsLoaderImpl(final XmlDocumentBuilderConfigurator xmlDocumentBuilderConfigurator, final FormDefinition... formDefinitions) {
+            super(xmlDocumentBuilderConfigurator);
+            _formDefinitions = Arrays.asList(formDefinitions);
+        }
+
+        /**
+         * Create new object.
+         *
+         * @param formXmlDefinitionsLoader loader for the form definitions.
+         * @param formDefinitions          the form definitions for this loader.
+         */
+        public FormXmlDefinitionsLoaderImpl(final FormXmlDefinitionsLoader formXmlDefinitionsLoader, final FormDefinition... formDefinitions) {
+            super(formXmlDefinitionsLoader);
+            _formDefinitions = Arrays.asList(formDefinitions);
+        }
+
         @Override
         public List<FormDefinition> load() {
             return _formDefinitions;
