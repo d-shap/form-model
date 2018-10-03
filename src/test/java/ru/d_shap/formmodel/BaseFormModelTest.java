@@ -37,6 +37,7 @@ import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 
 import ru.d_shap.formmodel.definition.loader.FormDefinitionsLoader;
+import ru.d_shap.formmodel.definition.loader.xml.FormXmlDefinitionsLoader;
 import ru.d_shap.formmodel.definition.model.AttributeDefinition;
 import ru.d_shap.formmodel.definition.model.ElementDefinition;
 import ru.d_shap.formmodel.definition.model.FormDefinition;
@@ -208,6 +209,32 @@ public class BaseFormModelTest {
          * @param formDefinitions the form definitions for this loader.
          */
         public FormDefinitionsLoaderImpl(final FormDefinition... formDefinitions) {
+            super();
+            _formDefinitions = Arrays.asList(formDefinitions);
+        }
+
+        @Override
+        public List<FormDefinition> load() {
+            return _formDefinitions;
+        }
+
+    }
+
+    /**
+     * Test class.
+     *
+     * @author Dmitry Shapovalov
+     */
+    public static final class FormXmlDefinitionsLoaderImpl extends FormXmlDefinitionsLoader {
+
+        private final List<FormDefinition> _formDefinitions;
+
+        /**
+         * Create new object.
+         *
+         * @param formDefinitions the form definitions for this loader.
+         */
+        public FormXmlDefinitionsLoaderImpl(final FormDefinition... formDefinitions) {
             super();
             _formDefinitions = Arrays.asList(formDefinitions);
         }
