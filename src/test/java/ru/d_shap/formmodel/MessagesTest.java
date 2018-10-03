@@ -24,7 +24,6 @@ import java.util.HashMap;
 
 import org.junit.Test;
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 
 import ru.d_shap.assertions.Assertions;
 import ru.d_shap.formmodel.definition.model.AttributeDefinition;
@@ -152,20 +151,20 @@ public final class MessagesTest extends BaseFormModelTest {
      * {@link Messages} class test.
      */
     @Test
-    public void getXmlElementRepresentationTest() {
-        Assertions.assertThat(Messages.Representation.getXmlElementRepresentation(null)).isEqualTo("null");
+    public void getNodeRepresentationTest() {
+        Assertions.assertThat(Messages.Representation.getNodeRepresentation(null)).isEqualTo("null");
 
         Document document1 = XmlDocumentBuilder.getDocumentBuilder().newDocument();
-        Assertions.assertThat(Messages.Representation.getXmlElementRepresentation(document1.createElement("someElement"))).isEqualTo("someElement");
-        Assertions.assertThat(Messages.Representation.getXmlElementRepresentation(document1.createElementNS("http://example.com", "someElement"))).isEqualTo("{http://example.com}someElement");
+        Assertions.assertThat(Messages.Representation.getNodeRepresentation(document1.createElement("someElement"))).isEqualTo("someElement");
+        Assertions.assertThat(Messages.Representation.getNodeRepresentation(document1.createElementNS("http://example.com", "someElement"))).isEqualTo("{http://example.com}someElement");
 
         String xml2 = "<?xml version='1.0'?>\n";
         xml2 += "<document xmlns:ns1='http://example.com'>";
         xml2 += "<ns1:element>value</ns1:element>";
         xml2 += "</document>";
         Document document2 = parse(xml2);
-        Assertions.assertThat(Messages.Representation.getXmlElementRepresentation(document2.getDocumentElement())).isEqualTo("document");
-        Assertions.assertThat(Messages.Representation.getXmlElementRepresentation((Element) document2.getDocumentElement().getFirstChild())).isEqualTo("{http://example.com}element");
+        Assertions.assertThat(Messages.Representation.getNodeRepresentation(document2.getDocumentElement())).isEqualTo("document");
+        Assertions.assertThat(Messages.Representation.getNodeRepresentation(document2.getDocumentElement().getFirstChild())).isEqualTo("{http://example.com}element");
     }
 
     /**
