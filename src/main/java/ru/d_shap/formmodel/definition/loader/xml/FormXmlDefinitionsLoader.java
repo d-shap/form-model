@@ -21,16 +21,11 @@ package ru.d_shap.formmodel.definition.loader.xml;
 
 import java.util.List;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.xml.sax.InputSource;
-
 import ru.d_shap.formmodel.ServiceFinder;
 import ru.d_shap.formmodel.XmlDocumentBuilder;
 import ru.d_shap.formmodel.XmlDocumentBuilderConfigurator;
 import ru.d_shap.formmodel.XmlDocumentValidator;
 import ru.d_shap.formmodel.definition.loader.FormDefinitionsLoader;
-import ru.d_shap.formmodel.definition.model.FormDefinition;
 
 /**
  * Base loader for the form definitions, XML implementation.
@@ -72,7 +67,7 @@ public abstract class FormXmlDefinitionsLoader extends FormDefinitionsLoader {
     /**
      * Create new object.
      *
-     * @param formDefinitionsLoader another loader for the form definitions.
+     * @param formDefinitionsLoader loader for the form definitions.
      */
     protected FormXmlDefinitionsLoader(final FormXmlDefinitionsLoader formDefinitionsLoader) {
         super();
@@ -82,22 +77,30 @@ public abstract class FormXmlDefinitionsLoader extends FormDefinitionsLoader {
     }
 
     /**
-     * Get the form definition from the specified input source.
+     * Get the XML document builder.
      *
-     * @param inputSource the specified input source.
-     * @param source      the form's source.
-     *
-     * @return the form definition.
+     * @return the XML document builder.
      */
-    protected final FormDefinition getFormDefinition(final InputSource inputSource, final String source) {
-        Document document = _xmlDocumentBuilder.parse(inputSource);
-        Element element = document.getDocumentElement();
-        if (_formXmlDefinitionBuilder.isFormDefinition(element)) {
-            _xmlDocumentValidator.validate(document);
-            return _formXmlDefinitionBuilder.createFormDefinition(element, source);
-        } else {
-            return null;
-        }
+    protected XmlDocumentBuilder getXmlDocumentBuilder() {
+        return _xmlDocumentBuilder;
+    }
+
+    /**
+     * Get the XML document validator.
+     *
+     * @return the XML document validator.
+     */
+    protected XmlDocumentValidator getXmlDocumentValidator() {
+        return _xmlDocumentValidator;
+    }
+
+    /**
+     * Get the builder for the form definition.
+     *
+     * @return the builder for the form definition.
+     */
+    protected FormXmlDefinitionBuilderImpl getFormXmlDefinitionBuilder() {
+        return _formXmlDefinitionBuilder;
     }
 
 }
