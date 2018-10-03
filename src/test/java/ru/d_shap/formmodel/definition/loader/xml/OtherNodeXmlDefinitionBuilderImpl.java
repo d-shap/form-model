@@ -61,7 +61,7 @@ public final class OtherNodeXmlDefinitionBuilderImpl implements OtherNodeXmlDefi
         OtherNodeDefinitionImpl otherNodeDefinition = new OtherNodeDefinitionImpl(representation, valid);
 
         NodeList childNodes = element.getChildNodes();
-        NodePath currentNodePath = new NodePath(nodePath, Messages.Representation.getXmlElementRepresentation(element));
+        NodePath currentNodePath = new NodePath(nodePath, Messages.Representation.getNodeRepresentation(element));
         for (int i = 0; i < childNodes.getLength(); i++) {
             Node childNode = childNodes.item(i);
             if (childNode instanceof Element) {
