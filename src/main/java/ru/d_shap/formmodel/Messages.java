@@ -20,6 +20,7 @@
 package ru.d_shap.formmodel;
 
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 import ru.d_shap.formmodel.definition.model.AttributeDefinition;
 import ru.d_shap.formmodel.definition.model.ElementDefinition;
@@ -134,20 +135,20 @@ public final class Messages {
         }
 
         /**
-         * Get the XML element representation.
+         * Get the node representation.
          *
-         * @param element the XML element.
+         * @param node the node.
          *
-         * @return the XML element representation.
+         * @return the node representation.
          */
-        public static String getXmlElementRepresentation(final Element element) {
-            if (element == null) {
+        public static String getNodeRepresentation(final Node node) {
+            if (node == null) {
                 return String.valueOf((Object) null);
             } else {
-                if (element.getNamespaceURI() == null) {
-                    return element.getTagName();
+                if (node.getNamespaceURI() == null) {
+                    return node.getNodeName();
                 } else {
-                    return "{" + element.getNamespaceURI() + "}" + element.getLocalName();
+                    return "{" + node.getNamespaceURI() + "}" + node.getLocalName();
                 }
             }
         }
@@ -173,7 +174,7 @@ public final class Messages {
          * @return the error message.
          */
         public static String getFormDefinitionIsNotValidMessage(final Element element) {
-            return "[Form definition is not valid: " + Representation.getXmlElementRepresentation(element) + "]";
+            return "[Form definition is not valid: " + Representation.getNodeRepresentation(element) + "]";
         }
 
         /**
@@ -184,7 +185,7 @@ public final class Messages {
          * @return the error message.
          */
         public static String getAttributeDefinitionIsNotValidMessage(final Element element) {
-            return "[Attribute definition is not valid: " + Representation.getXmlElementRepresentation(element) + "]";
+            return "[Attribute definition is not valid: " + Representation.getNodeRepresentation(element) + "]";
         }
 
         /**
@@ -195,7 +196,7 @@ public final class Messages {
          * @return the error message.
          */
         public static String getElementDefinitionIsNotValidMessage(final Element element) {
-            return "[Element definition is not valid: " + Representation.getXmlElementRepresentation(element) + "]";
+            return "[Element definition is not valid: " + Representation.getNodeRepresentation(element) + "]";
         }
 
         /**
@@ -206,7 +207,7 @@ public final class Messages {
          * @return the error message.
          */
         public static String getSingleElementDefinitionIsNotValidMessage(final Element element) {
-            return "[Single element definition is not valid: " + Representation.getXmlElementRepresentation(element) + "]";
+            return "[Single element definition is not valid: " + Representation.getNodeRepresentation(element) + "]";
         }
 
         /**
@@ -217,7 +218,7 @@ public final class Messages {
          * @return the error message.
          */
         public static String getFormReferenceDefinitionIsNotValidMessage(final Element element) {
-            return "[Form reference definition is not valid: " + Representation.getXmlElementRepresentation(element) + "]";
+            return "[Form reference definition is not valid: " + Representation.getNodeRepresentation(element) + "]";
         }
 
         /**
@@ -228,7 +229,7 @@ public final class Messages {
          * @return the error message.
          */
         public static String getOtherNodeDefinitionIsNotValidMessage(final Element element) {
-            return "[Other node definition is not valid: " + Representation.getXmlElementRepresentation(element) + "]";
+            return "[Other node definition is not valid: " + Representation.getNodeRepresentation(element) + "]";
         }
 
         /**
@@ -239,7 +240,7 @@ public final class Messages {
          * @return the error message.
          */
         public static String getChildElementIsNotValidMessage(final Element element) {
-            return "[Child element is not valid: " + Representation.getXmlElementRepresentation(element) + "]";
+            return "[Child element is not valid: " + Representation.getNodeRepresentation(element) + "]";
         }
 
         /**
