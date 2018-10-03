@@ -81,7 +81,7 @@ public abstract class FormXmlDefinitionsLoader extends FormDefinitionsLoader {
      *
      * @return the XML document builder.
      */
-    protected XmlDocumentBuilder getXmlDocumentBuilder() {
+    protected final XmlDocumentBuilder getXmlDocumentBuilder() {
         return _xmlDocumentBuilder;
     }
 
@@ -90,7 +90,7 @@ public abstract class FormXmlDefinitionsLoader extends FormDefinitionsLoader {
      *
      * @return the XML document validator.
      */
-    protected XmlDocumentValidator getXmlDocumentValidator() {
+    protected final XmlDocumentValidator getXmlDocumentValidator() {
         return _xmlDocumentValidator;
     }
 
@@ -99,7 +99,7 @@ public abstract class FormXmlDefinitionsLoader extends FormDefinitionsLoader {
      *
      * @return the builder for the form definition.
      */
-    protected FormXmlDefinitionBuilderImpl getFormXmlDefinitionBuilder() {
+    protected final FormXmlDefinitionBuilderImpl getFormXmlDefinitionBuilder() {
         return _formXmlDefinitionBuilder;
     }
 
