@@ -22,7 +22,6 @@ package ru.d_shap.formmodel.definition.loader.xml;
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.w3c.dom.Document;
@@ -86,7 +85,6 @@ public final class FormXmlDefinitionsInputStreamLoader extends FormXmlDefinition
     public List<FormDefinition> load() {
         try {
             try {
-                List<FormDefinition> formDefinitions = new ArrayList<>();
                 InputSource inputSource = new InputSource(_inputStream);
                 Document document = getXmlDocumentBuilder().parse(inputSource);
                 Element element = document.getDocumentElement();
