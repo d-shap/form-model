@@ -54,7 +54,7 @@ public final class DefaultOtherNodeXmlDefinition implements OtherNodeDefinition 
 
     @Override
     public String toString() {
-        return Messages.Representation.getXmlElementRepresentation(_element);
+        return Messages.Representation.getNodeRepresentation(_element);
     }
 
 }
