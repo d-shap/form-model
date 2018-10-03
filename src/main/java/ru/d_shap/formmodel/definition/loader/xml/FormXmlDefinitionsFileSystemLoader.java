@@ -94,11 +94,11 @@ public final class FormXmlDefinitionsFileSystemLoader extends FormXmlDefinitions
     /**
      * Create new object.
      *
-     * @param formDefinitionsLoader another loader for the form definitions.
-     * @param file                  the source file or directory.
+     * @param formXmlDefinitionsLoader loader for the form definitions.
+     * @param file                     the source file or directory.
      */
-    public FormXmlDefinitionsFileSystemLoader(final FormXmlDefinitionsLoader formDefinitionsLoader, final File file) {
-        super(formDefinitionsLoader);
+    public FormXmlDefinitionsFileSystemLoader(final FormXmlDefinitionsLoader formXmlDefinitionsLoader, final File file) {
+        super(formXmlDefinitionsLoader);
         _file = file;
         _fileFilter = getFileFilter(null);
     }
@@ -106,12 +106,12 @@ public final class FormXmlDefinitionsFileSystemLoader extends FormXmlDefinitions
     /**
      * Create new object.
      *
-     * @param formDefinitionsLoader another loader for the form definitions.
-     * @param file                  the source file or directory.
-     * @param fileFilter            the file filter.
+     * @param formXmlDefinitionsLoader loader for the form definitions.
+     * @param file                     the source file or directory.
+     * @param fileFilter               the file filter.
      */
-    public FormXmlDefinitionsFileSystemLoader(final FormXmlDefinitionsLoader formDefinitionsLoader, final File file, final FileFilter fileFilter) {
-        super(formDefinitionsLoader);
+    public FormXmlDefinitionsFileSystemLoader(final FormXmlDefinitionsLoader formXmlDefinitionsLoader, final File file, final FileFilter fileFilter) {
+        super(formXmlDefinitionsLoader);
         _file = file;
         _fileFilter = getFileFilter(fileFilter);
     }
@@ -152,8 +152,8 @@ public final class FormXmlDefinitionsFileSystemLoader extends FormXmlDefinitions
     private void processFile(final File file, final int fileRootPathLength, final List<FormDefinition> formDefinitions) {
         try {
             String source = file.getAbsolutePath().substring(fileRootPathLength);
-            try (FormXmlDefinitionsInputStreamLoader loader = new FormXmlDefinitionsInputStreamLoader(this, new FileInputStream(file), source)) {
-                formDefinitions.addAll(loader.load());
+            try (FormXmlDefinitionsInputStreamLoader formXmlDefinitionsInputStreamLoader = new FormXmlDefinitionsInputStreamLoader(this, new FileInputStream(file), source)) {
+                formDefinitions.addAll(formXmlDefinitionsInputStreamLoader.load());
             }
         } catch (IOException ex) {
             throw new InputSourceReadException(ex);
