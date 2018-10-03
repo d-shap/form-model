@@ -25,6 +25,8 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
 
 import ru.d_shap.formmodel.InputSourceReadException;
@@ -70,12 +72,12 @@ public final class FormXmlDefinitionsInputStreamLoader extends FormXmlDefinition
     /**
      * Create new object.
      *
-     * @param formDefinitionsLoader another loader for the form definitions.
-     * @param inputStream           the source input stream.
-     * @param source                the form's source.
+     * @param formXmlDefinitionsLoader loader for the form definitions.
+     * @param inputStream              the source input stream.
+     * @param source                   the form's source.
      */
-    public FormXmlDefinitionsInputStreamLoader(final FormXmlDefinitionsLoader formDefinitionsLoader, final InputStream inputStream, final String source) {
-        super(formDefinitionsLoader);
+    public FormXmlDefinitionsInputStreamLoader(final FormXmlDefinitionsLoader formXmlDefinitionsLoader, final InputStream inputStream, final String source) {
+        super(formXmlDefinitionsLoader);
         _inputStream = inputStream;
         _source = source;
     }
@@ -86,11 +88,10 @@ public final class FormXmlDefinitionsInputStreamLoader extends FormXmlDefinition
             try {
                 List<FormDefinition> formDefinitions = new ArrayList<>();
                 InputSource inputSource = new InputSource(_inputStream);
-                FormDefinition formDefinition = getFormDefinition(inputSource, _source);
-                if (formDefinition != null) {
-                    formDefinitions.add(formDefinition);
-                }
-                return formDefinitions;
+                Document document = getXmlDocumentBuilder().parse(inputSource);
+                Element element = document.getDocumentElement();
+                FormXmlDefinitionsElementLoader formXmlDefinitionsElementLoader = new FormXmlDefinitionsElementLoader(this, element, _source);
+                return formXmlDefinitionsElementLoader.load();
             } finally {
                 close();
             }
