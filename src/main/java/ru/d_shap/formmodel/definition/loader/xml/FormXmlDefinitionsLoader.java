@@ -67,13 +67,13 @@ public abstract class FormXmlDefinitionsLoader extends FormDefinitionsLoader {
     /**
      * Create new object.
      *
-     * @param formDefinitionsLoader loader for the form definitions.
+     * @param formXmlDefinitionsLoader loader for the form definitions.
      */
-    protected FormXmlDefinitionsLoader(final FormXmlDefinitionsLoader formDefinitionsLoader) {
+    protected FormXmlDefinitionsLoader(final FormXmlDefinitionsLoader formXmlDefinitionsLoader) {
         super();
-        _xmlDocumentBuilder = formDefinitionsLoader._xmlDocumentBuilder;
-        _xmlDocumentValidator = formDefinitionsLoader._xmlDocumentValidator;
-        _formXmlDefinitionBuilder = formDefinitionsLoader._formXmlDefinitionBuilder;
+        _xmlDocumentBuilder = formXmlDefinitionsLoader._xmlDocumentBuilder;
+        _xmlDocumentValidator = formXmlDefinitionsLoader._xmlDocumentValidator;
+        _formXmlDefinitionBuilder = formXmlDefinitionsLoader._formXmlDefinitionBuilder;
     }
 
     /**
