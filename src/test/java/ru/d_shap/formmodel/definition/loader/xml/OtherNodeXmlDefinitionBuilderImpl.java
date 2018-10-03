@@ -97,12 +97,20 @@ public final class OtherNodeXmlDefinitionBuilderImpl implements OtherNodeXmlDefi
 
     @Override
     public CardinalityDefinition getElementDefinitionDefaultCardinality(final Element parentElement) {
-        return CardinalityDefinition.PROHIBITED;
+        if (NAMESPACE.equals(parentElement.getNamespaceURI()) && LOCAL_NAME.equals(parentElement.getLocalName())) {
+            return CardinalityDefinition.PROHIBITED;
+        } else {
+            return null;
+        }
     }
 
     @Override
     public CardinalityDefinition getSingleElementDefinitionDefaultCardinality(final Element parentElement) {
-        return CardinalityDefinition.PROHIBITED;
+        if (NAMESPACE.equals(parentElement.getNamespaceURI()) && LOCAL_NAME.equals(parentElement.getLocalName())) {
+            return CardinalityDefinition.PROHIBITED;
+        } else {
+            return null;
+        }
     }
 
 }
