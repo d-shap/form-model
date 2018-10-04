@@ -291,7 +291,19 @@ public final class FormXmlDefinitionBuilderImplTest extends BaseFormModelTest {
      */
     @Test
     public void createFormDefinitionChildAttributeTest() {
-        // TODO
+        try {
+            String xml = "<?xml version='1.0'?>\n";
+            xml += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+            xml += "<ns1:attribute id='id2' lookup='lookup2' type='required'>";
+            xml += "</ns1:attribute>";
+            xml += "</ns1:form>";
+            Document document = parse(xml);
+            Element element = document.getDocumentElement();
+            createBuilder().createFormDefinition(element, "source");
+            Assertions.fail("FormXmlDefinitionBuilderImpl test fail");
+        } catch (FormDefinitionValidationException ex) {
+            Assertions.assertThat(ex).hasMessage("[Child element is not valid: {http://d-shap.ru/schema/form-model/1.0}attribute], {source}form[@:id1]");
+        }
     }
 
     /**
@@ -299,7 +311,21 @@ public final class FormXmlDefinitionBuilderImplTest extends BaseFormModelTest {
      */
     @Test
     public void createFormDefinitionChildElementTest() {
-        // TODO
+        String xml = "<?xml version='1.0'?>\n";
+        xml += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml += "<ns1:element id='id2' lookup='lookup2' type='required'>";
+        xml += "</ns1:element>";
+        xml += "</ns1:form>";
+        Document document = parse(xml);
+        Element element = document.getDocumentElement();
+        FormDefinition formDefinition = createBuilder().createFormDefinition(element, "source");
+        Assertions.assertThat(formDefinition.getAllNodeDefinitions()).hasSize(1);
+        Assertions.assertThat(formDefinition.getElementDefinitions()).hasSize(1);
+        Assertions.assertThat(formDefinition.getElementDefinitions().get(0).getId()).isEqualTo("id2");
+        Assertions.assertThat(formDefinition.getElementDefinitions().get(0).getLookup()).isEqualTo("lookup2");
+        Assertions.assertThat(formDefinition.getElementDefinitions().get(0).getCardinalityDefinition()).isSameAs(CardinalityDefinition.REQUIRED);
+        Assertions.assertThat(formDefinition.getElementDefinitions().get(0).getAllNodeDefinitions()).hasSize(0);
+        Assertions.assertThat(formDefinition.getElementDefinitions().get(0).getOtherAttributeNames()).containsExactly();
     }
 
     /**
@@ -307,7 +333,20 @@ public final class FormXmlDefinitionBuilderImplTest extends BaseFormModelTest {
      */
     @Test
     public void createFormDefinitionChildSingleElementTest() {
-        // TODO
+        String xml = "<?xml version='1.0'?>\n";
+        xml += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml += "<ns1:singleElement id='id2' type='required'>";
+        xml += "</ns1:singleElement>";
+        xml += "</ns1:form>";
+        Document document = parse(xml);
+        Element element = document.getDocumentElement();
+        FormDefinition formDefinition = createBuilder().createFormDefinition(element, "source");
+        Assertions.assertThat(formDefinition.getAllNodeDefinitions()).hasSize(1);
+        Assertions.assertThat(formDefinition.getSingleElementDefinitions()).hasSize(1);
+        Assertions.assertThat(formDefinition.getSingleElementDefinitions().get(0).getId()).isEqualTo("id2");
+        Assertions.assertThat(formDefinition.getSingleElementDefinitions().get(0).getCardinalityDefinition()).isSameAs(CardinalityDefinition.REQUIRED);
+        Assertions.assertThat(formDefinition.getSingleElementDefinitions().get(0).getAllNodeDefinitions()).hasSize(0);
+        Assertions.assertThat(formDefinition.getSingleElementDefinitions().get(0).getOtherAttributeNames()).containsExactly();
     }
 
     /**
@@ -315,7 +354,20 @@ public final class FormXmlDefinitionBuilderImplTest extends BaseFormModelTest {
      */
     @Test
     public void createFormDefinitionChildFormReferenceTest() {
-        // TODO
+        String xml = "<?xml version='1.0'?>\n";
+        xml += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml += "<ns1:formReference id='id2'>";
+        xml += "</ns1:formReference>";
+        xml += "</ns1:form>";
+        Document document = parse(xml);
+        Element element = document.getDocumentElement();
+        FormDefinition formDefinition = createBuilder().createFormDefinition(element, "source");
+        Assertions.assertThat(formDefinition.getAllNodeDefinitions()).hasSize(1);
+        Assertions.assertThat(formDefinition.getFormReferenceDefinitions()).hasSize(1);
+        Assertions.assertThat(formDefinition.getFormReferenceDefinitions().get(0).getGroup()).isEqualTo("");
+        Assertions.assertThat(formDefinition.getFormReferenceDefinitions().get(0).getId()).isEqualTo("id2");
+        Assertions.assertThat(formDefinition.getFormReferenceDefinitions().get(0).getAllNodeDefinitions()).hasSize(0);
+        Assertions.assertThat(formDefinition.getFormReferenceDefinitions().get(0).getOtherAttributeNames()).containsExactly();
     }
 
     /**
@@ -323,7 +375,20 @@ public final class FormXmlDefinitionBuilderImplTest extends BaseFormModelTest {
      */
     @Test
     public void createFormDefinitionChildOtherNodeTest() {
-        // TODO
+        String xml = "<?xml version='1.0'?>\n";
+        xml += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0' xmlns:ns2='http://d-shap.ru/schema/form-model-other-node/1.0'>";
+        xml += "<otherNode>";
+        xml += "</otherNode>";
+        xml += "<ns2:otherNode>";
+        xml += "</ns2:otherNode>";
+        xml += "</ns1:form>";
+        Document document = parse(xml);
+        Element element = document.getDocumentElement();
+        FormDefinition formDefinition = createBuilder().createFormDefinition(element, "source");
+        Assertions.assertThat(formDefinition.getAllNodeDefinitions()).hasSize(2);
+        Assertions.assertThat(formDefinition.getOtherNodeDefinitions()).hasSize(2);
+        Assertions.assertThat(formDefinition.getOtherNodeDefinitions().get(0)).isInstanceOf(DefaultOtherNodeXmlDefinition.class);
+        Assertions.assertThat(formDefinition.getOtherNodeDefinitions().get(1)).isInstanceOf(OtherNodeDefinitionImpl.class);
     }
 
     /**
