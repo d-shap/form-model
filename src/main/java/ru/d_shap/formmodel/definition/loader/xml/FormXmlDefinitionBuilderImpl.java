@@ -53,12 +53,9 @@ final class FormXmlDefinitionBuilderImpl implements FormXmlDefinitionBuilder {
 
     private final List<OtherNodeXmlDefinitionBuilder> _otherNodeXmlDefinitionBuilders;
 
-    private final OtherNodeXmlDefinitionBuilder _defaultOtherNodeXmlDefinitionBuilder;
-
     FormXmlDefinitionBuilderImpl(final List<OtherNodeXmlDefinitionBuilder> otherNodeXmlDefinitionBuilders) {
         super();
         _otherNodeXmlDefinitionBuilders = new ArrayList<>(otherNodeXmlDefinitionBuilders);
-        _defaultOtherNodeXmlDefinitionBuilder = new DefaultOtherNodeXmlDefinitionBuilder();
     }
 
     boolean isFormDefinition(final Element element) {
@@ -204,7 +201,7 @@ final class FormXmlDefinitionBuilderImpl implements FormXmlDefinitionBuilder {
                     return otherNodeDefinition;
                 }
             }
-            return _defaultOtherNodeXmlDefinitionBuilder.createOtherNodeDefinition(parentElement, element, this, nodePath);
+            return new DefaultOtherNodeXmlDefinition(element);
         } else {
             throw new FormDefinitionValidationException(Messages.Validation.getOtherNodeDefinitionIsNotValidMessage(element), nodePath);
         }
