@@ -294,6 +294,7 @@ public final class FormXmlDefinitionBuilderImplTest extends BaseFormModelTest {
         try {
             String xml = "<?xml version='1.0'?>\n";
             xml += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+            xml += "<!-- COMMENT -->";
             xml += "<ns1:attribute id='id2' lookup='lookup2' type='required'>";
             xml += "</ns1:attribute>";
             xml += "</ns1:form>";
@@ -313,6 +314,7 @@ public final class FormXmlDefinitionBuilderImplTest extends BaseFormModelTest {
     public void createFormDefinitionChildElementTest() {
         String xml = "<?xml version='1.0'?>\n";
         xml += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml += "<!-- COMMENT -->";
         xml += "<ns1:element id='id2' lookup='lookup2' type='required'>";
         xml += "</ns1:element>";
         xml += "</ns1:form>";
@@ -335,6 +337,7 @@ public final class FormXmlDefinitionBuilderImplTest extends BaseFormModelTest {
     public void createFormDefinitionChildSingleElementTest() {
         String xml = "<?xml version='1.0'?>\n";
         xml += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml += "<!-- COMMENT -->";
         xml += "<ns1:singleElement id='id2' type='required'>";
         xml += "</ns1:singleElement>";
         xml += "</ns1:form>";
@@ -356,6 +359,7 @@ public final class FormXmlDefinitionBuilderImplTest extends BaseFormModelTest {
     public void createFormDefinitionChildFormReferenceTest() {
         String xml = "<?xml version='1.0'?>\n";
         xml += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml += "<!-- COMMENT -->";
         xml += "<ns1:formReference id='id2'>";
         xml += "</ns1:formReference>";
         xml += "</ns1:form>";
@@ -377,6 +381,7 @@ public final class FormXmlDefinitionBuilderImplTest extends BaseFormModelTest {
     public void createFormDefinitionChildOtherNodeTest() {
         String xml = "<?xml version='1.0'?>\n";
         xml += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0' xmlns:ns2='http://d-shap.ru/schema/form-model-other-node/1.0'>";
+        xml += "<!-- COMMENT -->";
         xml += "<otherNode>";
         xml += "</otherNode>";
         xml += "<ns2:otherNode>";
