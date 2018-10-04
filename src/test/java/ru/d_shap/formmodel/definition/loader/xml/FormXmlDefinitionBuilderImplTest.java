@@ -2328,6 +2328,7 @@ public final class FormXmlDefinitionBuilderImplTest extends BaseFormModelTest {
             String xml = "<?xml version='1.0'?>\n";
             xml += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
             xml += "<ns1:formReference id='id2'>";
+            xml += "<!-- COMMENT -->";
             xml += "<ns1:attribute id='id3' lookup='lookup3' type='required'>";
             xml += "</ns1:attribute>";
             xml += "</ns1:formReference>";
@@ -2351,6 +2352,7 @@ public final class FormXmlDefinitionBuilderImplTest extends BaseFormModelTest {
             String xml = "<?xml version='1.0'?>\n";
             xml += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
             xml += "<ns1:formReference id='id2'>";
+            xml += "<!-- COMMENT -->";
             xml += "<ns1:element id='id3' lookup='lookup3' type='required'>";
             xml += "</ns1:element>";
             xml += "</ns1:formReference>";
@@ -2374,6 +2376,7 @@ public final class FormXmlDefinitionBuilderImplTest extends BaseFormModelTest {
             String xml = "<?xml version='1.0'?>\n";
             xml += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
             xml += "<ns1:formReference id='id2'>";
+            xml += "<!-- COMMENT -->";
             xml += "<ns1:singleElement id='id3' type='required'>";
             xml += "</ns1:singleElement>";
             xml += "</ns1:formReference>";
@@ -2397,6 +2400,7 @@ public final class FormXmlDefinitionBuilderImplTest extends BaseFormModelTest {
             String xml = "<?xml version='1.0'?>\n";
             xml += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
             xml += "<ns1:formReference id='id2'>";
+            xml += "<!-- COMMENT -->";
             xml += "<ns1:formReference id='id3'>";
             xml += "</ns1:formReference>";
             xml += "</ns1:formReference>";
@@ -2419,6 +2423,7 @@ public final class FormXmlDefinitionBuilderImplTest extends BaseFormModelTest {
         String xml = "<?xml version='1.0'?>\n";
         xml += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0' xmlns:ns2='http://d-shap.ru/schema/form-model-other-node/1.0'>";
         xml += "<ns1:formReference id='id2'>";
+        xml += "<!-- COMMENT -->";
         xml += "<otherNode>";
         xml += "</otherNode>";
         xml += "<ns2:otherNode>";
@@ -2612,7 +2617,39 @@ public final class FormXmlDefinitionBuilderImplTest extends BaseFormModelTest {
      */
     @Test
     public void createOtherNodeDefinitionChildAttributeTest() {
-        // TODO
+        String xml = "<?xml version='1.0'?>\n";
+        xml += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0' xmlns:ns2='http://d-shap.ru/schema/form-model-other-node/1.0'>";
+        xml += "<otherNode>";
+        xml += "<!-- COMMENT -->";
+        xml += "<ns1:attribute id='id' lookup='lookup' type='required'>";
+        xml += "</ns1:attribute>";
+        xml += "</otherNode>";
+        xml += "<ns2:otherNode>";
+        xml += "<!-- COMMENT -->";
+        xml += "<ns1:attribute id='id' lookup='lookup' type='required'>";
+        xml += "</ns1:attribute>";
+        xml += "</ns2:otherNode>";
+        xml += "</ns1:form>";
+        Document document = parse(xml);
+        Element parentElement = document.getDocumentElement();
+
+        Element element1 = (Element) parentElement.getChildNodes().item(0);
+        OtherNodeDefinition otherNodeDefinition1 = createBuilder().createOtherNodeDefinition(parentElement, element1, new NodePath("parent"));
+        Assertions.assertThat(otherNodeDefinition1).isInstanceOf(DefaultOtherNodeXmlDefinition.class);
+        Assertions.assertThat(((DefaultOtherNodeXmlDefinition) otherNodeDefinition1).getElement()).isNotNull();
+        Assertions.assertThat(((DefaultOtherNodeXmlDefinition) otherNodeDefinition1).getElement().getTagName()).isEqualTo("otherNode");
+        Assertions.assertThat(((DefaultOtherNodeXmlDefinition) otherNodeDefinition1).getElement().getChildNodes().getLength()).isEqualTo(2);
+        Assertions.assertThat(((DefaultOtherNodeXmlDefinition) otherNodeDefinition1).getElement().getChildNodes().item(1).getLocalName()).isEqualTo("attribute");
+
+        Element element2 = (Element) parentElement.getChildNodes().item(1);
+        OtherNodeDefinition otherNodeDefinition2 = createBuilder().createOtherNodeDefinition(parentElement, element2, new NodePath("parent"));
+        Assertions.assertThat(otherNodeDefinition2).isInstanceOf(OtherNodeDefinitionImpl.class);
+        Assertions.assertThat(((OtherNodeDefinitionImpl) otherNodeDefinition2).getAttributeDefinition()).isNotNull();
+        Assertions.assertThat(((OtherNodeDefinitionImpl) otherNodeDefinition2).getAttributeDefinition().getId()).isEqualTo("id");
+        Assertions.assertThat(((OtherNodeDefinitionImpl) otherNodeDefinition2).getAttributeDefinition().getLookup()).isEqualTo("lookup");
+        Assertions.assertThat(((OtherNodeDefinitionImpl) otherNodeDefinition2).getAttributeDefinition().getCardinalityDefinition()).isSameAs(CardinalityDefinition.REQUIRED);
+        Assertions.assertThat(((OtherNodeDefinitionImpl) otherNodeDefinition2).getAttributeDefinition().getAllNodeDefinitions()).hasSize(0);
+        Assertions.assertThat(((OtherNodeDefinitionImpl) otherNodeDefinition2).getAttributeDefinition().getOtherAttributeNames()).containsExactly();
     }
 
     /**
@@ -2620,7 +2657,39 @@ public final class FormXmlDefinitionBuilderImplTest extends BaseFormModelTest {
      */
     @Test
     public void createOtherNodeDefinitionChildElementTest() {
-        // TODO
+        String xml = "<?xml version='1.0'?>\n";
+        xml += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0' xmlns:ns2='http://d-shap.ru/schema/form-model-other-node/1.0'>";
+        xml += "<otherNode>";
+        xml += "<!-- COMMENT -->";
+        xml += "<ns1:element id='id' lookup='lookup' type='required'>";
+        xml += "</ns1:element>";
+        xml += "</otherNode>";
+        xml += "<ns2:otherNode>";
+        xml += "<!-- COMMENT -->";
+        xml += "<ns1:element id='id' lookup='lookup' type='required'>";
+        xml += "</ns1:element>";
+        xml += "</ns2:otherNode>";
+        xml += "</ns1:form>";
+        Document document = parse(xml);
+        Element parentElement = document.getDocumentElement();
+
+        Element element1 = (Element) parentElement.getChildNodes().item(0);
+        OtherNodeDefinition otherNodeDefinition1 = createBuilder().createOtherNodeDefinition(parentElement, element1, new NodePath("parent"));
+        Assertions.assertThat(otherNodeDefinition1).isInstanceOf(DefaultOtherNodeXmlDefinition.class);
+        Assertions.assertThat(((DefaultOtherNodeXmlDefinition) otherNodeDefinition1).getElement()).isNotNull();
+        Assertions.assertThat(((DefaultOtherNodeXmlDefinition) otherNodeDefinition1).getElement().getTagName()).isEqualTo("otherNode");
+        Assertions.assertThat(((DefaultOtherNodeXmlDefinition) otherNodeDefinition1).getElement().getChildNodes().getLength()).isEqualTo(2);
+        Assertions.assertThat(((DefaultOtherNodeXmlDefinition) otherNodeDefinition1).getElement().getChildNodes().item(1).getLocalName()).isEqualTo("element");
+
+        Element element2 = (Element) parentElement.getChildNodes().item(1);
+        OtherNodeDefinition otherNodeDefinition2 = createBuilder().createOtherNodeDefinition(parentElement, element2, new NodePath("parent"));
+        Assertions.assertThat(otherNodeDefinition2).isInstanceOf(OtherNodeDefinitionImpl.class);
+        Assertions.assertThat(((OtherNodeDefinitionImpl) otherNodeDefinition2).getElementDefinition()).isNotNull();
+        Assertions.assertThat(((OtherNodeDefinitionImpl) otherNodeDefinition2).getElementDefinition().getId()).isEqualTo("id");
+        Assertions.assertThat(((OtherNodeDefinitionImpl) otherNodeDefinition2).getElementDefinition().getLookup()).isEqualTo("lookup");
+        Assertions.assertThat(((OtherNodeDefinitionImpl) otherNodeDefinition2).getElementDefinition().getCardinalityDefinition()).isSameAs(CardinalityDefinition.REQUIRED);
+        Assertions.assertThat(((OtherNodeDefinitionImpl) otherNodeDefinition2).getElementDefinition().getAllNodeDefinitions()).hasSize(0);
+        Assertions.assertThat(((OtherNodeDefinitionImpl) otherNodeDefinition2).getElementDefinition().getOtherAttributeNames()).containsExactly();
     }
 
     /**
@@ -2628,7 +2697,38 @@ public final class FormXmlDefinitionBuilderImplTest extends BaseFormModelTest {
      */
     @Test
     public void createOtherNodeDefinitionChildSingleElementTest() {
-        // TODO
+        String xml = "<?xml version='1.0'?>\n";
+        xml += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0' xmlns:ns2='http://d-shap.ru/schema/form-model-other-node/1.0'>";
+        xml += "<otherNode>";
+        xml += "<!-- COMMENT -->";
+        xml += "<ns1:singleElement id='id' type='required'>";
+        xml += "</ns1:singleElement>";
+        xml += "</otherNode>";
+        xml += "<ns2:otherNode>";
+        xml += "<!-- COMMENT -->";
+        xml += "<ns1:singleElement id='id' type='required'>";
+        xml += "</ns1:singleElement>";
+        xml += "</ns2:otherNode>";
+        xml += "</ns1:form>";
+        Document document = parse(xml);
+        Element parentElement = document.getDocumentElement();
+
+        Element element1 = (Element) parentElement.getChildNodes().item(0);
+        OtherNodeDefinition otherNodeDefinition1 = createBuilder().createOtherNodeDefinition(parentElement, element1, new NodePath("parent"));
+        Assertions.assertThat(otherNodeDefinition1).isInstanceOf(DefaultOtherNodeXmlDefinition.class);
+        Assertions.assertThat(((DefaultOtherNodeXmlDefinition) otherNodeDefinition1).getElement()).isNotNull();
+        Assertions.assertThat(((DefaultOtherNodeXmlDefinition) otherNodeDefinition1).getElement().getTagName()).isEqualTo("otherNode");
+        Assertions.assertThat(((DefaultOtherNodeXmlDefinition) otherNodeDefinition1).getElement().getChildNodes().getLength()).isEqualTo(2);
+        Assertions.assertThat(((DefaultOtherNodeXmlDefinition) otherNodeDefinition1).getElement().getChildNodes().item(1).getLocalName()).isEqualTo("singleElement");
+
+        Element element2 = (Element) parentElement.getChildNodes().item(1);
+        OtherNodeDefinition otherNodeDefinition2 = createBuilder().createOtherNodeDefinition(parentElement, element2, new NodePath("parent"));
+        Assertions.assertThat(otherNodeDefinition2).isInstanceOf(OtherNodeDefinitionImpl.class);
+        Assertions.assertThat(((OtherNodeDefinitionImpl) otherNodeDefinition2).getSingleElementDefinition()).isNotNull();
+        Assertions.assertThat(((OtherNodeDefinitionImpl) otherNodeDefinition2).getSingleElementDefinition().getId()).isEqualTo("id");
+        Assertions.assertThat(((OtherNodeDefinitionImpl) otherNodeDefinition2).getSingleElementDefinition().getCardinalityDefinition()).isSameAs(CardinalityDefinition.REQUIRED);
+        Assertions.assertThat(((OtherNodeDefinitionImpl) otherNodeDefinition2).getSingleElementDefinition().getAllNodeDefinitions()).hasSize(0);
+        Assertions.assertThat(((OtherNodeDefinitionImpl) otherNodeDefinition2).getSingleElementDefinition().getOtherAttributeNames()).containsExactly();
     }
 
     /**
@@ -2636,7 +2736,38 @@ public final class FormXmlDefinitionBuilderImplTest extends BaseFormModelTest {
      */
     @Test
     public void createOtherNodeDefinitionChildFormReferenceTest() {
-        // TODO
+        String xml = "<?xml version='1.0'?>\n";
+        xml += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0' xmlns:ns2='http://d-shap.ru/schema/form-model-other-node/1.0'>";
+        xml += "<otherNode>";
+        xml += "<!-- COMMENT -->";
+        xml += "<ns1:formReference id='id'>";
+        xml += "</ns1:formReference>";
+        xml += "</otherNode>";
+        xml += "<ns2:otherNode>";
+        xml += "<!-- COMMENT -->";
+        xml += "<ns1:formReference id='id'>";
+        xml += "</ns1:formReference>";
+        xml += "</ns2:otherNode>";
+        xml += "</ns1:form>";
+        Document document = parse(xml);
+        Element parentElement = document.getDocumentElement();
+
+        Element element1 = (Element) parentElement.getChildNodes().item(0);
+        OtherNodeDefinition otherNodeDefinition1 = createBuilder().createOtherNodeDefinition(parentElement, element1, new NodePath("parent"));
+        Assertions.assertThat(otherNodeDefinition1).isInstanceOf(DefaultOtherNodeXmlDefinition.class);
+        Assertions.assertThat(((DefaultOtherNodeXmlDefinition) otherNodeDefinition1).getElement()).isNotNull();
+        Assertions.assertThat(((DefaultOtherNodeXmlDefinition) otherNodeDefinition1).getElement().getTagName()).isEqualTo("otherNode");
+        Assertions.assertThat(((DefaultOtherNodeXmlDefinition) otherNodeDefinition1).getElement().getChildNodes().getLength()).isEqualTo(2);
+        Assertions.assertThat(((DefaultOtherNodeXmlDefinition) otherNodeDefinition1).getElement().getChildNodes().item(1).getLocalName()).isEqualTo("formReference");
+
+        Element element2 = (Element) parentElement.getChildNodes().item(1);
+        OtherNodeDefinition otherNodeDefinition2 = createBuilder().createOtherNodeDefinition(parentElement, element2, new NodePath("parent"));
+        Assertions.assertThat(otherNodeDefinition2).isInstanceOf(OtherNodeDefinitionImpl.class);
+        Assertions.assertThat(((OtherNodeDefinitionImpl) otherNodeDefinition2).getFormReferenceDefinition()).isNotNull();
+        Assertions.assertThat(((OtherNodeDefinitionImpl) otherNodeDefinition2).getFormReferenceDefinition().getGroup()).isEqualTo("");
+        Assertions.assertThat(((OtherNodeDefinitionImpl) otherNodeDefinition2).getFormReferenceDefinition().getId()).isEqualTo("id");
+        Assertions.assertThat(((OtherNodeDefinitionImpl) otherNodeDefinition2).getFormReferenceDefinition().getAllNodeDefinitions()).hasSize(0);
+        Assertions.assertThat(((OtherNodeDefinitionImpl) otherNodeDefinition2).getFormReferenceDefinition().getOtherAttributeNames()).containsExactly();
     }
 
     /**
@@ -2644,7 +2775,49 @@ public final class FormXmlDefinitionBuilderImplTest extends BaseFormModelTest {
      */
     @Test
     public void createOtherNodeDefinitionChildOtherNodeTest() {
-        // TODO
+        String xml = "<?xml version='1.0'?>\n";
+        xml += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0' xmlns:ns2='http://d-shap.ru/schema/form-model-other-node/1.0'>";
+        xml += "<otherNode>";
+        xml += "<!-- COMMENT -->";
+        xml += "<otherNode>";
+        xml += "</otherNode>";
+        xml += "<ns2:otherNode>";
+        xml += "</ns2:otherNode>";
+        xml += "</otherNode>";
+        xml += "<ns2:otherNode>";
+        xml += "<!-- COMMENT -->";
+        xml += "<otherNode>";
+        xml += "</otherNode>";
+        xml += "</ns2:otherNode>";
+        xml += "<ns2:otherNode>";
+        xml += "<!-- COMMENT -->";
+        xml += "<ns2:otherNode>";
+        xml += "</ns2:otherNode>";
+        xml += "</ns2:otherNode>";
+        xml += "</ns1:form>";
+        Document document = parse(xml);
+        Element parentElement = document.getDocumentElement();
+
+        Element element1 = (Element) parentElement.getChildNodes().item(0);
+        OtherNodeDefinition otherNodeDefinition1 = createBuilder().createOtherNodeDefinition(parentElement, element1, new NodePath("parent"));
+        Assertions.assertThat(otherNodeDefinition1).isInstanceOf(DefaultOtherNodeXmlDefinition.class);
+        Assertions.assertThat(((DefaultOtherNodeXmlDefinition) otherNodeDefinition1).getElement()).isNotNull();
+        Assertions.assertThat(((DefaultOtherNodeXmlDefinition) otherNodeDefinition1).getElement().getTagName()).isEqualTo("otherNode");
+        Assertions.assertThat(((DefaultOtherNodeXmlDefinition) otherNodeDefinition1).getElement().getChildNodes().getLength()).isEqualTo(3);
+        Assertions.assertThat(((DefaultOtherNodeXmlDefinition) otherNodeDefinition1).getElement().getChildNodes().item(1).getLocalName()).isEqualTo("otherNode");
+        Assertions.assertThat(((DefaultOtherNodeXmlDefinition) otherNodeDefinition1).getElement().getChildNodes().item(2).getLocalName()).isEqualTo("otherNode");
+
+        Element element2 = (Element) parentElement.getChildNodes().item(1);
+        OtherNodeDefinition otherNodeDefinition2 = createBuilder().createOtherNodeDefinition(parentElement, element2, new NodePath("parent"));
+        Assertions.assertThat(otherNodeDefinition2).isInstanceOf(OtherNodeDefinitionImpl.class);
+        Assertions.assertThat(((OtherNodeDefinitionImpl) otherNodeDefinition2).getOtherNodeDefinition()).isNotNull();
+        Assertions.assertThat(((OtherNodeDefinitionImpl) otherNodeDefinition2).getOtherNodeDefinition()).isInstanceOf(DefaultOtherNodeXmlDefinition.class);
+
+        Element element3 = (Element) parentElement.getChildNodes().item(2);
+        OtherNodeDefinition otherNodeDefinition3 = createBuilder().createOtherNodeDefinition(parentElement, element3, new NodePath("parent"));
+        Assertions.assertThat(otherNodeDefinition3).isInstanceOf(OtherNodeDefinitionImpl.class);
+        Assertions.assertThat(((OtherNodeDefinitionImpl) otherNodeDefinition3).getOtherNodeDefinition()).isNotNull();
+        Assertions.assertThat(((OtherNodeDefinitionImpl) otherNodeDefinition3).getOtherNodeDefinition()).isInstanceOf(OtherNodeDefinitionImpl.class);
     }
 
     private FormXmlDefinitionBuilderImpl createBuilder() {
