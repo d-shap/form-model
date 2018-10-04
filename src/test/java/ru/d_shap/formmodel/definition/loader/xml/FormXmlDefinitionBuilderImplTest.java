@@ -1401,7 +1401,25 @@ public final class FormXmlDefinitionBuilderImplTest extends BaseFormModelTest {
      */
     @Test
     public void createElementDefinitionChildAttributeTest() {
-        // TODO
+        String xml = "<?xml version='1.0'?>\n";
+        xml += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml += "<ns1:element id='id2' lookup='lookup2' type='required'>";
+        xml += "<!-- COMMENT -->";
+        xml += "<ns1:attribute id='id3' lookup='lookup3' type='required'>";
+        xml += "</ns1:attribute>";
+        xml += "</ns1:element>";
+        xml += "</ns1:form>";
+        Document document = parse(xml);
+        Element parentElement = document.getDocumentElement();
+        Element element = (Element) parentElement.getFirstChild();
+        ElementDefinition elementDefinition = createBuilder().createElementDefinition(parentElement, element, new NodePath("parent"));
+        Assertions.assertThat(elementDefinition.getAllNodeDefinitions()).hasSize(1);
+        Assertions.assertThat(elementDefinition.getAttributeDefinitions()).hasSize(1);
+        Assertions.assertThat(elementDefinition.getAttributeDefinitions().get(0).getId()).isEqualTo("id3");
+        Assertions.assertThat(elementDefinition.getAttributeDefinitions().get(0).getLookup()).isEqualTo("lookup3");
+        Assertions.assertThat(elementDefinition.getAttributeDefinitions().get(0).getCardinalityDefinition()).isSameAs(CardinalityDefinition.REQUIRED);
+        Assertions.assertThat(elementDefinition.getAttributeDefinitions().get(0).getAllNodeDefinitions()).hasSize(0);
+        Assertions.assertThat(elementDefinition.getAttributeDefinitions().get(0).getOtherAttributeNames()).containsExactly();
     }
 
     /**
@@ -1409,7 +1427,25 @@ public final class FormXmlDefinitionBuilderImplTest extends BaseFormModelTest {
      */
     @Test
     public void createElementDefinitionChildElementTest() {
-        // TODO
+        String xml = "<?xml version='1.0'?>\n";
+        xml += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml += "<ns1:element id='id2' lookup='lookup2' type='required'>";
+        xml += "<!-- COMMENT -->";
+        xml += "<ns1:element id='id3' lookup='lookup3' type='required'>";
+        xml += "</ns1:element>";
+        xml += "</ns1:element>";
+        xml += "</ns1:form>";
+        Document document = parse(xml);
+        Element parentElement = document.getDocumentElement();
+        Element element = (Element) parentElement.getFirstChild();
+        ElementDefinition elementDefinition = createBuilder().createElementDefinition(parentElement, element, new NodePath("parent"));
+        Assertions.assertThat(elementDefinition.getAllNodeDefinitions()).hasSize(1);
+        Assertions.assertThat(elementDefinition.getElementDefinitions()).hasSize(1);
+        Assertions.assertThat(elementDefinition.getElementDefinitions().get(0).getId()).isEqualTo("id3");
+        Assertions.assertThat(elementDefinition.getElementDefinitions().get(0).getLookup()).isEqualTo("lookup3");
+        Assertions.assertThat(elementDefinition.getElementDefinitions().get(0).getCardinalityDefinition()).isSameAs(CardinalityDefinition.REQUIRED);
+        Assertions.assertThat(elementDefinition.getElementDefinitions().get(0).getAllNodeDefinitions()).hasSize(0);
+        Assertions.assertThat(elementDefinition.getElementDefinitions().get(0).getOtherAttributeNames()).containsExactly();
     }
 
     /**
@@ -1417,7 +1453,24 @@ public final class FormXmlDefinitionBuilderImplTest extends BaseFormModelTest {
      */
     @Test
     public void createElementDefinitionChildSingleElementTest() {
-        // TODO
+        String xml = "<?xml version='1.0'?>\n";
+        xml += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml += "<ns1:element id='id2' lookup='lookup2' type='required'>";
+        xml += "<!-- COMMENT -->";
+        xml += "<ns1:singleElement id='id3' type='required'>";
+        xml += "</ns1:singleElement>";
+        xml += "</ns1:element>";
+        xml += "</ns1:form>";
+        Document document = parse(xml);
+        Element parentElement = document.getDocumentElement();
+        Element element = (Element) parentElement.getFirstChild();
+        ElementDefinition elementDefinition = createBuilder().createElementDefinition(parentElement, element, new NodePath("parent"));
+        Assertions.assertThat(elementDefinition.getAllNodeDefinitions()).hasSize(1);
+        Assertions.assertThat(elementDefinition.getSingleElementDefinitions()).hasSize(1);
+        Assertions.assertThat(elementDefinition.getSingleElementDefinitions().get(0).getId()).isEqualTo("id3");
+        Assertions.assertThat(elementDefinition.getSingleElementDefinitions().get(0).getCardinalityDefinition()).isSameAs(CardinalityDefinition.REQUIRED);
+        Assertions.assertThat(elementDefinition.getSingleElementDefinitions().get(0).getAllNodeDefinitions()).hasSize(0);
+        Assertions.assertThat(elementDefinition.getSingleElementDefinitions().get(0).getOtherAttributeNames()).containsExactly();
     }
 
     /**
@@ -1425,7 +1478,24 @@ public final class FormXmlDefinitionBuilderImplTest extends BaseFormModelTest {
      */
     @Test
     public void createElementDefinitionChildFormReferenceTest() {
-        // TODO
+        String xml = "<?xml version='1.0'?>\n";
+        xml += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml += "<ns1:element id='id2' lookup='lookup2' type='required'>";
+        xml += "<!-- COMMENT -->";
+        xml += "<ns1:formReference id='id3'>";
+        xml += "</ns1:formReference>";
+        xml += "</ns1:element>";
+        xml += "</ns1:form>";
+        Document document = parse(xml);
+        Element parentElement = document.getDocumentElement();
+        Element element = (Element) parentElement.getFirstChild();
+        ElementDefinition elementDefinition = createBuilder().createElementDefinition(parentElement, element, new NodePath("parent"));
+        Assertions.assertThat(elementDefinition.getAllNodeDefinitions()).hasSize(1);
+        Assertions.assertThat(elementDefinition.getFormReferenceDefinitions()).hasSize(1);
+        Assertions.assertThat(elementDefinition.getFormReferenceDefinitions().get(0).getGroup()).isEqualTo("");
+        Assertions.assertThat(elementDefinition.getFormReferenceDefinitions().get(0).getId()).isEqualTo("id3");
+        Assertions.assertThat(elementDefinition.getFormReferenceDefinitions().get(0).getAllNodeDefinitions()).hasSize(0);
+        Assertions.assertThat(elementDefinition.getFormReferenceDefinitions().get(0).getOtherAttributeNames()).containsExactly();
     }
 
     /**
@@ -1433,7 +1503,24 @@ public final class FormXmlDefinitionBuilderImplTest extends BaseFormModelTest {
      */
     @Test
     public void createElementDefinitionChildOtherNodeTest() {
-        // TODO
+        String xml = "<?xml version='1.0'?>\n";
+        xml += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0' xmlns:ns2='http://d-shap.ru/schema/form-model-other-node/1.0'>";
+        xml += "<ns1:element id='id2' lookup='lookup2' type='required'>";
+        xml += "<!-- COMMENT -->";
+        xml += "<otherNode>";
+        xml += "</otherNode>";
+        xml += "<ns2:otherNode>";
+        xml += "</ns2:otherNode>";
+        xml += "</ns1:element>";
+        xml += "</ns1:form>";
+        Document document = parse(xml);
+        Element parentElement = document.getDocumentElement();
+        Element element = (Element) parentElement.getFirstChild();
+        ElementDefinition elementDefinition = createBuilder().createElementDefinition(parentElement, element, new NodePath("parent"));
+        Assertions.assertThat(elementDefinition.getAllNodeDefinitions()).hasSize(2);
+        Assertions.assertThat(elementDefinition.getOtherNodeDefinitions()).hasSize(2);
+        Assertions.assertThat(elementDefinition.getOtherNodeDefinitions().get(0)).isInstanceOf(DefaultOtherNodeXmlDefinition.class);
+        Assertions.assertThat(elementDefinition.getOtherNodeDefinitions().get(1)).isInstanceOf(OtherNodeDefinitionImpl.class);
     }
 
     /**
