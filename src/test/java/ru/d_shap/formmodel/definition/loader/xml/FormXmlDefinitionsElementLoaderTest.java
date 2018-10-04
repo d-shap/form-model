@@ -76,13 +76,15 @@ public final class FormXmlDefinitionsElementLoaderTest extends BaseFormModelTest
         Assertions.assertThat(formXmlDefinitionsElementLoader11.getFormXmlDefinitionBuilder()).isSameAs(formXmlDefinitionsElementLoader12.getFormXmlDefinitionBuilder());
 
         String xml2 = "<?xml version='1.0'?>\n";
-        xml2 += "<root>";
-        xml2 += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml2 += "<root xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml2 += "<ns1:form id='id1'>";
         xml2 += "</ns1:form>";
-        xml2 += "<ns1:form id='id2' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml2 += "<ns1:form id='id2'>";
         xml2 += "</ns1:form>";
-        xml2 += "<ns1:form id='id3' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml2 += "<ns1:form id='id3'>";
         xml2 += "</ns1:form>";
+        xml2 += "<form id='id4'>";
+        xml2 += "</form>";
         xml2 += "</root>";
         Document document2 = parse(xml2);
 
@@ -112,6 +114,10 @@ public final class FormXmlDefinitionsElementLoaderTest extends BaseFormModelTest
         Assertions.assertThat(formDefinitions23.get(0).getAllNodeDefinitions()).isEmpty();
         Assertions.assertThat(formDefinitions23.get(0).getOtherAttributeNames()).isEmpty();
         Assertions.assertThat(formDefinitions23.get(0).getSource()).isEqualTo("source13");
+
+        FormXmlDefinitionsElementLoader formXmlDefinitionsElementLoader24 = new FormXmlDefinitionsElementLoader((Element) document2.getDocumentElement().getChildNodes().item(3), "source14");
+        List<FormDefinition> formDefinitions24 = formXmlDefinitionsElementLoader24.load();
+        Assertions.assertThat(formDefinitions24).hasSize(0);
     }
 
 }
