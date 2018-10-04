@@ -2324,7 +2324,22 @@ public final class FormXmlDefinitionBuilderImplTest extends BaseFormModelTest {
      */
     @Test
     public void createFormReferenceDefinitionChildAttributeTest() {
-        // TODO
+        try {
+            String xml = "<?xml version='1.0'?>\n";
+            xml += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+            xml += "<ns1:formReference id='id2'>";
+            xml += "<ns1:attribute id='id3' lookup='lookup3' type='required'>";
+            xml += "</ns1:attribute>";
+            xml += "</ns1:formReference>";
+            xml += "</ns1:form>";
+            Document document = parse(xml);
+            Element parentElement = document.getDocumentElement();
+            Element element = (Element) parentElement.getFirstChild();
+            createBuilder().createFormReferenceDefinition(parentElement, element, new NodePath("parent"));
+            Assertions.fail("FormXmlDefinitionBuilderImpl test fail");
+        } catch (FormDefinitionValidationException ex) {
+            Assertions.assertThat(ex).hasMessage("[Child element is not valid: {http://d-shap.ru/schema/form-model/1.0}attribute], parent/formReference[@:id2]");
+        }
     }
 
     /**
@@ -2332,7 +2347,22 @@ public final class FormXmlDefinitionBuilderImplTest extends BaseFormModelTest {
      */
     @Test
     public void createFormReferenceDefinitionChildElementTest() {
-        // TODO
+        try {
+            String xml = "<?xml version='1.0'?>\n";
+            xml += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+            xml += "<ns1:formReference id='id2'>";
+            xml += "<ns1:element id='id3' lookup='lookup3' type='required'>";
+            xml += "</ns1:element>";
+            xml += "</ns1:formReference>";
+            xml += "</ns1:form>";
+            Document document = parse(xml);
+            Element parentElement = document.getDocumentElement();
+            Element element = (Element) parentElement.getFirstChild();
+            createBuilder().createFormReferenceDefinition(parentElement, element, new NodePath("parent"));
+            Assertions.fail("FormXmlDefinitionBuilderImpl test fail");
+        } catch (FormDefinitionValidationException ex) {
+            Assertions.assertThat(ex).hasMessage("[Child element is not valid: {http://d-shap.ru/schema/form-model/1.0}element], parent/formReference[@:id2]");
+        }
     }
 
     /**
@@ -2340,7 +2370,22 @@ public final class FormXmlDefinitionBuilderImplTest extends BaseFormModelTest {
      */
     @Test
     public void createFormReferenceDefinitionChildSingleElementTest() {
-        // TODO
+        try {
+            String xml = "<?xml version='1.0'?>\n";
+            xml += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+            xml += "<ns1:formReference id='id2'>";
+            xml += "<ns1:singleElement id='id3' type='required'>";
+            xml += "</ns1:singleElement>";
+            xml += "</ns1:formReference>";
+            xml += "</ns1:form>";
+            Document document = parse(xml);
+            Element parentElement = document.getDocumentElement();
+            Element element = (Element) parentElement.getFirstChild();
+            createBuilder().createFormReferenceDefinition(parentElement, element, new NodePath("parent"));
+            Assertions.fail("FormXmlDefinitionBuilderImpl test fail");
+        } catch (FormDefinitionValidationException ex) {
+            Assertions.assertThat(ex).hasMessage("[Child element is not valid: {http://d-shap.ru/schema/form-model/1.0}singleElement], parent/formReference[@:id2]");
+        }
     }
 
     /**
@@ -2348,7 +2393,22 @@ public final class FormXmlDefinitionBuilderImplTest extends BaseFormModelTest {
      */
     @Test
     public void createFormReferenceDefinitionChildFormReferenceTest() {
-        // TODO
+        try {
+            String xml = "<?xml version='1.0'?>\n";
+            xml += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+            xml += "<ns1:formReference id='id2'>";
+            xml += "<ns1:formReference id='id3'>";
+            xml += "</ns1:formReference>";
+            xml += "</ns1:formReference>";
+            xml += "</ns1:form>";
+            Document document = parse(xml);
+            Element parentElement = document.getDocumentElement();
+            Element element = (Element) parentElement.getFirstChild();
+            createBuilder().createFormReferenceDefinition(parentElement, element, new NodePath("parent"));
+            Assertions.fail("FormXmlDefinitionBuilderImpl test fail");
+        } catch (FormDefinitionValidationException ex) {
+            Assertions.assertThat(ex).hasMessage("[Child element is not valid: {http://d-shap.ru/schema/form-model/1.0}formReference], parent/formReference[@:id2]");
+        }
     }
 
     /**
@@ -2356,7 +2416,23 @@ public final class FormXmlDefinitionBuilderImplTest extends BaseFormModelTest {
      */
     @Test
     public void createFormReferenceDefinitionChildOtherNodeTest() {
-        // TODO
+        String xml = "<?xml version='1.0'?>\n";
+        xml += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0' xmlns:ns2='http://d-shap.ru/schema/form-model-other-node/1.0'>";
+        xml += "<ns1:formReference id='id2'>";
+        xml += "<otherNode>";
+        xml += "</otherNode>";
+        xml += "<ns2:otherNode>";
+        xml += "</ns2:otherNode>";
+        xml += "</ns1:formReference>";
+        xml += "</ns1:form>";
+        Document document = parse(xml);
+        Element parentElement = document.getDocumentElement();
+        Element element = (Element) parentElement.getFirstChild();
+        FormReferenceDefinition formReferenceDefinition = createBuilder().createFormReferenceDefinition(parentElement, element, new NodePath("parent"));
+        Assertions.assertThat(formReferenceDefinition.getAllNodeDefinitions()).hasSize(2);
+        Assertions.assertThat(formReferenceDefinition.getOtherNodeDefinitions()).hasSize(2);
+        Assertions.assertThat(formReferenceDefinition.getOtherNodeDefinitions().get(0)).isInstanceOf(DefaultOtherNodeXmlDefinition.class);
+        Assertions.assertThat(formReferenceDefinition.getOtherNodeDefinitions().get(1)).isInstanceOf(OtherNodeDefinitionImpl.class);
     }
 
     /**
