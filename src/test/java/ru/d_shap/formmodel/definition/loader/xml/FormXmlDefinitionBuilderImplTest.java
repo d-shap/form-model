@@ -290,6 +290,46 @@ public final class FormXmlDefinitionBuilderImplTest extends BaseFormModelTest {
      * {@link FormXmlDefinitionBuilderImpl} class test.
      */
     @Test
+    public void createFormDefinitionChildAttributeTest() {
+        // TODO
+    }
+
+    /**
+     * {@link FormXmlDefinitionBuilderImpl} class test.
+     */
+    @Test
+    public void createFormDefinitionChildElementTest() {
+        // TODO
+    }
+
+    /**
+     * {@link FormXmlDefinitionBuilderImpl} class test.
+     */
+    @Test
+    public void createFormDefinitionChildSingleElementTest() {
+        // TODO
+    }
+
+    /**
+     * {@link FormXmlDefinitionBuilderImpl} class test.
+     */
+    @Test
+    public void createFormDefinitionChildFormReferenceTest() {
+        // TODO
+    }
+
+    /**
+     * {@link FormXmlDefinitionBuilderImpl} class test.
+     */
+    @Test
+    public void createFormDefinitionChildOtherNodeTest() {
+        // TODO
+    }
+
+    /**
+     * {@link FormXmlDefinitionBuilderImpl} class test.
+     */
+    @Test
     public void isAttributeDefinitionTest() {
         String xml1 = "<?xml version='1.0'?>\n";
         xml1 += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
@@ -735,6 +775,46 @@ public final class FormXmlDefinitionBuilderImplTest extends BaseFormModelTest {
      * {@link FormXmlDefinitionBuilderImpl} class test.
      */
     @Test
+    public void createAttributeDefinitionChildAttributeTest() {
+        // TODO
+    }
+
+    /**
+     * {@link FormXmlDefinitionBuilderImpl} class test.
+     */
+    @Test
+    public void createAttributeDefinitionChildElementTest() {
+        // TODO
+    }
+
+    /**
+     * {@link FormXmlDefinitionBuilderImpl} class test.
+     */
+    @Test
+    public void createAttributeDefinitionChildSingleElementTest() {
+        // TODO
+    }
+
+    /**
+     * {@link FormXmlDefinitionBuilderImpl} class test.
+     */
+    @Test
+    public void createAttributeDefinitionChildFormReferenceTest() {
+        // TODO
+    }
+
+    /**
+     * {@link FormXmlDefinitionBuilderImpl} class test.
+     */
+    @Test
+    public void createAttributeDefinitionChildOtherNodeTest() {
+        // TODO
+    }
+
+    /**
+     * {@link FormXmlDefinitionBuilderImpl} class test.
+     */
+    @Test
     public void isElementDefinitionTest() {
         String xml1 = "<?xml version='1.0'?>\n";
         xml1 += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
@@ -1159,6 +1239,46 @@ public final class FormXmlDefinitionBuilderImplTest extends BaseFormModelTest {
      * {@link FormXmlDefinitionBuilderImpl} class test.
      */
     @Test
+    public void createElementDefinitionChildAttributeTest() {
+        // TODO
+    }
+
+    /**
+     * {@link FormXmlDefinitionBuilderImpl} class test.
+     */
+    @Test
+    public void createElementDefinitionChildElementTest() {
+        // TODO
+    }
+
+    /**
+     * {@link FormXmlDefinitionBuilderImpl} class test.
+     */
+    @Test
+    public void createElementDefinitionChildSingleElementTest() {
+        // TODO
+    }
+
+    /**
+     * {@link FormXmlDefinitionBuilderImpl} class test.
+     */
+    @Test
+    public void createElementDefinitionChildFormReferenceTest() {
+        // TODO
+    }
+
+    /**
+     * {@link FormXmlDefinitionBuilderImpl} class test.
+     */
+    @Test
+    public void createElementDefinitionChildOtherNodeTest() {
+        // TODO
+    }
+
+    /**
+     * {@link FormXmlDefinitionBuilderImpl} class test.
+     */
+    @Test
     public void isSingleElementDefinitionTest() {
         String xml1 = "<?xml version='1.0'?>\n";
         xml1 += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
@@ -1531,6 +1651,46 @@ public final class FormXmlDefinitionBuilderImplTest extends BaseFormModelTest {
      * {@link FormXmlDefinitionBuilderImpl} class test.
      */
     @Test
+    public void createSingleElementDefinitionChildAttributeTest() {
+        // TODO
+    }
+
+    /**
+     * {@link FormXmlDefinitionBuilderImpl} class test.
+     */
+    @Test
+    public void createSingleElementDefinitionChildElementTest() {
+        // TODO
+    }
+
+    /**
+     * {@link FormXmlDefinitionBuilderImpl} class test.
+     */
+    @Test
+    public void createSingleElementDefinitionChildSingleElementTest() {
+        // TODO
+    }
+
+    /**
+     * {@link FormXmlDefinitionBuilderImpl} class test.
+     */
+    @Test
+    public void createSingleElementDefinitionChildFormReferenceTest() {
+        // TODO
+    }
+
+    /**
+     * {@link FormXmlDefinitionBuilderImpl} class test.
+     */
+    @Test
+    public void createSingleElementDefinitionChildOtherNodeTest() {
+        // TODO
+    }
+
+    /**
+     * {@link FormXmlDefinitionBuilderImpl} class test.
+     */
+    @Test
     public void isFormReferenceDefinitionTest() {
         String xml1 = "<?xml version='1.0'?>\n";
         xml1 += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
@@ -1831,6 +1991,46 @@ public final class FormXmlDefinitionBuilderImplTest extends BaseFormModelTest {
      * {@link FormXmlDefinitionBuilderImpl} class test.
      */
     @Test
+    public void createFormReferenceDefinitionChildAttributeTest() {
+        // TODO
+    }
+
+    /**
+     * {@link FormXmlDefinitionBuilderImpl} class test.
+     */
+    @Test
+    public void createFormReferenceDefinitionChildElementTest() {
+        // TODO
+    }
+
+    /**
+     * {@link FormXmlDefinitionBuilderImpl} class test.
+     */
+    @Test
+    public void createFormReferenceDefinitionChildSingleElementTest() {
+        // TODO
+    }
+
+    /**
+     * {@link FormXmlDefinitionBuilderImpl} class test.
+     */
+    @Test
+    public void createFormReferenceDefinitionChildFormReferenceTest() {
+        // TODO
+    }
+
+    /**
+     * {@link FormXmlDefinitionBuilderImpl} class test.
+     */
+    @Test
+    public void createFormReferenceDefinitionChildOtherNodeTest() {
+        // TODO
+    }
+
+    /**
+     * {@link FormXmlDefinitionBuilderImpl} class test.
+     */
+    @Test
     public void isOtherNodeDefinitionTest() {
         String xml1 = "<?xml version='1.0'?>\n";
         xml1 += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0' xmlns:ns2='http://d-shap.ru/schema/form-model-other-node/1.0'>";
@@ -1997,6 +2197,46 @@ public final class FormXmlDefinitionBuilderImplTest extends BaseFormModelTest {
         } catch (FormDefinitionValidationException ex) {
             Assertions.assertThat(ex).hasMessage("[Other node definition is not valid: {http://d-shap.ru/schema/form-model/1.0}otherNode], parent");
         }
+    }
+
+    /**
+     * {@link FormXmlDefinitionBuilderImpl} class test.
+     */
+    @Test
+    public void createOtherNodeDefinitionChildAttributeTest() {
+        // TODO
+    }
+
+    /**
+     * {@link FormXmlDefinitionBuilderImpl} class test.
+     */
+    @Test
+    public void createOtherNodeDefinitionChildElementTest() {
+        // TODO
+    }
+
+    /**
+     * {@link FormXmlDefinitionBuilderImpl} class test.
+     */
+    @Test
+    public void createOtherNodeDefinitionChildSingleElementTest() {
+        // TODO
+    }
+
+    /**
+     * {@link FormXmlDefinitionBuilderImpl} class test.
+     */
+    @Test
+    public void createOtherNodeDefinitionChildFormReferenceTest() {
+        // TODO
+    }
+
+    /**
+     * {@link FormXmlDefinitionBuilderImpl} class test.
+     */
+    @Test
+    public void createOtherNodeDefinitionChildOtherNodeTest() {
+        // TODO
     }
 
     private FormXmlDefinitionBuilderImpl createBuilder() {
