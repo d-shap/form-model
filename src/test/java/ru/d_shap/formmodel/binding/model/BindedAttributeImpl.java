@@ -40,7 +40,7 @@ public final class BindedAttributeImpl implements BindedAttribute {
 
     @Override
     public String toString() {
-        return String.valueOf(_representation);
+        return "Attr: " + _representation;
     }
 
 }
