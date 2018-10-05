@@ -65,8 +65,8 @@ final class FormInstanceBuilderImpl implements FormInstanceBuilder {
         BindedForm bindedForm = _formInstanceBinder.bindFormDefinition(bindingSource, null, null, null, formDefinition);
         Element element = addXmlElement(document, formDefinition);
         document.appendChild(element);
-        element.setUserData(FormInstanceBinder.ELEMENT_DEFINITION_KEY, formDefinition, null);
-        element.setUserData(FormInstanceBinder.FORM_DEFINITION_KEY, formDefinition, null);
+        element.setUserData(USER_DATA_FORM_DEFINITION, formDefinition, null);
+        element.setUserData(USER_DATA_ELEMENT_DEFINITION, formDefinition, null);
         NodePath currentNodePath = new NodePath(formDefinition);
         bindNodeDefinitions(bindingSource, document, bindedForm, null, element, formDefinition.getAllNodeDefinitions(), currentNodePath);
     }
@@ -78,9 +78,9 @@ final class FormInstanceBuilderImpl implements FormInstanceBuilder {
         if (bindedAttribute != null) {
             Element element = addXmlElement(document, attributeDefinition);
             parentElement.appendChild(element);
-            element.setUserData(FormInstanceBinder.ELEMENT_DEFINITION_KEY, attributeDefinition, null);
-            element.setUserData(FormInstanceBinder.FORM_DEFINITION_KEY, parentElement.getUserData(FormInstanceBinder.FORM_DEFINITION_KEY), null);
-            element.setUserData(FormInstanceBinder.BINDED_OBJECT_KEY, bindedAttribute, null);
+            element.setUserData(USER_DATA_FORM_DEFINITION, parentElement.getUserData(USER_DATA_FORM_DEFINITION), null);
+            element.setUserData(USER_DATA_ELEMENT_DEFINITION, attributeDefinition, null);
+            element.setUserData(USER_DATA_BINDED_OBJECT, bindedAttribute, null);
             NodePath currentNodePath = new NodePath(nodePath, attributeDefinition);
             bindNodeDefinitions(bindingSource, document, lastBindedForm, lastBindedElement, element, attributeDefinition.getAllNodeDefinitions(), currentNodePath);
         }
@@ -104,9 +104,9 @@ final class FormInstanceBuilderImpl implements FormInstanceBuilder {
             for (BindedElement bindedElement : bindedElements) {
                 Element element = addXmlElement(document, elementDefinition);
                 parentElement.appendChild(element);
-                element.setUserData(FormInstanceBinder.ELEMENT_DEFINITION_KEY, elementDefinition, null);
-                element.setUserData(FormInstanceBinder.FORM_DEFINITION_KEY, parentElement.getUserData(FormInstanceBinder.FORM_DEFINITION_KEY), null);
-                element.setUserData(FormInstanceBinder.BINDED_OBJECT_KEY, bindedElement, null);
+                element.setUserData(USER_DATA_FORM_DEFINITION, parentElement.getUserData(USER_DATA_FORM_DEFINITION), null);
+                element.setUserData(USER_DATA_ELEMENT_DEFINITION, elementDefinition, null);
+                element.setUserData(USER_DATA_BINDED_OBJECT, bindedElement, null);
                 NodePath currentNodePath = new NodePath(nodePath, elementDefinition);
                 bindNodeDefinitions(bindingSource, document, lastBindedForm, bindedElement, element, elementDefinition.getAllNodeDefinitions(), currentNodePath);
             }
@@ -148,8 +148,8 @@ final class FormInstanceBuilderImpl implements FormInstanceBuilder {
         validateBindedSingleElementDefinition(element, singleElementDefinition, nodePath);
         if (element.hasChildNodes()) {
             parentElement.appendChild(element);
-            element.setUserData(FormInstanceBinder.ELEMENT_DEFINITION_KEY, singleElementDefinition, null);
-            element.setUserData(FormInstanceBinder.FORM_DEFINITION_KEY, parentElement.getUserData(FormInstanceBinder.FORM_DEFINITION_KEY), null);
+            element.setUserData(USER_DATA_FORM_DEFINITION, parentElement.getUserData(USER_DATA_FORM_DEFINITION), null);
+            element.setUserData(USER_DATA_ELEMENT_DEFINITION, singleElementDefinition, null);
         }
     }
 
@@ -168,8 +168,8 @@ final class FormInstanceBuilderImpl implements FormInstanceBuilder {
         bindNodeDefinitions(bindingSource, document, bindedForm, lastBindedElement, element, formDefinition.getAllNodeDefinitions(), currentNodePath);
         if (element.hasChildNodes()) {
             parentElement.appendChild(element);
-            element.setUserData(FormInstanceBinder.ELEMENT_DEFINITION_KEY, formReferenceDefinition, null);
-            element.setUserData(FormInstanceBinder.FORM_DEFINITION_KEY, formDefinition, null);
+            element.setUserData(USER_DATA_FORM_DEFINITION, formDefinition, null);
+            element.setUserData(USER_DATA_ELEMENT_DEFINITION, formReferenceDefinition, null);
         }
     }
 
