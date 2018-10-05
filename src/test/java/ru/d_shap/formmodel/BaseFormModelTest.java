@@ -178,18 +178,88 @@ public class BaseFormModelTest {
      *
      * @author Dmitry Shapovalov
      */
-    public static final class ErrorInputStream extends InputStream {
+    public static final class ReadErrorInputStream extends InputStream {
 
         /**
          * Create new object.
          */
-        public ErrorInputStream() {
+        public ReadErrorInputStream() {
             super();
         }
 
         @Override
         public int read() throws IOException {
-            throw new IOException("ERROR!");
+            throw new IOException("READ ERROR!");
+        }
+
+    }
+
+    /**
+     * Test class.
+     *
+     * @author Dmitry Shapovalov
+     */
+    public static final class CloseErrorInputStream extends InputStream {
+
+        /**
+         * Create new object.
+         */
+        public CloseErrorInputStream() {
+            super();
+        }
+
+        @Override
+        public int read() throws IOException {
+            return -1;
+        }
+
+        @Override
+        public void close() throws IOException {
+            throw new IOException("CLOSE ERROR!");
+        }
+
+    }
+
+    /**
+     * Test class.
+     *
+     * @author Dmitry Shapovalov
+     */
+    public static final class CloseableInputStream extends InputStream {
+
+        private final InputStream _inputStream;
+
+        private boolean _closed;
+
+        /**
+         * Create new object.
+         *
+         * @param inputStream input stream.
+         */
+        public CloseableInputStream(final InputStream inputStream) {
+            super();
+            _inputStream = inputStream;
+            _closed = false;
+        }
+
+        @Override
+        public int read() throws IOException {
+            return _inputStream.read();
+        }
+
+        @Override
+        public void close() throws IOException {
+            _inputStream.close();
+            _closed = true;
+        }
+
+        /**
+         * Check if input stream is closed.
+         *
+         * @return true if input stream is closed.
+         */
+        public boolean isClosed() {
+            return _closed;
         }
 
     }
