@@ -23,6 +23,7 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -153,9 +154,9 @@ public final class FormXmlDefinitionsFileLoader extends FormXmlDefinitionsLoader
     private void processFile(final File file, final List<FormDefinition> formDefinitions) {
         try {
             String source = file.getAbsolutePath();
-            try (FormXmlDefinitionsInputStreamLoader formXmlDefinitionsInputStreamLoader = new FormXmlDefinitionsInputStreamLoader(this, new FileInputStream(file), source)) {
-                formDefinitions.addAll(formXmlDefinitionsInputStreamLoader.load());
-            }
+            InputStream inputStream = new FileInputStream(file);
+            FormXmlDefinitionsInputStreamLoader formXmlDefinitionsInputStreamLoader = new FormXmlDefinitionsInputStreamLoader(this, inputStream, source);
+            formDefinitions.addAll(formXmlDefinitionsInputStreamLoader.load());
         } catch (IOException ex) {
             throw new InputSourceReadException(ex);
         }
