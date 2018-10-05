@@ -130,7 +130,9 @@ public final class FormXmlDefinitionsFileLoader extends FormXmlDefinitionsLoader
         if (_file.isDirectory()) {
             processDirectory(_file, _fileFilter, formDefinitions);
         } else {
-            processFile(_file, formDefinitions);
+            if (_fileFilter.accept(_file)) {
+                processFile(_file, formDefinitions);
+            }
         }
         return formDefinitions;
     }
