@@ -52,8 +52,10 @@ public final class FormXmlDefinitionsLoaderTest extends BaseFormModelTest {
         Assertions.assertThat(new FormXmlDefinitionsLoaderImpl(new XmlDocumentBuilderConfiguratorImpl()).getXmlDocumentBuilder()).isNotSameAs(formXmlDefinitionsLoader2.getXmlDocumentBuilder());
 
         FormXmlDefinitionsLoaderImpl formXmlDefinitionsLoader3 = new FormXmlDefinitionsLoaderImpl(formXmlDefinitionsLoader1);
-        Assertions.assertThat(new FormXmlDefinitionsLoaderImpl(formXmlDefinitionsLoader1).getXmlDocumentBuilder()).isNotNull();
-        Assertions.assertThat(new FormXmlDefinitionsLoaderImpl(formXmlDefinitionsLoader1).getXmlDocumentBuilder()).isSameAs(formXmlDefinitionsLoader3.getXmlDocumentBuilder());
+        Assertions.assertThat(new FormXmlDefinitionsLoaderImpl(formXmlDefinitionsLoader3).getXmlDocumentBuilder()).isNotNull();
+        Assertions.assertThat(new FormXmlDefinitionsLoaderImpl(formXmlDefinitionsLoader3).getXmlDocumentBuilder()).isSameAs(formXmlDefinitionsLoader3.getXmlDocumentBuilder());
+        Assertions.assertThat(new FormXmlDefinitionsLoaderImpl(formXmlDefinitionsLoader3).getXmlDocumentBuilder()).isSameAs(formXmlDefinitionsLoader1.getXmlDocumentBuilder());
+        Assertions.assertThat(new FormXmlDefinitionsLoaderImpl(formXmlDefinitionsLoader1).getXmlDocumentBuilder()).isSameAs(formXmlDefinitionsLoader1.getXmlDocumentBuilder());
     }
 
     /**
@@ -70,8 +72,10 @@ public final class FormXmlDefinitionsLoaderTest extends BaseFormModelTest {
         Assertions.assertThat(new FormXmlDefinitionsLoaderImpl(new XmlDocumentBuilderConfiguratorImpl()).getXmlDocumentValidator()).isNotSameAs(formXmlDefinitionsLoader2.getXmlDocumentValidator());
 
         FormXmlDefinitionsLoaderImpl formXmlDefinitionsLoader3 = new FormXmlDefinitionsLoaderImpl(formXmlDefinitionsLoader1);
-        Assertions.assertThat(new FormXmlDefinitionsLoaderImpl(formXmlDefinitionsLoader1).getXmlDocumentValidator()).isNotNull();
-        Assertions.assertThat(new FormXmlDefinitionsLoaderImpl(formXmlDefinitionsLoader1).getXmlDocumentValidator()).isSameAs(formXmlDefinitionsLoader3.getXmlDocumentValidator());
+        Assertions.assertThat(new FormXmlDefinitionsLoaderImpl(formXmlDefinitionsLoader3).getXmlDocumentValidator()).isNotNull();
+        Assertions.assertThat(new FormXmlDefinitionsLoaderImpl(formXmlDefinitionsLoader3).getXmlDocumentValidator()).isSameAs(formXmlDefinitionsLoader3.getXmlDocumentValidator());
+        Assertions.assertThat(new FormXmlDefinitionsLoaderImpl(formXmlDefinitionsLoader3).getXmlDocumentValidator()).isSameAs(formXmlDefinitionsLoader1.getXmlDocumentValidator());
+        Assertions.assertThat(new FormXmlDefinitionsLoaderImpl(formXmlDefinitionsLoader1).getXmlDocumentValidator()).isSameAs(formXmlDefinitionsLoader1.getXmlDocumentValidator());
     }
 
     /**
@@ -88,8 +92,10 @@ public final class FormXmlDefinitionsLoaderTest extends BaseFormModelTest {
         Assertions.assertThat(new FormXmlDefinitionsLoaderImpl(new XmlDocumentBuilderConfiguratorImpl()).getFormXmlDefinitionBuilder()).isNotSameAs(formXmlDefinitionsLoader2.getFormXmlDefinitionBuilder());
 
         FormXmlDefinitionsLoaderImpl formXmlDefinitionsLoader3 = new FormXmlDefinitionsLoaderImpl(formXmlDefinitionsLoader1);
-        Assertions.assertThat(new FormXmlDefinitionsLoaderImpl(formXmlDefinitionsLoader1).getFormXmlDefinitionBuilder()).isNotNull();
-        Assertions.assertThat(new FormXmlDefinitionsLoaderImpl(formXmlDefinitionsLoader1).getFormXmlDefinitionBuilder()).isSameAs(formXmlDefinitionsLoader3.getFormXmlDefinitionBuilder());
+        Assertions.assertThat(new FormXmlDefinitionsLoaderImpl(formXmlDefinitionsLoader3).getFormXmlDefinitionBuilder()).isNotNull();
+        Assertions.assertThat(new FormXmlDefinitionsLoaderImpl(formXmlDefinitionsLoader3).getFormXmlDefinitionBuilder()).isSameAs(formXmlDefinitionsLoader3.getFormXmlDefinitionBuilder());
+        Assertions.assertThat(new FormXmlDefinitionsLoaderImpl(formXmlDefinitionsLoader3).getFormXmlDefinitionBuilder()).isSameAs(formXmlDefinitionsLoader1.getFormXmlDefinitionBuilder());
+        Assertions.assertThat(new FormXmlDefinitionsLoaderImpl(formXmlDefinitionsLoader1).getFormXmlDefinitionBuilder()).isSameAs(formXmlDefinitionsLoader1.getFormXmlDefinitionBuilder());
     }
 
 }
