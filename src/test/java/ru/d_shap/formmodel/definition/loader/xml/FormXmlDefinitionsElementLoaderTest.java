@@ -71,9 +71,9 @@ public final class FormXmlDefinitionsElementLoaderTest extends BaseFormModelTest
         Assertions.assertThat(formDefinitions12.get(0).getOtherAttributeNames()).isEmpty();
         Assertions.assertThat(formDefinitions12.get(0).getSource()).isEqualTo("source12");
 
-        Assertions.assertThat(formXmlDefinitionsElementLoader11.getXmlDocumentBuilder()).isSameAs(formXmlDefinitionsElementLoader12.getXmlDocumentBuilder());
-        Assertions.assertThat(formXmlDefinitionsElementLoader11.getXmlDocumentValidator()).isSameAs(formXmlDefinitionsElementLoader12.getXmlDocumentValidator());
-        Assertions.assertThat(formXmlDefinitionsElementLoader11.getFormXmlDefinitionBuilder()).isSameAs(formXmlDefinitionsElementLoader12.getFormXmlDefinitionBuilder());
+        Assertions.assertThat(formXmlDefinitionsElementLoader12.getXmlDocumentBuilder()).isSameAs(formXmlDefinitionsElementLoader11.getXmlDocumentBuilder());
+        Assertions.assertThat(formXmlDefinitionsElementLoader12.getXmlDocumentValidator()).isSameAs(formXmlDefinitionsElementLoader11.getXmlDocumentValidator());
+        Assertions.assertThat(formXmlDefinitionsElementLoader12.getFormXmlDefinitionBuilder()).isSameAs(formXmlDefinitionsElementLoader11.getFormXmlDefinitionBuilder());
 
         String xml2 = "<?xml version='1.0'?>\n";
         xml2 += "<root xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
