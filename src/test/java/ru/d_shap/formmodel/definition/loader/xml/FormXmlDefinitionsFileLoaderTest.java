@@ -21,6 +21,7 @@ package ru.d_shap.formmodel.definition.loader.xml;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.List;
 
@@ -28,6 +29,7 @@ import org.junit.Test;
 
 import ru.d_shap.assertions.Assertions;
 import ru.d_shap.formmodel.BaseFormModelTest;
+import ru.d_shap.formmodel.InputSourceReadException;
 import ru.d_shap.formmodel.definition.model.FormDefinition;
 import ru.d_shap.formmodel.definition.model.FormDefinitions;
 
@@ -248,6 +250,32 @@ public final class FormXmlDefinitionsFileLoaderTest extends BaseFormModelTest {
         Assertions.assertThat(formXmlDefinitionsFileLoader26.getXmlDocumentBuilder()).isSameAs(formXmlDefinitionsFileLoader22.getXmlDocumentBuilder());
         Assertions.assertThat(formXmlDefinitionsFileLoader26.getXmlDocumentValidator()).isSameAs(formXmlDefinitionsFileLoader22.getXmlDocumentValidator());
         Assertions.assertThat(formXmlDefinitionsFileLoader26.getFormXmlDefinitionBuilder()).isSameAs(formXmlDefinitionsFileLoader22.getFormXmlDefinitionBuilder());
+    }
+
+    /**
+     * {@link FormXmlDefinitionsFileLoader} class test.
+     */
+    @Test
+    public void loadInvalidPathFailTest() {
+        try {
+            File file = new File("invalid\u0000path.xml");
+            FormXmlDefinitionsFileLoader formXmlDefinitionsFileLoader = new FormXmlDefinitionsFileLoader(file);
+            formXmlDefinitionsFileLoader.load();
+            Assertions.fail("FormXmlDefinitionsFileLoader test fail");
+        } catch (InputSourceReadException ex) {
+            Assertions.assertThat(ex).hasCause(FileNotFoundException.class);
+        }
+    }
+
+    /**
+     * {@link FormXmlDefinitionsFileLoader} class test.
+     */
+    @Test
+    public void loadNullListFilesTest() {
+        File file = new EmptyDirectoryFile();
+        FormXmlDefinitionsFileLoader formXmlDefinitionsFileLoader = new FormXmlDefinitionsFileLoader(file);
+        List<FormDefinition> formDefinitions = formXmlDefinitionsFileLoader.load();
+        Assertions.assertThat(formDefinitions).hasSize(0);
     }
 
     /**
