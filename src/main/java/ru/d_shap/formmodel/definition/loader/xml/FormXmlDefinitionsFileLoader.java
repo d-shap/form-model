@@ -31,11 +31,11 @@ import ru.d_shap.formmodel.XmlDocumentBuilderConfigurator;
 import ru.d_shap.formmodel.definition.model.FormDefinition;
 
 /**
- * File system loader for the form definitions, XML implementation.
+ * File loader for the form definitions, XML implementation.
  *
  * @author Dmitry Shapovalov
  */
-public final class FormXmlDefinitionsFileSystemLoader extends FormXmlDefinitionsLoader {
+public final class FormXmlDefinitionsFileLoader extends FormXmlDefinitionsLoader {
 
     private static final String DEFAULT_EXTENSION = "xml";
 
@@ -48,7 +48,7 @@ public final class FormXmlDefinitionsFileSystemLoader extends FormXmlDefinitions
      *
      * @param file the source file or directory.
      */
-    public FormXmlDefinitionsFileSystemLoader(final File file) {
+    public FormXmlDefinitionsFileLoader(final File file) {
         super();
         _file = file;
         _fileFilter = getFileFilter(null);
@@ -60,7 +60,7 @@ public final class FormXmlDefinitionsFileSystemLoader extends FormXmlDefinitions
      * @param file       the source file or directory.
      * @param fileFilter the file filter.
      */
-    public FormXmlDefinitionsFileSystemLoader(final File file, final FileFilter fileFilter) {
+    public FormXmlDefinitionsFileLoader(final File file, final FileFilter fileFilter) {
         super();
         _file = file;
         _fileFilter = getFileFilter(fileFilter);
@@ -72,7 +72,7 @@ public final class FormXmlDefinitionsFileSystemLoader extends FormXmlDefinitions
      * @param xmlDocumentBuilderConfigurator configurator for the XML document builder.
      * @param file                           the source file or directory.
      */
-    public FormXmlDefinitionsFileSystemLoader(final XmlDocumentBuilderConfigurator xmlDocumentBuilderConfigurator, final File file) {
+    public FormXmlDefinitionsFileLoader(final XmlDocumentBuilderConfigurator xmlDocumentBuilderConfigurator, final File file) {
         super(xmlDocumentBuilderConfigurator);
         _file = file;
         _fileFilter = getFileFilter(null);
@@ -85,7 +85,7 @@ public final class FormXmlDefinitionsFileSystemLoader extends FormXmlDefinitions
      * @param file                           the source file or directory.
      * @param fileFilter                     the file filter.
      */
-    public FormXmlDefinitionsFileSystemLoader(final XmlDocumentBuilderConfigurator xmlDocumentBuilderConfigurator, final File file, final FileFilter fileFilter) {
+    public FormXmlDefinitionsFileLoader(final XmlDocumentBuilderConfigurator xmlDocumentBuilderConfigurator, final File file, final FileFilter fileFilter) {
         super(xmlDocumentBuilderConfigurator);
         _file = file;
         _fileFilter = getFileFilter(fileFilter);
@@ -97,7 +97,7 @@ public final class FormXmlDefinitionsFileSystemLoader extends FormXmlDefinitions
      * @param formXmlDefinitionsLoader loader for the form definitions.
      * @param file                     the source file or directory.
      */
-    public FormXmlDefinitionsFileSystemLoader(final FormXmlDefinitionsLoader formXmlDefinitionsLoader, final File file) {
+    public FormXmlDefinitionsFileLoader(final FormXmlDefinitionsLoader formXmlDefinitionsLoader, final File file) {
         super(formXmlDefinitionsLoader);
         _file = file;
         _fileFilter = getFileFilter(null);
@@ -110,7 +110,7 @@ public final class FormXmlDefinitionsFileSystemLoader extends FormXmlDefinitions
      * @param file                     the source file or directory.
      * @param fileFilter               the file filter.
      */
-    public FormXmlDefinitionsFileSystemLoader(final FormXmlDefinitionsLoader formXmlDefinitionsLoader, final File file, final FileFilter fileFilter) {
+    public FormXmlDefinitionsFileLoader(final FormXmlDefinitionsLoader formXmlDefinitionsLoader, final File file, final FileFilter fileFilter) {
         super(formXmlDefinitionsLoader);
         _file = file;
         _fileFilter = getFileFilter(fileFilter);
