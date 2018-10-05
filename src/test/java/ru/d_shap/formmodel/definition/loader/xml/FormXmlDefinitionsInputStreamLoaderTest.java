@@ -65,7 +65,7 @@ public final class FormXmlDefinitionsInputStreamLoaderTest extends BaseFormModel
         Assertions.assertThat(formDefinitions1.get(0).getSource()).isEqualTo("source1");
 
         InputStream inputStream2 = new ByteArrayInputStream(xml.getBytes());
-        FormXmlDefinitionsInputStreamLoader formXmlDefinitionsInputStreamLoader2 = new FormXmlDefinitionsInputStreamLoader(new DocumentBuilderFactoryConfiguratorImpl(), inputStream2, "source2");
+        FormXmlDefinitionsInputStreamLoader formXmlDefinitionsInputStreamLoader2 = new FormXmlDefinitionsInputStreamLoader(new XmlDocumentBuilderConfiguratorImpl(), inputStream2, "source2");
         List<FormDefinition> formDefinitions2 = formXmlDefinitionsInputStreamLoader2.load();
         Assertions.assertThat(formDefinitions2).hasSize(1);
         Assertions.assertThat(formDefinitions2.get(0).getGroup()).isEqualTo("");

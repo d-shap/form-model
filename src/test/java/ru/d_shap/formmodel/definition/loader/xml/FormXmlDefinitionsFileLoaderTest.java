@@ -73,7 +73,7 @@ public final class FormXmlDefinitionsFileLoaderTest extends BaseFormModelTest {
         List<FormDefinition> formDefinitions12 = formXmlDefinitionsFileLoader12.load();
         Assertions.assertThat(formDefinitions12).hasSize(0);
 
-        FormXmlDefinitionsFileLoader formXmlDefinitionsFileLoader13 = new FormXmlDefinitionsFileLoader(new DocumentBuilderFactoryConfiguratorImpl(), simpleForm);
+        FormXmlDefinitionsFileLoader formXmlDefinitionsFileLoader13 = new FormXmlDefinitionsFileLoader(new XmlDocumentBuilderConfiguratorImpl(), simpleForm);
         List<FormDefinition> formDefinitions13 = formXmlDefinitionsFileLoader13.load();
         Assertions.assertThat(formDefinitions13.get(0).getGroup()).isEqualTo("");
         Assertions.assertThat(formDefinitions13.get(0).getId()).isEqualTo("id");
@@ -86,7 +86,7 @@ public final class FormXmlDefinitionsFileLoaderTest extends BaseFormModelTest {
         Assertions.assertThat(formDefinitions13.get(0).getOtherAttributeNames()).isEmpty();
         Assertions.assertThat(formDefinitions13.get(0).getSource()).endsWith(File.separator + "simpleForm.xml");
 
-        FormXmlDefinitionsFileLoader formXmlDefinitionsFileLoader14 = new FormXmlDefinitionsFileLoader(new DocumentBuilderFactoryConfiguratorImpl(), simpleForm, new SkipFileFilter());
+        FormXmlDefinitionsFileLoader formXmlDefinitionsFileLoader14 = new FormXmlDefinitionsFileLoader(new XmlDocumentBuilderConfiguratorImpl(), simpleForm, new SkipFileFilter());
         List<FormDefinition> formDefinitions14 = formXmlDefinitionsFileLoader14.load();
         Assertions.assertThat(formDefinitions14).hasSize(0);
 

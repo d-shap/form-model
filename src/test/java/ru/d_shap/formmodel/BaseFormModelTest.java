@@ -137,12 +137,12 @@ public class BaseFormModelTest {
      *
      * @author Dmitry Shapovalov
      */
-    public static final class DocumentBuilderFactoryConfiguratorImpl implements XmlDocumentBuilderConfigurator {
+    public static final class XmlDocumentBuilderConfiguratorImpl implements XmlDocumentBuilderConfigurator {
 
         /**
          * Create new object.
          */
-        public DocumentBuilderFactoryConfiguratorImpl() {
+        public XmlDocumentBuilderConfiguratorImpl() {
             super();
         }
 
@@ -158,12 +158,12 @@ public class BaseFormModelTest {
      *
      * @author Dmitry Shapovalov
      */
-    public static final class ErrorDocumentBuilderFactoryConfiguratorImpl implements XmlDocumentBuilderConfigurator {
+    public static final class ErrorXmlDocumentBuilderConfiguratorImpl implements XmlDocumentBuilderConfigurator {
 
         /**
          * Create new object.
          */
-        public ErrorDocumentBuilderFactoryConfiguratorImpl() {
+        public ErrorXmlDocumentBuilderConfiguratorImpl() {
             super();
         }
 

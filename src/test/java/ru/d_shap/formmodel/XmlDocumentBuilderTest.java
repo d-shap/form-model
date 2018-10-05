@@ -52,10 +52,10 @@ public final class XmlDocumentBuilderTest extends BaseFormModelTest {
     public void createNewObjectTest() {
         Assertions.assertThat(new XmlDocumentBuilder()).isNotNull();
         Assertions.assertThat(new XmlDocumentBuilder(null)).isNotNull();
-        Assertions.assertThat(new XmlDocumentBuilder(new DocumentBuilderFactoryConfiguratorImpl())).isNotNull();
+        Assertions.assertThat(new XmlDocumentBuilder(new XmlDocumentBuilderConfiguratorImpl())).isNotNull();
 
         try {
-            new XmlDocumentBuilder(new ErrorDocumentBuilderFactoryConfiguratorImpl());
+            new XmlDocumentBuilder(new ErrorXmlDocumentBuilderConfiguratorImpl());
             Assertions.fail("XmlDocumentBuilder test fail");
         } catch (XmlDocumentBuilderException ex) {
             Assertions.assertThat(ex).hasCause(ParserConfigurationException.class);
@@ -71,10 +71,10 @@ public final class XmlDocumentBuilderTest extends BaseFormModelTest {
         Assertions.assertThat(XmlDocumentBuilder.getDocumentBuilder()).isNotSameAs(XmlDocumentBuilder.getDocumentBuilder());
 
         Assertions.assertThat(XmlDocumentBuilder.getDocumentBuilder(null)).isNotNull();
-        Assertions.assertThat(XmlDocumentBuilder.getDocumentBuilder(new DocumentBuilderFactoryConfiguratorImpl())).isNotNull();
+        Assertions.assertThat(XmlDocumentBuilder.getDocumentBuilder(new XmlDocumentBuilderConfiguratorImpl())).isNotNull();
 
         try {
-            XmlDocumentBuilder.getDocumentBuilder(new ErrorDocumentBuilderFactoryConfiguratorImpl());
+            XmlDocumentBuilder.getDocumentBuilder(new ErrorXmlDocumentBuilderConfiguratorImpl());
             Assertions.fail("XmlDocumentBuilder test fail");
         } catch (XmlDocumentBuilderException ex) {
             Assertions.assertThat(ex).hasCause(ParserConfigurationException.class);
