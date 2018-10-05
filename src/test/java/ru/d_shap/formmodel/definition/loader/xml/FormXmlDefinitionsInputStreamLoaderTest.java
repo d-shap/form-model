@@ -84,9 +84,9 @@ public final class FormXmlDefinitionsInputStreamLoaderTest extends BaseFormModel
         Assertions.assertThat(formDefinitions3.get(0).getOtherAttributeNames()).isEmpty();
         Assertions.assertThat(formDefinitions3.get(0).getSource()).isEqualTo("source3");
 
-        Assertions.assertThat(formXmlDefinitionsInputStreamLoader1.getXmlDocumentBuilder()).isSameAs(formXmlDefinitionsInputStreamLoader3.getXmlDocumentBuilder());
-        Assertions.assertThat(formXmlDefinitionsInputStreamLoader1.getXmlDocumentValidator()).isSameAs(formXmlDefinitionsInputStreamLoader3.getXmlDocumentValidator());
-        Assertions.assertThat(formXmlDefinitionsInputStreamLoader1.getFormXmlDefinitionBuilder()).isSameAs(formXmlDefinitionsInputStreamLoader3.getFormXmlDefinitionBuilder());
+        Assertions.assertThat(formXmlDefinitionsInputStreamLoader3.getXmlDocumentBuilder()).isSameAs(formXmlDefinitionsInputStreamLoader1.getXmlDocumentBuilder());
+        Assertions.assertThat(formXmlDefinitionsInputStreamLoader3.getXmlDocumentValidator()).isSameAs(formXmlDefinitionsInputStreamLoader1.getXmlDocumentValidator());
+        Assertions.assertThat(formXmlDefinitionsInputStreamLoader3.getFormXmlDefinitionBuilder()).isSameAs(formXmlDefinitionsInputStreamLoader1.getFormXmlDefinitionBuilder());
     }
 
     /**
