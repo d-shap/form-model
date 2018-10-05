@@ -85,7 +85,7 @@ public final class DocumentLookup {
         List<Element> elements = lookupElements(document, lookup);
         List<BindedElement> bindedElements = new ArrayList<>();
         for (Element element : elements) {
-            Object object = element.getUserData(FormInstanceBinder.BINDED_OBJECT_KEY);
+            Object object = element.getUserData(FormInstanceBuilder.USER_DATA_BINDED_OBJECT);
             if (object instanceof BindedElement) {
                 bindedElements.add((BindedElement) object);
             }
