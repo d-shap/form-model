@@ -29,6 +29,7 @@ import org.junit.Test;
 import ru.d_shap.assertions.Assertions;
 import ru.d_shap.formmodel.BaseFormModelTest;
 import ru.d_shap.formmodel.definition.model.FormDefinition;
+import ru.d_shap.formmodel.definition.model.FormDefinitions;
 
 /**
  * Tests for {@link FormXmlDefinitionsFileLoader}.
@@ -58,7 +59,7 @@ public final class FormXmlDefinitionsFileLoaderTest extends BaseFormModelTest {
         FormXmlDefinitionsFileLoader formXmlDefinitionsFileLoader11 = new FormXmlDefinitionsFileLoader(simpleForm);
         List<FormDefinition> formDefinitions11 = formXmlDefinitionsFileLoader11.load();
         Assertions.assertThat(formDefinitions11.get(0).getGroup()).isEqualTo("");
-        Assertions.assertThat(formDefinitions11.get(0).getId()).isEqualTo("id1");
+        Assertions.assertThat(formDefinitions11.get(0).getId()).isEqualTo("id");
         Assertions.assertThat(formDefinitions11.get(0).getAllNodeDefinitions()).hasSize(2);
         Assertions.assertThat(formDefinitions11.get(0).getFormReferenceDefinitions()).hasSize(2);
         Assertions.assertThat(formDefinitions11.get(0).getFormReferenceDefinitions().get(0).getGroup()).isEqualTo("subforms");
@@ -67,6 +68,43 @@ public final class FormXmlDefinitionsFileLoaderTest extends BaseFormModelTest {
         Assertions.assertThat(formDefinitions11.get(0).getFormReferenceDefinitions().get(1).getId()).isEqualTo("id2");
         Assertions.assertThat(formDefinitions11.get(0).getOtherAttributeNames()).isEmpty();
         Assertions.assertThat(formDefinitions11.get(0).getSource()).endsWith(File.separator + "simpleForm.xml");
+
+        FormXmlDefinitionsFileLoader formXmlDefinitionsFileLoader21 = new FormXmlDefinitionsFileLoader(parentDirectory);
+        FormDefinitions formDefinitions21 = new FormDefinitions();
+        formXmlDefinitionsFileLoader21.load(formDefinitions21);
+        Assertions.assertThat(formDefinitions21.getFormDefinitions().size()).isEqualTo(3);
+        Assertions.assertThat(formDefinitions21.getFormDefinition("id").getGroup()).isEqualTo("");
+        Assertions.assertThat(formDefinitions21.getFormDefinition("id").getId()).isEqualTo("id");
+        Assertions.assertThat(formDefinitions21.getFormDefinition("id").getAllNodeDefinitions()).hasSize(2);
+        Assertions.assertThat(formDefinitions21.getFormDefinition("id").getFormReferenceDefinitions()).hasSize(2);
+        Assertions.assertThat(formDefinitions21.getFormDefinition("id").getFormReferenceDefinitions().get(0).getGroup()).isEqualTo("subforms");
+        Assertions.assertThat(formDefinitions21.getFormDefinition("id").getFormReferenceDefinitions().get(0).getId()).isEqualTo("id1");
+        Assertions.assertThat(formDefinitions21.getFormDefinition("id").getFormReferenceDefinitions().get(1).getGroup()).isEqualTo("subforms");
+        Assertions.assertThat(formDefinitions21.getFormDefinition("id").getFormReferenceDefinitions().get(1).getId()).isEqualTo("id2");
+        Assertions.assertThat(formDefinitions21.getFormDefinition("id").getOtherAttributeNames()).isEmpty();
+        Assertions.assertThat(formDefinitions21.getFormDefinition("id").getSource()).endsWith(File.separator + "simpleForm.xml");
+        Assertions.assertThat(formDefinitions21.getFormDefinition("subforms", "id1").getGroup()).isEqualTo("subforms");
+        Assertions.assertThat(formDefinitions21.getFormDefinition("subforms", "id1").getId()).isEqualTo("id1");
+        Assertions.assertThat(formDefinitions21.getFormDefinition("subforms", "id1").getAllNodeDefinitions()).hasSize(2);
+        Assertions.assertThat(formDefinitions21.getFormDefinition("subforms", "id1").getElementDefinitions()).hasSize(1);
+        Assertions.assertThat(formDefinitions21.getFormDefinition("subforms", "id1").getElementDefinitions().get(0).getId()).isEqualTo("id");
+        Assertions.assertThat(formDefinitions21.getFormDefinition("subforms", "id1").getElementDefinitions().get(0).getLookup()).isEqualTo("lookup");
+        Assertions.assertThat(formDefinitions21.getFormDefinition("subforms", "id1").getFormReferenceDefinitions()).hasSize(1);
+        Assertions.assertThat(formDefinitions21.getFormDefinition("subforms", "id1").getFormReferenceDefinitions().get(0).getGroup()).isEqualTo("subforms");
+        Assertions.assertThat(formDefinitions21.getFormDefinition("subforms", "id1").getFormReferenceDefinitions().get(0).getId()).isEqualTo("id2");
+        Assertions.assertThat(formDefinitions21.getFormDefinition("subforms", "id1").getOtherAttributeNames()).isEmpty();
+        Assertions.assertThat(formDefinitions21.getFormDefinition("subforms", "id1").getSource()).endsWith(File.separator + "subforms" + File.separator + "form1.xml");
+        Assertions.assertThat(formDefinitions21.getFormDefinition("subforms", "id2").getGroup()).isEqualTo("subforms");
+        Assertions.assertThat(formDefinitions21.getFormDefinition("subforms", "id2").getId()).isEqualTo("id2");
+        Assertions.assertThat(formDefinitions21.getFormDefinition("subforms", "id2").getAllNodeDefinitions()).hasSize(2);
+        Assertions.assertThat(formDefinitions21.getFormDefinition("subforms", "id2").getElementDefinitions()).hasSize(1);
+        Assertions.assertThat(formDefinitions21.getFormDefinition("subforms", "id2").getElementDefinitions().get(0).getId()).isEqualTo("id");
+        Assertions.assertThat(formDefinitions21.getFormDefinition("subforms", "id2").getElementDefinitions().get(0).getLookup()).isEqualTo("lookup");
+        Assertions.assertThat(formDefinitions21.getFormDefinition("subforms", "id2").getFormReferenceDefinitions()).hasSize(1);
+        Assertions.assertThat(formDefinitions21.getFormDefinition("subforms", "id2").getFormReferenceDefinitions().get(0).getGroup()).isEqualTo("subforms");
+        Assertions.assertThat(formDefinitions21.getFormDefinition("subforms", "id2").getFormReferenceDefinitions().get(0).getId()).isEqualTo("id1");
+        Assertions.assertThat(formDefinitions21.getFormDefinition("subforms", "id2").getOtherAttributeNames()).isEmpty();
+        Assertions.assertThat(formDefinitions21.getFormDefinition("subforms", "id2").getSource()).endsWith(File.separator + "subforms" + File.separator + "form2.xml");
     }
 
     /**
