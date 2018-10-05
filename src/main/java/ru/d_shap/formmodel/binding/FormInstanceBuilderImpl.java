@@ -63,7 +63,7 @@ final class FormInstanceBuilderImpl implements FormInstanceBuilder {
 
     void buildFormInstance(final BindingSource bindingSource, final Document document, final FormDefinition formDefinition) {
         BindedForm bindedForm = _formInstanceBinder.bindFormDefinition(bindingSource, null, null, null, formDefinition);
-        Element element = addXmlElement(document, formDefinition);
+        Element element = createFormInstanceElement(document, formDefinition);
         document.appendChild(element);
         element.setUserData(USER_DATA_FORM_DEFINITION, formDefinition, null);
         element.setUserData(USER_DATA_ELEMENT_DEFINITION, formDefinition, null);
@@ -71,12 +71,22 @@ final class FormInstanceBuilderImpl implements FormInstanceBuilder {
         bindNodeDefinitions(bindingSource, document, bindedForm, null, element, formDefinition.getAllNodeDefinitions(), currentNodePath);
     }
 
+    private Element createFormInstanceElement(final Document document, final FormDefinition formDefinition) {
+        Element element = document.createElementNS(NAMESPACE, FORM_INSTANCE_ELEMENT_NAME);
+        element.setAttribute(FORM_INSTANCE_ATTRIBUTE_GROUP, formDefinition.getGroup());
+        element.setAttribute(FORM_INSTANCE_ATTRIBUTE_ID, formDefinition.getId());
+        for (String otherAttributeName : formDefinition.getOtherAttributeNames()) {
+            element.setAttribute(otherAttributeName, formDefinition.getOtherAttributeValue(otherAttributeName));
+        }
+        return element;
+    }
+
     @Override
     public void buildAttributeInstance(final BindingSource bindingSource, final Document document, final BindedForm lastBindedForm, final BindedElement lastBindedElement, final Element parentElement, final AttributeDefinition attributeDefinition, final NodePath nodePath) {
         BindedAttribute bindedAttribute = _formInstanceBinder.bindAttributeDefinition(bindingSource, lastBindedForm, lastBindedElement, parentElement, attributeDefinition);
         validateBindedAttribute(bindedAttribute, attributeDefinition, nodePath);
         if (bindedAttribute != null) {
-            Element element = addXmlElement(document, attributeDefinition);
+            Element element = createAttributeInstanceElement(document, attributeDefinition);
             parentElement.appendChild(element);
             element.setUserData(USER_DATA_FORM_DEFINITION, parentElement.getUserData(USER_DATA_FORM_DEFINITION), null);
             element.setUserData(USER_DATA_ELEMENT_DEFINITION, attributeDefinition, null);
@@ -84,6 +94,15 @@ final class FormInstanceBuilderImpl implements FormInstanceBuilder {
             NodePath currentNodePath = new NodePath(nodePath, attributeDefinition);
             bindNodeDefinitions(bindingSource, document, lastBindedForm, lastBindedElement, element, attributeDefinition.getAllNodeDefinitions(), currentNodePath);
         }
+    }
+
+    private Element createAttributeInstanceElement(final Document document, final AttributeDefinition attributeDefinition) {
+        Element element = document.createElementNS(NAMESPACE, ATTRIBUTE_INSTANCE_ELEMENT_NAME);
+        element.setAttribute(ATTRIBUTE_INSTANCE_ATTRIBUTE_ID, attributeDefinition.getId());
+        for (String otherAttributeName : attributeDefinition.getOtherAttributeNames()) {
+            element.setAttribute(otherAttributeName, attributeDefinition.getOtherAttributeValue(otherAttributeName));
+        }
+        return element;
     }
 
     private void validateBindedAttribute(final BindedAttribute bindedAttribute, final AttributeDefinition attributeDefinition, final NodePath nodePath) {
@@ -102,7 +121,7 @@ final class FormInstanceBuilderImpl implements FormInstanceBuilder {
         validateBindedElement(bindedElements, elementDefinition, nodePath);
         if (bindedElements != null) {
             for (BindedElement bindedElement : bindedElements) {
-                Element element = addXmlElement(document, elementDefinition);
+                Element element = createElementInstanceElement(document, elementDefinition);
                 parentElement.appendChild(element);
                 element.setUserData(USER_DATA_FORM_DEFINITION, parentElement.getUserData(USER_DATA_FORM_DEFINITION), null);
                 element.setUserData(USER_DATA_ELEMENT_DEFINITION, elementDefinition, null);
@@ -111,6 +130,15 @@ final class FormInstanceBuilderImpl implements FormInstanceBuilder {
                 bindNodeDefinitions(bindingSource, document, lastBindedForm, bindedElement, element, elementDefinition.getAllNodeDefinitions(), currentNodePath);
             }
         }
+    }
+
+    private Element createElementInstanceElement(final Document document, final ElementDefinition elementDefinition) {
+        Element element = document.createElementNS(NAMESPACE, ELEMENT_INSTANCE_ELEMENT_NAME);
+        element.setAttribute(ELEMENT_INSTANCE_ATTRIBUTE_ID, elementDefinition.getId());
+        for (String otherAttributeName : elementDefinition.getOtherAttributeNames()) {
+            element.setAttribute(otherAttributeName, elementDefinition.getOtherAttributeValue(otherAttributeName));
+        }
+        return element;
     }
 
     private void validateBindedElement(final List<BindedElement> bindedElements, final ElementDefinition elementDefinition, final NodePath nodePath) {
@@ -142,7 +170,7 @@ final class FormInstanceBuilderImpl implements FormInstanceBuilder {
 
     @Override
     public void buildSingleElementInstance(final BindingSource bindingSource, final Document document, final BindedForm lastBindedForm, final BindedElement lastBindedElement, final Element parentElement, final SingleElementDefinition singleElementDefinition, final NodePath nodePath) {
-        Element element = addXmlElement(document, singleElementDefinition);
+        Element element = createSingleElementInstanceElement(document, singleElementDefinition);
         NodePath currentNodePath = new NodePath(nodePath, singleElementDefinition);
         bindNodeDefinitions(bindingSource, document, lastBindedForm, lastBindedElement, element, singleElementDefinition.getAllNodeDefinitions(), currentNodePath);
         validateBindedSingleElementDefinition(element, singleElementDefinition, nodePath);
@@ -151,6 +179,15 @@ final class FormInstanceBuilderImpl implements FormInstanceBuilder {
             element.setUserData(USER_DATA_FORM_DEFINITION, parentElement.getUserData(USER_DATA_FORM_DEFINITION), null);
             element.setUserData(USER_DATA_ELEMENT_DEFINITION, singleElementDefinition, null);
         }
+    }
+
+    private Element createSingleElementInstanceElement(final Document document, final SingleElementDefinition singleElementDefinition) {
+        Element element = document.createElementNS(NAMESPACE, SINGLE_ELEMENT_INSTANCE_ELEMENT_NAME);
+        element.setAttribute(SINGLE_ELEMENT_INSTANCE_ATTRIBUTE_ID, singleElementDefinition.getId());
+        for (String otherAttributeName : singleElementDefinition.getOtherAttributeNames()) {
+            element.setAttribute(otherAttributeName, singleElementDefinition.getOtherAttributeValue(otherAttributeName));
+        }
+        return element;
     }
 
     private void validateBindedSingleElementDefinition(final Element element, final SingleElementDefinition singleElementDefinition, final NodePath nodePath) {
@@ -163,7 +200,7 @@ final class FormInstanceBuilderImpl implements FormInstanceBuilder {
     public void buildFormReferenceInstance(final BindingSource bindingSource, final Document document, final BindedForm lastBindedForm, final BindedElement lastBindedElement, final Element parentElement, final FormReferenceDefinition formReferenceDefinition, final NodePath nodePath) {
         FormDefinition formDefinition = _formDefinitions.getFormDefinition(formReferenceDefinition);
         BindedForm bindedForm = _formInstanceBinder.bindFormDefinition(bindingSource, lastBindedForm, lastBindedElement, parentElement, formDefinition);
-        Element element = addXmlElement(document, formReferenceDefinition);
+        Element element = createFormReferenceInstanceElement(document, formReferenceDefinition);
         NodePath currentNodePath = new NodePath(nodePath, formReferenceDefinition);
         bindNodeDefinitions(bindingSource, document, bindedForm, lastBindedElement, element, formDefinition.getAllNodeDefinitions(), currentNodePath);
         if (element.hasChildNodes()) {
@@ -171,6 +208,16 @@ final class FormInstanceBuilderImpl implements FormInstanceBuilder {
             element.setUserData(USER_DATA_FORM_DEFINITION, formDefinition, null);
             element.setUserData(USER_DATA_ELEMENT_DEFINITION, formReferenceDefinition, null);
         }
+    }
+
+    private Element createFormReferenceInstanceElement(final Document document, final FormReferenceDefinition formReferenceDefinition) {
+        Element element = document.createElementNS(NAMESPACE, FORM_REFERENCE_INSTANCE_ELEMENT_NAME);
+        element.setAttribute(FORM_REFERENCE_INSTANCE_ATTRIBUTE_GROUP, formReferenceDefinition.getGroup());
+        element.setAttribute(FORM_REFERENCE_INSTANCE_ATTRIBUTE_ID, formReferenceDefinition.getId());
+        for (String otherAttributeName : formReferenceDefinition.getOtherAttributeNames()) {
+            element.setAttribute(otherAttributeName, formReferenceDefinition.getOtherAttributeValue(otherAttributeName));
+        }
+        return element;
     }
 
     @Override
@@ -198,53 +245,6 @@ final class FormInstanceBuilderImpl implements FormInstanceBuilder {
                 buildOtherNodeInstance(bindingSource, document, lastBindedForm, lastBindedElement, parentElement, (OtherNodeDefinition) nodeDefinition, nodePath);
             }
         }
-    }
-
-    private Element addXmlElement(final Document document, final FormDefinition formDefinition) {
-        Element element = document.createElementNS(NAMESPACE, FORM_INSTANCE_ELEMENT_NAME);
-        element.setAttribute(FORM_INSTANCE_ATTRIBUTE_GROUP, formDefinition.getGroup());
-        element.setAttribute(FORM_INSTANCE_ATTRIBUTE_ID, formDefinition.getId());
-        for (String otherAttributeName : formDefinition.getOtherAttributeNames()) {
-            element.setAttribute(otherAttributeName, formDefinition.getOtherAttributeValue(otherAttributeName));
-        }
-        return element;
-    }
-
-    private Element addXmlElement(final Document document, final AttributeDefinition attributeDefinition) {
-        Element element = document.createElementNS(NAMESPACE, ATTRIBUTE_INSTANCE_ELEMENT_NAME);
-        element.setAttribute(ATTRIBUTE_INSTANCE_ATTRIBUTE_ID, attributeDefinition.getId());
-        for (String otherAttributeName : attributeDefinition.getOtherAttributeNames()) {
-            element.setAttribute(otherAttributeName, attributeDefinition.getOtherAttributeValue(otherAttributeName));
-        }
-        return element;
-    }
-
-    private Element addXmlElement(final Document document, final ElementDefinition elementDefinition) {
-        Element element = document.createElementNS(NAMESPACE, ELEMENT_INSTANCE_ELEMENT_NAME);
-        element.setAttribute(ELEMENT_INSTANCE_ATTRIBUTE_ID, elementDefinition.getId());
-        for (String otherAttributeName : elementDefinition.getOtherAttributeNames()) {
-            element.setAttribute(otherAttributeName, elementDefinition.getOtherAttributeValue(otherAttributeName));
-        }
-        return element;
-    }
-
-    private Element addXmlElement(final Document document, final SingleElementDefinition singleElementDefinition) {
-        Element element = document.createElementNS(NAMESPACE, SINGLE_ELEMENT_INSTANCE_ELEMENT_NAME);
-        element.setAttribute(SINGLE_ELEMENT_INSTANCE_ATTRIBUTE_ID, singleElementDefinition.getId());
-        for (String otherAttributeName : singleElementDefinition.getOtherAttributeNames()) {
-            element.setAttribute(otherAttributeName, singleElementDefinition.getOtherAttributeValue(otherAttributeName));
-        }
-        return element;
-    }
-
-    private Element addXmlElement(final Document document, final FormReferenceDefinition formReferenceDefinition) {
-        Element element = document.createElementNS(NAMESPACE, FORM_REFERENCE_INSTANCE_ELEMENT_NAME);
-        element.setAttribute(FORM_REFERENCE_INSTANCE_ATTRIBUTE_GROUP, formReferenceDefinition.getGroup());
-        element.setAttribute(FORM_REFERENCE_INSTANCE_ATTRIBUTE_ID, formReferenceDefinition.getId());
-        for (String otherAttributeName : formReferenceDefinition.getOtherAttributeNames()) {
-            element.setAttribute(otherAttributeName, formReferenceDefinition.getOtherAttributeValue(otherAttributeName));
-        }
-        return element;
     }
 
 }
