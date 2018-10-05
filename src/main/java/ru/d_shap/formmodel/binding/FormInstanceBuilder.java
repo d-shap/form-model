@@ -68,7 +68,7 @@ public interface FormInstanceBuilder {
 
     String USER_DATA_FORM_DEFINITION = FormInstanceBuilder.class.getName() + "_FORM_DEFINITION__";
 
-    String USER_DATA_ELEMENT_DEFINITION = FormInstanceBuilder.class.getName() + "_ELEMENT_DEFINITION__";
+    String USER_DATA_NODE_DEFINITION = FormInstanceBuilder.class.getName() + "_NODE_DEFINITION__";
 
     String USER_DATA_BINDED_OBJECT = FormInstanceBuilder.class.getName() + "_BINDED_OBJECT__";
 

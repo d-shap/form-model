@@ -66,7 +66,7 @@ final class FormInstanceBuilderImpl implements FormInstanceBuilder {
         Element element = createFormInstanceElement(document, formDefinition);
         document.appendChild(element);
         element.setUserData(USER_DATA_FORM_DEFINITION, formDefinition, null);
-        element.setUserData(USER_DATA_ELEMENT_DEFINITION, formDefinition, null);
+        element.setUserData(USER_DATA_NODE_DEFINITION, formDefinition, null);
         NodePath currentNodePath = new NodePath(formDefinition);
         bindNodeDefinitions(bindingSource, document, bindedForm, null, element, formDefinition.getAllNodeDefinitions(), currentNodePath);
     }
@@ -89,7 +89,7 @@ final class FormInstanceBuilderImpl implements FormInstanceBuilder {
             Element element = createAttributeInstanceElement(document, attributeDefinition);
             parentElement.appendChild(element);
             element.setUserData(USER_DATA_FORM_DEFINITION, parentElement.getUserData(USER_DATA_FORM_DEFINITION), null);
-            element.setUserData(USER_DATA_ELEMENT_DEFINITION, attributeDefinition, null);
+            element.setUserData(USER_DATA_NODE_DEFINITION, attributeDefinition, null);
             element.setUserData(USER_DATA_BINDED_OBJECT, bindedAttribute, null);
             NodePath currentNodePath = new NodePath(nodePath, attributeDefinition);
             bindNodeDefinitions(bindingSource, document, lastBindedForm, lastBindedElement, element, attributeDefinition.getAllNodeDefinitions(), currentNodePath);
@@ -124,7 +124,7 @@ final class FormInstanceBuilderImpl implements FormInstanceBuilder {
                 Element element = createElementInstanceElement(document, elementDefinition);
                 parentElement.appendChild(element);
                 element.setUserData(USER_DATA_FORM_DEFINITION, parentElement.getUserData(USER_DATA_FORM_DEFINITION), null);
-                element.setUserData(USER_DATA_ELEMENT_DEFINITION, elementDefinition, null);
+                element.setUserData(USER_DATA_NODE_DEFINITION, elementDefinition, null);
                 element.setUserData(USER_DATA_BINDED_OBJECT, bindedElement, null);
                 NodePath currentNodePath = new NodePath(nodePath, elementDefinition);
                 bindNodeDefinitions(bindingSource, document, lastBindedForm, bindedElement, element, elementDefinition.getAllNodeDefinitions(), currentNodePath);
@@ -177,7 +177,7 @@ final class FormInstanceBuilderImpl implements FormInstanceBuilder {
         if (element.hasChildNodes()) {
             parentElement.appendChild(element);
             element.setUserData(USER_DATA_FORM_DEFINITION, parentElement.getUserData(USER_DATA_FORM_DEFINITION), null);
-            element.setUserData(USER_DATA_ELEMENT_DEFINITION, singleElementDefinition, null);
+            element.setUserData(USER_DATA_NODE_DEFINITION, singleElementDefinition, null);
         }
     }
 
@@ -206,7 +206,7 @@ final class FormInstanceBuilderImpl implements FormInstanceBuilder {
         if (element.hasChildNodes()) {
             parentElement.appendChild(element);
             element.setUserData(USER_DATA_FORM_DEFINITION, formDefinition, null);
-            element.setUserData(USER_DATA_ELEMENT_DEFINITION, formReferenceDefinition, null);
+            element.setUserData(USER_DATA_NODE_DEFINITION, formReferenceDefinition, null);
         }
     }
 
