@@ -34,6 +34,15 @@ public final class FormBindingException extends FormModelException {
     /**
      * Create new object.
      *
+     * @param message exception message.
+     */
+    public FormBindingException(final String message) {
+        this(message, null);
+    }
+
+    /**
+     * Create new object.
+     *
      * @param message  exception message.
      * @param nodePath node path.
      */
