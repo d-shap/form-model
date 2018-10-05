@@ -38,12 +38,6 @@ import ru.d_shap.formmodel.definition.model.FormDefinition;
  */
 public interface FormInstanceBinder {
 
-    String BINDED_OBJECT_KEY = "__BINDED_OBJECT_KEY__";
-
-    String ELEMENT_DEFINITION_KEY = "__ELEMENT_DEFINITION_KEY__";
-
-    String FORM_DEFINITION_KEY = "__FORM_DEFINITION_KEY__";
-
     /**
      * Callback method is called before the form definition is binded with the binding source.
      *

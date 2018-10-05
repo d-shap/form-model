@@ -66,6 +66,12 @@ public interface FormInstanceBuilder {
 
     String FORM_REFERENCE_INSTANCE_ATTRIBUTE_ID = FormReferenceDefinition.ATTRIBUTE_ID;
 
+    String USER_DATA_FORM_DEFINITION = FormInstanceBuilder.class.getName() + "_FORM_DEFINITION__";
+
+    String USER_DATA_ELEMENT_DEFINITION = FormInstanceBuilder.class.getName() + "_ELEMENT_DEFINITION__";
+
+    String USER_DATA_BINDED_OBJECT = FormInstanceBuilder.class.getName() + "_BINDED_OBJECT__";
+
     /**
      * Create the binded XML element for the specified attribute definition and attach it to the owner document.
      *
