@@ -22,42 +22,59 @@ package ru.d_shap.formmodel.definition.loader.xml;
 import java.io.File;
 import java.io.FileFilter;
 import java.net.URL;
+import java.util.List;
 
 import org.junit.Test;
 
 import ru.d_shap.assertions.Assertions;
 import ru.d_shap.formmodel.BaseFormModelTest;
+import ru.d_shap.formmodel.definition.model.FormDefinition;
 
 /**
- * Tests for {@link FormXmlDefinitionsFileSystemLoader}.
+ * Tests for {@link FormXmlDefinitionsFileLoader}.
  *
  * @author Dmitry Shapovalov
  */
-public final class FormXmlDefinitionsFileSystemLoaderTest extends BaseFormModelTest {
+public final class FormXmlDefinitionsFileLoaderTest extends BaseFormModelTest {
 
-    public static final String ROOT_FOLDER = FormXmlDefinitionsFileSystemLoaderTest.class.getPackage().getName().replaceAll("\\.", "/");
+    public static final String ROOT_FOLDER = FormXmlDefinitionsFileLoaderTest.class.getPackage().getName().replaceAll("\\.", "/");
 
     /**
      * Test class constructor.
      */
-    public FormXmlDefinitionsFileSystemLoaderTest() {
+    public FormXmlDefinitionsFileLoaderTest() {
         super();
     }
 
     /**
-     * {@link FormXmlDefinitionsFileSystemLoader} class test.
+     * {@link FormXmlDefinitionsFileLoader} class test.
      */
     @Test
     public void loadTest() {
+        URL url = getClass().getClassLoader().getResource(ROOT_FOLDER);
+        File parentDirectory = new File(url.getFile());
+        File simpleForm = new File(parentDirectory, "simpleForm.xml");
 
+        FormXmlDefinitionsFileLoader formXmlDefinitionsFileLoader1 = new FormXmlDefinitionsFileLoader(simpleForm);
+        List<FormDefinition> formDefinitions11 = formXmlDefinitionsFileLoader1.load();
+        Assertions.assertThat(formDefinitions11.get(0).getGroup()).isEqualTo("");
+        Assertions.assertThat(formDefinitions11.get(0).getId()).isEqualTo("id1");
+        Assertions.assertThat(formDefinitions11.get(0).getAllNodeDefinitions()).hasSize(2);
+        Assertions.assertThat(formDefinitions11.get(0).getFormReferenceDefinitions()).hasSize(2);
+        Assertions.assertThat(formDefinitions11.get(0).getFormReferenceDefinitions().get(0).getGroup()).isEqualTo("subforms");
+        Assertions.assertThat(formDefinitions11.get(0).getFormReferenceDefinitions().get(0).getId()).isEqualTo("id1");
+        Assertions.assertThat(formDefinitions11.get(0).getFormReferenceDefinitions().get(1).getGroup()).isEqualTo("subforms");
+        Assertions.assertThat(formDefinitions11.get(0).getFormReferenceDefinitions().get(1).getId()).isEqualTo("id2");
+        Assertions.assertThat(formDefinitions11.get(0).getOtherAttributeNames()).isEmpty();
+        Assertions.assertThat(formDefinitions11.get(0).getSource()).endsWith(File.separator + "simpleForm.xml");
     }
 
     /**
-     * {@link FormXmlDefinitionsFileSystemLoader} class test.
+     * {@link FormXmlDefinitionsFileLoader} class test.
      */
     @Test
     public void acceptTest() {
-        FileFilter fileFilter = new FormXmlDefinitionsFileSystemLoader.DefaultFileFilter();
+        FileFilter fileFilter = new FormXmlDefinitionsFileLoader.DefaultFileFilter();
         URL url = getClass().getClassLoader().getResource(ROOT_FOLDER);
         File parentDirectory = new File(url.getFile());
         Assertions.assertThat(fileFilter.accept(parentDirectory)).isTrue();
