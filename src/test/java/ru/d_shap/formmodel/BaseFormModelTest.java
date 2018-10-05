@@ -19,6 +19,8 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.formmodel;
 
+import java.io.File;
+import java.io.FileFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
@@ -334,6 +336,27 @@ public class BaseFormModelTest {
         @Override
         public List<FormDefinition> load() {
             return _formDefinitions;
+        }
+
+    }
+
+    /**
+     * Test class.
+     *
+     * @author Dmitry Shapovalov
+     */
+    public static final class SkipFileFilter implements FileFilter {
+
+        /**
+         * Create new object.
+         */
+        public SkipFileFilter() {
+            super();
+        }
+
+        @Override
+        public boolean accept(final File file) {
+            return false;
         }
 
     }
