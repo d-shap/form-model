@@ -345,6 +345,34 @@ public class BaseFormModelTest {
      *
      * @author Dmitry Shapovalov
      */
+    public static final class EmptyDirectoryFile extends File {
+
+        private static final long serialVersionUID = 1L;
+
+        /**
+         * Create new object.
+         */
+        public EmptyDirectoryFile() {
+            super("file");
+        }
+
+        @Override
+        public boolean isDirectory() {
+            return true;
+        }
+
+        @Override
+        public File[] listFiles() {
+            return null;
+        }
+
+    }
+
+    /**
+     * Test class.
+     *
+     * @author Dmitry Shapovalov
+     */
     public static final class SkipFileFilter implements FileFilter {
 
         /**
