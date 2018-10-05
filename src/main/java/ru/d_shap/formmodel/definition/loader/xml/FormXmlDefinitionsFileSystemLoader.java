@@ -126,32 +126,31 @@ public final class FormXmlDefinitionsFileSystemLoader extends FormXmlDefinitions
 
     @Override
     public List<FormDefinition> load() {
-        int fileRootPathLength = _file.getAbsolutePath().length();
         List<FormDefinition> formDefinitions = new ArrayList<>();
         if (_file.isDirectory()) {
-            processDirectory(_file, fileRootPathLength, _fileFilter, formDefinitions);
+            processDirectory(_file, _fileFilter, formDefinitions);
         } else {
-            processFile(_file, fileRootPathLength, formDefinitions);
+            processFile(_file, formDefinitions);
         }
         return formDefinitions;
     }
 
-    private void processDirectory(final File file, final int fileRootPathLength, final FileFilter fileFilter, final List<FormDefinition> formDefinitions) {
+    private void processDirectory(final File file, final FileFilter fileFilter, final List<FormDefinition> formDefinitions) {
         File[] childFiles = file.listFiles(fileFilter);
         if (childFiles != null) {
             for (File childFile : childFiles) {
                 if (childFile.isDirectory()) {
-                    processDirectory(childFile, fileRootPathLength, fileFilter, formDefinitions);
+                    processDirectory(childFile, fileFilter, formDefinitions);
                 } else {
-                    processFile(childFile, fileRootPathLength, formDefinitions);
+                    processFile(childFile, formDefinitions);
                 }
             }
         }
     }
 
-    private void processFile(final File file, final int fileRootPathLength, final List<FormDefinition> formDefinitions) {
+    private void processFile(final File file, final List<FormDefinition> formDefinitions) {
         try {
-            String source = file.getAbsolutePath().substring(fileRootPathLength);
+            String source = file.getAbsolutePath();
             try (FormXmlDefinitionsInputStreamLoader formXmlDefinitionsInputStreamLoader = new FormXmlDefinitionsInputStreamLoader(this, new FileInputStream(file), source)) {
                 formDefinitions.addAll(formXmlDefinitionsInputStreamLoader.load());
             }
