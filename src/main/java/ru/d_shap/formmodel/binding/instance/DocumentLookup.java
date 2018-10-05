@@ -17,7 +17,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-package ru.d_shap.formmodel.binding;
+package ru.d_shap.formmodel.binding.instance;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +33,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import ru.d_shap.formmodel.binding.FormInstanceBuilder;
 import ru.d_shap.formmodel.binding.model.BindedElement;
 
 /**
