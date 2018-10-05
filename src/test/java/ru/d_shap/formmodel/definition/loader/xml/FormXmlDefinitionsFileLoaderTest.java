@@ -55,8 +55,8 @@ public final class FormXmlDefinitionsFileLoaderTest extends BaseFormModelTest {
         File parentDirectory = new File(url.getFile());
         File simpleForm = new File(parentDirectory, "simpleForm.xml");
 
-        FormXmlDefinitionsFileLoader formXmlDefinitionsFileLoader1 = new FormXmlDefinitionsFileLoader(simpleForm);
-        List<FormDefinition> formDefinitions11 = formXmlDefinitionsFileLoader1.load();
+        FormXmlDefinitionsFileLoader formXmlDefinitionsFileLoader11 = new FormXmlDefinitionsFileLoader(simpleForm);
+        List<FormDefinition> formDefinitions11 = formXmlDefinitionsFileLoader11.load();
         Assertions.assertThat(formDefinitions11.get(0).getGroup()).isEqualTo("");
         Assertions.assertThat(formDefinitions11.get(0).getId()).isEqualTo("id1");
         Assertions.assertThat(formDefinitions11.get(0).getAllNodeDefinitions()).hasSize(2);
