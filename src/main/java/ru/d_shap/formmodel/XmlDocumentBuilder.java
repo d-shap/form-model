@@ -57,6 +57,8 @@ public final class XmlDocumentBuilder {
             if (xmlDocumentBuilderConfigurator != null) {
                 xmlDocumentBuilderConfigurator.configure(documentBuilderFactory);
             }
+            documentBuilderFactory.setCoalescing(true);
+            documentBuilderFactory.setIgnoringElementContentWhitespace(true);
             documentBuilderFactory.setNamespaceAware(true);
             _documentBuilder = documentBuilderFactory.newDocumentBuilder();
         } catch (ParserConfigurationException ex) {
