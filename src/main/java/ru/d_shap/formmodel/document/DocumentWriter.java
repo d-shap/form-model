@@ -38,9 +38,9 @@ import ru.d_shap.formmodel.OutputResultWriteException;
  *
  * @author Dmitry Shapovalov
  */
-public final class DocumentTransformer {
+public final class DocumentWriter {
 
-    private DocumentTransformer() {
+    private DocumentWriter() {
         super();
     }
 
