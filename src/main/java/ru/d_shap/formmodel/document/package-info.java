@@ -18,6 +18,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 /**
- * Form-model binding instance.
+ * Form-model document.
  */
-package ru.d_shap.formmodel.binding.instance;
+package ru.d_shap.formmodel.document;
