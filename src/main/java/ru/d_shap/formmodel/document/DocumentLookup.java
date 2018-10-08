@@ -33,6 +33,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import ru.d_shap.formmodel.binding.FormInstanceBuilder;
+import ru.d_shap.formmodel.binding.model.BindedAttribute;
 import ru.d_shap.formmodel.binding.model.BindedElement;
 
 /**
@@ -133,6 +134,43 @@ public final class DocumentLookup {
                         doGetBindedElements((Element) item, bindedElements, clazz);
                     }
                 }
+            }
+        }
+    }
+
+    /**
+     * Obtain the binded attributes from the specified XML elements.
+     *
+     * @param elements the specified XML elements.
+     *
+     * @return the binded attributes.
+     */
+    public static List<BindedAttribute> getBindedAttributes(final List<Element> elements) {
+        return getBindedAttributes(elements, BindedAttribute.class);
+    }
+
+    /**
+     * Obtain the binded attributes from the specified XML elements.
+     *
+     * @param elements the specified XML elements.
+     * @param clazz    the specified class of the binded attribute.
+     * @param <T>      the generic type of the specified class of the binded attribute.
+     *
+     * @return the binded attributes.
+     */
+    public static <T extends BindedAttribute> List<T> getBindedAttributes(final List<Element> elements, final Class<T> clazz) {
+        List<T> bindedAttributes = new ArrayList<>();
+        for (Element element : elements) {
+            doGetBindedAttributes(element, bindedAttributes, clazz);
+        }
+        return bindedAttributes;
+    }
+
+    private static <T extends BindedAttribute> void doGetBindedAttributes(final Element element, final List<T> bindedAttributes, final Class<T> clazz) {
+        if (FormInstanceBuilder.NAMESPACE.equals(element.getNamespaceURI()) && FormInstanceBuilder.ATTRIBUTE_INSTANCE_ELEMENT_NAME.equals(element.getLocalName())) {
+            Object bindedAttribute = element.getUserData(FormInstanceBuilder.USER_DATA_BINDED_OBJECT);
+            if (clazz.isInstance(bindedAttribute)) {
+                bindedAttributes.add(clazz.cast(bindedAttribute));
             }
         }
     }
