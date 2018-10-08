@@ -33,6 +33,7 @@ import ru.d_shap.formmodel.binding.model.BindingSourceImpl;
 import ru.d_shap.formmodel.definition.loader.xml.FormXmlDefinitionsElementLoader;
 import ru.d_shap.formmodel.definition.model.FormDefinition;
 import ru.d_shap.formmodel.definition.model.FormDefinitions;
+import ru.d_shap.formmodel.document.DocumentWriter;
 
 /**
  * Tests for {@link FormInstanceBuilderImpl}.
@@ -60,6 +61,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
         FormInstanceBuilderImpl formInstanceBuilder1 = createBinder(formDefinitions1);
         Document document1 = newDocument();
         formInstanceBuilder1.buildFormInstance(new BindingSourceImpl("repr1"), document1, formDefinitions1.getFormDefinition("id1"));
+        Assertions.assertThat(DocumentWriter.getAsString(document1)).isEqualTo("<form group=\"\" id=\"id1\" xmlns=\"http://d-shap.ru/schema/form-instance/1.0\"/>");
 
         try {
             String xml2 = "<?xml version='1.0'?>\n";
