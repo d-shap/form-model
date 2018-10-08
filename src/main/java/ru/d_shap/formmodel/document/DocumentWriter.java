@@ -20,6 +20,7 @@
 package ru.d_shap.formmodel.document;
 
 import java.io.IOException;
+import java.io.StringWriter;
 import java.io.Writer;
 
 import javax.xml.transform.OutputKeys;
@@ -49,6 +50,16 @@ public final class DocumentWriter {
      *
      * @param node   the XML node.
      * @param writer the specified writer
+     */
+    public static void writeTo(final Node node, final Writer writer) {
+        writeTo(node, writer, false);
+    }
+
+    /**
+     * Write the XML node to the specified writer.
+     *
+     * @param node   the XML node.
+     * @param writer the specified writer
      * @param indent true to add additional whitespaces.
      */
     public static void writeTo(final Node node, final Writer writer, final boolean indent) {
@@ -67,6 +78,31 @@ public final class DocumentWriter {
         } catch (IOException | TransformerException ex) {
             throw new OutputResultWriteException(ex);
         }
+    }
+
+    /**
+     * Get the string representation of the XML node.
+     *
+     * @param node the XML node.
+     *
+     * @return the string representation of the XML node.
+     */
+    public static String getAsString(final Node node) {
+        return getAsString(node, false);
+    }
+
+    /**
+     * Get the string representation of the XML node.
+     *
+     * @param node   the XML node.
+     * @param indent true to add additional whitespaces.
+     *
+     * @return the string representation of the XML node.
+     */
+    public static String getAsString(final Node node, final boolean indent) {
+        Writer writer = new StringWriter();
+        writeTo(node, writer, indent);
+        return writer.toString();
     }
 
 }
