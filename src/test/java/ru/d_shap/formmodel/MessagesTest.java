@@ -19,9 +19,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.formmodel;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import org.junit.Test;
 import org.w3c.dom.Document;
 
@@ -29,8 +26,8 @@ import ru.d_shap.assertions.Assertions;
 import ru.d_shap.formmodel.definition.model.AttributeDefinition;
 import ru.d_shap.formmodel.definition.model.CardinalityDefinition;
 import ru.d_shap.formmodel.definition.model.ElementDefinition;
+import ru.d_shap.formmodel.definition.model.FormDefinition;
 import ru.d_shap.formmodel.definition.model.FormDefinitionKey;
-import ru.d_shap.formmodel.definition.model.NodeDefinition;
 import ru.d_shap.formmodel.definition.model.SingleElementDefinition;
 
 /**
@@ -386,12 +383,30 @@ public final class MessagesTest extends BaseFormModelTest {
      * {@link Messages} class test.
      */
     @Test
+    public void getFormIsNotPresentMessageTest() {
+        Assertions.assertThat(Messages.Binding.getFormIsNotPresentMessage(null)).isEqualTo("[Form is not present: null]");
+        Assertions.assertThat(Messages.Binding.getFormIsNotPresentMessage(new FormDefinition(null, "id", createNodeDefinitions(), createOtherAttributes(), "source"))).isEqualTo("[Form is not present: {source}form[@:id]]");
+        Assertions.assertThat(Messages.Binding.getFormIsNotPresentMessage(new FormDefinition("", "id", createNodeDefinitions(), createOtherAttributes(), "source"))).isEqualTo("[Form is not present: {source}form[@:id]]");
+        Assertions.assertThat(Messages.Binding.getFormIsNotPresentMessage(new FormDefinition(" ", "id", createNodeDefinitions(), createOtherAttributes(), "source"))).isEqualTo("[Form is not present: {source}form[@ :id]]");
+        Assertions.assertThat(Messages.Binding.getFormIsNotPresentMessage(new FormDefinition("group", null, createNodeDefinitions(), createOtherAttributes(), "source"))).isEqualTo("[Form is not present: {source}form[@group:]]");
+        Assertions.assertThat(Messages.Binding.getFormIsNotPresentMessage(new FormDefinition("group", "", createNodeDefinitions(), createOtherAttributes(), "source"))).isEqualTo("[Form is not present: {source}form[@group:]]");
+        Assertions.assertThat(Messages.Binding.getFormIsNotPresentMessage(new FormDefinition("group", " ", createNodeDefinitions(), createOtherAttributes(), "source"))).isEqualTo("[Form is not present: {source}form[@group: ]]");
+        Assertions.assertThat(Messages.Binding.getFormIsNotPresentMessage(new FormDefinition("group", "id", createNodeDefinitions(), createOtherAttributes(), null))).isEqualTo("[Form is not present: {}form[@group:id]]");
+        Assertions.assertThat(Messages.Binding.getFormIsNotPresentMessage(new FormDefinition("group", "id", createNodeDefinitions(), createOtherAttributes(), ""))).isEqualTo("[Form is not present: {}form[@group:id]]");
+        Assertions.assertThat(Messages.Binding.getFormIsNotPresentMessage(new FormDefinition("group", "id", createNodeDefinitions(), createOtherAttributes(), " "))).isEqualTo("[Form is not present: { }form[@group:id]]");
+        Assertions.assertThat(Messages.Binding.getFormIsNotPresentMessage(new FormDefinition("group", "id", createNodeDefinitions(), createOtherAttributes(), "source"))).isEqualTo("[Form is not present: {source}form[@group:id]]");
+    }
+
+    /**
+     * {@link Messages} class test.
+     */
+    @Test
     public void getRequiredAttributeIsNotPresentMessageTest() {
         Assertions.assertThat(Messages.Binding.getRequiredAttributeIsNotPresentMessage(null)).isEqualTo("[Required attribute is not present: null]");
-        Assertions.assertThat(Messages.Binding.getRequiredAttributeIsNotPresentMessage(new AttributeDefinition(null, "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>()))).isEqualTo("[Required attribute is not present: attribute[@]]");
-        Assertions.assertThat(Messages.Binding.getRequiredAttributeIsNotPresentMessage(new AttributeDefinition("", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>()))).isEqualTo("[Required attribute is not present: attribute[@]]");
-        Assertions.assertThat(Messages.Binding.getRequiredAttributeIsNotPresentMessage(new AttributeDefinition(" ", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>()))).isEqualTo("[Required attribute is not present: attribute[@ ]]");
-        Assertions.assertThat(Messages.Binding.getRequiredAttributeIsNotPresentMessage(new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>()))).isEqualTo("[Required attribute is not present: attribute[@id]]");
+        Assertions.assertThat(Messages.Binding.getRequiredAttributeIsNotPresentMessage(new AttributeDefinition(null, "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes()))).isEqualTo("[Required attribute is not present: attribute[@]]");
+        Assertions.assertThat(Messages.Binding.getRequiredAttributeIsNotPresentMessage(new AttributeDefinition("", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes()))).isEqualTo("[Required attribute is not present: attribute[@]]");
+        Assertions.assertThat(Messages.Binding.getRequiredAttributeIsNotPresentMessage(new AttributeDefinition(" ", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes()))).isEqualTo("[Required attribute is not present: attribute[@ ]]");
+        Assertions.assertThat(Messages.Binding.getRequiredAttributeIsNotPresentMessage(new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes()))).isEqualTo("[Required attribute is not present: attribute[@id]]");
     }
 
     /**
@@ -400,10 +415,10 @@ public final class MessagesTest extends BaseFormModelTest {
     @Test
     public void getProhibitedAttributeIsPresentMessageTest() {
         Assertions.assertThat(Messages.Binding.getProhibitedAttributeIsPresentMessage(null)).isEqualTo("[Prohibited attribute is present: null]");
-        Assertions.assertThat(Messages.Binding.getProhibitedAttributeIsPresentMessage(new AttributeDefinition(null, "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>()))).isEqualTo("[Prohibited attribute is present: attribute[@]]");
-        Assertions.assertThat(Messages.Binding.getProhibitedAttributeIsPresentMessage(new AttributeDefinition("", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>()))).isEqualTo("[Prohibited attribute is present: attribute[@]]");
-        Assertions.assertThat(Messages.Binding.getProhibitedAttributeIsPresentMessage(new AttributeDefinition(" ", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>()))).isEqualTo("[Prohibited attribute is present: attribute[@ ]]");
-        Assertions.assertThat(Messages.Binding.getProhibitedAttributeIsPresentMessage(new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>()))).isEqualTo("[Prohibited attribute is present: attribute[@id]]");
+        Assertions.assertThat(Messages.Binding.getProhibitedAttributeIsPresentMessage(new AttributeDefinition(null, "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes()))).isEqualTo("[Prohibited attribute is present: attribute[@]]");
+        Assertions.assertThat(Messages.Binding.getProhibitedAttributeIsPresentMessage(new AttributeDefinition("", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes()))).isEqualTo("[Prohibited attribute is present: attribute[@]]");
+        Assertions.assertThat(Messages.Binding.getProhibitedAttributeIsPresentMessage(new AttributeDefinition(" ", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes()))).isEqualTo("[Prohibited attribute is present: attribute[@ ]]");
+        Assertions.assertThat(Messages.Binding.getProhibitedAttributeIsPresentMessage(new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes()))).isEqualTo("[Prohibited attribute is present: attribute[@id]]");
     }
 
     /**
@@ -412,10 +427,10 @@ public final class MessagesTest extends BaseFormModelTest {
     @Test
     public void getRequiredElementIsNotPresentMessageTest() {
         Assertions.assertThat(Messages.Binding.getRequiredElementIsNotPresentMessage(null)).isEqualTo("[Required element is not present: null]");
-        Assertions.assertThat(Messages.Binding.getRequiredElementIsNotPresentMessage(new ElementDefinition(null, "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>()))).isEqualTo("[Required element is not present: element[@]]");
-        Assertions.assertThat(Messages.Binding.getRequiredElementIsNotPresentMessage(new ElementDefinition("", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>()))).isEqualTo("[Required element is not present: element[@]]");
-        Assertions.assertThat(Messages.Binding.getRequiredElementIsNotPresentMessage(new ElementDefinition(" ", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>()))).isEqualTo("[Required element is not present: element[@ ]]");
-        Assertions.assertThat(Messages.Binding.getRequiredElementIsNotPresentMessage(new ElementDefinition("id", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>()))).isEqualTo("[Required element is not present: element[@id]]");
+        Assertions.assertThat(Messages.Binding.getRequiredElementIsNotPresentMessage(new ElementDefinition(null, "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes()))).isEqualTo("[Required element is not present: element[@]]");
+        Assertions.assertThat(Messages.Binding.getRequiredElementIsNotPresentMessage(new ElementDefinition("", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes()))).isEqualTo("[Required element is not present: element[@]]");
+        Assertions.assertThat(Messages.Binding.getRequiredElementIsNotPresentMessage(new ElementDefinition(" ", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes()))).isEqualTo("[Required element is not present: element[@ ]]");
+        Assertions.assertThat(Messages.Binding.getRequiredElementIsNotPresentMessage(new ElementDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes()))).isEqualTo("[Required element is not present: element[@id]]");
     }
 
     /**
@@ -424,10 +439,10 @@ public final class MessagesTest extends BaseFormModelTest {
     @Test
     public void getRequiredElementIsPresentMoreThanOnceMessageTest() {
         Assertions.assertThat(Messages.Binding.getRequiredElementIsPresentMoreThanOnceMessage(null)).isEqualTo("[Required element is present more than once: null]");
-        Assertions.assertThat(Messages.Binding.getRequiredElementIsPresentMoreThanOnceMessage(new ElementDefinition(null, "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>()))).isEqualTo("[Required element is present more than once: element[@]]");
-        Assertions.assertThat(Messages.Binding.getRequiredElementIsPresentMoreThanOnceMessage(new ElementDefinition("", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>()))).isEqualTo("[Required element is present more than once: element[@]]");
-        Assertions.assertThat(Messages.Binding.getRequiredElementIsPresentMoreThanOnceMessage(new ElementDefinition(" ", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>()))).isEqualTo("[Required element is present more than once: element[@ ]]");
-        Assertions.assertThat(Messages.Binding.getRequiredElementIsPresentMoreThanOnceMessage(new ElementDefinition("id", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>()))).isEqualTo("[Required element is present more than once: element[@id]]");
+        Assertions.assertThat(Messages.Binding.getRequiredElementIsPresentMoreThanOnceMessage(new ElementDefinition(null, "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes()))).isEqualTo("[Required element is present more than once: element[@]]");
+        Assertions.assertThat(Messages.Binding.getRequiredElementIsPresentMoreThanOnceMessage(new ElementDefinition("", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes()))).isEqualTo("[Required element is present more than once: element[@]]");
+        Assertions.assertThat(Messages.Binding.getRequiredElementIsPresentMoreThanOnceMessage(new ElementDefinition(" ", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes()))).isEqualTo("[Required element is present more than once: element[@ ]]");
+        Assertions.assertThat(Messages.Binding.getRequiredElementIsPresentMoreThanOnceMessage(new ElementDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes()))).isEqualTo("[Required element is present more than once: element[@id]]");
     }
 
     /**
@@ -436,10 +451,10 @@ public final class MessagesTest extends BaseFormModelTest {
     @Test
     public void getOptionalElementIsPresentMoreThanOnceMessageTest() {
         Assertions.assertThat(Messages.Binding.getOptionalElementIsPresentMoreThanOnceMessage(null)).isEqualTo("[Optional element is present more than once: null]");
-        Assertions.assertThat(Messages.Binding.getOptionalElementIsPresentMoreThanOnceMessage(new ElementDefinition(null, "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>()))).isEqualTo("[Optional element is present more than once: element[@]]");
-        Assertions.assertThat(Messages.Binding.getOptionalElementIsPresentMoreThanOnceMessage(new ElementDefinition("", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>()))).isEqualTo("[Optional element is present more than once: element[@]]");
-        Assertions.assertThat(Messages.Binding.getOptionalElementIsPresentMoreThanOnceMessage(new ElementDefinition(" ", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>()))).isEqualTo("[Optional element is present more than once: element[@ ]]");
-        Assertions.assertThat(Messages.Binding.getOptionalElementIsPresentMoreThanOnceMessage(new ElementDefinition("id", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>()))).isEqualTo("[Optional element is present more than once: element[@id]]");
+        Assertions.assertThat(Messages.Binding.getOptionalElementIsPresentMoreThanOnceMessage(new ElementDefinition(null, "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes()))).isEqualTo("[Optional element is present more than once: element[@]]");
+        Assertions.assertThat(Messages.Binding.getOptionalElementIsPresentMoreThanOnceMessage(new ElementDefinition("", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes()))).isEqualTo("[Optional element is present more than once: element[@]]");
+        Assertions.assertThat(Messages.Binding.getOptionalElementIsPresentMoreThanOnceMessage(new ElementDefinition(" ", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes()))).isEqualTo("[Optional element is present more than once: element[@ ]]");
+        Assertions.assertThat(Messages.Binding.getOptionalElementIsPresentMoreThanOnceMessage(new ElementDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes()))).isEqualTo("[Optional element is present more than once: element[@id]]");
     }
 
     /**
@@ -448,10 +463,10 @@ public final class MessagesTest extends BaseFormModelTest {
     @Test
     public void getProhibitedElementIsPresentMessageTest() {
         Assertions.assertThat(Messages.Binding.getProhibitedElementIsPresentMessage(null)).isEqualTo("[Prohibited element is present: null]");
-        Assertions.assertThat(Messages.Binding.getProhibitedElementIsPresentMessage(new ElementDefinition(null, "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>()))).isEqualTo("[Prohibited element is present: element[@]]");
-        Assertions.assertThat(Messages.Binding.getProhibitedElementIsPresentMessage(new ElementDefinition("", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>()))).isEqualTo("[Prohibited element is present: element[@]]");
-        Assertions.assertThat(Messages.Binding.getProhibitedElementIsPresentMessage(new ElementDefinition(" ", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>()))).isEqualTo("[Prohibited element is present: element[@ ]]");
-        Assertions.assertThat(Messages.Binding.getProhibitedElementIsPresentMessage(new ElementDefinition("id", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>()))).isEqualTo("[Prohibited element is present: element[@id]]");
+        Assertions.assertThat(Messages.Binding.getProhibitedElementIsPresentMessage(new ElementDefinition(null, "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes()))).isEqualTo("[Prohibited element is present: element[@]]");
+        Assertions.assertThat(Messages.Binding.getProhibitedElementIsPresentMessage(new ElementDefinition("", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes()))).isEqualTo("[Prohibited element is present: element[@]]");
+        Assertions.assertThat(Messages.Binding.getProhibitedElementIsPresentMessage(new ElementDefinition(" ", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes()))).isEqualTo("[Prohibited element is present: element[@ ]]");
+        Assertions.assertThat(Messages.Binding.getProhibitedElementIsPresentMessage(new ElementDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes()))).isEqualTo("[Prohibited element is present: element[@id]]");
     }
 
     /**
@@ -460,10 +475,10 @@ public final class MessagesTest extends BaseFormModelTest {
     @Test
     public void getMultipleSingleElementsArePresentMessageTest() {
         Assertions.assertThat(Messages.Binding.getMultipleSingleElementsArePresentMessage(null)).isEqualTo("[Multiple single elements are present: null]");
-        Assertions.assertThat(Messages.Binding.getMultipleSingleElementsArePresentMessage(new SingleElementDefinition(null, CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>()))).isEqualTo("[Multiple single elements are present: single-element[@]]");
-        Assertions.assertThat(Messages.Binding.getMultipleSingleElementsArePresentMessage(new SingleElementDefinition("", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>()))).isEqualTo("[Multiple single elements are present: single-element[@]]");
-        Assertions.assertThat(Messages.Binding.getMultipleSingleElementsArePresentMessage(new SingleElementDefinition(" ", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>()))).isEqualTo("[Multiple single elements are present: single-element[@ ]]");
-        Assertions.assertThat(Messages.Binding.getMultipleSingleElementsArePresentMessage(new SingleElementDefinition("id", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>()))).isEqualTo("[Multiple single elements are present: single-element[@id]]");
+        Assertions.assertThat(Messages.Binding.getMultipleSingleElementsArePresentMessage(new SingleElementDefinition(null, CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes()))).isEqualTo("[Multiple single elements are present: single-element[@]]");
+        Assertions.assertThat(Messages.Binding.getMultipleSingleElementsArePresentMessage(new SingleElementDefinition("", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes()))).isEqualTo("[Multiple single elements are present: single-element[@]]");
+        Assertions.assertThat(Messages.Binding.getMultipleSingleElementsArePresentMessage(new SingleElementDefinition(" ", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes()))).isEqualTo("[Multiple single elements are present: single-element[@ ]]");
+        Assertions.assertThat(Messages.Binding.getMultipleSingleElementsArePresentMessage(new SingleElementDefinition("id", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes()))).isEqualTo("[Multiple single elements are present: single-element[@id]]");
     }
 
 }
