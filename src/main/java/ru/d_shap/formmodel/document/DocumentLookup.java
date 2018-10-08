@@ -97,4 +97,23 @@ public final class DocumentLookup {
         return bindedElements;
     }
 
+    /**
+     * Filter the list of the binded elements and return the binded elements with the specified class.
+     *
+     * @param bindedElements the list of the binded elements.
+     * @param clazz          the specified class.
+     * @param <T>            the generic type of the specified class.
+     *
+     * @return the binded elements with the specified class.
+     */
+    public static <T extends BindedElement> List<T> getBindedElements(final List<BindedElement> bindedElements, final Class<T> clazz) {
+        List<T> result = new ArrayList<>();
+        for (BindedElement bindedElement : bindedElements) {
+            if (clazz.isInstance(bindedElement)) {
+                result.add(clazz.cast(bindedElement));
+            }
+        }
+        return result;
+    }
+
 }
