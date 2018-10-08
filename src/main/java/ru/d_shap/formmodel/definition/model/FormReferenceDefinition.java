@@ -35,7 +35,7 @@ import ru.d_shap.formmodel.NullValueHelper;
  */
 public final class FormReferenceDefinition implements NodeDefinition {
 
-    public static final String ELEMENT_NAME = "formReference";
+    public static final String ELEMENT_NAME = "form-reference";
 
     public static final String ATTRIBUTE_GROUP = "group";
 

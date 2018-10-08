@@ -35,7 +35,7 @@ import ru.d_shap.formmodel.NullValueHelper;
  */
 public final class SingleElementDefinition implements NodeDefinition {
 
-    public static final String ELEMENT_NAME = "singleElement";
+    public static final String ELEMENT_NAME = "single-element";
 
     public static final String ATTRIBUTE_ID = "id";
 
