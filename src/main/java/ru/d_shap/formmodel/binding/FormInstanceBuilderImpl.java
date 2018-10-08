@@ -63,6 +63,7 @@ final class FormInstanceBuilderImpl implements FormInstanceBuilder {
 
     void buildFormInstance(final BindingSource bindingSource, final Document document, final FormDefinition formDefinition) {
         BindedForm bindedForm = _formInstanceBinder.bindFormDefinition(bindingSource, null, null, null, formDefinition);
+        validateBindedForm(bindedForm, formDefinition);
         Element element = createFormInstanceElement(document, formDefinition);
         document.appendChild(element);
         element.setUserData(USER_DATA_FORM_DEFINITION, formDefinition, null);
@@ -79,6 +80,12 @@ final class FormInstanceBuilderImpl implements FormInstanceBuilder {
             element.setAttribute(otherAttributeName, formDefinition.getOtherAttributeValue(otherAttributeName));
         }
         return element;
+    }
+
+    private void validateBindedForm(final BindedForm bindedForm, final FormDefinition formDefinition) {
+        if (bindedForm == null) {
+            throw new FormBindingException(Messages.Binding.getFormIsNotPresentMessage(formDefinition));
+        }
     }
 
     @Override
