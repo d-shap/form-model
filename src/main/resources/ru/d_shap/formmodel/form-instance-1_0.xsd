@@ -4,8 +4,8 @@
     <xs:complexType name="FormType">
         <xs:choice minOccurs="0" maxOccurs="unbounded">
             <xs:element name="element" type="tns:ElementType" />
-            <xs:element name="singleElement" type="tns:SingleElementType" />
-            <xs:element name="formReference" type="tns:FormReferenceType" />
+            <xs:element name="single-element" type="tns:SingleElementType" />
+            <xs:element name="form-reference" type="tns:FormReferenceType" />
             <xs:any namespace="##other" processContents="skip" />
         </xs:choice>
         <xs:attribute name="group" type="xs:string" />
@@ -23,8 +23,8 @@
         <xs:choice minOccurs="0" maxOccurs="unbounded">
             <xs:element name="attribute" type="tns:AttributeType" />
             <xs:element name="element" type="tns:ElementType" />
-            <xs:element name="singleElement" type="tns:SingleElementType" />
-            <xs:element name="formReference" type="tns:FormReferenceType" />
+            <xs:element name="single-element" type="tns:SingleElementType" />
+            <xs:element name="form-reference" type="tns:FormReferenceType" />
             <xs:any namespace="##other" processContents="skip" />
         </xs:choice>
         <xs:attribute name="id" type="xs:string" />
@@ -33,7 +33,7 @@
     <xs:complexType name="SingleElementType">
         <xs:choice minOccurs="0" maxOccurs="unbounded">
             <xs:element name="element" type="tns:ElementType" />
-            <xs:element name="singleElement" type="tns:SingleElementType" />
+            <xs:element name="single-element" type="tns:SingleElementType" />
             <xs:any namespace="##other" processContents="skip" />
         </xs:choice>
         <xs:attribute name="id" type="xs:string" />
@@ -42,8 +42,8 @@
     <xs:complexType name="FormReferenceType">
         <xs:choice minOccurs="0" maxOccurs="unbounded">
             <xs:element name="element" type="tns:ElementType" />
-            <xs:element name="singleElement" type="tns:SingleElementType" />
-            <xs:element name="formReference" type="tns:FormReferenceType" />
+            <xs:element name="single-element" type="tns:SingleElementType" />
+            <xs:element name="form-reference" type="tns:FormReferenceType" />
             <xs:any namespace="##other" processContents="skip" />
         </xs:choice>
         <xs:attribute name="group" type="xs:string" />
