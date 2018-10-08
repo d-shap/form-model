@@ -383,6 +383,17 @@ public final class Messages {
         }
 
         /**
+         * Get the error message when the form is not present.
+         *
+         * @param formDefinition the form definition that can not be binded.
+         *
+         * @return the error message.
+         */
+        public static String getFormIsNotPresentMessage(final FormDefinition formDefinition) {
+            return "[Form is not present: " + formDefinition + "]";
+        }
+
+        /**
          * Get the error message when the required attribute is not present.
          *
          * @param attributeDefinition the attribute definition that can not be binded.
