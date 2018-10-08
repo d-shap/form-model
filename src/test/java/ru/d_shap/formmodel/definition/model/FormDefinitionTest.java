@@ -308,7 +308,7 @@ public final class FormDefinitionTest extends BaseFormModelTest {
      */
     @Test
     public void childElementNamesTest() {
-        Assertions.assertThat(FormDefinition.CHILD_ELEMENT_NAMES).containsExactly("element", "singleElement", "formReference");
+        Assertions.assertThat(FormDefinition.CHILD_ELEMENT_NAMES).containsExactly("element", "single-element", "form-reference");
     }
 
     /**

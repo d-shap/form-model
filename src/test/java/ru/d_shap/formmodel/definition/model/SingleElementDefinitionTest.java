@@ -240,11 +240,11 @@ public final class SingleElementDefinitionTest extends BaseFormModelTest {
      */
     @Test
     public void toStringTest() {
-        Assertions.assertThat(new SingleElementDefinition(null, CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes())).hasToString("singleElement[@]");
-        Assertions.assertThat(new SingleElementDefinition("", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes())).hasToString("singleElement[@]");
-        Assertions.assertThat(new SingleElementDefinition(" ", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes())).hasToString("singleElement[@ ]");
-        Assertions.assertThat(new SingleElementDefinition("id", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes())).hasToString("singleElement[@id]");
-        Assertions.assertThat(new SingleElementDefinition("-id", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes())).hasToString("singleElement[@-id]");
+        Assertions.assertThat(new SingleElementDefinition(null, CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes())).hasToString("single-element[@]");
+        Assertions.assertThat(new SingleElementDefinition("", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes())).hasToString("single-element[@]");
+        Assertions.assertThat(new SingleElementDefinition(" ", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes())).hasToString("single-element[@ ]");
+        Assertions.assertThat(new SingleElementDefinition("id", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes())).hasToString("single-element[@id]");
+        Assertions.assertThat(new SingleElementDefinition("-id", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes())).hasToString("single-element[@-id]");
     }
 
     /**
@@ -252,7 +252,7 @@ public final class SingleElementDefinitionTest extends BaseFormModelTest {
      */
     @Test
     public void childElementNamesTest() {
-        Assertions.assertThat(SingleElementDefinition.CHILD_ELEMENT_NAMES).containsExactly("element", "singleElement");
+        Assertions.assertThat(SingleElementDefinition.CHILD_ELEMENT_NAMES).containsExactly("element", "single-element");
     }
 
     /**

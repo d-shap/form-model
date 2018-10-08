@@ -127,7 +127,7 @@ public final class FormDefinitionsValidatorTest extends BaseFormModelTest {
             formDefinitionsValidator.validate(new HashMap<FormDefinitionKey, String>(), createFormDefinitions(formDefinition3, formDefinition4));
             Assertions.fail("FormDefinitionsValidator test fail");
         } catch (FormDefinitionValidationException ex) {
-            Assertions.assertThat(ex).hasMessage("[Form reference can not be resolved: @:id], {source4}form[@:id4]/formReference[@:id]");
+            Assertions.assertThat(ex).hasMessage("[Form reference can not be resolved: @:id], {source4}form[@:id4]/form-reference[@:id]");
         }
     }
 
@@ -145,7 +145,7 @@ public final class FormDefinitionsValidatorTest extends BaseFormModelTest {
             formDefinitionsValidator.validate(new HashMap<FormDefinitionKey, String>(), createFormDefinitions(formDefinition2));
             Assertions.fail("FormDefinitionsValidator test fail");
         } catch (FormDefinitionValidationException ex) {
-            Assertions.assertThat(ex).hasMessage("[Form reference can not be resolved: @:id1], {source2}form[@:id2]/formReference[@:id1]");
+            Assertions.assertThat(ex).hasMessage("[Form reference can not be resolved: @:id1], {source2}form[@:id2]/form-reference[@:id1]");
         }
     }
 
@@ -165,7 +165,7 @@ public final class FormDefinitionsValidatorTest extends BaseFormModelTest {
             formDefinitionsValidator.validate(new HashMap<FormDefinitionKey, String>(), createFormDefinitions(formDefinition3, formDefinition4));
             Assertions.fail("FormDefinitionsValidator test fail");
         } catch (FormDefinitionValidationException ex) {
-            Assertions.assertThat(ex).hasMessage("[Form reference can not be resolved: @:id], {source1}form[@:id1]/formReference[@:id]");
+            Assertions.assertThat(ex).hasMessage("[Form reference can not be resolved: @:id], {source1}form[@:id1]/form-reference[@:id]");
         }
     }
 

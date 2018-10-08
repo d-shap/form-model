@@ -1,5 +1,5 @@
 <?xml version='1.0'?>
 <ns1:form group='subforms' id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>
     <ns1:element id='id' lookup='lookup' />
-    <ns1:formReference group='subforms' id='id2' />
+    <ns1:form-reference group='subforms' id='id2' />
 </ns1:form>

@@ -169,17 +169,17 @@ public final class FormReferenceDefinitionTest extends BaseFormModelTest {
      */
     @Test
     public void toStringTest() {
-        Assertions.assertThat(new FormReferenceDefinition(null, "id", createNodeDefinitions(), createOtherAttributes())).hasToString("formReference[@:id]");
-        Assertions.assertThat(new FormReferenceDefinition("", "id", createNodeDefinitions(), createOtherAttributes())).hasToString("formReference[@:id]");
-        Assertions.assertThat(new FormReferenceDefinition(" ", "id", createNodeDefinitions(), createOtherAttributes())).hasToString("formReference[@ :id]");
-        Assertions.assertThat(new FormReferenceDefinition("group", "id", createNodeDefinitions(), createOtherAttributes())).hasToString("formReference[@group:id]");
-        Assertions.assertThat(new FormReferenceDefinition("-group", "id", createNodeDefinitions(), createOtherAttributes())).hasToString("formReference[@-group:id]");
+        Assertions.assertThat(new FormReferenceDefinition(null, "id", createNodeDefinitions(), createOtherAttributes())).hasToString("form-reference[@:id]");
+        Assertions.assertThat(new FormReferenceDefinition("", "id", createNodeDefinitions(), createOtherAttributes())).hasToString("form-reference[@:id]");
+        Assertions.assertThat(new FormReferenceDefinition(" ", "id", createNodeDefinitions(), createOtherAttributes())).hasToString("form-reference[@ :id]");
+        Assertions.assertThat(new FormReferenceDefinition("group", "id", createNodeDefinitions(), createOtherAttributes())).hasToString("form-reference[@group:id]");
+        Assertions.assertThat(new FormReferenceDefinition("-group", "id", createNodeDefinitions(), createOtherAttributes())).hasToString("form-reference[@-group:id]");
 
-        Assertions.assertThat(new FormReferenceDefinition("group", null, createNodeDefinitions(), createOtherAttributes())).hasToString("formReference[@group:]");
-        Assertions.assertThat(new FormReferenceDefinition("group", "", createNodeDefinitions(), createOtherAttributes())).hasToString("formReference[@group:]");
-        Assertions.assertThat(new FormReferenceDefinition("group", " ", createNodeDefinitions(), createOtherAttributes())).hasToString("formReference[@group: ]");
-        Assertions.assertThat(new FormReferenceDefinition("group", "id", createNodeDefinitions(), createOtherAttributes())).hasToString("formReference[@group:id]");
-        Assertions.assertThat(new FormReferenceDefinition("group", "-id", createNodeDefinitions(), createOtherAttributes())).hasToString("formReference[@group:-id]");
+        Assertions.assertThat(new FormReferenceDefinition("group", null, createNodeDefinitions(), createOtherAttributes())).hasToString("form-reference[@group:]");
+        Assertions.assertThat(new FormReferenceDefinition("group", "", createNodeDefinitions(), createOtherAttributes())).hasToString("form-reference[@group:]");
+        Assertions.assertThat(new FormReferenceDefinition("group", " ", createNodeDefinitions(), createOtherAttributes())).hasToString("form-reference[@group: ]");
+        Assertions.assertThat(new FormReferenceDefinition("group", "id", createNodeDefinitions(), createOtherAttributes())).hasToString("form-reference[@group:id]");
+        Assertions.assertThat(new FormReferenceDefinition("group", "-id", createNodeDefinitions(), createOtherAttributes())).hasToString("form-reference[@group:-id]");
     }
 
     /**

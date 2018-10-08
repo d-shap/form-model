@@ -102,10 +102,10 @@ public final class MessagesTest extends BaseFormModelTest {
      */
     @Test
     public void getSingleElementDefinitionRepresentationTest() {
-        Assertions.assertThat(Messages.Representation.getSingleElementDefinitionRepresentation(null)).isEqualTo("singleElement[@]");
-        Assertions.assertThat(Messages.Representation.getSingleElementDefinitionRepresentation("")).isEqualTo("singleElement[@]");
-        Assertions.assertThat(Messages.Representation.getSingleElementDefinitionRepresentation(" ")).isEqualTo("singleElement[@ ]");
-        Assertions.assertThat(Messages.Representation.getSingleElementDefinitionRepresentation("id")).isEqualTo("singleElement[@id]");
+        Assertions.assertThat(Messages.Representation.getSingleElementDefinitionRepresentation(null)).isEqualTo("single-element[@]");
+        Assertions.assertThat(Messages.Representation.getSingleElementDefinitionRepresentation("")).isEqualTo("single-element[@]");
+        Assertions.assertThat(Messages.Representation.getSingleElementDefinitionRepresentation(" ")).isEqualTo("single-element[@ ]");
+        Assertions.assertThat(Messages.Representation.getSingleElementDefinitionRepresentation("id")).isEqualTo("single-element[@id]");
     }
 
     /**
@@ -113,13 +113,13 @@ public final class MessagesTest extends BaseFormModelTest {
      */
     @Test
     public void getFormReferenceDefinitionRepresentationTest() {
-        Assertions.assertThat(Messages.Representation.getFormReferenceDefinitionRepresentation(null, "id")).isEqualTo("formReference[@:id]");
-        Assertions.assertThat(Messages.Representation.getFormReferenceDefinitionRepresentation("", "id")).isEqualTo("formReference[@:id]");
-        Assertions.assertThat(Messages.Representation.getFormReferenceDefinitionRepresentation(" ", "id")).isEqualTo("formReference[@ :id]");
-        Assertions.assertThat(Messages.Representation.getFormReferenceDefinitionRepresentation("group", null)).isEqualTo("formReference[@group:]");
-        Assertions.assertThat(Messages.Representation.getFormReferenceDefinitionRepresentation("group", "")).isEqualTo("formReference[@group:]");
-        Assertions.assertThat(Messages.Representation.getFormReferenceDefinitionRepresentation("group", " ")).isEqualTo("formReference[@group: ]");
-        Assertions.assertThat(Messages.Representation.getFormReferenceDefinitionRepresentation("group", "id")).isEqualTo("formReference[@group:id]");
+        Assertions.assertThat(Messages.Representation.getFormReferenceDefinitionRepresentation(null, "id")).isEqualTo("form-reference[@:id]");
+        Assertions.assertThat(Messages.Representation.getFormReferenceDefinitionRepresentation("", "id")).isEqualTo("form-reference[@:id]");
+        Assertions.assertThat(Messages.Representation.getFormReferenceDefinitionRepresentation(" ", "id")).isEqualTo("form-reference[@ :id]");
+        Assertions.assertThat(Messages.Representation.getFormReferenceDefinitionRepresentation("group", null)).isEqualTo("form-reference[@group:]");
+        Assertions.assertThat(Messages.Representation.getFormReferenceDefinitionRepresentation("group", "")).isEqualTo("form-reference[@group:]");
+        Assertions.assertThat(Messages.Representation.getFormReferenceDefinitionRepresentation("group", " ")).isEqualTo("form-reference[@group: ]");
+        Assertions.assertThat(Messages.Representation.getFormReferenceDefinitionRepresentation("group", "id")).isEqualTo("form-reference[@group:id]");
     }
 
     /**
@@ -460,10 +460,10 @@ public final class MessagesTest extends BaseFormModelTest {
     @Test
     public void getMultipleSingleElementsArePresentMessageTest() {
         Assertions.assertThat(Messages.Binding.getMultipleSingleElementsArePresentMessage(null)).isEqualTo("[Multiple single elements are present: null]");
-        Assertions.assertThat(Messages.Binding.getMultipleSingleElementsArePresentMessage(new SingleElementDefinition(null, CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>()))).isEqualTo("[Multiple single elements are present: singleElement[@]]");
-        Assertions.assertThat(Messages.Binding.getMultipleSingleElementsArePresentMessage(new SingleElementDefinition("", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>()))).isEqualTo("[Multiple single elements are present: singleElement[@]]");
-        Assertions.assertThat(Messages.Binding.getMultipleSingleElementsArePresentMessage(new SingleElementDefinition(" ", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>()))).isEqualTo("[Multiple single elements are present: singleElement[@ ]]");
-        Assertions.assertThat(Messages.Binding.getMultipleSingleElementsArePresentMessage(new SingleElementDefinition("id", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>()))).isEqualTo("[Multiple single elements are present: singleElement[@id]]");
+        Assertions.assertThat(Messages.Binding.getMultipleSingleElementsArePresentMessage(new SingleElementDefinition(null, CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>()))).isEqualTo("[Multiple single elements are present: single-element[@]]");
+        Assertions.assertThat(Messages.Binding.getMultipleSingleElementsArePresentMessage(new SingleElementDefinition("", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>()))).isEqualTo("[Multiple single elements are present: single-element[@]]");
+        Assertions.assertThat(Messages.Binding.getMultipleSingleElementsArePresentMessage(new SingleElementDefinition(" ", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>()))).isEqualTo("[Multiple single elements are present: single-element[@ ]]");
+        Assertions.assertThat(Messages.Binding.getMultipleSingleElementsArePresentMessage(new SingleElementDefinition("id", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>()))).isEqualTo("[Multiple single elements are present: single-element[@id]]");
     }
 
 }
