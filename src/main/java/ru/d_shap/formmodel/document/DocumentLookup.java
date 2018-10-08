@@ -87,7 +87,7 @@ public final class DocumentLookup {
         String attributeCondition = "local-name() = '" + FormInstanceBuilder.ATTRIBUTE_INSTANCE_ELEMENT_NAME + "' and @" + FormInstanceBuilder.ATTRIBUTE_INSTANCE_ATTRIBUTE_ID + " = '" + id + "'";
         String elementCondition = "local-name() = '" + FormInstanceBuilder.ELEMENT_INSTANCE_ELEMENT_NAME + "' and @" + FormInstanceBuilder.ELEMENT_INSTANCE_ATTRIBUTE_ID + " = '" + id + "'";
         String singleElementCondition = "local-name() = '" + FormInstanceBuilder.SINGLE_ELEMENT_INSTANCE_ELEMENT_NAME + "' and @" + FormInstanceBuilder.SINGLE_ELEMENT_INSTANCE_ATTRIBUTE_ID + " = '" + id + "'";
-        String lookup = "//*[" + namespaceCondition + " and (" + attributeCondition + " or " + elementCondition + " or " + singleElementCondition + ")]";
+        String lookup = ".//*[" + namespaceCondition + " and (" + attributeCondition + " or " + elementCondition + " or " + singleElementCondition + ")]";
         return getElements(node, lookup);
     }
 
