@@ -28,7 +28,6 @@ import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -50,40 +49,44 @@ public final class DocumentLookup {
     /**
      * Perform XPath lookup and return the elements found.
      *
-     * @param document the source document.
-     * @param lookup   the XPath expression.
+     * @param node   the source node.
+     * @param lookup the XPath expression.
      *
      * @return the elements found.
-     *
-     * @throws XPathExpressionException XPath expression exception.
      */
-    public static List<Element> lookupElements(final Document document, final String lookup) throws XPathExpressionException {
-        XPathFactory xpathFactory = XPathFactory.newInstance();
-        XPath xpath = xpathFactory.newXPath();
-        XPathExpression expr = xpath.compile(lookup);
-        NodeList nodes = (NodeList) expr.evaluate(document, XPathConstants.NODESET);
-        List<Element> elements = new ArrayList<>();
-        for (int i = 0; i < nodes.getLength(); i++) {
-            Node node = nodes.item(i);
-            if (node instanceof Element) {
-                elements.add((Element) node);
+    public static List<Element> lookupElements(final Node node, final String lookup) {
+        try {
+            XPath xPath = createXPath();
+            XPathExpression xPathExpression = xPath.compile(lookup);
+            NodeList nodeList = (NodeList) xPathExpression.evaluate(node, XPathConstants.NODESET);
+            List<Element> elements = new ArrayList<>();
+            for (int i = 0; i < nodeList.getLength(); i++) {
+                Node item = nodeList.item(i);
+                if (item instanceof Element) {
+                    elements.add((Element) item);
+                }
             }
+            return elements;
+        } catch (XPathExpressionException ex) {
+            throw new DocumentLookupException(ex);
         }
-        return elements;
+    }
+
+    private static XPath createXPath() {
+        XPathFactory xPathFactory = XPathFactory.newInstance();
+        return xPathFactory.newXPath();
     }
 
     /**
      * Perform XPath lookup and return the binded elements found.
      *
-     * @param document the source document.
-     * @param lookup   the XPath expression.
+     * @param node   the source node.
+     * @param lookup the XPath expression.
      *
      * @return the binded elements found.
-     *
-     * @throws XPathExpressionException XPath expression exception.
      */
-    public static List<BindedElement> lookupBindedElements(final Document document, final String lookup) throws XPathExpressionException {
-        List<Element> elements = lookupElements(document, lookup);
+    public static List<BindedElement> lookupBindedElements(final Node node, final String lookup) {
+        List<Element> elements = lookupElements(node, lookup);
         List<BindedElement> bindedElements = new ArrayList<>();
         for (Element element : elements) {
             Object object = element.getUserData(FormInstanceBuilder.USER_DATA_BINDED_OBJECT);
