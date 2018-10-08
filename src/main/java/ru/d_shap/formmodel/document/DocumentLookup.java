@@ -47,16 +47,17 @@ public final class DocumentLookup {
     }
 
     /**
-     * Perform XPath lookup and return the elements found.
+     * Perform XPath lookup and return the XML elements found.
      *
      * @param node   the source node.
-     * @param lookup the XPath expression.
+     * @param lookup the XPath lookup expression.
      *
-     * @return the elements found.
+     * @return the XML elements found.
      */
-    public static List<Element> lookupElements(final Node node, final String lookup) {
+    public static List<Element> getElements(final Node node, final String lookup) {
         try {
-            XPath xPath = createXPath();
+            XPathFactory xPathFactory = XPathFactory.newInstance();
+            XPath xPath = xPathFactory.newXPath();
             XPathExpression xPathExpression = xPath.compile(lookup);
             NodeList nodeList = (NodeList) xPathExpression.evaluate(node, XPathConstants.NODESET);
             List<Element> elements = new ArrayList<>();
@@ -72,48 +73,68 @@ public final class DocumentLookup {
         }
     }
 
-    private static XPath createXPath() {
-        XPathFactory xPathFactory = XPathFactory.newInstance();
-        return xPathFactory.newXPath();
+    /**
+     * Perform XPath lookup and return the XML elements with the specified ID.
+     *
+     * @param node the source node.
+     * @param id   the specified ID.
+     *
+     * @return the XML elements with the specified ID.
+     */
+    public static List<Element> getElementsWithId(final Node node, final String id) {
+        String namespaceCondition = "namespace-uri() = '" + FormInstanceBuilder.NAMESPACE + "'";
+        String attributeCondition = "local-name() = '" + FormInstanceBuilder.ATTRIBUTE_INSTANCE_ELEMENT_NAME + "' and @" + FormInstanceBuilder.ATTRIBUTE_INSTANCE_ATTRIBUTE_ID + " = '" + id + "'";
+        String elementCondition = "local-name() = '" + FormInstanceBuilder.ELEMENT_INSTANCE_ELEMENT_NAME + "' and @" + FormInstanceBuilder.ELEMENT_INSTANCE_ATTRIBUTE_ID + " = '" + id + "'";
+        String singleElementCondition = "local-name() = '" + FormInstanceBuilder.SINGLE_ELEMENT_INSTANCE_ELEMENT_NAME + "' and @" + FormInstanceBuilder.SINGLE_ELEMENT_INSTANCE_ATTRIBUTE_ID + " = '" + id + "'";
+        String lookup = "//*[" + namespaceCondition + " and (" + attributeCondition + " or " + elementCondition + " or " + singleElementCondition + ")]";
+        return getElements(node, lookup);
     }
 
     /**
-     * Perform XPath lookup and return the binded elements found.
+     * Obtain the binded elements from the specified XML elements.
      *
-     * @param node   the source node.
-     * @param lookup the XPath expression.
+     * @param elements the specified XML elements.
      *
-     * @return the binded elements found.
+     * @return the binded elements.
      */
-    public static List<BindedElement> lookupBindedElements(final Node node, final String lookup) {
-        List<Element> elements = lookupElements(node, lookup);
-        List<BindedElement> bindedElements = new ArrayList<>();
+    public static List<BindedElement> getBindedElements(final List<Element> elements) {
+        return getBindedElements(elements, BindedElement.class);
+    }
+
+    /**
+     * Obtain the binded elements from the specified XML elements.
+     *
+     * @param elements the specified XML elements.
+     * @param clazz    the specified class of the binded element.
+     * @param <T>      the generic type of the specified class of the binded element.
+     *
+     * @return the binded elements.
+     */
+    public static <T extends BindedElement> List<T> getBindedElements(final List<Element> elements, final Class<T> clazz) {
+        List<T> bindedElements = new ArrayList<>();
         for (Element element : elements) {
-            Object object = element.getUserData(FormInstanceBuilder.USER_DATA_BINDED_OBJECT);
-            if (object instanceof BindedElement) {
-                bindedElements.add((BindedElement) object);
-            }
+            doGetBindedElements(element, bindedElements, clazz);
         }
         return bindedElements;
     }
 
-    /**
-     * Filter the list of the binded elements and return the binded elements with the specified class.
-     *
-     * @param bindedElements the list of the binded elements.
-     * @param clazz          the specified class.
-     * @param <T>            the generic type of the specified class.
-     *
-     * @return the binded elements with the specified class.
-     */
-    public static <T extends BindedElement> List<T> getBindedElements(final List<BindedElement> bindedElements, final Class<T> clazz) {
-        List<T> result = new ArrayList<>();
-        for (BindedElement bindedElement : bindedElements) {
-            if (clazz.isInstance(bindedElement)) {
-                result.add(clazz.cast(bindedElement));
+    private static <T extends BindedElement> void doGetBindedElements(final Element element, final List<T> bindedElements, final Class<T> clazz) {
+        if (FormInstanceBuilder.NAMESPACE.equals(element.getNamespaceURI())) {
+            if (FormInstanceBuilder.ELEMENT_INSTANCE_ELEMENT_NAME.equals(element.getLocalName())) {
+                Object bindedElement = element.getUserData(FormInstanceBuilder.USER_DATA_BINDED_OBJECT);
+                if (clazz.isInstance(bindedElement)) {
+                    bindedElements.add(clazz.cast(bindedElement));
+                }
+            } else if (FormInstanceBuilder.SINGLE_ELEMENT_INSTANCE_ELEMENT_NAME.equals(element.getLocalName())) {
+                NodeList nodeList = element.getChildNodes();
+                for (int i = 0; i < nodeList.getLength(); i++) {
+                    Node item = nodeList.item(i);
+                    if (item instanceof Element) {
+                        doGetBindedElements((Element) item, bindedElements, clazz);
+                    }
+                }
             }
         }
-        return result;
     }
 
 }
