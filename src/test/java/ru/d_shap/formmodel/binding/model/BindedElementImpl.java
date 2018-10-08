@@ -42,6 +42,24 @@ public final class BindedElementImpl implements BindedElement {
         _index = index;
     }
 
+    /**
+     * Get the string representation of the element.
+     *
+     * @return the string representation of the element.
+     */
+    public String getRepresentation() {
+        return _representation;
+    }
+
+    /**
+     * Get the index of the element.
+     *
+     * @return the index of the element.
+     */
+    public int getIndex() {
+        return _index;
+    }
+
     @Override
     public String toString() {
         return "Element: " + _representation + "[" + _index + "]";

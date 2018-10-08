@@ -38,6 +38,15 @@ public final class BindedAttributeImpl implements BindedAttribute {
         _representation = representation;
     }
 
+    /**
+     * Get the string representation of the attribute.
+     *
+     * @return the string representation of the attribute.
+     */
+    public String getRepresentation() {
+        return _representation;
+    }
+
     @Override
     public String toString() {
         return "Attribute: " + _representation;

@@ -38,6 +38,15 @@ public final class BindedFormImpl implements BindedForm {
         _representation = representation;
     }
 
+    /**
+     * Get the string representation of the form.
+     *
+     * @return the string representation of the form.
+     */
+    public String getRepresentation() {
+        return _representation;
+    }
+
     @Override
     public String toString() {
         return "Form: " + _representation;

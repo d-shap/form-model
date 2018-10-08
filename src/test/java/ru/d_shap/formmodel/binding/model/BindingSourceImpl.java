@@ -38,6 +38,15 @@ public final class BindingSourceImpl implements BindingSource {
         _representation = representation;
     }
 
+    /**
+     * Get the string representation of the source.
+     *
+     * @return the string representation of the source.
+     */
+    public String getRepresentation() {
+        return _representation;
+    }
+
     @Override
     public String toString() {
         return "Source: " + _representation;
