@@ -29,7 +29,9 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+
+import ru.d_shap.formmodel.OutputResultWriteException;
 
 /**
  * Document transformation helper class.
@@ -43,22 +45,27 @@ public final class DocumentTransformer {
     }
 
     /**
-     * Write the XML document to the specified writer.
+     * Write the XML node to the specified writer.
      *
-     * @param document the XML document.
-     * @param writer   the specified writer
-     *
-     * @throws IOException          IO exception.
-     * @throws TransformerException transformer exception.
+     * @param node   the XML node.
+     * @param writer the specified writer
+     * @param indent true to add additional whitespaces.
      */
-    public static void writeTo(final Document document, final Writer writer) throws IOException, TransformerException {
+    public static void writeTo(final Node node, final Writer writer, final boolean indent) {
         try {
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            Transformer transformer = transformerFactory.newTransformer();
-            transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
-            transformer.transform(new DOMSource(document), new StreamResult(writer));
-        } finally {
-            writer.close();
+            try {
+                TransformerFactory transformerFactory = TransformerFactory.newInstance();
+                Transformer transformer = transformerFactory.newTransformer();
+                transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+                if (indent) {
+                    transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+                }
+                transformer.transform(new DOMSource(node), new StreamResult(writer));
+            } finally {
+                writer.close();
+            }
+        } catch (IOException | TransformerException ex) {
+            throw new OutputResultWriteException(ex);
         }
     }
 
