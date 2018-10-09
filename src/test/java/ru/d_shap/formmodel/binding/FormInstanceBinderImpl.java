@@ -72,7 +72,10 @@ public final class FormInstanceBinderImpl implements FormInstanceBinder {
 
     @Override
     public BindedForm bindFormDefinition(final BindingSource bindingSource, final BindedForm lastBindedForm, final BindedElement lastBindedElement, final Element parentElement, final FormDefinition formDefinition) {
-        String representation = ((BindingSourceImpl) bindingSource).getRepresentation();
+        String representation = formDefinition.getOtherAttributeValue(ATTRIBUTE_REPR);
+        if (representation == null) {
+            representation = ((BindingSourceImpl) bindingSource).getRepresentation();
+        }
         if (representation == null) {
             return null;
         } else {
