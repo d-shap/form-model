@@ -24,6 +24,7 @@ import java.util.List;
 
 import org.w3c.dom.Element;
 
+import ru.d_shap.assertions.Assertions;
 import ru.d_shap.formmodel.binding.model.BindedAttribute;
 import ru.d_shap.formmodel.binding.model.BindedAttributeImpl;
 import ru.d_shap.formmodel.binding.model.BindedElement;
@@ -43,6 +44,14 @@ import ru.d_shap.formmodel.definition.model.FormDefinition;
  */
 public final class FormInstanceBinderImpl implements FormInstanceBinder {
 
+    private static final String ATTRIBUTE_REPR = "repr";
+
+    private static final String ATTRIBUTE_COUNT = "count";
+
+    private BindingSource _bindingSource;
+
+    private FormDefinition _formDefinition;
+
     /**
      * Create new object.
      */
@@ -52,7 +61,13 @@ public final class FormInstanceBinderImpl implements FormInstanceBinder {
 
     @Override
     public void preBind(final BindingSource bindingSource, final FormDefinition formDefinition) {
-        // Ignore
+        Assertions.assertThat(_bindingSource).isNull();
+        Assertions.assertThat(bindingSource).isNotNull();
+        _bindingSource = bindingSource;
+
+        Assertions.assertThat(_formDefinition).isNull();
+        Assertions.assertThat(formDefinition).isNotNull();
+        _formDefinition = formDefinition;
     }
 
     @Override
@@ -67,11 +82,26 @@ public final class FormInstanceBinderImpl implements FormInstanceBinder {
 
     @Override
     public List<BindedElement> bindElementDefinition(final BindingSource bindingSource, final BindedForm lastBindedForm, final BindedElement lastBindedElement, final Element parentElement, final ElementDefinition elementDefinition) {
-        String representation = elementDefinition.getOtherAttributeValue("repr");
-        int count = Integer.parseInt(elementDefinition.getOtherAttributeValue("count"));
+        String representation = elementDefinition.getOtherAttributeValue(ATTRIBUTE_REPR);
+        String countStr = elementDefinition.getOtherAttributeValue(ATTRIBUTE_COUNT);
+
+        if (representation == null && countStr == null) {
+            BindedElement bindedElement = new BindedElementImpl(representation, 0);
+            List<BindedElement> result = new ArrayList<>();
+            result.add(bindedElement);
+            return result;
+        }
+
+        int count;
+        if (countStr == null) {
+            count = -1;
+        } else {
+            count = Integer.parseInt(countStr);
+        }
         if (representation == null || count < 0) {
             return null;
         }
+
         List<BindedElement> result = new ArrayList<>();
         for (int i = 0; i < count; i++) {
             BindedElement bindedElement = new BindedElementImpl(representation, i);
@@ -82,8 +112,8 @@ public final class FormInstanceBinderImpl implements FormInstanceBinder {
 
     @Override
     public BindedAttribute bindAttributeDefinition(final BindingSource bindingSource, final BindedForm lastBindedForm, final BindedElement lastBindedElement, final Element parentElement, final AttributeDefinition attributeDefinition) {
-        String representation = attributeDefinition.getOtherAttributeValue("repr");
-        int count = Integer.parseInt(attributeDefinition.getOtherAttributeValue("count"));
+        String representation = attributeDefinition.getOtherAttributeValue(ATTRIBUTE_REPR);
+        int count = Integer.parseInt(attributeDefinition.getOtherAttributeValue(ATTRIBUTE_COUNT));
         if (representation == null || count <= 0) {
             return null;
         }
@@ -92,7 +122,15 @@ public final class FormInstanceBinderImpl implements FormInstanceBinder {
 
     @Override
     public void postBind(final BindingSource bindingSource, final FormDefinition formDefinition) {
-        // Ignore
+        Assertions.assertThat(_bindingSource).isNotNull();
+        Assertions.assertThat(bindingSource).isNotNull();
+        Assertions.assertThat(_bindingSource).isSameAs(bindingSource);
+        _bindingSource = null;
+
+        Assertions.assertThat(_formDefinition).isNotNull();
+        Assertions.assertThat(formDefinition).isNotNull();
+        Assertions.assertThat(_formDefinition).isSameAs(formDefinition);
+        _formDefinition = null;
     }
 
 }
