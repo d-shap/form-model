@@ -128,7 +128,7 @@ public final class FormInstanceBinderImpl implements FormInstanceBinder {
         } else {
             count = Integer.parseInt(countStr);
         }
-        if (representation == null || count < 0) {
+        if (representation == null || count <= 0) {
             return null;
         }
 
