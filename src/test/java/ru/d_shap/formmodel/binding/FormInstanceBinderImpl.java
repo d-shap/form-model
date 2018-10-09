@@ -113,10 +113,22 @@ public final class FormInstanceBinderImpl implements FormInstanceBinder {
     @Override
     public BindedAttribute bindAttributeDefinition(final BindingSource bindingSource, final BindedForm lastBindedForm, final BindedElement lastBindedElement, final Element parentElement, final AttributeDefinition attributeDefinition) {
         String representation = attributeDefinition.getOtherAttributeValue(ATTRIBUTE_REPR);
-        int count = Integer.parseInt(attributeDefinition.getOtherAttributeValue(ATTRIBUTE_COUNT));
-        if (representation == null || count <= 0) {
+        String countStr = attributeDefinition.getOtherAttributeValue(ATTRIBUTE_COUNT);
+
+        if (representation == null && countStr == null) {
+            return new BindedAttributeImpl(representation);
+        }
+
+        int count;
+        if (countStr == null) {
+            count = -1;
+        } else {
+            count = Integer.parseInt(countStr);
+        }
+        if (representation == null || count < 0) {
             return null;
         }
+
         return new BindedAttributeImpl(representation);
     }
 
