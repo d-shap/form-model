@@ -300,6 +300,59 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
         Document document54 = newDocument();
         formInstanceBuilder54.buildFormInstance(new BindingSourceImpl("repr"), document54, formDefinitions54.getFormDefinition("id"));
         Assertions.assertThat(DocumentWriter.getAsString(document54)).isEqualTo("<form group=\"\" id=\"id\" xmlns=\"http://d-shap.ru/schema/form-instance/1.0\"><element count=\"2\" id=\"id\" repr=\"repr\"/><element count=\"2\" id=\"id\" repr=\"repr\"/></form>");
+
+        String xml61 = "<?xml version='1.0'?>\n";
+        xml61 += "<ns1:form id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml61 += "<ns1:element id='id' lookup='lookup' type='prohibited' repr='repr' count='-1'>";
+        xml61 += "</ns1:element>";
+        xml61 += "</ns1:form>";
+        FormDefinitions formDefinitions61 = createFormDefinitions(xml61);
+        FormInstanceBuilderImpl formInstanceBuilder61 = createBinder(formDefinitions61);
+        Document document61 = newDocument();
+        formInstanceBuilder61.buildFormInstance(new BindingSourceImpl("repr"), document61, formDefinitions61.getFormDefinition("id"));
+        Assertions.assertThat(DocumentWriter.getAsString(document61)).isEqualTo("<form group=\"\" id=\"id\" xmlns=\"http://d-shap.ru/schema/form-instance/1.0\"/>");
+
+        String xml62 = "<?xml version='1.0'?>\n";
+        xml62 += "<ns1:form id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml62 += "<ns1:element id='id' lookup='lookup' type='prohibited' repr='repr' count='0'>";
+        xml62 += "</ns1:element>";
+        xml62 += "</ns1:form>";
+        FormDefinitions formDefinitions62 = createFormDefinitions(xml62);
+        FormInstanceBuilderImpl formInstanceBuilder62 = createBinder(formDefinitions62);
+        Document document62 = newDocument();
+        formInstanceBuilder62.buildFormInstance(new BindingSourceImpl("repr"), document62, formDefinitions62.getFormDefinition("id"));
+        Assertions.assertThat(DocumentWriter.getAsString(document62)).isEqualTo("<form group=\"\" id=\"id\" xmlns=\"http://d-shap.ru/schema/form-instance/1.0\"/>");
+
+        try {
+            String xml63 = "<?xml version='1.0'?>\n";
+            xml63 += "<ns1:form id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+            xml63 += "<ns1:element id='id' lookup='lookup' type='prohibited' repr='repr' count='1'>";
+            xml63 += "</ns1:element>";
+            xml63 += "</ns1:form>";
+            FormDefinitions formDefinitions63 = createFormDefinitions(xml63);
+            FormInstanceBuilderImpl formInstanceBuilder63 = createBinder(formDefinitions63);
+            Document document63 = newDocument();
+            formInstanceBuilder63.buildFormInstance(new BindingSourceImpl("repr"), document63, formDefinitions63.getFormDefinition("id"));
+            Assertions.fail("FormInstanceBuilderImpl test fail");
+        } catch (FormBindingException ex) {
+            Assertions.assertThat(ex).hasMessage("[Prohibited element is present: element[@id]], {source}form[@:id]");
+        }
+
+        try {
+            String xml64 = "<?xml version='1.0'?>\n";
+            xml64 += "<ns1:form id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+            xml64 += "<ns1:element id='id' lookup='lookup' type='prohibited' repr='repr' count='2'>";
+            xml64 += "</ns1:element>";
+            xml64 += "</ns1:form>";
+            FormDefinitions formDefinitions64 = createFormDefinitions(xml64);
+            FormInstanceBuilderImpl formInstanceBuilder64 = createBinder(formDefinitions64);
+            Document document64 = newDocument();
+            formInstanceBuilder64.buildFormInstance(new BindingSourceImpl("repr"), document64, formDefinitions64.getFormDefinition("id"));
+            Assertions.assertThat(DocumentWriter.getAsString(document64)).isEqualTo("<form group=\"\" id=\"id\" xmlns=\"http://d-shap.ru/schema/form-instance/1.0\"><element count=\"2\" id=\"id\" repr=\"repr\"/><element count=\"2\" id=\"id\" repr=\"repr\"/></form>");
+            Assertions.fail("FormInstanceBuilderImpl test fail");
+        } catch (FormBindingException ex) {
+            Assertions.assertThat(ex).hasMessage("[Prohibited element is present: element[@id]], {source}form[@:id]");
+        }
     }
 
     /**
