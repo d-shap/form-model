@@ -460,6 +460,17 @@ public final class Messages {
         }
 
         /**
+         * Get the error message when multiple single element elements are present.
+         *
+         * @param singleElementDefinition the single element definition that can not be binded.
+         *
+         * @return the error message.
+         */
+        public static String getMultipleSingleElementsArePresentMessage(final SingleElementDefinition singleElementDefinition) {
+            return "[Multiple single elements are present: " + singleElementDefinition + "]";
+        }
+
+        /**
          * Get the error message when the required single element is not present.
          *
          * @param singleElementDefinition the single element definition that can not be binded.
@@ -479,17 +490,6 @@ public final class Messages {
          */
         public static String getProhibitedSingleElementIsPresentMessage(final SingleElementDefinition singleElementDefinition) {
             return "[Prohibited single element is present: " + singleElementDefinition + "]";
-        }
-
-        /**
-         * Get the error message when multiple single element elements are present.
-         *
-         * @param singleElementDefinition the single element definition that can not be binded.
-         *
-         * @return the error message.
-         */
-        public static String getMultipleSingleElementsArePresentMessage(final SingleElementDefinition singleElementDefinition) {
-            return "[Multiple single elements are present: " + singleElementDefinition + "]";
         }
 
     }
