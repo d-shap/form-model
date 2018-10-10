@@ -24,6 +24,8 @@ import java.util.List;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import ru.d_shap.formmodel.Messages;
 import ru.d_shap.formmodel.binding.model.BindedAttribute;
@@ -198,8 +200,32 @@ final class FormInstanceBuilderImpl implements FormInstanceBuilder {
     }
 
     private void validateBindedSingleElementDefinition(final Element element, final SingleElementDefinition singleElementDefinition, final NodePath nodePath) {
-        if (element.getChildNodes().getLength() > 1) {
+        List<ElementDefinition> uniqueElementDefinitions = new ArrayList<>();
+        addUniqueElementDefinitions(element, uniqueElementDefinitions);
+
+        if (singleElementDefinition.getCardinalityDefinition() == CardinalityDefinition.REQUIRED && uniqueElementDefinitions.size() == 0) {
+            throw new FormBindingException(Messages.Binding.getRequiredSingleElementIsNotPresentMessage(singleElementDefinition), nodePath);
+        }
+        if (singleElementDefinition.getCardinalityDefinition() == CardinalityDefinition.PROHIBITED && uniqueElementDefinitions.size() == 1) {
+            throw new FormBindingException(Messages.Binding.getProhibitedSingleElementIsPresentMessage(singleElementDefinition), nodePath);
+        }
+        if (uniqueElementDefinitions.size() > 1) {
             throw new FormBindingException(Messages.Binding.getMultipleSingleElementsArePresentMessage(singleElementDefinition), nodePath);
+        }
+    }
+
+    private void addUniqueElementDefinitions(final Element element, final List<ElementDefinition> uniqueElementDefinitions) {
+        Object object = element.getUserData(USER_DATA_NODE_DEFINITION);
+        if (object instanceof ElementDefinition && !uniqueElementDefinitions.contains(object)) {
+            uniqueElementDefinitions.add((ElementDefinition) object);
+            return;
+        }
+        NodeList nodeList = element.getChildNodes();
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Node node = nodeList.item(i);
+            if (node instanceof Element) {
+                addUniqueElementDefinitions((Element) node, uniqueElementDefinitions);
+            }
         }
     }
 
