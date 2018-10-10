@@ -53,46 +53,52 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
      * {@link FormInstanceBuilderImpl} class test.
      */
     @Test
-    public void buildFormInstanceTest() {
+    public void buildFormInstanceDefaultTest() {
         try {
-            String xml11 = "<?xml version='1.0'?>\n";
-            xml11 += "<ns1:form id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
-            xml11 += "</ns1:form>";
-            FormDefinitions formDefinitions11 = createFormDefinitions(xml11);
-            FormInstanceBuilderImpl formInstanceBuilder11 = createBinder(formDefinitions11);
-            Document document11 = newDocument();
-            formInstanceBuilder11.buildFormInstance(new BindingSourceImpl(null), document11, formDefinitions11.getFormDefinition("id"));
+            String xml1 = "<?xml version='1.0'?>\n";
+            xml1 += "<ns1:form id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+            xml1 += "</ns1:form>";
+            FormDefinitions formDefinitions1 = createFormDefinitions(xml1);
+            FormInstanceBuilderImpl formInstanceBuilder1 = createBinder(formDefinitions1);
+            Document document1 = newDocument();
+            formInstanceBuilder1.buildFormInstance(new BindingSourceImpl(null), document1, formDefinitions1.getFormDefinition("id"));
             Assertions.fail("FormInstanceBuilderImpl test fail");
         } catch (FormBindingException ex) {
             Assertions.assertThat(ex).hasMessage("[Form is not present: {source}form[@:id]]");
         }
 
-        String xml12 = "<?xml version='1.0'?>\n";
-        xml12 += "<ns1:form id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
-        xml12 += "</ns1:form>";
-        FormDefinitions formDefinitions12 = createFormDefinitions(xml12);
-        FormInstanceBuilderImpl formInstanceBuilder12 = createBinder(formDefinitions12);
-        Document document12 = newDocument();
-        formInstanceBuilder12.buildFormInstance(new BindingSourceImpl("source repr"), document12, formDefinitions12.getFormDefinition("id"));
-        Assertions.assertThat(DocumentWriter.getAsString(document12)).isEqualTo("<form group=\"\" id=\"id\" xmlns=\"http://d-shap.ru/schema/form-instance/1.0\"/>");
+        String xml2 = "<?xml version='1.0'?>\n";
+        xml2 += "<ns1:form id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml2 += "</ns1:form>";
+        FormDefinitions formDefinitions2 = createFormDefinitions(xml2);
+        FormInstanceBuilderImpl formInstanceBuilder2 = createBinder(formDefinitions2);
+        Document document2 = newDocument();
+        formInstanceBuilder2.buildFormInstance(new BindingSourceImpl("source repr"), document2, formDefinitions2.getFormDefinition("id"));
+        Assertions.assertThat(DocumentWriter.getAsString(document2)).isEqualTo("<form group=\"\" id=\"id\" xmlns=\"http://d-shap.ru/schema/form-instance/1.0\"/>");
+    }
 
-        String xml21 = "<?xml version='1.0'?>\n";
-        xml21 += "<ns1:form id='id' repr='repr' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
-        xml21 += "</ns1:form>";
-        FormDefinitions formDefinitions21 = createFormDefinitions(xml21);
-        FormInstanceBuilderImpl formInstanceBuilder21 = createBinder(formDefinitions21);
-        Document document21 = newDocument();
-        formInstanceBuilder21.buildFormInstance(new BindingSourceImpl(null), document21, formDefinitions21.getFormDefinition("id"));
-        Assertions.assertThat(DocumentWriter.getAsString(document21)).isEqualTo("<form group=\"\" id=\"id\" repr=\"repr\" xmlns=\"http://d-shap.ru/schema/form-instance/1.0\"/>");
+    /**
+     * {@link FormInstanceBuilderImpl} class test.
+     */
+    @Test
+    public void buildFormInstanceReprTest() {
+        String xml1 = "<?xml version='1.0'?>\n";
+        xml1 += "<ns1:form id='id' repr='repr' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml1 += "</ns1:form>";
+        FormDefinitions formDefinitions1 = createFormDefinitions(xml1);
+        FormInstanceBuilderImpl formInstanceBuilder1 = createBinder(formDefinitions1);
+        Document document1 = newDocument();
+        formInstanceBuilder1.buildFormInstance(new BindingSourceImpl(null), document1, formDefinitions1.getFormDefinition("id"));
+        Assertions.assertThat(DocumentWriter.getAsString(document1)).isEqualTo("<form group=\"\" id=\"id\" repr=\"repr\" xmlns=\"http://d-shap.ru/schema/form-instance/1.0\"/>");
 
-        String xml22 = "<?xml version='1.0'?>\n";
-        xml22 += "<ns1:form id='id' repr='repr' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
-        xml22 += "</ns1:form>";
-        FormDefinitions formDefinitions22 = createFormDefinitions(xml22);
-        FormInstanceBuilderImpl formInstanceBuilder22 = createBinder(formDefinitions22);
-        Document document22 = newDocument();
-        formInstanceBuilder22.buildFormInstance(new BindingSourceImpl("source repr"), document22, formDefinitions22.getFormDefinition("id"));
-        Assertions.assertThat(DocumentWriter.getAsString(document22)).isEqualTo("<form group=\"\" id=\"id\" repr=\"repr\" xmlns=\"http://d-shap.ru/schema/form-instance/1.0\"/>");
+        String xml2 = "<?xml version='1.0'?>\n";
+        xml2 += "<ns1:form id='id' repr='repr' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml2 += "</ns1:form>";
+        FormDefinitions formDefinitions2 = createFormDefinitions(xml2);
+        FormInstanceBuilderImpl formInstanceBuilder2 = createBinder(formDefinitions2);
+        Document document2 = newDocument();
+        formInstanceBuilder2.buildFormInstance(new BindingSourceImpl("source repr"), document2, formDefinitions2.getFormDefinition("id"));
+        Assertions.assertThat(DocumentWriter.getAsString(document2)).isEqualTo("<form group=\"\" id=\"id\" repr=\"repr\" xmlns=\"http://d-shap.ru/schema/form-instance/1.0\"/>");
     }
 
     /**
