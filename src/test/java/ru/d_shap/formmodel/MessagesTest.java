@@ -473,6 +473,30 @@ public final class MessagesTest extends BaseFormModelTest {
      * {@link Messages} class test.
      */
     @Test
+    public void getRequiredSingleElementIsNotPresentMessageTest() {
+        Assertions.assertThat(Messages.Binding.getRequiredSingleElementIsNotPresentMessage(null)).isEqualTo("[Required single element is not present: null]");
+        Assertions.assertThat(Messages.Binding.getRequiredSingleElementIsNotPresentMessage(new SingleElementDefinition(null, CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes()))).isEqualTo("[Required single element is not present: single-element[@]]");
+        Assertions.assertThat(Messages.Binding.getRequiredSingleElementIsNotPresentMessage(new SingleElementDefinition("", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes()))).isEqualTo("[Required single element is not present: single-element[@]]");
+        Assertions.assertThat(Messages.Binding.getRequiredSingleElementIsNotPresentMessage(new SingleElementDefinition(" ", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes()))).isEqualTo("[Required single element is not present: single-element[@ ]]");
+        Assertions.assertThat(Messages.Binding.getRequiredSingleElementIsNotPresentMessage(new SingleElementDefinition("id", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes()))).isEqualTo("[Required single element is not present: single-element[@id]]");
+    }
+
+    /**
+     * {@link Messages} class test.
+     */
+    @Test
+    public void getProhibitedSingleElementIsPresentMessageTest() {
+        Assertions.assertThat(Messages.Binding.getProhibitedSingleElementIsPresentMessage(null)).isEqualTo("[Prohibited single element is present: null]");
+        Assertions.assertThat(Messages.Binding.getProhibitedSingleElementIsPresentMessage(new SingleElementDefinition(null, CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes()))).isEqualTo("[Prohibited single element is present: single-element[@]]");
+        Assertions.assertThat(Messages.Binding.getProhibitedSingleElementIsPresentMessage(new SingleElementDefinition("", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes()))).isEqualTo("[Prohibited single element is present: single-element[@]]");
+        Assertions.assertThat(Messages.Binding.getProhibitedSingleElementIsPresentMessage(new SingleElementDefinition(" ", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes()))).isEqualTo("[Prohibited single element is present: single-element[@ ]]");
+        Assertions.assertThat(Messages.Binding.getProhibitedSingleElementIsPresentMessage(new SingleElementDefinition("id", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes()))).isEqualTo("[Prohibited single element is present: single-element[@id]]");
+    }
+
+    /**
+     * {@link Messages} class test.
+     */
+    @Test
     public void getMultipleSingleElementsArePresentMessageTest() {
         Assertions.assertThat(Messages.Binding.getMultipleSingleElementsArePresentMessage(null)).isEqualTo("[Multiple single elements are present: null]");
         Assertions.assertThat(Messages.Binding.getMultipleSingleElementsArePresentMessage(new SingleElementDefinition(null, CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes()))).isEqualTo("[Multiple single elements are present: single-element[@]]");
