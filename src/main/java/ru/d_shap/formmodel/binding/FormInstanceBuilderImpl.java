@@ -202,10 +202,10 @@ final class FormInstanceBuilderImpl implements FormInstanceBuilder {
         if (uniqueElementDefinitions.size() > 1) {
             throw new FormBindingException(Messages.Binding.getMultipleSingleElementsArePresentMessage(singleElementDefinition), nodePath);
         }
-        if (singleElementDefinition.getCardinalityDefinition() == CardinalityDefinition.REQUIRED && uniqueElementDefinitions.size() == 0) {
+        if (singleElementDefinition.getCardinalityDefinition() == CardinalityDefinition.REQUIRED && uniqueElementDefinitions.isEmpty()) {
             throw new FormBindingException(Messages.Binding.getRequiredSingleElementIsNotPresentMessage(singleElementDefinition), nodePath);
         }
-        if (singleElementDefinition.getCardinalityDefinition() == CardinalityDefinition.PROHIBITED && uniqueElementDefinitions.size() == 1) {
+        if (singleElementDefinition.getCardinalityDefinition() == CardinalityDefinition.PROHIBITED && !uniqueElementDefinitions.isEmpty()) {
             throw new FormBindingException(Messages.Binding.getProhibitedSingleElementIsPresentMessage(singleElementDefinition), nodePath);
         }
     }
