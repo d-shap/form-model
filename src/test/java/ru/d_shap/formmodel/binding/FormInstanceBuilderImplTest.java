@@ -475,7 +475,37 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
      */
     @Test
     public void buildSingleElementInstanceTest() {
+        String xml11 = "<?xml version='1.0'?>\n";
+        xml11 += "<ns1:form id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml11 += "<ns1:single-element id='id' type='required'>";
+        xml11 += "<ns1:element lookup='lookup'>";
+        xml11 += "</ns1:element>";
+        xml11 += "</ns1:single-element>";
+        xml11 += "</ns1:form>";
+        FormDefinitions formDefinitions11 = createFormDefinitions(xml11);
+        FormInstanceBuilderImpl formInstanceBuilder11 = createBinder(formDefinitions11);
+        Document document11 = newDocument();
+        formInstanceBuilder11.buildFormInstance(new BindingSourceImpl("repr"), document11, formDefinitions11.getFormDefinition("id"));
+        Assertions.assertThat(DocumentWriter.getAsString(document11)).isEqualTo("<form group=\"\" id=\"id\" xmlns=\"http://d-shap.ru/schema/form-instance/1.0\"><single-element id=\"id\"><element id=\"\"/></single-element></form>");
 
+        try {
+            String xml12 = "<?xml version='1.0'?>\n";
+            xml12 += "<ns1:form id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+            xml12 += "<ns1:single-element id='id' type='required'>";
+            xml12 += "<ns1:element lookup='lookup'>";
+            xml12 += "</ns1:element>";
+            xml12 += "<ns1:element lookup='lookup'>";
+            xml12 += "</ns1:element>";
+            xml12 += "</ns1:single-element>";
+            xml12 += "</ns1:form>";
+            FormDefinitions formDefinitions12 = createFormDefinitions(xml12);
+            FormInstanceBuilderImpl formInstanceBuilder12 = createBinder(formDefinitions12);
+            Document document12 = newDocument();
+            formInstanceBuilder12.buildFormInstance(new BindingSourceImpl("repr"), document12, formDefinitions12.getFormDefinition("id"));
+            Assertions.fail("FormInstanceBuilderImpl test fail");
+        } catch (FormBindingException ex) {
+            Assertions.assertThat(ex).hasMessage("[Multiple single elements are present: single-element[@id]], {source}form[@:id]");
+        }
     }
 
     /**
