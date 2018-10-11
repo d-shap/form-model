@@ -120,6 +120,229 @@ public final class FormDefinitionValidatorImplTest extends BaseFormModelTest {
      * {@link FormDefinitionValidatorImpl} class test.
      */
     @Test
+    public void validateSourceTest() {
+        OtherNodeDefinition parentNodeDefinition = new OtherNodeDefinitionImpl("parent", true);
+
+        try {
+            createValidator().validateSource(null, new NodePath(parentNodeDefinition));
+            Assertions.fail("FormDefinitionValidatorImpl test fail");
+        } catch (FormDefinitionValidationException ex) {
+            Assertions.assertThat(ex).hasMessage("[Source is empty], parent");
+        }
+        try {
+            createValidator().validateSource("", new NodePath(parentNodeDefinition));
+            Assertions.fail("FormDefinitionValidatorImpl test fail");
+        } catch (FormDefinitionValidationException ex) {
+            Assertions.assertThat(ex).hasMessage("[Source is empty], parent");
+        }
+        try {
+            createValidator().validateSource(" ", new NodePath(parentNodeDefinition));
+            Assertions.fail("FormDefinitionValidatorImpl test fail");
+        } catch (FormDefinitionValidationException ex) {
+            Assertions.assertThat(ex).hasMessage("[Source is empty], parent");
+        }
+        createValidator().validateSource("source", new NodePath(parentNodeDefinition));
+        createValidator().validateSource("-source", new NodePath(parentNodeDefinition));
+    }
+
+    /**
+     * {@link FormDefinitionValidatorImpl} class test.
+     */
+    @Test
+    public void validateGroupTest() {
+        OtherNodeDefinition parentNodeDefinition = new OtherNodeDefinitionImpl("parent", true);
+
+        createValidator().validateGroup(null, new NodePath(parentNodeDefinition));
+        createValidator().validateGroup("", new NodePath(parentNodeDefinition));
+        try {
+            createValidator().validateGroup(" ", new NodePath(parentNodeDefinition));
+            Assertions.fail("FormDefinitionValidatorImpl test fail");
+        } catch (FormDefinitionValidationException ex) {
+            Assertions.assertThat(ex).hasMessage("[Group is not valid:  ], parent");
+        }
+        createValidator().validateGroup("group", new NodePath(parentNodeDefinition));
+        try {
+            createValidator().validateGroup("-group", new NodePath(parentNodeDefinition));
+            Assertions.fail("FormDefinitionValidatorImpl test fail");
+        } catch (FormDefinitionValidationException ex) {
+            Assertions.assertThat(ex).hasMessage("[Group is not valid: -group], parent");
+        }
+    }
+
+    /**
+     * {@link FormDefinitionValidatorImpl} class test.
+     */
+    @Test
+    public void validateIdTest() {
+        OtherNodeDefinition parentNodeDefinition = new OtherNodeDefinitionImpl("parent", true);
+
+        try {
+            createValidator().validateId(null, false, new NodePath(parentNodeDefinition));
+            Assertions.fail("FormDefinitionValidatorImpl test fail");
+        } catch (FormDefinitionValidationException ex) {
+            Assertions.assertThat(ex).hasMessage("[ID is empty], parent");
+        }
+        try {
+            createValidator().validateId("", false, new NodePath(parentNodeDefinition));
+            Assertions.fail("FormDefinitionValidatorImpl test fail");
+        } catch (FormDefinitionValidationException ex) {
+            Assertions.assertThat(ex).hasMessage("[ID is empty], parent");
+        }
+        try {
+            createValidator().validateId(" ", false, new NodePath(parentNodeDefinition));
+            Assertions.fail("FormDefinitionValidatorImpl test fail");
+        } catch (FormDefinitionValidationException ex) {
+            Assertions.assertThat(ex).hasMessage("[ID is not valid:  ], parent");
+        }
+        createValidator().validateId("id", false, new NodePath(parentNodeDefinition));
+        try {
+            createValidator().validateId("-id", false, new NodePath(parentNodeDefinition));
+            Assertions.fail("FormDefinitionValidatorImpl test fail");
+        } catch (FormDefinitionValidationException ex) {
+            Assertions.assertThat(ex).hasMessage("[ID is not valid: -id], parent");
+        }
+        createValidator().validateId(null, true, new NodePath(parentNodeDefinition));
+        createValidator().validateId("", true, new NodePath(parentNodeDefinition));
+        try {
+            createValidator().validateId(" ", true, new NodePath(parentNodeDefinition));
+            Assertions.fail("FormDefinitionValidatorImpl test fail");
+        } catch (FormDefinitionValidationException ex) {
+            Assertions.assertThat(ex).hasMessage("[ID is not valid:  ], parent");
+        }
+        createValidator().validateId("id", true, new NodePath(parentNodeDefinition));
+        try {
+            createValidator().validateId("-id", true, new NodePath(parentNodeDefinition));
+            Assertions.fail("FormDefinitionValidatorImpl test fail");
+        } catch (FormDefinitionValidationException ex) {
+            Assertions.assertThat(ex).hasMessage("[ID is not valid: -id], parent");
+        }
+    }
+
+    /**
+     * {@link FormDefinitionValidatorImpl} class test.
+     */
+    @Test
+    public void validateLookupTest() {
+        OtherNodeDefinition parentNodeDefinition = new OtherNodeDefinitionImpl("parent", true);
+
+        try {
+            createValidator().validateLookup(null, new NodePath(parentNodeDefinition));
+            Assertions.fail("FormDefinitionValidatorImpl test fail");
+        } catch (FormDefinitionValidationException ex) {
+            Assertions.assertThat(ex).hasMessage("[Lookup is empty], parent");
+        }
+        try {
+            createValidator().validateLookup("", new NodePath(parentNodeDefinition));
+            Assertions.fail("FormDefinitionValidatorImpl test fail");
+        } catch (FormDefinitionValidationException ex) {
+            Assertions.assertThat(ex).hasMessage("[Lookup is empty], parent");
+        }
+        try {
+            createValidator().validateLookup(" ", new NodePath(parentNodeDefinition));
+            Assertions.fail("FormDefinitionValidatorImpl test fail");
+        } catch (FormDefinitionValidationException ex) {
+            Assertions.assertThat(ex).hasMessage("[Lookup is empty], parent");
+        }
+        createValidator().validateLookup("lookup", new NodePath(parentNodeDefinition));
+        createValidator().validateLookup("-lookup", new NodePath(parentNodeDefinition));
+    }
+
+    /**
+     * {@link FormDefinitionValidatorImpl} class test.
+     */
+    @Test
+    public void validateCardinalityDefinitionTest() {
+        OtherNodeDefinition parentNodeDefinition = new OtherNodeDefinitionImpl("parent", true);
+
+        try {
+            createValidator().validateCardinalityDefinition(null, CardinalityDefinition.values(), new NodePath(parentNodeDefinition));
+            Assertions.fail("FormDefinitionValidatorImpl test fail");
+        } catch (FormDefinitionValidationException ex) {
+            Assertions.assertThat(ex).hasMessage("[Cardinality definition is empty], parent");
+        }
+
+        createValidator().validateCardinalityDefinition(CardinalityDefinition.REQUIRED, CardinalityDefinition.values(), new NodePath(parentNodeDefinition));
+        createValidator().validateCardinalityDefinition(CardinalityDefinition.REQUIRED_MULTIPLE, CardinalityDefinition.values(), new NodePath(parentNodeDefinition));
+        createValidator().validateCardinalityDefinition(CardinalityDefinition.OPTIONAL, CardinalityDefinition.values(), new NodePath(parentNodeDefinition));
+        createValidator().validateCardinalityDefinition(CardinalityDefinition.OPTIONAL_MULTIPLE, CardinalityDefinition.values(), new NodePath(parentNodeDefinition));
+        createValidator().validateCardinalityDefinition(CardinalityDefinition.PROHIBITED, CardinalityDefinition.values(), new NodePath(parentNodeDefinition));
+
+        createValidator().validateCardinalityDefinition(CardinalityDefinition.REQUIRED, new CardinalityDefinition[]{CardinalityDefinition.REQUIRED}, new NodePath(parentNodeDefinition));
+        createValidator().validateCardinalityDefinition(CardinalityDefinition.REQUIRED_MULTIPLE, new CardinalityDefinition[]{CardinalityDefinition.REQUIRED_MULTIPLE}, new NodePath(parentNodeDefinition));
+        createValidator().validateCardinalityDefinition(CardinalityDefinition.OPTIONAL, new CardinalityDefinition[]{CardinalityDefinition.OPTIONAL}, new NodePath(parentNodeDefinition));
+        createValidator().validateCardinalityDefinition(CardinalityDefinition.OPTIONAL_MULTIPLE, new CardinalityDefinition[]{CardinalityDefinition.OPTIONAL_MULTIPLE}, new NodePath(parentNodeDefinition));
+        createValidator().validateCardinalityDefinition(CardinalityDefinition.PROHIBITED, new CardinalityDefinition[]{CardinalityDefinition.PROHIBITED}, new NodePath(parentNodeDefinition));
+
+        try {
+            createValidator().validateCardinalityDefinition(CardinalityDefinition.REQUIRED, new CardinalityDefinition[]{CardinalityDefinition.OPTIONAL, CardinalityDefinition.OPTIONAL_MULTIPLE}, new NodePath(parentNodeDefinition));
+            Assertions.fail("FormDefinitionValidatorImpl test fail");
+        } catch (FormDefinitionValidationException ex) {
+            Assertions.assertThat(ex).hasMessage("[Cardinality definition is not valid: required], parent");
+        }
+        try {
+            createValidator().validateCardinalityDefinition(CardinalityDefinition.REQUIRED_MULTIPLE, new CardinalityDefinition[]{CardinalityDefinition.OPTIONAL, CardinalityDefinition.OPTIONAL_MULTIPLE}, new NodePath(parentNodeDefinition));
+            Assertions.fail("FormDefinitionValidatorImpl test fail");
+        } catch (FormDefinitionValidationException ex) {
+            Assertions.assertThat(ex).hasMessage("[Cardinality definition is not valid: required+], parent");
+        }
+        try {
+            createValidator().validateCardinalityDefinition(CardinalityDefinition.OPTIONAL, new CardinalityDefinition[]{CardinalityDefinition.REQUIRED, CardinalityDefinition.REQUIRED_MULTIPLE}, new NodePath(parentNodeDefinition));
+            Assertions.fail("FormDefinitionValidatorImpl test fail");
+        } catch (FormDefinitionValidationException ex) {
+            Assertions.assertThat(ex).hasMessage("[Cardinality definition is not valid: optional], parent");
+        }
+        try {
+            createValidator().validateCardinalityDefinition(CardinalityDefinition.OPTIONAL_MULTIPLE, new CardinalityDefinition[]{CardinalityDefinition.REQUIRED, CardinalityDefinition.REQUIRED_MULTIPLE}, new NodePath(parentNodeDefinition));
+            Assertions.fail("FormDefinitionValidatorImpl test fail");
+        } catch (FormDefinitionValidationException ex) {
+            Assertions.assertThat(ex).hasMessage("[Cardinality definition is not valid: optional+], parent");
+        }
+        try {
+            createValidator().validateCardinalityDefinition(CardinalityDefinition.PROHIBITED, new CardinalityDefinition[]{CardinalityDefinition.REQUIRED, CardinalityDefinition.OPTIONAL}, new NodePath(parentNodeDefinition));
+            Assertions.fail("FormDefinitionValidatorImpl test fail");
+        } catch (FormDefinitionValidationException ex) {
+            Assertions.assertThat(ex).hasMessage("[Cardinality definition is not valid: prohibited], parent");
+        }
+    }
+
+    /**
+     * {@link FormDefinitionValidatorImpl} class test.
+     */
+    @Test
+    public void validateFormDefinitionKeyTest() {
+        OtherNodeDefinition parentNodeDefinition = new OtherNodeDefinitionImpl("parent", true);
+
+        try {
+            createValidator().validateFormDefinitionKey(null, new NodePath(parentNodeDefinition));
+            Assertions.fail("FormDefinitionValidatorImpl test fail");
+        } catch (FormDefinitionValidationException ex) {
+            Assertions.assertThat(ex).hasMessage("[Form definition key is not valid: null], parent");
+        }
+        try {
+            createValidator().validateFormDefinitionKey(new FormDefinitionKey(null, null), new NodePath(parentNodeDefinition));
+            Assertions.fail("FormDefinitionValidatorImpl test fail");
+        } catch (FormDefinitionValidationException ex) {
+            Assertions.assertThat(ex).hasMessage("[Form definition key is not valid: @:], parent");
+        }
+        try {
+            createValidator().validateFormDefinitionKey(new FormDefinitionKey("group", "id"), new NodePath(parentNodeDefinition));
+            Assertions.fail("FormDefinitionValidatorImpl test fail");
+        } catch (FormDefinitionValidationException ex) {
+            Assertions.assertThat(ex).hasMessage("[Form definition key is not valid: @group:id], parent");
+        }
+        createValidator("group", "id").validateFormDefinitionKey(new FormDefinitionKey("group", "id"), new NodePath(parentNodeDefinition));
+        try {
+            createValidator("group", "id").validateFormDefinitionKey(new FormDefinitionKey("group1", "id1"), new NodePath(parentNodeDefinition));
+            Assertions.fail("FormDefinitionValidatorImpl test fail");
+        } catch (FormDefinitionValidationException ex) {
+            Assertions.assertThat(ex).hasMessage("[Form definition key is not valid: @group1:id1], parent");
+        }
+    }
+
+    /**
+     * {@link FormDefinitionValidatorImpl} class test.
+     */
+    @Test
     public void validateFormDefinitionGroupTest() {
         createValidator().validateFormDefinition(new FormDefinition(null, "id", createNodeDefinitions(), createOtherAttributes(), "source"));
         createValidator().validateFormDefinition(new FormDefinition("", "id", createNodeDefinitions(), createOtherAttributes(), "source"));
