@@ -63,7 +63,7 @@ public final class FormDefinitionsLoaderTest extends BaseFormModelTest {
             formDefinitionsLoader2.load(formDefinitions);
             Assertions.fail("FormDefinitionsLoader test fail");
         } catch (FormDefinitionValidationException ex) {
-            Assertions.assertThat(ex).hasMessage("[Form is not unique: @group:id1, (source1), (source1)]");
+            Assertions.assertThat(ex).hasMessage("[Form definition is not unique: @group:id1, (source1), (source1)]");
         }
     }
 
