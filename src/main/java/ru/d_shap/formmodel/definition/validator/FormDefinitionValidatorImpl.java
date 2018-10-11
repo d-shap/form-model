@@ -254,7 +254,8 @@ final class FormDefinitionValidatorImpl implements FormDefinitionValidator {
 
         validateGroup(formReferenceDefinition.getGroup(), currentNodePath);
         validateId(formReferenceDefinition.getId(), currentNodePath);
-        validateFormDefinitionKey(new FormDefinitionKey(formReferenceDefinition), currentNodePath);
+        FormDefinitionKey formDefinitionKey = new FormDefinitionKey(formReferenceDefinition);
+        validateFormDefinitionKey(formDefinitionKey, currentNodePath);
 
         for (OtherNodeDefinition childOtherNodeDefinition : formReferenceDefinition.getOtherNodeDefinitions()) {
             validateOtherNodeDefinition(formReferenceDefinition, childOtherNodeDefinition, currentNodePath);
