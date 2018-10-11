@@ -28,6 +28,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import ru.d_shap.formmodel.Messages;
+import ru.d_shap.formmodel.StringUtils;
 import ru.d_shap.formmodel.binding.model.BindedAttribute;
 import ru.d_shap.formmodel.binding.model.BindedElement;
 import ru.d_shap.formmodel.binding.model.BindedForm;
@@ -74,14 +75,14 @@ final class FormInstanceBuilderImpl implements FormInstanceBuilder {
 
     private Element createFormInstanceElement(final Document document, final FormDefinition formDefinition, final BindedForm bindedForm) {
         Element element = document.createElementNS(NAMESPACE, FORM_INSTANCE_ELEMENT_NAME);
-        element.setAttribute(FORM_INSTANCE_ATTRIBUTE_GROUP, formDefinition.getGroup());
-        element.setAttribute(FORM_INSTANCE_ATTRIBUTE_ID, formDefinition.getId());
+        setAttribute(element, FORM_INSTANCE_ATTRIBUTE_GROUP, formDefinition.getGroup());
+        setAttribute(element, FORM_INSTANCE_ATTRIBUTE_ID, formDefinition.getId());
         for (String otherAttributeName : formDefinition.getOtherAttributeNames()) {
-            element.setAttribute(otherAttributeName, formDefinition.getOtherAttributeValue(otherAttributeName));
+            setAttribute(element, otherAttributeName, formDefinition.getOtherAttributeValue(otherAttributeName));
         }
-        element.setUserData(USER_DATA_FORM_DEFINITION, formDefinition, null);
-        element.setUserData(USER_DATA_NODE_DEFINITION, formDefinition, null);
-        element.setUserData(USER_DATA_BINDED_OBJECT, bindedForm, null);
+        setUserData(element, USER_DATA_FORM_DEFINITION, formDefinition);
+        setUserData(element, USER_DATA_NODE_DEFINITION, formDefinition);
+        setUserData(element, USER_DATA_BINDED_OBJECT, bindedForm);
         return element;
     }
 
@@ -105,13 +106,13 @@ final class FormInstanceBuilderImpl implements FormInstanceBuilder {
 
     private Element createAttributeInstanceElement(final Document document, final FormDefinition formDefinition, final AttributeDefinition attributeDefinition, final BindedAttribute bindedAttribute) {
         Element element = document.createElementNS(NAMESPACE, ATTRIBUTE_INSTANCE_ELEMENT_NAME);
-        element.setAttribute(ATTRIBUTE_INSTANCE_ATTRIBUTE_ID, attributeDefinition.getId());
+        setAttribute(element, ATTRIBUTE_INSTANCE_ATTRIBUTE_ID, attributeDefinition.getId());
         for (String otherAttributeName : attributeDefinition.getOtherAttributeNames()) {
-            element.setAttribute(otherAttributeName, attributeDefinition.getOtherAttributeValue(otherAttributeName));
+            setAttribute(element, otherAttributeName, attributeDefinition.getOtherAttributeValue(otherAttributeName));
         }
-        element.setUserData(USER_DATA_FORM_DEFINITION, formDefinition, null);
-        element.setUserData(USER_DATA_NODE_DEFINITION, attributeDefinition, null);
-        element.setUserData(USER_DATA_BINDED_OBJECT, bindedAttribute, null);
+        setUserData(element, USER_DATA_FORM_DEFINITION, formDefinition);
+        setUserData(element, USER_DATA_NODE_DEFINITION, attributeDefinition);
+        setUserData(element, USER_DATA_BINDED_OBJECT, bindedAttribute);
         return element;
     }
 
@@ -140,13 +141,13 @@ final class FormInstanceBuilderImpl implements FormInstanceBuilder {
 
     private Element createElementInstanceElement(final Document document, final FormDefinition formDefinition, final ElementDefinition elementDefinition, final BindedElement bindedElement) {
         Element element = document.createElementNS(NAMESPACE, ELEMENT_INSTANCE_ELEMENT_NAME);
-        element.setAttribute(ELEMENT_INSTANCE_ATTRIBUTE_ID, elementDefinition.getId());
+        setAttribute(element, ELEMENT_INSTANCE_ATTRIBUTE_ID, elementDefinition.getId());
         for (String otherAttributeName : elementDefinition.getOtherAttributeNames()) {
-            element.setAttribute(otherAttributeName, elementDefinition.getOtherAttributeValue(otherAttributeName));
+            setAttribute(element, otherAttributeName, elementDefinition.getOtherAttributeValue(otherAttributeName));
         }
-        element.setUserData(USER_DATA_FORM_DEFINITION, formDefinition, null);
-        element.setUserData(USER_DATA_NODE_DEFINITION, elementDefinition, null);
-        element.setUserData(USER_DATA_BINDED_OBJECT, bindedElement, null);
+        setUserData(element, USER_DATA_FORM_DEFINITION, formDefinition);
+        setUserData(element, USER_DATA_NODE_DEFINITION, elementDefinition);
+        setUserData(element, USER_DATA_BINDED_OBJECT, bindedElement);
         return element;
     }
 
@@ -187,12 +188,12 @@ final class FormInstanceBuilderImpl implements FormInstanceBuilder {
 
     private Element createSingleElementInstanceElement(final Document document, final FormDefinition formDefinition, final SingleElementDefinition singleElementDefinition) {
         Element element = document.createElementNS(NAMESPACE, SINGLE_ELEMENT_INSTANCE_ELEMENT_NAME);
-        element.setAttribute(SINGLE_ELEMENT_INSTANCE_ATTRIBUTE_ID, singleElementDefinition.getId());
+        setAttribute(element, SINGLE_ELEMENT_INSTANCE_ATTRIBUTE_ID, singleElementDefinition.getId());
         for (String otherAttributeName : singleElementDefinition.getOtherAttributeNames()) {
-            element.setAttribute(otherAttributeName, singleElementDefinition.getOtherAttributeValue(otherAttributeName));
+            setAttribute(element, otherAttributeName, singleElementDefinition.getOtherAttributeValue(otherAttributeName));
         }
-        element.setUserData(USER_DATA_FORM_DEFINITION, formDefinition, null);
-        element.setUserData(USER_DATA_NODE_DEFINITION, singleElementDefinition, null);
+        setUserData(element, USER_DATA_FORM_DEFINITION, formDefinition);
+        setUserData(element, USER_DATA_NODE_DEFINITION, singleElementDefinition);
         return element;
     }
 
@@ -242,13 +243,13 @@ final class FormInstanceBuilderImpl implements FormInstanceBuilder {
 
     private Element createFormReferenceInstanceElement(final Document document, final FormDefinition formDefinition, final FormReferenceDefinition formReferenceDefinition) {
         Element element = document.createElementNS(NAMESPACE, FORM_REFERENCE_INSTANCE_ELEMENT_NAME);
-        element.setAttribute(FORM_REFERENCE_INSTANCE_ATTRIBUTE_GROUP, formReferenceDefinition.getGroup());
-        element.setAttribute(FORM_REFERENCE_INSTANCE_ATTRIBUTE_ID, formReferenceDefinition.getId());
+        setAttribute(element, FORM_REFERENCE_INSTANCE_ATTRIBUTE_GROUP, formReferenceDefinition.getGroup());
+        setAttribute(element, FORM_REFERENCE_INSTANCE_ATTRIBUTE_ID, formReferenceDefinition.getId());
         for (String otherAttributeName : formReferenceDefinition.getOtherAttributeNames()) {
-            element.setAttribute(otherAttributeName, formReferenceDefinition.getOtherAttributeValue(otherAttributeName));
+            setAttribute(element, otherAttributeName, formReferenceDefinition.getOtherAttributeValue(otherAttributeName));
         }
-        element.setUserData(USER_DATA_FORM_DEFINITION, formDefinition, null);
-        element.setUserData(USER_DATA_NODE_DEFINITION, formReferenceDefinition, null);
+        setUserData(element, USER_DATA_FORM_DEFINITION, formDefinition);
+        setUserData(element, USER_DATA_NODE_DEFINITION, formReferenceDefinition);
         return element;
     }
 
@@ -257,6 +258,16 @@ final class FormInstanceBuilderImpl implements FormInstanceBuilder {
         for (OtherNodeInstanceBuilder otherNodeInstanceBuilder : _otherNodeInstanceBuilders) {
             otherNodeInstanceBuilder.buildOtherNodeInstance(bindingSource, document, lastBindedForm, lastBindedElement, parentElement, otherNodeDefinition, this, nodePath);
         }
+    }
+
+    private void setAttribute(final Element element, final String attributeName, final String attributeValue) {
+        if (!StringUtils.isBlank(attributeValue)) {
+            element.setAttribute(attributeName, attributeValue);
+        }
+    }
+
+    private void setUserData(final Element element, final String key, final Object data) {
+        element.setUserData(key, data, null);
     }
 
     private void bindNodeDefinitions(final BindingSource bindingSource, final Document document, final BindedForm lastBindedForm, final BindedElement lastBindedElement, final Element parentElement, final List<NodeDefinition> nodeDefinitions, final NodePath nodePath) {
