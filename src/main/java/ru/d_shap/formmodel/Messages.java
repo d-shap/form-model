@@ -277,6 +277,15 @@ public final class Messages {
         }
 
         /**
+         * Get the error message when the ID is empty.
+         *
+         * @return the error message.
+         */
+        public static String getIdIsEmptyMessage() {
+            return "[ID is empty]";
+        }
+
+        /**
          * Get the error message when the ID is not valid.
          *
          * @param id the invalid ID.
