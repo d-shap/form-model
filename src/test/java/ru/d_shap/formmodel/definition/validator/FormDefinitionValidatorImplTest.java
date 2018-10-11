@@ -343,6 +343,34 @@ public final class FormDefinitionValidatorImplTest extends BaseFormModelTest {
      * {@link FormDefinitionValidatorImpl} class test.
      */
     @Test
+    public void validateFormDefinitionSourceTest() {
+        createValidator().validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(), createOtherAttributes(), "source"));
+        createValidator().validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(), createOtherAttributes(), "-source"));
+
+        try {
+            createValidator().validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(), createOtherAttributes(), null));
+            Assertions.fail("FormDefinitionValidatorImpl test fail");
+        } catch (FormDefinitionValidationException ex) {
+            Assertions.assertThat(ex).hasMessage("[Source is empty], {}form[@group:id]");
+        }
+        try {
+            createValidator().validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(), createOtherAttributes(), ""));
+            Assertions.fail("FormDefinitionValidatorImpl test fail");
+        } catch (FormDefinitionValidationException ex) {
+            Assertions.assertThat(ex).hasMessage("[Source is empty], {}form[@group:id]");
+        }
+        try {
+            createValidator().validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(), createOtherAttributes(), " "));
+            Assertions.fail("FormDefinitionValidatorImpl test fail");
+        } catch (FormDefinitionValidationException ex) {
+            Assertions.assertThat(ex).hasMessage("[Source is empty], { }form[@group:id]");
+        }
+    }
+
+    /**
+     * {@link FormDefinitionValidatorImpl} class test.
+     */
+    @Test
     public void validateFormDefinitionGroupTest() {
         createValidator().validateFormDefinition(new FormDefinition(null, "id", createNodeDefinitions(), createOtherAttributes(), "source"));
         createValidator().validateFormDefinition(new FormDefinition("", "id", createNodeDefinitions(), createOtherAttributes(), "source"));
@@ -399,85 +427,46 @@ public final class FormDefinitionValidatorImplTest extends BaseFormModelTest {
      * {@link FormDefinitionValidatorImpl} class test.
      */
     @Test
-    public void validateFormDefinitionSourceTest() {
-        createValidator().validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(), createOtherAttributes(), "source"));
-        createValidator().validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(), createOtherAttributes(), "-source"));
-
-        try {
-            createValidator().validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(), createOtherAttributes(), null));
-            Assertions.fail("FormDefinitionValidatorImpl test fail");
-        } catch (FormDefinitionValidationException ex) {
-            Assertions.assertThat(ex).hasMessage("[Source is empty], {}form[@group:id]");
-        }
-        try {
-            createValidator().validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(), createOtherAttributes(), ""));
-            Assertions.fail("FormDefinitionValidatorImpl test fail");
-        } catch (FormDefinitionValidationException ex) {
-            Assertions.assertThat(ex).hasMessage("[Source is empty], {}form[@group:id]");
-        }
-        try {
-            createValidator().validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(), createOtherAttributes(), " "));
-            Assertions.fail("FormDefinitionValidatorImpl test fail");
-        } catch (FormDefinitionValidationException ex) {
-            Assertions.assertThat(ex).hasMessage("[Source is empty], { }form[@group:id]");
-        }
-    }
-
-    /**
-     * {@link FormDefinitionValidatorImpl} class test.
-     */
-    @Test
     public void validateFormDefinitionChildElementsTest() {
         ElementDefinition elementDefinition1 = new ElementDefinition("id1", "lookup1", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
         ElementDefinition elementDefinition2 = new ElementDefinition("id2", "lookup2", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
         SingleElementDefinition singleElementDefinition = new SingleElementDefinition("id2", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
 
+        createValidator().validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(elementDefinition1, elementDefinition1), createOtherAttributes(), "source"));
         createValidator().validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(elementDefinition1, elementDefinition2), createOtherAttributes(), "source"));
         createValidator().validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(elementDefinition1, singleElementDefinition), createOtherAttributes(), "source"));
+        createValidator().validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(elementDefinition2, elementDefinition1), createOtherAttributes(), "source"));
+        createValidator().validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(elementDefinition2, elementDefinition2), createOtherAttributes(), "source"));
+        createValidator().validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(elementDefinition2, singleElementDefinition), createOtherAttributes(), "source"));
+        createValidator().validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(singleElementDefinition, elementDefinition1), createOtherAttributes(), "source"));
+        createValidator().validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(singleElementDefinition, elementDefinition2), createOtherAttributes(), "source"));
+        createValidator().validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(singleElementDefinition, singleElementDefinition), createOtherAttributes(), "source"));
+        createValidator().validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(elementDefinition1, elementDefinition2, elementDefinition2), createOtherAttributes(), "source"));
 
         try {
-            createValidator().validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(elementDefinition1, elementDefinition1), createOtherAttributes(), "source"));
-            Assertions.fail("FormDefinitionValidatorImpl test fail");
-        } catch (FormDefinitionValidationException ex) {
-            Assertions.assertThat(ex).hasMessage("[ID is not unique: id1], {source}form[@group:id]");
-        }
-        try {
-            createValidator().validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(elementDefinition2, elementDefinition2), createOtherAttributes(), "source"));
-            Assertions.fail("FormDefinitionValidatorImpl test fail");
-        } catch (FormDefinitionValidationException ex) {
-            Assertions.assertThat(ex).hasMessage("[ID is not unique: id2], {source}form[@group:id]");
-        }
-        try {
-            createValidator().validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(elementDefinition2, singleElementDefinition), createOtherAttributes(), "source"));
-            Assertions.fail("FormDefinitionValidatorImpl test fail");
-        } catch (FormDefinitionValidationException ex) {
-            Assertions.assertThat(ex).hasMessage("[ID is not unique: id2], {source}form[@group:id]");
-        }
-
-        try {
-            ElementDefinition invalidDefinition = new ElementDefinition(null, "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
+            ElementDefinition invalidDefinition = new ElementDefinition("-id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
             ElementDefinition validDefinition = new ElementDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(invalidDefinition), createOtherAttributes());
             createValidator().validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(validDefinition), createOtherAttributes(), "source"));
             Assertions.fail("FormDefinitionValidatorImpl test fail");
         } catch (FormDefinitionValidationException ex) {
-            Assertions.assertThat(ex).hasMessage("[ID is empty], {source}form[@group:id]/element[@id]/element[@]");
+            Assertions.assertThat(ex).hasMessage("[ID is not valid: -id], {source}form[@group:id]/element[@id]/element[@-id]");
         }
         try {
-            ElementDefinition invalidDefinition = new ElementDefinition("id", "lookup", CardinalityDefinition.OPTIONAL, createNodeDefinitions(), createOtherAttributes());
+            ElementDefinition invalidDefinition = new ElementDefinition("-id", "lookup", CardinalityDefinition.OPTIONAL, createNodeDefinitions(), createOtherAttributes());
             SingleElementDefinition validDefinition = new SingleElementDefinition("id", CardinalityDefinition.REQUIRED, createNodeDefinitions(invalidDefinition), createOtherAttributes());
             createValidator().validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(validDefinition), createOtherAttributes(), "source"));
             Assertions.fail("FormDefinitionValidatorImpl test fail");
         } catch (FormDefinitionValidationException ex) {
-            Assertions.assertThat(ex).hasMessage("[ID is not empty: id], {source}form[@group:id]/single-element[@id]/element[@id]");
+            Assertions.assertThat(ex).hasMessage("[ID is not valid: -id], {source}form[@group:id]/single-element[@id]/element[@-id]");
         }
         try {
-            ElementDefinition invalidDefinition = new ElementDefinition(null, "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
+            ElementDefinition invalidDefinition = new ElementDefinition("-id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
             OtherNodeDefinitionImpl validDefinition = new OtherNodeDefinitionImpl("repr", true);
             validDefinition.setElementDefinition(invalidDefinition);
             createValidator().validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(validDefinition), createOtherAttributes(), "source"));
             Assertions.fail("FormDefinitionValidatorImpl test fail");
         } catch (FormDefinitionValidationException ex) {
-            Assertions.assertThat(ex).hasMessage("[ID is empty], {source}form[@group:id]/repr/element[@]");
+            Assertions.assertThat(ex).hasMessage("[ID is not valid: -id], {source}form[@group:id]/repr/element[@-id]");
         }
     }
 
@@ -490,52 +479,41 @@ public final class FormDefinitionValidatorImplTest extends BaseFormModelTest {
         SingleElementDefinition singleElementDefinition2 = new SingleElementDefinition("id2", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
         ElementDefinition elementDefinition = new ElementDefinition("id2", "lookup2", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
 
+        createValidator().validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(singleElementDefinition1, singleElementDefinition1), createOtherAttributes(), "source"));
         createValidator().validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(singleElementDefinition1, singleElementDefinition2), createOtherAttributes(), "source"));
         createValidator().validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(singleElementDefinition1, elementDefinition), createOtherAttributes(), "source"));
+        createValidator().validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(singleElementDefinition2, singleElementDefinition1), createOtherAttributes(), "source"));
+        createValidator().validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(singleElementDefinition2, singleElementDefinition2), createOtherAttributes(), "source"));
+        createValidator().validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(singleElementDefinition2, elementDefinition), createOtherAttributes(), "source"));
+        createValidator().validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(elementDefinition, singleElementDefinition1), createOtherAttributes(), "source"));
+        createValidator().validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(elementDefinition, singleElementDefinition2), createOtherAttributes(), "source"));
+        createValidator().validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(elementDefinition, elementDefinition), createOtherAttributes(), "source"));
+        createValidator().validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(singleElementDefinition1, singleElementDefinition2, elementDefinition), createOtherAttributes(), "source"));
 
         try {
-            createValidator().validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(singleElementDefinition1, singleElementDefinition1), createOtherAttributes(), "source"));
-            Assertions.fail("FormDefinitionValidatorImpl test fail");
-        } catch (FormDefinitionValidationException ex) {
-            Assertions.assertThat(ex).hasMessage("[ID is not unique: id1], {source}form[@group:id]");
-        }
-        try {
-            createValidator().validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(singleElementDefinition2, singleElementDefinition2), createOtherAttributes(), "source"));
-            Assertions.fail("FormDefinitionValidatorImpl test fail");
-        } catch (FormDefinitionValidationException ex) {
-            Assertions.assertThat(ex).hasMessage("[ID is not unique: id2], {source}form[@group:id]");
-        }
-        try {
-            createValidator().validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(singleElementDefinition2, elementDefinition), createOtherAttributes(), "source"));
-            Assertions.fail("FormDefinitionValidatorImpl test fail");
-        } catch (FormDefinitionValidationException ex) {
-            Assertions.assertThat(ex).hasMessage("[ID is not unique: id2], {source}form[@group:id]");
-        }
-
-        try {
-            SingleElementDefinition invalidDefinition = new SingleElementDefinition(null, CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
+            SingleElementDefinition invalidDefinition = new SingleElementDefinition("-id", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
             ElementDefinition validDefinition = new ElementDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(invalidDefinition), createOtherAttributes());
             createValidator().validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(validDefinition), createOtherAttributes(), "source"));
             Assertions.fail("FormDefinitionValidatorImpl test fail");
         } catch (FormDefinitionValidationException ex) {
-            Assertions.assertThat(ex).hasMessage("[ID is empty], {source}form[@group:id]/element[@id]/single-element[@]");
+            Assertions.assertThat(ex).hasMessage("[ID is not valid: -id], {source}form[@group:id]/element[@id]/single-element[@-id]");
         }
         try {
-            SingleElementDefinition invalidDefinition = new SingleElementDefinition("id", CardinalityDefinition.OPTIONAL, createNodeDefinitions(), createOtherAttributes());
+            SingleElementDefinition invalidDefinition = new SingleElementDefinition("-id", CardinalityDefinition.OPTIONAL, createNodeDefinitions(), createOtherAttributes());
             SingleElementDefinition validDefinition = new SingleElementDefinition("id", CardinalityDefinition.REQUIRED, createNodeDefinitions(invalidDefinition), createOtherAttributes());
             createValidator().validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(validDefinition), createOtherAttributes(), "source"));
             Assertions.fail("FormDefinitionValidatorImpl test fail");
         } catch (FormDefinitionValidationException ex) {
-            Assertions.assertThat(ex).hasMessage("[ID is not empty: id], {source}form[@group:id]/single-element[@id]/single-element[@id]");
+            Assertions.assertThat(ex).hasMessage("[ID is not valid: -id], {source}form[@group:id]/single-element[@id]/single-element[@-id]");
         }
         try {
-            SingleElementDefinition invalidDefinition = new SingleElementDefinition(null, CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
+            SingleElementDefinition invalidDefinition = new SingleElementDefinition("-id", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
             OtherNodeDefinitionImpl validDefinition = new OtherNodeDefinitionImpl("repr", true);
             validDefinition.setSingleElementDefinition(invalidDefinition);
             createValidator().validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(validDefinition), createOtherAttributes(), "source"));
             Assertions.fail("FormDefinitionValidatorImpl test fail");
         } catch (FormDefinitionValidationException ex) {
-            Assertions.assertThat(ex).hasMessage("[ID is empty], {source}form[@group:id]/repr/single-element[@]");
+            Assertions.assertThat(ex).hasMessage("[ID is not valid: -id], {source}form[@group:id]/repr/single-element[@-id]");
         }
     }
 
@@ -550,55 +528,48 @@ public final class FormDefinitionValidatorImplTest extends BaseFormModelTest {
         FormReferenceDefinition formReferenceDefinition4 = new FormReferenceDefinition("group", "id2", createNodeDefinitions(), createOtherAttributes());
         FormReferenceDefinition formReferenceDefinition5 = new FormReferenceDefinition("group", "id2", createNodeDefinitions(), createOtherAttributes());
 
+        createValidator("", "id1", "group", "id1", "group", "id2").validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(formReferenceDefinition1, formReferenceDefinition1), createOtherAttributes(), "source"));
+        createValidator("", "id1", "group", "id1", "group", "id2").validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(formReferenceDefinition1, formReferenceDefinition2), createOtherAttributes(), "source"));
         createValidator("", "id1", "group", "id1", "group", "id2").validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(formReferenceDefinition1, formReferenceDefinition3), createOtherAttributes(), "source"));
         createValidator("", "id1", "group", "id1", "group", "id2").validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(formReferenceDefinition1, formReferenceDefinition4), createOtherAttributes(), "source"));
+        createValidator("", "id1", "group", "id1", "group", "id2").validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(formReferenceDefinition1, formReferenceDefinition5), createOtherAttributes(), "source"));
+        createValidator("", "id1", "group", "id1", "group", "id2").validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(formReferenceDefinition2, formReferenceDefinition1), createOtherAttributes(), "source"));
+        createValidator("", "id1", "group", "id1", "group", "id2").validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(formReferenceDefinition2, formReferenceDefinition2), createOtherAttributes(), "source"));
         createValidator("", "id1", "group", "id1", "group", "id2").validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(formReferenceDefinition2, formReferenceDefinition3), createOtherAttributes(), "source"));
         createValidator("", "id1", "group", "id1", "group", "id2").validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(formReferenceDefinition2, formReferenceDefinition4), createOtherAttributes(), "source"));
+        createValidator("", "id1", "group", "id1", "group", "id2").validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(formReferenceDefinition2, formReferenceDefinition5), createOtherAttributes(), "source"));
+        createValidator("", "id1", "group", "id1", "group", "id2").validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(formReferenceDefinition3, formReferenceDefinition1), createOtherAttributes(), "source"));
+        createValidator("", "id1", "group", "id1", "group", "id2").validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(formReferenceDefinition3, formReferenceDefinition2), createOtherAttributes(), "source"));
+        createValidator("", "id1", "group", "id1", "group", "id2").validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(formReferenceDefinition3, formReferenceDefinition3), createOtherAttributes(), "source"));
         createValidator("", "id1", "group", "id1", "group", "id2").validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(formReferenceDefinition3, formReferenceDefinition4), createOtherAttributes(), "source"));
-        createValidator("", "id1", "group", "id1", "group", "id2").validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(formReferenceDefinition1, formReferenceDefinition3, formReferenceDefinition4), createOtherAttributes(), "source"));
-        createValidator("", "id1", "group", "id1", "group", "id2").validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(formReferenceDefinition2, formReferenceDefinition3, formReferenceDefinition4), createOtherAttributes(), "source"));
+        createValidator("", "id1", "group", "id1", "group", "id2").validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(formReferenceDefinition3, formReferenceDefinition5), createOtherAttributes(), "source"));
+        createValidator("", "id1", "group", "id1", "group", "id2").validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(formReferenceDefinition4, formReferenceDefinition1), createOtherAttributes(), "source"));
+        createValidator("", "id1", "group", "id1", "group", "id2").validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(formReferenceDefinition4, formReferenceDefinition2), createOtherAttributes(), "source"));
+        createValidator("", "id1", "group", "id1", "group", "id2").validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(formReferenceDefinition4, formReferenceDefinition3), createOtherAttributes(), "source"));
+        createValidator("", "id1", "group", "id1", "group", "id2").validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(formReferenceDefinition4, formReferenceDefinition4), createOtherAttributes(), "source"));
+        createValidator("", "id1", "group", "id1", "group", "id2").validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(formReferenceDefinition4, formReferenceDefinition5), createOtherAttributes(), "source"));
+        createValidator("", "id1", "group", "id1", "group", "id2").validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(formReferenceDefinition5, formReferenceDefinition1), createOtherAttributes(), "source"));
+        createValidator("", "id1", "group", "id1", "group", "id2").validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(formReferenceDefinition5, formReferenceDefinition2), createOtherAttributes(), "source"));
+        createValidator("", "id1", "group", "id1", "group", "id2").validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(formReferenceDefinition5, formReferenceDefinition3), createOtherAttributes(), "source"));
+        createValidator("", "id1", "group", "id1", "group", "id2").validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(formReferenceDefinition5, formReferenceDefinition4), createOtherAttributes(), "source"));
+        createValidator("", "id1", "group", "id1", "group", "id2").validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(formReferenceDefinition5, formReferenceDefinition5), createOtherAttributes(), "source"));
 
         try {
-            createValidator("", "id1", "group", "id1", "group", "id2").validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(formReferenceDefinition1, formReferenceDefinition2), createOtherAttributes(), "source"));
-            Assertions.fail("FormDefinitionValidatorImpl test fail");
-        } catch (FormDefinitionValidationException ex) {
-            Assertions.assertThat(ex).hasMessage("[Form reference is not unique: @:id1], {source}form[@group:id]");
-        }
-        try {
-            createValidator("", "id1", "group", "id1", "group", "id2").validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(formReferenceDefinition1, formReferenceDefinition2, formReferenceDefinition3), createOtherAttributes(), "source"));
-            Assertions.fail("FormDefinitionValidatorImpl test fail");
-        } catch (FormDefinitionValidationException ex) {
-            Assertions.assertThat(ex).hasMessage("[Form reference is not unique: @:id1], {source}form[@group:id]");
-        }
-        try {
-            createValidator("", "id1", "group", "id1", "group", "id2").validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(formReferenceDefinition1, formReferenceDefinition2, formReferenceDefinition4), createOtherAttributes(), "source"));
-            Assertions.fail("FormDefinitionValidatorImpl test fail");
-        } catch (FormDefinitionValidationException ex) {
-            Assertions.assertThat(ex).hasMessage("[Form reference is not unique: @:id1], {source}form[@group:id]");
-        }
-        try {
-            createValidator("", "id1", "group", "id1", "group", "id2").validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(formReferenceDefinition4, formReferenceDefinition5), createOtherAttributes(), "source"));
-            Assertions.fail("FormDefinitionValidatorImpl test fail");
-        } catch (FormDefinitionValidationException ex) {
-            Assertions.assertThat(ex).hasMessage("[Form reference is not unique: @group:id2], {source}form[@group:id]");
-        }
-
-        try {
-            FormReferenceDefinition invalidDefinition = new FormReferenceDefinition("group", null, createNodeDefinitions(), createOtherAttributes());
+            FormReferenceDefinition invalidDefinition = new FormReferenceDefinition("group", "-id", createNodeDefinitions(), createOtherAttributes());
             ElementDefinition validDefinition = new ElementDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(invalidDefinition), createOtherAttributes());
             createValidator().validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(validDefinition), createOtherAttributes(), "source"));
             Assertions.fail("FormDefinitionValidatorImpl test fail");
         } catch (FormDefinitionValidationException ex) {
-            Assertions.assertThat(ex).hasMessage("[ID is empty], {source}form[@group:id]/element[@id]/form-reference[@group:]");
+            Assertions.assertThat(ex).hasMessage("[ID is not valid: -id], {source}form[@group:id]/element[@id]/form-reference[@group:-id]");
         }
         try {
-            FormReferenceDefinition invalidDefinition = new FormReferenceDefinition("group", null, createNodeDefinitions(), createOtherAttributes());
+            FormReferenceDefinition invalidDefinition = new FormReferenceDefinition("group", "-id", createNodeDefinitions(), createOtherAttributes());
             OtherNodeDefinitionImpl validDefinition = new OtherNodeDefinitionImpl("repr", true);
             validDefinition.setFormReferenceDefinition(invalidDefinition);
             createValidator().validateFormDefinition(new FormDefinition("group", "id", createNodeDefinitions(validDefinition), createOtherAttributes(), "source"));
             Assertions.fail("FormDefinitionValidatorImpl test fail");
         } catch (FormDefinitionValidationException ex) {
-            Assertions.assertThat(ex).hasMessage("[ID is empty], {source}form[@group:id]/repr/form-reference[@group:]");
+            Assertions.assertThat(ex).hasMessage("[ID is not valid: -id], {source}form[@group:id]/repr/form-reference[@group:-id]");
         }
     }
 
