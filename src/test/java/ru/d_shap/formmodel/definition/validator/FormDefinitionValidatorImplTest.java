@@ -680,6 +680,7 @@ public final class FormDefinitionValidatorImplTest extends BaseFormModelTest {
     public void validateAttributeDefinitionCardinalityDefinitionTest() {
         ElementDefinition parentNodeDefinition1 = new ElementDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
         OtherNodeDefinition parentNodeDefinition2 = new OtherNodeDefinitionImpl("parent", true);
+        OtherNodeDefinition parentNodeDefinition3 = new AnotherNodeDefinition();
 
         try {
             createValidator().validateAttributeDefinition(parentNodeDefinition1, new AttributeDefinition("id", "lookup", null, createNodeDefinitions(), createOtherAttributes()), new NodePath(parentNodeDefinition1));
@@ -729,6 +730,28 @@ public final class FormDefinitionValidatorImplTest extends BaseFormModelTest {
         }
         createValidator().validateAttributeDefinition(parentNodeDefinition2, new AttributeDefinition("id", "lookup", CardinalityDefinition.OPTIONAL_MULTIPLE, createNodeDefinitions(), createOtherAttributes()), new NodePath(parentNodeDefinition2));
         createValidator().validateAttributeDefinition(parentNodeDefinition2, new AttributeDefinition("id", "lookup", CardinalityDefinition.PROHIBITED, createNodeDefinitions(), createOtherAttributes()), new NodePath(parentNodeDefinition2));
+
+        try {
+            createValidator().validateAttributeDefinition(parentNodeDefinition3, new AttributeDefinition("id", "lookup", null, createNodeDefinitions(), createOtherAttributes()), new NodePath(parentNodeDefinition3));
+            Assertions.fail("FormDefinitionValidatorImpl test fail");
+        } catch (FormDefinitionValidationException ex) {
+            Assertions.assertThat(ex).hasMessage("[Cardinality definition is empty], another/attribute[@id]");
+        }
+        createValidator().validateAttributeDefinition(parentNodeDefinition3, new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes()), new NodePath(parentNodeDefinition3));
+        try {
+            createValidator().validateAttributeDefinition(parentNodeDefinition3, new AttributeDefinition("id", "lookup", CardinalityDefinition.REQUIRED_MULTIPLE, createNodeDefinitions(), createOtherAttributes()), new NodePath(parentNodeDefinition3));
+            Assertions.fail("FormDefinitionValidatorImpl test fail");
+        } catch (FormDefinitionValidationException ex) {
+            Assertions.assertThat(ex).hasMessage("[Cardinality definition is not valid: required+], another/attribute[@id]");
+        }
+        createValidator().validateAttributeDefinition(parentNodeDefinition3, new AttributeDefinition("id", "lookup", CardinalityDefinition.OPTIONAL, createNodeDefinitions(), createOtherAttributes()), new NodePath(parentNodeDefinition3));
+        try {
+            createValidator().validateAttributeDefinition(parentNodeDefinition3, new AttributeDefinition("id", "lookup", CardinalityDefinition.OPTIONAL_MULTIPLE, createNodeDefinitions(), createOtherAttributes()), new NodePath(parentNodeDefinition3));
+            Assertions.fail("FormDefinitionValidatorImpl test fail");
+        } catch (FormDefinitionValidationException ex) {
+            Assertions.assertThat(ex).hasMessage("[Cardinality definition is not valid: optional+], another/attribute[@id]");
+        }
+        createValidator().validateAttributeDefinition(parentNodeDefinition3, new AttributeDefinition("id", "lookup", CardinalityDefinition.PROHIBITED, createNodeDefinitions(), createOtherAttributes()), new NodePath(parentNodeDefinition3));
     }
 
     /**
@@ -822,6 +845,7 @@ public final class FormDefinitionValidatorImplTest extends BaseFormModelTest {
         ElementDefinition parentNodeDefinition1 = new ElementDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
         SingleElementDefinition parentNodeDefinition2 = new SingleElementDefinition("id", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
         OtherNodeDefinition parentNodeDefinition3 = new OtherNodeDefinitionImpl("parent", true);
+        OtherNodeDefinition parentNodeDefinition4 = new AnotherNodeDefinition();
 
         try {
             createValidator().validateElementDefinition(parentNodeDefinition1, new ElementDefinition("id", "lookup", null, createNodeDefinitions(), createOtherAttributes()), new NodePath(parentNodeDefinition1));
@@ -888,6 +912,18 @@ public final class FormDefinitionValidatorImplTest extends BaseFormModelTest {
         }
         createValidator().validateElementDefinition(parentNodeDefinition3, new ElementDefinition("id", "lookup", CardinalityDefinition.OPTIONAL_MULTIPLE, createNodeDefinitions(), createOtherAttributes()), new NodePath(parentNodeDefinition3));
         createValidator().validateElementDefinition(parentNodeDefinition3, new ElementDefinition("id", "lookup", CardinalityDefinition.PROHIBITED, createNodeDefinitions(), createOtherAttributes()), new NodePath(parentNodeDefinition3));
+
+        try {
+            createValidator().validateElementDefinition(parentNodeDefinition4, new ElementDefinition("id", "lookup", null, createNodeDefinitions(), createOtherAttributes()), new NodePath(parentNodeDefinition4));
+            Assertions.fail("FormDefinitionValidatorImpl test fail");
+        } catch (FormDefinitionValidationException ex) {
+            Assertions.assertThat(ex).hasMessage("[Cardinality definition is empty], another/element[@id]");
+        }
+        createValidator().validateElementDefinition(parentNodeDefinition4, new ElementDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes()), new NodePath(parentNodeDefinition4));
+        createValidator().validateElementDefinition(parentNodeDefinition4, new ElementDefinition("id", "lookup", CardinalityDefinition.REQUIRED_MULTIPLE, createNodeDefinitions(), createOtherAttributes()), new NodePath(parentNodeDefinition4));
+        createValidator().validateElementDefinition(parentNodeDefinition4, new ElementDefinition("id", "lookup", CardinalityDefinition.OPTIONAL, createNodeDefinitions(), createOtherAttributes()), new NodePath(parentNodeDefinition4));
+        createValidator().validateElementDefinition(parentNodeDefinition4, new ElementDefinition("id", "lookup", CardinalityDefinition.OPTIONAL_MULTIPLE, createNodeDefinitions(), createOtherAttributes()), new NodePath(parentNodeDefinition4));
+        createValidator().validateElementDefinition(parentNodeDefinition4, new ElementDefinition("id", "lookup", CardinalityDefinition.PROHIBITED, createNodeDefinitions(), createOtherAttributes()), new NodePath(parentNodeDefinition4));
     }
 
     /**
@@ -1589,6 +1625,24 @@ public final class FormDefinitionValidatorImplTest extends BaseFormModelTest {
         }
         List<OtherNodeDefinitionValidator> otherNodeDefinitionValidators = ServiceFinder.find(OtherNodeDefinitionValidator.class);
         return new FormDefinitionValidatorImpl(formDefinitionKeys, otherNodeDefinitionValidators);
+    }
+
+    /**
+     * Test class.
+     *
+     * @author Dmitry Shapovalov
+     */
+    private static final class AnotherNodeDefinition implements OtherNodeDefinition {
+
+        AnotherNodeDefinition() {
+            super();
+        }
+
+        @Override
+        public String toString() {
+            return "another";
+        }
+
     }
 
 }
