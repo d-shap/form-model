@@ -59,7 +59,7 @@ public final class FormDefinitionsValidator {
             if (allFormSources.containsKey(formDefinitionKey)) {
                 String source1 = allFormSources.get(formDefinitionKey);
                 String source2 = formDefinition.getSource();
-                throw new FormDefinitionValidationException(Messages.Validation.getFormIsNotUniqueMessage(formDefinitionKey, source1, source2));
+                throw new FormDefinitionValidationException(Messages.Validation.getFormDefinitionIsNotUniqueMessage(formDefinitionKey, source1, source2));
             } else {
                 allFormSources.put(formDefinitionKey, formDefinition.getSource());
             }
