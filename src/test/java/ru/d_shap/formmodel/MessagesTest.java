@@ -285,6 +285,14 @@ public final class MessagesTest extends BaseFormModelTest {
      * {@link Messages} class test.
      */
     @Test
+    public void getIdIsEmptyMessageTest() {
+        Assertions.assertThat(Messages.Validation.getIdIsEmptyMessage()).isEqualTo("[ID is empty]");
+    }
+
+    /**
+     * {@link Messages} class test.
+     */
+    @Test
     public void getIdIsNotValidMessageTest() {
         Assertions.assertThat(Messages.Validation.getIdIsNotValidMessage(null)).isEqualTo("[ID is not valid: null]");
         Assertions.assertThat(Messages.Validation.getIdIsNotValidMessage("")).isEqualTo("[ID is not valid: ]");
