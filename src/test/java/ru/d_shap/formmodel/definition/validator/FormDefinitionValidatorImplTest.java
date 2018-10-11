@@ -1432,23 +1432,22 @@ public final class FormDefinitionValidatorImplTest extends BaseFormModelTest {
      */
     @Test
     public void validateFormReferenceDefinitionGroupTest() {
-        OtherNodeDefinition parentNodeDefinition = new OtherNodeDefinitionImpl("parent", true);
+        ElementDefinition parentNodeDefinition = new ElementDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
 
         createValidator("", "id", "group", "id").validateFormReferenceDefinition(parentNodeDefinition, new FormReferenceDefinition(null, "id", createNodeDefinitions(), createOtherAttributes()), new NodePath(parentNodeDefinition));
         createValidator("", "id", "group", "id").validateFormReferenceDefinition(parentNodeDefinition, new FormReferenceDefinition("", "id", createNodeDefinitions(), createOtherAttributes()), new NodePath(parentNodeDefinition));
-        createValidator("", "id", "group", "id").validateFormReferenceDefinition(parentNodeDefinition, new FormReferenceDefinition("group", "id", createNodeDefinitions(), createOtherAttributes()), new NodePath(parentNodeDefinition));
-
         try {
             createValidator().validateFormReferenceDefinition(parentNodeDefinition, new FormReferenceDefinition(" ", "id", createNodeDefinitions(), createOtherAttributes()), new NodePath(parentNodeDefinition));
             Assertions.fail("FormDefinitionValidatorImpl test fail");
         } catch (FormDefinitionValidationException ex) {
-            Assertions.assertThat(ex).hasMessage("[Group is not valid:  ], parent/form-reference[@ :id]");
+            Assertions.assertThat(ex).hasMessage("[Group is not valid:  ], element[@id]/form-reference[@ :id]");
         }
+        createValidator("", "id", "group", "id").validateFormReferenceDefinition(parentNodeDefinition, new FormReferenceDefinition("group", "id", createNodeDefinitions(), createOtherAttributes()), new NodePath(parentNodeDefinition));
         try {
             createValidator().validateFormReferenceDefinition(parentNodeDefinition, new FormReferenceDefinition("-group", "id", createNodeDefinitions(), createOtherAttributes()), new NodePath(parentNodeDefinition));
             Assertions.fail("FormDefinitionValidatorImpl test fail");
         } catch (FormDefinitionValidationException ex) {
-            Assertions.assertThat(ex).hasMessage("[Group is not valid: -group], parent/form-reference[@-group:id]");
+            Assertions.assertThat(ex).hasMessage("[Group is not valid: -group], element[@id]/form-reference[@-group:id]");
         }
 
     }
@@ -1458,33 +1457,32 @@ public final class FormDefinitionValidatorImplTest extends BaseFormModelTest {
      */
     @Test
     public void validateFormReferenceDefinitionIdTest() {
-        OtherNodeDefinition parentNodeDefinition = new OtherNodeDefinitionImpl("parent", true);
-
-        createValidator("group", "id").validateFormReferenceDefinition(parentNodeDefinition, new FormReferenceDefinition("group", "id", createNodeDefinitions(), createOtherAttributes()), new NodePath(parentNodeDefinition));
+        ElementDefinition parentNodeDefinition = new ElementDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
 
         try {
             createValidator().validateFormReferenceDefinition(parentNodeDefinition, new FormReferenceDefinition("group", null, createNodeDefinitions(), createOtherAttributes()), new NodePath(parentNodeDefinition));
             Assertions.fail("FormDefinitionValidatorImpl test fail");
         } catch (FormDefinitionValidationException ex) {
-            Assertions.assertThat(ex).hasMessage("[ID is empty], parent/form-reference[@group:]");
+            Assertions.assertThat(ex).hasMessage("[ID is empty], element[@id]/form-reference[@group:]");
         }
         try {
             createValidator().validateFormReferenceDefinition(parentNodeDefinition, new FormReferenceDefinition("group", "", createNodeDefinitions(), createOtherAttributes()), new NodePath(parentNodeDefinition));
             Assertions.fail("FormDefinitionValidatorImpl test fail");
         } catch (FormDefinitionValidationException ex) {
-            Assertions.assertThat(ex).hasMessage("[ID is empty], parent/form-reference[@group:]");
+            Assertions.assertThat(ex).hasMessage("[ID is empty], element[@id]/form-reference[@group:]");
         }
         try {
             createValidator().validateFormReferenceDefinition(parentNodeDefinition, new FormReferenceDefinition("group", " ", createNodeDefinitions(), createOtherAttributes()), new NodePath(parentNodeDefinition));
             Assertions.fail("FormDefinitionValidatorImpl test fail");
         } catch (FormDefinitionValidationException ex) {
-            Assertions.assertThat(ex).hasMessage("[ID is not valid:  ], parent/form-reference[@group: ]");
+            Assertions.assertThat(ex).hasMessage("[ID is not valid:  ], element[@id]/form-reference[@group: ]");
         }
+        createValidator("group", "id").validateFormReferenceDefinition(parentNodeDefinition, new FormReferenceDefinition("group", "id", createNodeDefinitions(), createOtherAttributes()), new NodePath(parentNodeDefinition));
         try {
             createValidator().validateFormReferenceDefinition(parentNodeDefinition, new FormReferenceDefinition("group", "-id", createNodeDefinitions(), createOtherAttributes()), new NodePath(parentNodeDefinition));
             Assertions.fail("FormDefinitionValidatorImpl test fail");
         } catch (FormDefinitionValidationException ex) {
-            Assertions.assertThat(ex).hasMessage("[ID is not valid: -id], parent/form-reference[@group:-id]");
+            Assertions.assertThat(ex).hasMessage("[ID is not valid: -id], element[@id]/form-reference[@group:-id]");
         }
     }
 
@@ -1493,7 +1491,7 @@ public final class FormDefinitionValidatorImplTest extends BaseFormModelTest {
      */
     @Test
     public void validateFormReferenceDefinitionResolvedTest() {
-        OtherNodeDefinition parentNodeDefinition = new OtherNodeDefinitionImpl("parent", true);
+        ElementDefinition parentNodeDefinition = new ElementDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
         FormReferenceDefinition formReferenceDefinition1 = new FormReferenceDefinition("", "id1", createNodeDefinitions(), createOtherAttributes());
         FormReferenceDefinition formReferenceDefinition2 = new FormReferenceDefinition("group", "id1", createNodeDefinitions(), createOtherAttributes());
         FormReferenceDefinition formReferenceDefinition3 = new FormReferenceDefinition("group", "id2", createNodeDefinitions(), createOtherAttributes());
@@ -1506,31 +1504,31 @@ public final class FormDefinitionValidatorImplTest extends BaseFormModelTest {
             createValidator().validateFormReferenceDefinition(parentNodeDefinition, formReferenceDefinition1, new NodePath(parentNodeDefinition));
             Assertions.fail("FormDefinitionValidatorImpl test fail");
         } catch (FormDefinitionValidationException ex) {
-            Assertions.assertThat(ex).hasMessage("[Form reference can not be resolved: @:id1], parent/form-reference[@:id1]");
+            Assertions.assertThat(ex).hasMessage("[Form definition key is not valid: @:id1], element[@id]/form-reference[@:id1]");
         }
         try {
             createValidator("", "id").validateFormReferenceDefinition(parentNodeDefinition, formReferenceDefinition1, new NodePath(parentNodeDefinition));
             Assertions.fail("FormDefinitionValidatorImpl test fail");
         } catch (FormDefinitionValidationException ex) {
-            Assertions.assertThat(ex).hasMessage("[Form reference can not be resolved: @:id1], parent/form-reference[@:id1]");
+            Assertions.assertThat(ex).hasMessage("[Form definition key is not valid: @:id1], element[@id]/form-reference[@:id1]");
         }
         try {
             createValidator().validateFormReferenceDefinition(parentNodeDefinition, formReferenceDefinition2, new NodePath(parentNodeDefinition));
             Assertions.fail("FormDefinitionValidatorImpl test fail");
         } catch (FormDefinitionValidationException ex) {
-            Assertions.assertThat(ex).hasMessage("[Form reference can not be resolved: @group:id1], parent/form-reference[@group:id1]");
+            Assertions.assertThat(ex).hasMessage("[Form definition key is not valid: @group:id1], element[@id]/form-reference[@group:id1]");
         }
         try {
             createValidator("group", "id2").validateFormReferenceDefinition(parentNodeDefinition, formReferenceDefinition2, new NodePath(parentNodeDefinition));
             Assertions.fail("FormDefinitionValidatorImpl test fail");
         } catch (FormDefinitionValidationException ex) {
-            Assertions.assertThat(ex).hasMessage("[Form reference can not be resolved: @group:id1], parent/form-reference[@group:id1]");
+            Assertions.assertThat(ex).hasMessage("[Form definition key is not valid: @group:id1], element[@id]/form-reference[@group:id1]");
         }
         try {
             createValidator("group", "id1").validateFormReferenceDefinition(parentNodeDefinition, formReferenceDefinition3, new NodePath(parentNodeDefinition));
             Assertions.fail("FormDefinitionValidatorImpl test fail");
         } catch (FormDefinitionValidationException ex) {
-            Assertions.assertThat(ex).hasMessage("[Form reference can not be resolved: @group:id2], parent/form-reference[@group:id2]");
+            Assertions.assertThat(ex).hasMessage("[Form definition key is not valid: @group:id2], element[@id]/form-reference[@group:id2]");
         }
     }
 
@@ -1539,7 +1537,7 @@ public final class FormDefinitionValidatorImplTest extends BaseFormModelTest {
      */
     @Test
     public void validateFormReferenceDefinitionChildOtherNodesTest() {
-        OtherNodeDefinition parentNodeDefinition = new OtherNodeDefinitionImpl("parent", true);
+        ElementDefinition parentNodeDefinition = new ElementDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
         OtherNodeDefinition otherNodeDefinition1 = new OtherNodeDefinitionImpl("repr1", true);
         OtherNodeDefinition otherNodeDefinition2 = new OtherNodeDefinitionImpl("repr2", true);
 
@@ -1549,7 +1547,7 @@ public final class FormDefinitionValidatorImplTest extends BaseFormModelTest {
             createValidator("group", "id").validateFormReferenceDefinition(parentNodeDefinition, new FormReferenceDefinition("group", "id", createNodeDefinitions(new OtherNodeDefinitionImpl("invalid", false)), createOtherAttributes()), new NodePath(parentNodeDefinition));
             Assertions.fail("FormDefinitionValidatorImpl test fail");
         } catch (FormDefinitionValidationException ex) {
-            Assertions.assertThat(ex).hasMessage("[Not valid!], parent/form-reference[@group:id]/invalid");
+            Assertions.assertThat(ex).hasMessage("[Not valid!], element[@id]/form-reference[@group:id]/invalid");
         }
 
         try {
@@ -1559,7 +1557,7 @@ public final class FormDefinitionValidatorImplTest extends BaseFormModelTest {
             createValidator("group", "id").validateFormReferenceDefinition(parentNodeDefinition, new FormReferenceDefinition("group", "id", createNodeDefinitions(validDefinition), createOtherAttributes()), new NodePath(parentNodeDefinition));
             Assertions.fail("FormDefinitionValidatorImpl test fail");
         } catch (FormDefinitionValidationException ex) {
-            Assertions.assertThat(ex).hasMessage("[Not valid!], parent/form-reference[@group:id]/repr/invalid");
+            Assertions.assertThat(ex).hasMessage("[Not valid!], element[@id]/form-reference[@group:id]/repr/invalid");
         }
     }
 
@@ -1568,7 +1566,7 @@ public final class FormDefinitionValidatorImplTest extends BaseFormModelTest {
      */
     @Test
     public void validateOtherNodeDefinitionChildOtherNodesTest() {
-        OtherNodeDefinition parentNodeDefinition = new OtherNodeDefinitionImpl("parent", true);
+        ElementDefinition parentNodeDefinition = new ElementDefinition("id", "lookup", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes());
         OtherNodeDefinition otherNodeDefinition1 = new OtherNodeDefinitionImpl("repr1", true);
         OtherNodeDefinition otherNodeDefinition2 = new OtherNodeDefinitionImpl("repr2", true);
 
@@ -1579,7 +1577,7 @@ public final class FormDefinitionValidatorImplTest extends BaseFormModelTest {
             createValidator().validateOtherNodeDefinition(parentNodeDefinition, new OtherNodeDefinitionImpl("repr", false), new NodePath(parentNodeDefinition));
             Assertions.fail("FormDefinitionValidatorImpl test fail");
         } catch (FormDefinitionValidationException ex) {
-            Assertions.assertThat(ex).hasMessage("[Not valid!], parent/repr");
+            Assertions.assertThat(ex).hasMessage("[Not valid!], element[@id]/repr");
         }
 
         try {
@@ -1589,7 +1587,7 @@ public final class FormDefinitionValidatorImplTest extends BaseFormModelTest {
             createValidator().validateOtherNodeDefinition(parentNodeDefinition, validDefinition, new NodePath(parentNodeDefinition));
             Assertions.fail("FormDefinitionValidatorImpl test fail");
         } catch (FormDefinitionValidationException ex) {
-            Assertions.assertThat(ex).hasMessage("[Not valid!], parent/repr/invalid");
+            Assertions.assertThat(ex).hasMessage("[Not valid!], element[@id]/repr/invalid");
         }
     }
 
