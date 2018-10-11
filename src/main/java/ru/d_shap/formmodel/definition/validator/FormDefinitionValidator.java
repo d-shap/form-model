@@ -20,7 +20,9 @@
 package ru.d_shap.formmodel.definition.validator;
 
 import ru.d_shap.formmodel.definition.model.AttributeDefinition;
+import ru.d_shap.formmodel.definition.model.CardinalityDefinition;
 import ru.d_shap.formmodel.definition.model.ElementDefinition;
+import ru.d_shap.formmodel.definition.model.FormDefinitionKey;
 import ru.d_shap.formmodel.definition.model.FormReferenceDefinition;
 import ru.d_shap.formmodel.definition.model.NodeDefinition;
 import ru.d_shap.formmodel.definition.model.NodePath;
@@ -60,6 +62,55 @@ public interface FormDefinitionValidator {
      * @return true if the string has only valid characters.
      */
     boolean isStringHasValidCharacters(String str);
+
+    /**
+     * Validate the node's source.
+     *
+     * @param source   the node's source.
+     * @param nodePath the current node path.
+     */
+    void validateSource(String source, NodePath nodePath);
+
+    /**
+     * Validate the node's group.
+     *
+     * @param group    the node's group.
+     * @param nodePath the current node path.
+     */
+    void validateGroup(String group, NodePath nodePath);
+
+    /**
+     * Validate the node's ID.
+     *
+     * @param id       the node's ID.
+     * @param nodePath the current node path.
+     */
+    void validateId(String id, NodePath nodePath);
+
+    /**
+     * Validate the node's lookup.
+     *
+     * @param lookup   the node's lookup string.
+     * @param nodePath the current node path.
+     */
+    void validateLookup(String lookup, NodePath nodePath);
+
+    /**
+     * Validate the node's cardinality.
+     *
+     * @param cardinalityDefinition       the node's cardinality.
+     * @param validCardinalityDefinitions the node's valid cardinalities.
+     * @param nodePath                    the current node path.
+     */
+    void validateCardinalityDefinition(CardinalityDefinition cardinalityDefinition, CardinalityDefinition[] validCardinalityDefinitions, NodePath nodePath);
+
+    /**
+     * Validate the node's form definition key.
+     *
+     * @param formDefinitionKey the node's form definition key.
+     * @param nodePath          the current node path.
+     */
+    void validateFormDefinitionKey(FormDefinitionKey formDefinitionKey, NodePath nodePath);
 
     /**
      * Validate the attribute definition.
