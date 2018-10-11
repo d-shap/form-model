@@ -33,6 +33,8 @@ import ru.d_shap.formmodel.definition.model.OtherNodeDefinitionImpl;
  */
 public final class OtherNodeDefinitionValidatorImpl implements OtherNodeDefinitionValidator {
 
+    private static final CardinalityDefinition[] CARDINALITY_DEFINITIONS = new CardinalityDefinition[]{CardinalityDefinition.OPTIONAL_MULTIPLE, CardinalityDefinition.PROHIBITED};
+
     /**
      * Create new object.
      */
@@ -68,7 +70,7 @@ public final class OtherNodeDefinitionValidatorImpl implements OtherNodeDefiniti
     @Override
     public CardinalityDefinition[] getAttributeDefinitionCardinalities(final OtherNodeDefinition parentOtherNodeDefinition) {
         if (parentOtherNodeDefinition instanceof OtherNodeDefinitionImpl) {
-            return new CardinalityDefinition[]{CardinalityDefinition.OPTIONAL_MULTIPLE, CardinalityDefinition.PROHIBITED};
+            return CARDINALITY_DEFINITIONS;
         } else {
             return null;
         }
@@ -77,7 +79,7 @@ public final class OtherNodeDefinitionValidatorImpl implements OtherNodeDefiniti
     @Override
     public CardinalityDefinition[] getElementDefinitionCardinalities(final OtherNodeDefinition parentOtherNodeDefinition) {
         if (parentOtherNodeDefinition instanceof OtherNodeDefinitionImpl) {
-            return new CardinalityDefinition[]{CardinalityDefinition.OPTIONAL_MULTIPLE, CardinalityDefinition.PROHIBITED};
+            return CARDINALITY_DEFINITIONS;
         } else {
             return null;
         }
@@ -86,7 +88,7 @@ public final class OtherNodeDefinitionValidatorImpl implements OtherNodeDefiniti
     @Override
     public CardinalityDefinition[] getSingleElementDefinitionCardinalities(final OtherNodeDefinition parentOtherNodeDefinition) {
         if (parentOtherNodeDefinition instanceof OtherNodeDefinitionImpl) {
-            return new CardinalityDefinition[]{CardinalityDefinition.OPTIONAL_MULTIPLE, CardinalityDefinition.PROHIBITED};
+            return CARDINALITY_DEFINITIONS;
         } else {
             return null;
         }
