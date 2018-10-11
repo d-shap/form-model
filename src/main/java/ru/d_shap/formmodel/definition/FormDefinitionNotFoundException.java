@@ -22,7 +22,7 @@ package ru.d_shap.formmodel.definition;
 import ru.d_shap.formmodel.definition.model.FormDefinitionKey;
 
 /**
- * Exception is thrown when the form definition is not found.
+ * Exception is thrown when the form definition was not found.
  *
  * @author Dmitry Shapovalov
  */
