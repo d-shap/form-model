@@ -19,6 +19,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.formmodel.definition.validator;
 
+import ru.d_shap.formmodel.definition.model.CardinalityDefinition;
 import ru.d_shap.formmodel.definition.model.NodeDefinition;
 import ru.d_shap.formmodel.definition.model.NodePath;
 import ru.d_shap.formmodel.definition.model.OtherNodeDefinition;
@@ -39,5 +40,32 @@ public interface OtherNodeDefinitionValidator {
      * @param nodePath                the current node path.
      */
     void validate(NodeDefinition parentNodeDefinition, OtherNodeDefinition otherNodeDefinition, FormDefinitionValidator formDefinitionValidator, NodePath nodePath);
+
+    /**
+     * Get the valid cardinality definitions for the child attribute definition.
+     *
+     * @param parentOtherNodeDefinition the parent other node definition.
+     *
+     * @return the valid cardinality definitions for the child attribute definition.
+     */
+    CardinalityDefinition[] getAttributeDefinitionCardinalities(OtherNodeDefinition parentOtherNodeDefinition);
+
+    /**
+     * Get the valid cardinality definitions for the child element definition.
+     *
+     * @param parentOtherNodeDefinition the parent other node definition.
+     *
+     * @return the valid cardinality definitions for the child element definition.
+     */
+    CardinalityDefinition[] getElementDefinitionCardinalities(OtherNodeDefinition parentOtherNodeDefinition);
+
+    /**
+     * Get the valid cardinality definitions for the child single element definition.
+     *
+     * @param parentOtherNodeDefinition the parent other node definition.
+     *
+     * @return the valid cardinality definitions for the child single element definition.
+     */
+    CardinalityDefinition[] getSingleElementDefinitionCardinalities(OtherNodeDefinition parentOtherNodeDefinition);
 
 }
