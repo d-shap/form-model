@@ -84,9 +84,18 @@ final class FormDefinitionValidatorImpl implements FormDefinitionValidator {
     }
 
     @Override
-    public void validateId(final String id, final NodePath nodePath) {
-        if (!isEmptyString(id) && !isStringHasValidCharacters(id)) {
-            throw new FormDefinitionValidationException(Messages.Validation.getIdIsNotValidMessage(id), nodePath);
+    public void validateId(final String id, final boolean emptyIsValid, final NodePath nodePath) {
+        if (emptyIsValid) {
+            if (!isEmptyString(id) && !isStringHasValidCharacters(id)) {
+                throw new FormDefinitionValidationException(Messages.Validation.getIdIsNotValidMessage(id), nodePath);
+            }
+        } else {
+            if (isEmptyString(id)) {
+                throw new FormDefinitionValidationException(Messages.Validation.getIdIsEmptyMessage(), nodePath);
+            }
+            if (!isStringHasValidCharacters(id)) {
+                throw new FormDefinitionValidationException(Messages.Validation.getIdIsNotValidMessage(id), nodePath);
+            }
         }
     }
 
@@ -126,7 +135,7 @@ final class FormDefinitionValidatorImpl implements FormDefinitionValidator {
 
         validateSource(formDefinition.getSource(), currentNodePath);
         validateGroup(formDefinition.getGroup(), currentNodePath);
-        validateId(formDefinition.getId(), currentNodePath);
+        validateId(formDefinition.getId(), false, currentNodePath);
 
         for (ElementDefinition childElementDefinition : formDefinition.getElementDefinitions()) {
             validateElementDefinition(formDefinition, childElementDefinition, currentNodePath);
@@ -146,7 +155,7 @@ final class FormDefinitionValidatorImpl implements FormDefinitionValidator {
     public void validateAttributeDefinition(final NodeDefinition parentNodeDefinition, final AttributeDefinition attributeDefinition, final NodePath nodePath) {
         NodePath currentNodePath = new NodePath(nodePath, attributeDefinition);
 
-        validateId(attributeDefinition.getId(), currentNodePath);
+        validateId(attributeDefinition.getId(), true, currentNodePath);
         validateLookup(attributeDefinition.getLookup(), currentNodePath);
         CardinalityDefinition[] validCardinalityDefinitions = getAttributeDefinitionCardinalities(parentNodeDefinition);
         validateCardinalityDefinition(attributeDefinition.getCardinalityDefinition(), validCardinalityDefinitions, currentNodePath);
@@ -173,7 +182,7 @@ final class FormDefinitionValidatorImpl implements FormDefinitionValidator {
     public void validateElementDefinition(final NodeDefinition parentNodeDefinition, final ElementDefinition elementDefinition, final NodePath nodePath) {
         NodePath currentNodePath = new NodePath(nodePath, elementDefinition);
 
-        validateId(elementDefinition.getId(), currentNodePath);
+        validateId(elementDefinition.getId(), true, currentNodePath);
         validateLookup(elementDefinition.getLookup(), currentNodePath);
         CardinalityDefinition[] validCardinalityDefinitions = getElementDefinitionCardinalities(parentNodeDefinition);
         validateCardinalityDefinition(elementDefinition.getCardinalityDefinition(), validCardinalityDefinitions, currentNodePath);
@@ -216,7 +225,7 @@ final class FormDefinitionValidatorImpl implements FormDefinitionValidator {
     public void validateSingleElementDefinition(final NodeDefinition parentNodeDefinition, final SingleElementDefinition singleElementDefinition, final NodePath nodePath) {
         NodePath currentNodePath = new NodePath(nodePath, singleElementDefinition);
 
-        validateId(singleElementDefinition.getId(), currentNodePath);
+        validateId(singleElementDefinition.getId(), true, currentNodePath);
         CardinalityDefinition[] validCardinalityDefinitions = getSingleElementDefinitionCardinalities(parentNodeDefinition);
         validateCardinalityDefinition(singleElementDefinition.getCardinalityDefinition(), validCardinalityDefinitions, currentNodePath);
 
@@ -253,7 +262,7 @@ final class FormDefinitionValidatorImpl implements FormDefinitionValidator {
         NodePath currentNodePath = new NodePath(nodePath, formReferenceDefinition);
 
         validateGroup(formReferenceDefinition.getGroup(), currentNodePath);
-        validateId(formReferenceDefinition.getId(), currentNodePath);
+        validateId(formReferenceDefinition.getId(), false, currentNodePath);
         FormDefinitionKey formDefinitionKey = new FormDefinitionKey(formReferenceDefinition);
         validateFormDefinitionKey(formDefinitionKey, currentNodePath);
 
