@@ -96,7 +96,7 @@ public final class OtherNodeXmlDefinitionBuilderImpl implements OtherNodeXmlDefi
     }
 
     @Override
-    public CardinalityDefinition getElementDefinitionDefaultCardinality(final Element parentElement) {
+    public CardinalityDefinition getAttributeDefinitionCardinality(final Element parentElement) {
         if (NAMESPACE.equals(parentElement.getNamespaceURI()) && LOCAL_NAME.equals(parentElement.getLocalName())) {
             return CardinalityDefinition.PROHIBITED;
         } else {
@@ -105,7 +105,16 @@ public final class OtherNodeXmlDefinitionBuilderImpl implements OtherNodeXmlDefi
     }
 
     @Override
-    public CardinalityDefinition getSingleElementDefinitionDefaultCardinality(final Element parentElement) {
+    public CardinalityDefinition getElementDefinitionCardinality(final Element parentElement) {
+        if (NAMESPACE.equals(parentElement.getNamespaceURI()) && LOCAL_NAME.equals(parentElement.getLocalName())) {
+            return CardinalityDefinition.PROHIBITED;
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public CardinalityDefinition getSingleElementDefinitionCardinality(final Element parentElement) {
         if (NAMESPACE.equals(parentElement.getNamespaceURI()) && LOCAL_NAME.equals(parentElement.getLocalName())) {
             return CardinalityDefinition.PROHIBITED;
         } else {
