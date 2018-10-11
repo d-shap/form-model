@@ -330,7 +330,7 @@ public final class Messages {
     }
 
     /**
-     * Helper class to create form binding exception messages.
+     * Helper class to create form binding messages.
      *
      * @author Dmitry Shapovalov
      */
