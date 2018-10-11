@@ -156,7 +156,7 @@ public final class Messages {
     }
 
     /**
-     * Helper class to create form validation exception messages.
+     * Helper class to create form definition validation messages.
      *
      * @author Dmitry Shapovalov
      */
@@ -244,7 +244,7 @@ public final class Messages {
         }
 
         /**
-         * Get the error message when the form is not unique.
+         * Get the error message when the form definition is not unique.
          *
          * @param formDefinitionKey the invalid form definition key.
          * @param source1           the source of the first form definition.
@@ -252,8 +252,17 @@ public final class Messages {
          *
          * @return the error message.
          */
-        public static String getFormIsNotUniqueMessage(final FormDefinitionKey formDefinitionKey, final String source1, final String source2) {
-            return "[Form is not unique: " + formDefinitionKey + ", (" + source1 + "), (" + source2 + ")]";
+        public static String getFormDefinitionIsNotUniqueMessage(final FormDefinitionKey formDefinitionKey, final String source1, final String source2) {
+            return "[Form definition is not unique: " + formDefinitionKey + ", (" + source1 + "), (" + source2 + ")]";
+        }
+
+        /**
+         * Get the error message when the source is empty.
+         *
+         * @return the error message.
+         */
+        public static String getSourceIsEmptyMessage() {
+            return "[Source is empty]";
         }
 
         /**
@@ -268,26 +277,6 @@ public final class Messages {
         }
 
         /**
-         * Get the error message when the ID is not empty.
-         *
-         * @param id the invalid ID.
-         *
-         * @return the error message.
-         */
-        public static String getIdIsNotEmptyMessage(final String id) {
-            return "[ID is not empty: " + id + "]";
-        }
-
-        /**
-         * Get the error message when the ID is empty.
-         *
-         * @return the error message.
-         */
-        public static String getIdIsEmptyMessage() {
-            return "[ID is empty]";
-        }
-
-        /**
          * Get the error message when the ID is not valid.
          *
          * @param id the invalid ID.
@@ -296,17 +285,6 @@ public final class Messages {
          */
         public static String getIdIsNotValidMessage(final String id) {
             return "[ID is not valid: " + id + "]";
-        }
-
-        /**
-         * Get the error message when the ID is not unique.
-         *
-         * @param id the invalid ID.
-         *
-         * @return the error message.
-         */
-        public static String getIdIsNotUniqueMessage(final String id) {
-            return "[ID is not unique: " + id + "]";
         }
 
         /**
@@ -319,54 +297,34 @@ public final class Messages {
         }
 
         /**
-         * Get the error message when the cardinality is empty.
+         * Get the error message when the cardinality definition is empty.
          *
          * @return the error message.
          */
-        public static String getCardinalityIsEmptyMessage() {
-            return "[Cardinality is empty]";
+        public static String getCardinalityDefinitionIsEmptyMessage() {
+            return "[Cardinality definition is empty]";
         }
 
         /**
-         * Get the error message when the cardinality is not valid.
+         * Get the error message when the cardinality definition is not valid.
          *
-         * @param cardinality the invalid cardinality.
-         *
-         * @return the error message.
-         */
-        public static String getCardinalityIsNotValidMessage(final String cardinality) {
-            return "[Cardinality is not valid: " + cardinality + "]";
-        }
-
-        /**
-         * Get the error message when the source is empty.
+         * @param cardinality the invalid cardinality definition.
          *
          * @return the error message.
          */
-        public static String getSourceIsEmptyMessage() {
-            return "[Source is empty]";
+        public static String getCardinalityDefinitionIsNotValidMessage(final String cardinality) {
+            return "[Cardinality definition is not valid: " + cardinality + "]";
         }
 
         /**
-         * Get the error message when the form reference is not unique.
+         * Get the error message when the form definition key is not valid.
          *
          * @param formDefinitionKey the invalid form definition key.
          *
          * @return the error message.
          */
-        public static String getFormReferenceIsNotUniqueMessage(final FormDefinitionKey formDefinitionKey) {
-            return "[Form reference is not unique: " + formDefinitionKey + "]";
-        }
-
-        /**
-         * Get the error message when the form reference can not be resolved.
-         *
-         * @param formDefinitionKey the invalid form definition key.
-         *
-         * @return the error message.
-         */
-        public static String getUnresolvedFormReferenceMessage(final FormDefinitionKey formDefinitionKey) {
-            return "[Form reference can not be resolved: " + formDefinitionKey + "]";
+        public static String getFormDefinitionKeyIsNotValidMessage(final FormDefinitionKey formDefinitionKey) {
+            return "[Form definition key is not valid: " + formDefinitionKey + "]";
         }
 
     }
