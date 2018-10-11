@@ -44,6 +44,16 @@ import ru.d_shap.formmodel.definition.model.SingleElementDefinition;
  */
 final class FormDefinitionValidatorImpl implements FormDefinitionValidator {
 
+    private static final CardinalityDefinition[] ATTRIBUTE_DEFAULT_CARDINALITY = new CardinalityDefinition[]{CardinalityDefinition.REQUIRED, CardinalityDefinition.OPTIONAL, CardinalityDefinition.PROHIBITED};
+
+    private static final CardinalityDefinition[] ELEMENT_DEFAULT_CARDINALITY = CardinalityDefinition.values();
+
+    private static final CardinalityDefinition[] ELEMENT_SINGLE_ELEMENT_CARDINALITY = new CardinalityDefinition[]{CardinalityDefinition.OPTIONAL, CardinalityDefinition.OPTIONAL_MULTIPLE};
+
+    private static final CardinalityDefinition[] SINGLE_ELEMENT_DEFAULT_CARDINALITY = CardinalityDefinition.values();
+
+    private static final CardinalityDefinition[] SINGLE_ELEMENT_SINGLE_ELEMENT_CARDINALITY = new CardinalityDefinition[]{CardinalityDefinition.OPTIONAL, CardinalityDefinition.OPTIONAL_MULTIPLE};
+
     private final Set<FormDefinitionKey> _allFormDefinitionKeys;
 
     private final List<OtherNodeDefinitionValidator> _otherNodeDefinitionValidators;
@@ -175,7 +185,7 @@ final class FormDefinitionValidatorImpl implements FormDefinitionValidator {
                 }
             }
         }
-        return new CardinalityDefinition[]{CardinalityDefinition.REQUIRED, CardinalityDefinition.OPTIONAL, CardinalityDefinition.PROHIBITED};
+        return ATTRIBUTE_DEFAULT_CARDINALITY;
     }
 
     @Override
@@ -215,9 +225,9 @@ final class FormDefinitionValidatorImpl implements FormDefinitionValidator {
             }
         }
         if (parentNodeDefinition instanceof SingleElementDefinition) {
-            return new CardinalityDefinition[]{CardinalityDefinition.OPTIONAL, CardinalityDefinition.OPTIONAL_MULTIPLE};
+            return ELEMENT_SINGLE_ELEMENT_CARDINALITY;
         } else {
-            return CardinalityDefinition.values();
+            return ELEMENT_DEFAULT_CARDINALITY;
         }
     }
 
@@ -251,9 +261,9 @@ final class FormDefinitionValidatorImpl implements FormDefinitionValidator {
             }
         }
         if (parentNodeDefinition instanceof SingleElementDefinition) {
-            return new CardinalityDefinition[]{CardinalityDefinition.OPTIONAL, CardinalityDefinition.OPTIONAL_MULTIPLE};
+            return SINGLE_ELEMENT_SINGLE_ELEMENT_CARDINALITY;
         } else {
-            return CardinalityDefinition.values();
+            return SINGLE_ELEMENT_DEFAULT_CARDINALITY;
         }
     }
 
