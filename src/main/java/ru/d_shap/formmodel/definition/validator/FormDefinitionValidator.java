@@ -82,10 +82,11 @@ public interface FormDefinitionValidator {
     /**
      * Validate the node's ID.
      *
-     * @param id       the node's ID.
-     * @param nodePath the current node path.
+     * @param id           the node's ID.
+     * @param emptyIsValid true if empty ID is valid.
+     * @param nodePath     the current node path.
      */
-    void validateId(String id, NodePath nodePath);
+    void validateId(String id, boolean emptyIsValid, NodePath nodePath);
 
     /**
      * Validate the node's lookup.
