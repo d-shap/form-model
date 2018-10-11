@@ -245,21 +245,29 @@ public final class MessagesTest extends BaseFormModelTest {
      * {@link Messages} class test.
      */
     @Test
-    public void getFormIsNotUniqueMessageTest() {
-        Assertions.assertThat(Messages.Validation.getFormIsNotUniqueMessage(null, "source1", "source2")).isEqualTo("[Form is not unique: null, (source1), (source2)]");
-        Assertions.assertThat(Messages.Validation.getFormIsNotUniqueMessage(new FormDefinitionKey(null, "id"), "source1", "source2")).isEqualTo("[Form is not unique: @:id, (source1), (source2)]");
-        Assertions.assertThat(Messages.Validation.getFormIsNotUniqueMessage(new FormDefinitionKey("", "id"), "source1", "source2")).isEqualTo("[Form is not unique: @:id, (source1), (source2)]");
-        Assertions.assertThat(Messages.Validation.getFormIsNotUniqueMessage(new FormDefinitionKey(" ", "id"), "source1", "source2")).isEqualTo("[Form is not unique: @ :id, (source1), (source2)]");
-        Assertions.assertThat(Messages.Validation.getFormIsNotUniqueMessage(new FormDefinitionKey("group", null), "source1", "source2")).isEqualTo("[Form is not unique: @group:, (source1), (source2)]");
-        Assertions.assertThat(Messages.Validation.getFormIsNotUniqueMessage(new FormDefinitionKey("group", ""), "source1", "source2")).isEqualTo("[Form is not unique: @group:, (source1), (source2)]");
-        Assertions.assertThat(Messages.Validation.getFormIsNotUniqueMessage(new FormDefinitionKey("group", " "), "source1", "source2")).isEqualTo("[Form is not unique: @group: , (source1), (source2)]");
-        Assertions.assertThat(Messages.Validation.getFormIsNotUniqueMessage(new FormDefinitionKey("group", "id"), null, "source2")).isEqualTo("[Form is not unique: @group:id, (null), (source2)]");
-        Assertions.assertThat(Messages.Validation.getFormIsNotUniqueMessage(new FormDefinitionKey("group", "id"), "", "source2")).isEqualTo("[Form is not unique: @group:id, (), (source2)]");
-        Assertions.assertThat(Messages.Validation.getFormIsNotUniqueMessage(new FormDefinitionKey("group", "id"), " ", "source2")).isEqualTo("[Form is not unique: @group:id, ( ), (source2)]");
-        Assertions.assertThat(Messages.Validation.getFormIsNotUniqueMessage(new FormDefinitionKey("group", "id"), "source1", null)).isEqualTo("[Form is not unique: @group:id, (source1), (null)]");
-        Assertions.assertThat(Messages.Validation.getFormIsNotUniqueMessage(new FormDefinitionKey("group", "id"), "source1", "")).isEqualTo("[Form is not unique: @group:id, (source1), ()]");
-        Assertions.assertThat(Messages.Validation.getFormIsNotUniqueMessage(new FormDefinitionKey("group", "id"), "source1", " ")).isEqualTo("[Form is not unique: @group:id, (source1), ( )]");
-        Assertions.assertThat(Messages.Validation.getFormIsNotUniqueMessage(new FormDefinitionKey("group", "id"), "source1", "source2")).isEqualTo("[Form is not unique: @group:id, (source1), (source2)]");
+    public void getFormDefinitionIsNotUniqueMessageTest() {
+        Assertions.assertThat(Messages.Validation.getFormDefinitionIsNotUniqueMessage(null, "source1", "source2")).isEqualTo("[Form definition is not unique: null, (source1), (source2)]");
+        Assertions.assertThat(Messages.Validation.getFormDefinitionIsNotUniqueMessage(new FormDefinitionKey(null, "id"), "source1", "source2")).isEqualTo("[Form definition is not unique: @:id, (source1), (source2)]");
+        Assertions.assertThat(Messages.Validation.getFormDefinitionIsNotUniqueMessage(new FormDefinitionKey("", "id"), "source1", "source2")).isEqualTo("[Form definition is not unique: @:id, (source1), (source2)]");
+        Assertions.assertThat(Messages.Validation.getFormDefinitionIsNotUniqueMessage(new FormDefinitionKey(" ", "id"), "source1", "source2")).isEqualTo("[Form definition is not unique: @ :id, (source1), (source2)]");
+        Assertions.assertThat(Messages.Validation.getFormDefinitionIsNotUniqueMessage(new FormDefinitionKey("group", null), "source1", "source2")).isEqualTo("[Form definition is not unique: @group:, (source1), (source2)]");
+        Assertions.assertThat(Messages.Validation.getFormDefinitionIsNotUniqueMessage(new FormDefinitionKey("group", ""), "source1", "source2")).isEqualTo("[Form definition is not unique: @group:, (source1), (source2)]");
+        Assertions.assertThat(Messages.Validation.getFormDefinitionIsNotUniqueMessage(new FormDefinitionKey("group", " "), "source1", "source2")).isEqualTo("[Form definition is not unique: @group: , (source1), (source2)]");
+        Assertions.assertThat(Messages.Validation.getFormDefinitionIsNotUniqueMessage(new FormDefinitionKey("group", "id"), null, "source2")).isEqualTo("[Form definition is not unique: @group:id, (null), (source2)]");
+        Assertions.assertThat(Messages.Validation.getFormDefinitionIsNotUniqueMessage(new FormDefinitionKey("group", "id"), "", "source2")).isEqualTo("[Form definition is not unique: @group:id, (), (source2)]");
+        Assertions.assertThat(Messages.Validation.getFormDefinitionIsNotUniqueMessage(new FormDefinitionKey("group", "id"), " ", "source2")).isEqualTo("[Form definition is not unique: @group:id, ( ), (source2)]");
+        Assertions.assertThat(Messages.Validation.getFormDefinitionIsNotUniqueMessage(new FormDefinitionKey("group", "id"), "source1", null)).isEqualTo("[Form definition is not unique: @group:id, (source1), (null)]");
+        Assertions.assertThat(Messages.Validation.getFormDefinitionIsNotUniqueMessage(new FormDefinitionKey("group", "id"), "source1", "")).isEqualTo("[Form definition is not unique: @group:id, (source1), ()]");
+        Assertions.assertThat(Messages.Validation.getFormDefinitionIsNotUniqueMessage(new FormDefinitionKey("group", "id"), "source1", " ")).isEqualTo("[Form definition is not unique: @group:id, (source1), ( )]");
+        Assertions.assertThat(Messages.Validation.getFormDefinitionIsNotUniqueMessage(new FormDefinitionKey("group", "id"), "source1", "source2")).isEqualTo("[Form definition is not unique: @group:id, (source1), (source2)]");
+    }
+
+    /**
+     * {@link Messages} class test.
+     */
+    @Test
+    public void getSourceIsEmptyMessageTest() {
+        Assertions.assertThat(Messages.Validation.getSourceIsEmptyMessage()).isEqualTo("[Source is empty]");
     }
 
     /**
@@ -277,41 +285,11 @@ public final class MessagesTest extends BaseFormModelTest {
      * {@link Messages} class test.
      */
     @Test
-    public void getIdIsNotEmptyMessageTest() {
-        Assertions.assertThat(Messages.Validation.getIdIsNotEmptyMessage(null)).isEqualTo("[ID is not empty: null]");
-        Assertions.assertThat(Messages.Validation.getIdIsNotEmptyMessage("")).isEqualTo("[ID is not empty: ]");
-        Assertions.assertThat(Messages.Validation.getIdIsNotEmptyMessage(" ")).isEqualTo("[ID is not empty:  ]");
-        Assertions.assertThat(Messages.Validation.getIdIsNotEmptyMessage("id")).isEqualTo("[ID is not empty: id]");
-    }
-
-    /**
-     * {@link Messages} class test.
-     */
-    @Test
-    public void getIdIsEmptyMessageTest() {
-        Assertions.assertThat(Messages.Validation.getIdIsEmptyMessage()).isEqualTo("[ID is empty]");
-    }
-
-    /**
-     * {@link Messages} class test.
-     */
-    @Test
     public void getIdIsNotValidMessageTest() {
         Assertions.assertThat(Messages.Validation.getIdIsNotValidMessage(null)).isEqualTo("[ID is not valid: null]");
         Assertions.assertThat(Messages.Validation.getIdIsNotValidMessage("")).isEqualTo("[ID is not valid: ]");
         Assertions.assertThat(Messages.Validation.getIdIsNotValidMessage(" ")).isEqualTo("[ID is not valid:  ]");
         Assertions.assertThat(Messages.Validation.getIdIsNotValidMessage("id")).isEqualTo("[ID is not valid: id]");
-    }
-
-    /**
-     * {@link Messages} class test.
-     */
-    @Test
-    public void getIdIsNotUniqueMessageTest() {
-        Assertions.assertThat(Messages.Validation.getIdIsNotUniqueMessage(null)).isEqualTo("[ID is not unique: null]");
-        Assertions.assertThat(Messages.Validation.getIdIsNotUniqueMessage("")).isEqualTo("[ID is not unique: ]");
-        Assertions.assertThat(Messages.Validation.getIdIsNotUniqueMessage(" ")).isEqualTo("[ID is not unique:  ]");
-        Assertions.assertThat(Messages.Validation.getIdIsNotUniqueMessage("id")).isEqualTo("[ID is not unique: id]");
     }
 
     /**
@@ -326,57 +304,34 @@ public final class MessagesTest extends BaseFormModelTest {
      * {@link Messages} class test.
      */
     @Test
-    public void getCardinalityIsEmptyMessageTest() {
-        Assertions.assertThat(Messages.Validation.getCardinalityIsEmptyMessage()).isEqualTo("[Cardinality is empty]");
+    public void getCardinalityDefinitionIsEmptyMessageTest() {
+        Assertions.assertThat(Messages.Validation.getCardinalityDefinitionIsEmptyMessage()).isEqualTo("[Cardinality definition is empty]");
     }
 
     /**
      * {@link Messages} class test.
      */
     @Test
-    public void getCardinalityIsNotValidMessageTest() {
-        Assertions.assertThat(Messages.Validation.getCardinalityIsNotValidMessage(null)).isEqualTo("[Cardinality is not valid: null]");
-        Assertions.assertThat(Messages.Validation.getCardinalityIsNotValidMessage("")).isEqualTo("[Cardinality is not valid: ]");
-        Assertions.assertThat(Messages.Validation.getCardinalityIsNotValidMessage(" ")).isEqualTo("[Cardinality is not valid:  ]");
-        Assertions.assertThat(Messages.Validation.getCardinalityIsNotValidMessage("cardinality")).isEqualTo("[Cardinality is not valid: cardinality]");
+    public void getCardinalityDefinitionIsNotValidMessageTest() {
+        Assertions.assertThat(Messages.Validation.getCardinalityDefinitionIsNotValidMessage(null)).isEqualTo("[Cardinality definition is not valid: null]");
+        Assertions.assertThat(Messages.Validation.getCardinalityDefinitionIsNotValidMessage("")).isEqualTo("[Cardinality definition is not valid: ]");
+        Assertions.assertThat(Messages.Validation.getCardinalityDefinitionIsNotValidMessage(" ")).isEqualTo("[Cardinality definition is not valid:  ]");
+        Assertions.assertThat(Messages.Validation.getCardinalityDefinitionIsNotValidMessage("cardinality")).isEqualTo("[Cardinality definition is not valid: cardinality]");
     }
 
     /**
      * {@link Messages} class test.
      */
     @Test
-    public void getSourceIsEmptyMessageTest() {
-        Assertions.assertThat(Messages.Validation.getSourceIsEmptyMessage()).isEqualTo("[Source is empty]");
-    }
-
-    /**
-     * {@link Messages} class test.
-     */
-    @Test
-    public void getFormReferenceIsNotUniqueMessageTest() {
-        Assertions.assertThat(Messages.Validation.getFormReferenceIsNotUniqueMessage(null)).isEqualTo("[Form reference is not unique: null]");
-        Assertions.assertThat(Messages.Validation.getFormReferenceIsNotUniqueMessage(new FormDefinitionKey(null, "id"))).isEqualTo("[Form reference is not unique: @:id]");
-        Assertions.assertThat(Messages.Validation.getFormReferenceIsNotUniqueMessage(new FormDefinitionKey("", "id"))).isEqualTo("[Form reference is not unique: @:id]");
-        Assertions.assertThat(Messages.Validation.getFormReferenceIsNotUniqueMessage(new FormDefinitionKey(" ", "id"))).isEqualTo("[Form reference is not unique: @ :id]");
-        Assertions.assertThat(Messages.Validation.getFormReferenceIsNotUniqueMessage(new FormDefinitionKey("group", null))).isEqualTo("[Form reference is not unique: @group:]");
-        Assertions.assertThat(Messages.Validation.getFormReferenceIsNotUniqueMessage(new FormDefinitionKey("group", ""))).isEqualTo("[Form reference is not unique: @group:]");
-        Assertions.assertThat(Messages.Validation.getFormReferenceIsNotUniqueMessage(new FormDefinitionKey("group", " "))).isEqualTo("[Form reference is not unique: @group: ]");
-        Assertions.assertThat(Messages.Validation.getFormReferenceIsNotUniqueMessage(new FormDefinitionKey("group", "id"))).isEqualTo("[Form reference is not unique: @group:id]");
-    }
-
-    /**
-     * {@link Messages} class test.
-     */
-    @Test
-    public void getUnresolvedFormReferenceMessageTest() {
-        Assertions.assertThat(Messages.Validation.getUnresolvedFormReferenceMessage(null)).isEqualTo("[Form reference can not be resolved: null]");
-        Assertions.assertThat(Messages.Validation.getUnresolvedFormReferenceMessage(new FormDefinitionKey(null, "id"))).isEqualTo("[Form reference can not be resolved: @:id]");
-        Assertions.assertThat(Messages.Validation.getUnresolvedFormReferenceMessage(new FormDefinitionKey("", "id"))).isEqualTo("[Form reference can not be resolved: @:id]");
-        Assertions.assertThat(Messages.Validation.getUnresolvedFormReferenceMessage(new FormDefinitionKey(" ", "id"))).isEqualTo("[Form reference can not be resolved: @ :id]");
-        Assertions.assertThat(Messages.Validation.getUnresolvedFormReferenceMessage(new FormDefinitionKey("group", null))).isEqualTo("[Form reference can not be resolved: @group:]");
-        Assertions.assertThat(Messages.Validation.getUnresolvedFormReferenceMessage(new FormDefinitionKey("group", ""))).isEqualTo("[Form reference can not be resolved: @group:]");
-        Assertions.assertThat(Messages.Validation.getUnresolvedFormReferenceMessage(new FormDefinitionKey("group", " "))).isEqualTo("[Form reference can not be resolved: @group: ]");
-        Assertions.assertThat(Messages.Validation.getUnresolvedFormReferenceMessage(new FormDefinitionKey("group", "id"))).isEqualTo("[Form reference can not be resolved: @group:id]");
+    public void getFormDefinitionKeyIsNotValidMessageTest() {
+        Assertions.assertThat(Messages.Validation.getFormDefinitionKeyIsNotValidMessage(null)).isEqualTo("[Form definition key is not valid: null]");
+        Assertions.assertThat(Messages.Validation.getFormDefinitionKeyIsNotValidMessage(new FormDefinitionKey(null, "id"))).isEqualTo("[Form definition key is not valid: @:id]");
+        Assertions.assertThat(Messages.Validation.getFormDefinitionKeyIsNotValidMessage(new FormDefinitionKey("", "id"))).isEqualTo("[Form definition key is not valid: @:id]");
+        Assertions.assertThat(Messages.Validation.getFormDefinitionKeyIsNotValidMessage(new FormDefinitionKey(" ", "id"))).isEqualTo("[Form definition key is not valid: @ :id]");
+        Assertions.assertThat(Messages.Validation.getFormDefinitionKeyIsNotValidMessage(new FormDefinitionKey("group", null))).isEqualTo("[Form definition key is not valid: @group:]");
+        Assertions.assertThat(Messages.Validation.getFormDefinitionKeyIsNotValidMessage(new FormDefinitionKey("group", ""))).isEqualTo("[Form definition key is not valid: @group:]");
+        Assertions.assertThat(Messages.Validation.getFormDefinitionKeyIsNotValidMessage(new FormDefinitionKey("group", " "))).isEqualTo("[Form definition key is not valid: @group: ]");
+        Assertions.assertThat(Messages.Validation.getFormDefinitionKeyIsNotValidMessage(new FormDefinitionKey("group", "id"))).isEqualTo("[Form definition key is not valid: @group:id]");
     }
 
     /**
