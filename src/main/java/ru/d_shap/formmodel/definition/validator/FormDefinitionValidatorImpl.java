@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Set;
 
 import ru.d_shap.formmodel.Messages;
+import ru.d_shap.formmodel.StringUtils;
 import ru.d_shap.formmodel.definition.FormDefinitionValidationException;
 import ru.d_shap.formmodel.definition.model.AttributeDefinition;
 import ru.d_shap.formmodel.definition.model.CardinalityDefinition;

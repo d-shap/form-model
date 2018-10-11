@@ -17,7 +17,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-package ru.d_shap.formmodel.definition.validator;
+package ru.d_shap.formmodel;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -27,7 +27,7 @@ import java.util.Set;
  *
  * @author Dmitry Shapovalov
  */
-final class StringUtils {
+public final class StringUtils {
 
     private static final Set<Character> VALID_START_CHARACTERS;
 
@@ -54,14 +54,28 @@ final class StringUtils {
         super();
     }
 
-    static boolean isEmpty(final String str) {
+    /**
+     * Check if the string is empty.
+     *
+     * @param str the string to check.
+     *
+     * @return true if the string is empty.
+     */
+    public static boolean isEmpty(final String str) {
         if (str == null) {
             return true;
         }
         return "".equals(str);
     }
 
-    static boolean isBlank(final String str) {
+    /**
+     * Check if the string is blank (empty or contains only whitespaces).
+     *
+     * @param str the string to check.
+     *
+     * @return true if the string is blank.
+     */
+    public static boolean isBlank(final String str) {
         if (isEmpty(str)) {
             return true;
         }
@@ -73,7 +87,14 @@ final class StringUtils {
         return true;
     }
 
-    static boolean hasValidCharacters(final String str) {
+    /**
+     * Check if the string has only valid characters.
+     *
+     * @param str the string to check.
+     *
+     * @return true if the string has only valid characters.
+     */
+    public static boolean hasValidCharacters(final String str) {
         if (!VALID_START_CHARACTERS.contains(str.charAt(0))) {
             return false;
         }
