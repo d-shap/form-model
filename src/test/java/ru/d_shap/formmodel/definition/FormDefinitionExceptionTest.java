@@ -19,8 +19,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.formmodel.definition;
 
-import java.io.IOException;
-
 import org.junit.Test;
 
 import ru.d_shap.assertions.Assertions;
@@ -45,34 +43,10 @@ public final class FormDefinitionExceptionTest extends BaseFormModelTest {
      */
     @Test
     public void errorMessageTest() {
-        Assertions.assertThat(new FormDefinitionException((String) null)).toMessage().isNull();
+        Assertions.assertThat(new FormDefinitionException(null)).toMessage().isNull();
         Assertions.assertThat(new FormDefinitionException("")).hasMessage("");
         Assertions.assertThat(new FormDefinitionException(" ")).hasMessage(" ");
         Assertions.assertThat(new FormDefinitionException("error")).hasMessage("error");
-
-        Assertions.assertThat(new FormDefinitionException(null, null)).toMessage().isNull();
-        Assertions.assertThat(new FormDefinitionException("", null)).hasMessage("");
-        Assertions.assertThat(new FormDefinitionException(" ", null)).hasMessage(" ");
-        Assertions.assertThat(new FormDefinitionException("error", null)).hasMessage("error");
-        Assertions.assertThat(new FormDefinitionException("error", new IOException("io error"))).hasMessage("error");
-
-        Assertions.assertThat(new FormDefinitionException(null, new IOException())).toMessage().isNull();
-        Assertions.assertThat(new FormDefinitionException("", new IOException())).hasMessage("");
-        Assertions.assertThat(new FormDefinitionException(" ", new IOException())).hasMessage(" ");
-        Assertions.assertThat(new FormDefinitionException("error", new IOException())).hasMessage("error");
-        Assertions.assertThat(new FormDefinitionException("error", new IOException())).hasMessage("error");
-
-        Assertions.assertThat(new FormDefinitionException(null, new IOException("io error"))).toMessage().isNull();
-        Assertions.assertThat(new FormDefinitionException("", new IOException("io error"))).hasMessage("");
-        Assertions.assertThat(new FormDefinitionException(" ", new IOException("io error"))).hasMessage(" ");
-        Assertions.assertThat(new FormDefinitionException("error", new IOException("io error"))).hasMessage("error");
-        Assertions.assertThat(new FormDefinitionException("error", new IOException("io error"))).hasMessage("error");
-
-        Assertions.assertThat(new FormDefinitionException((Throwable) null)).toMessage().isNull();
-        Assertions.assertThat(new FormDefinitionException(new IOException())).toMessage().isNull();
-        Assertions.assertThat(new FormDefinitionException(new IOException(""))).hasMessage("");
-        Assertions.assertThat(new FormDefinitionException(new IOException(" "))).hasMessage(" ");
-        Assertions.assertThat(new FormDefinitionException(new IOException("io error"))).hasMessage("io error");
     }
 
     /**
@@ -83,30 +57,6 @@ public final class FormDefinitionExceptionTest extends BaseFormModelTest {
         Assertions.assertThat(new FormDefinitionException("")).toCause().isNull();
         Assertions.assertThat(new FormDefinitionException(" ")).toCause().isNull();
         Assertions.assertThat(new FormDefinitionException("error")).toCause().isNull();
-
-        Assertions.assertThat(new FormDefinitionException("", null)).toCause().isNull();
-        Assertions.assertThat(new FormDefinitionException(" ", null)).toCause().isNull();
-        Assertions.assertThat(new FormDefinitionException("error", null)).toCause().isNull();
-
-        Assertions.assertThat(new FormDefinitionException("", new IOException())).hasCause(IOException.class);
-        Assertions.assertThat(new FormDefinitionException("", new IOException())).toCause().toMessage().isNull();
-        Assertions.assertThat(new FormDefinitionException(" ", new IOException())).hasCause(IOException.class);
-        Assertions.assertThat(new FormDefinitionException(" ", new IOException())).toCause().toMessage().isNull();
-        Assertions.assertThat(new FormDefinitionException("error", new IOException())).hasCause(IOException.class);
-        Assertions.assertThat(new FormDefinitionException("error", new IOException())).toCause().toMessage().isNull();
-
-        Assertions.assertThat(new FormDefinitionException("", new IOException("io error"))).hasCause(IOException.class);
-        Assertions.assertThat(new FormDefinitionException("", new IOException("io error"))).hasCauseMessage("io error");
-        Assertions.assertThat(new FormDefinitionException(" ", new IOException("io error"))).hasCause(IOException.class);
-        Assertions.assertThat(new FormDefinitionException(" ", new IOException("io error"))).hasCauseMessage("io error");
-        Assertions.assertThat(new FormDefinitionException("error", new IOException("io error"))).hasCause(IOException.class);
-        Assertions.assertThat(new FormDefinitionException("error", new IOException("io error"))).hasCauseMessage("io error");
-
-        Assertions.assertThat(new FormDefinitionException((Throwable) null)).toCause().isNull();
-        Assertions.assertThat(new FormDefinitionException(new IOException())).hasCause(IOException.class);
-        Assertions.assertThat(new FormDefinitionException(new IOException())).toCause().toMessage().isNull();
-        Assertions.assertThat(new FormDefinitionException(new IOException("io error"))).hasCause(IOException.class);
-        Assertions.assertThat(new FormDefinitionException(new IOException("io error"))).hasCauseMessage("io error");
     }
 
 }
