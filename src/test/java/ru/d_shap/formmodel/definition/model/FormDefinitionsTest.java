@@ -59,7 +59,7 @@ public final class FormDefinitionsTest extends BaseFormModelTest {
             formDefinitions.addFormDefinitions(Arrays.asList(formDefinition3, formDefinition4));
             Assertions.fail("FormDefinitions test fail");
         } catch (FormDefinitionValidationException ex) {
-            Assertions.assertThat(ex).hasMessage("[Form is not unique: @group:id1, (source1), (source1)]");
+            Assertions.assertThat(ex).hasMessage("[Form definition is not unique: @group:id1, (source1), (source1)]");
         }
     }
 
