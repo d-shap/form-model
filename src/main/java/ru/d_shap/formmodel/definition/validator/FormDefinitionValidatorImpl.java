@@ -69,31 +69,74 @@ final class FormDefinitionValidatorImpl implements FormDefinitionValidator {
         return StringUtils.hasValidCharacters(str);
     }
 
+    @Override
+    public void validateSource(final String source, final NodePath nodePath) {
+        if (isBlankString(source)) {
+            throw new FormDefinitionValidationException(Messages.Validation.getSourceIsEmptyMessage(), nodePath);
+        }
+    }
+
+    @Override
+    public void validateGroup(final String group, final NodePath nodePath) {
+        if (!isEmptyString(group) && !isStringHasValidCharacters(group)) {
+            throw new FormDefinitionValidationException(Messages.Validation.getGroupIsNotValidMessage(group), nodePath);
+        }
+    }
+
+    @Override
+    public void validateId(final String id, final NodePath nodePath) {
+        if (!isEmptyString(id) && !isStringHasValidCharacters(id)) {
+            throw new FormDefinitionValidationException(Messages.Validation.getIdIsNotValidMessage(id), nodePath);
+        }
+    }
+
+    @Override
+    public void validateLookup(final String lookup, final NodePath nodePath) {
+        if (isBlankString(lookup)) {
+            throw new FormDefinitionValidationException(Messages.Validation.getLookupIsEmptyMessage(), nodePath);
+        }
+    }
+
+    @Override
+    public void validateCardinalityDefinition(final CardinalityDefinition cardinalityDefinition, final CardinalityDefinition[] validCardinalityDefinitions, final NodePath nodePath) {
+        if (cardinalityDefinition == null) {
+            throw new FormDefinitionValidationException(Messages.Validation.getCardinalityDefinitionIsEmptyMessage(), nodePath);
+        }
+        boolean isCardinalityDefinitionValid = false;
+        for (CardinalityDefinition validCardinalityDefinition : validCardinalityDefinitions) {
+            if (cardinalityDefinition == validCardinalityDefinition) {
+                isCardinalityDefinitionValid = true;
+                break;
+            }
+        }
+        if (!isCardinalityDefinitionValid) {
+            throw new FormDefinitionValidationException(Messages.Validation.getCardinalityDefinitionIsNotValidMessage(cardinalityDefinition.getCardinality()), nodePath);
+        }
+    }
+
+    @Override
+    public void validateFormDefinitionKey(final FormDefinitionKey formDefinitionKey, final NodePath nodePath) {
+        if (!_allFormDefinitionKeys.contains(formDefinitionKey)) {
+            throw new FormDefinitionValidationException(Messages.Validation.getFormDefinitionKeyIsNotValidMessage(formDefinitionKey), nodePath);
+        }
+    }
+
     void validateFormDefinition(final FormDefinition formDefinition) {
         NodePath currentNodePath = new NodePath(formDefinition);
 
+        validateSource(formDefinition.getSource(), currentNodePath);
         validateGroup(formDefinition.getGroup(), currentNodePath);
         validateId(formDefinition.getId(), currentNodePath);
-        validateSource(formDefinition.getSource(), currentNodePath);
 
-        List<String> childNodeIds = new ArrayList<>();
         for (ElementDefinition childElementDefinition : formDefinition.getElementDefinitions()) {
             validateElementDefinition(formDefinition, childElementDefinition, currentNodePath);
-            childNodeIds.add(childElementDefinition.getId());
         }
         for (SingleElementDefinition childSingleElementDefinition : formDefinition.getSingleElementDefinitions()) {
             validateSingleElementDefinition(formDefinition, childSingleElementDefinition, currentNodePath);
-            childNodeIds.add(childSingleElementDefinition.getId());
         }
-        validateUniqueNodeIds(childNodeIds, currentNodePath);
-
-        List<FormDefinitionKey> childFormReferences = new ArrayList<>();
         for (FormReferenceDefinition childFormReferenceDefinition : formDefinition.getFormReferenceDefinitions()) {
             validateFormReferenceDefinition(formDefinition, childFormReferenceDefinition, currentNodePath);
-            childFormReferences.add(new FormDefinitionKey(childFormReferenceDefinition));
         }
-        validateUniqueFormReferences(childFormReferences, currentNodePath);
-
         for (OtherNodeDefinition childOtherNodeDefinition : formDefinition.getOtherNodeDefinitions()) {
             validateOtherNodeDefinition(formDefinition, childOtherNodeDefinition, currentNodePath);
         }
@@ -105,56 +148,67 @@ final class FormDefinitionValidatorImpl implements FormDefinitionValidator {
 
         validateId(attributeDefinition.getId(), currentNodePath);
         validateLookup(attributeDefinition.getLookup(), currentNodePath);
-        validateCardinalityDefinition(attributeDefinition.getCardinalityDefinition(), currentNodePath, CardinalityDefinition.REQUIRED, CardinalityDefinition.OPTIONAL, CardinalityDefinition.PROHIBITED);
+        CardinalityDefinition[] validCardinalityDefinitions = getAttributeDefinitionCardinalities(parentNodeDefinition);
+        validateCardinalityDefinition(attributeDefinition.getCardinalityDefinition(), validCardinalityDefinitions, currentNodePath);
 
         for (OtherNodeDefinition childOtherNodeDefinition : attributeDefinition.getOtherNodeDefinitions()) {
             validateOtherNodeDefinition(attributeDefinition, childOtherNodeDefinition, currentNodePath);
         }
     }
 
+    private CardinalityDefinition[] getAttributeDefinitionCardinalities(final NodeDefinition parentNodeDefinition) {
+        CardinalityDefinition[] validCardinalityDefinitions;
+        if (parentNodeDefinition instanceof OtherNodeDefinition) {
+            for (OtherNodeDefinitionValidator otherNodeDefinitionValidator : _otherNodeDefinitionValidators) {
+                validCardinalityDefinitions = otherNodeDefinitionValidator.getAttributeDefinitionCardinalities((OtherNodeDefinition) parentNodeDefinition);
+                if (validCardinalityDefinitions != null) {
+                    return validCardinalityDefinitions;
+                }
+            }
+        }
+        return new CardinalityDefinition[]{CardinalityDefinition.REQUIRED, CardinalityDefinition.OPTIONAL, CardinalityDefinition.PROHIBITED};
+    }
+
     @Override
     public void validateElementDefinition(final NodeDefinition parentNodeDefinition, final ElementDefinition elementDefinition, final NodePath nodePath) {
         NodePath currentNodePath = new NodePath(nodePath, elementDefinition);
 
-        if (parentNodeDefinition instanceof SingleElementDefinition) {
-            validateEmptyId(elementDefinition.getId(), currentNodePath);
-        } else {
-            validateId(elementDefinition.getId(), currentNodePath);
-        }
+        validateId(elementDefinition.getId(), currentNodePath);
         validateLookup(elementDefinition.getLookup(), currentNodePath);
-        if (parentNodeDefinition instanceof SingleElementDefinition) {
-            validateCardinalityDefinition(elementDefinition.getCardinalityDefinition(), currentNodePath, CardinalityDefinition.OPTIONAL, CardinalityDefinition.OPTIONAL_MULTIPLE);
-        } else {
-            validateCardinalityDefinition(elementDefinition.getCardinalityDefinition(), currentNodePath, CardinalityDefinition.values());
-        }
+        CardinalityDefinition[] validCardinalityDefinitions = getElementDefinitionCardinalities(parentNodeDefinition);
+        validateCardinalityDefinition(elementDefinition.getCardinalityDefinition(), validCardinalityDefinitions, currentNodePath);
 
-        List<String> childAttributeIds = new ArrayList<>();
         for (AttributeDefinition childAttributeDefinition : elementDefinition.getAttributeDefinitions()) {
             validateAttributeDefinition(elementDefinition, childAttributeDefinition, currentNodePath);
-            childAttributeIds.add(childAttributeDefinition.getId());
         }
-        validateUniqueNodeIds(childAttributeIds, currentNodePath);
-
-        List<String> childNodeIds = new ArrayList<>();
         for (ElementDefinition childElementDefinition : elementDefinition.getElementDefinitions()) {
             validateElementDefinition(elementDefinition, childElementDefinition, currentNodePath);
-            childNodeIds.add(childElementDefinition.getId());
         }
         for (SingleElementDefinition childSingleElementDefinition : elementDefinition.getSingleElementDefinitions()) {
             validateSingleElementDefinition(elementDefinition, childSingleElementDefinition, currentNodePath);
-            childNodeIds.add(childSingleElementDefinition.getId());
         }
-        validateUniqueNodeIds(childNodeIds, currentNodePath);
-
-        List<FormDefinitionKey> childFormReferences = new ArrayList<>();
         for (FormReferenceDefinition childFormReferenceDefinition : elementDefinition.getFormReferenceDefinitions()) {
             validateFormReferenceDefinition(elementDefinition, childFormReferenceDefinition, currentNodePath);
-            childFormReferences.add(new FormDefinitionKey(childFormReferenceDefinition));
         }
-        validateUniqueFormReferences(childFormReferences, currentNodePath);
-
         for (OtherNodeDefinition childOtherNodeDefinition : elementDefinition.getOtherNodeDefinitions()) {
             validateOtherNodeDefinition(elementDefinition, childOtherNodeDefinition, currentNodePath);
+        }
+    }
+
+    private CardinalityDefinition[] getElementDefinitionCardinalities(final NodeDefinition parentNodeDefinition) {
+        CardinalityDefinition[] validCardinalityDefinitions;
+        if (parentNodeDefinition instanceof OtherNodeDefinition) {
+            for (OtherNodeDefinitionValidator otherNodeDefinitionValidator : _otherNodeDefinitionValidators) {
+                validCardinalityDefinitions = otherNodeDefinitionValidator.getElementDefinitionCardinalities((OtherNodeDefinition) parentNodeDefinition);
+                if (validCardinalityDefinitions != null) {
+                    return validCardinalityDefinitions;
+                }
+            }
+        }
+        if (parentNodeDefinition instanceof SingleElementDefinition) {
+            return new CardinalityDefinition[]{CardinalityDefinition.OPTIONAL, CardinalityDefinition.OPTIONAL_MULTIPLE};
+        } else {
+            return CardinalityDefinition.values();
         }
     }
 
@@ -162,16 +216,9 @@ final class FormDefinitionValidatorImpl implements FormDefinitionValidator {
     public void validateSingleElementDefinition(final NodeDefinition parentNodeDefinition, final SingleElementDefinition singleElementDefinition, final NodePath nodePath) {
         NodePath currentNodePath = new NodePath(nodePath, singleElementDefinition);
 
-        if (parentNodeDefinition instanceof SingleElementDefinition) {
-            validateEmptyId(singleElementDefinition.getId(), currentNodePath);
-        } else {
-            validateId(singleElementDefinition.getId(), currentNodePath);
-        }
-        if (parentNodeDefinition instanceof SingleElementDefinition) {
-            validateCardinalityDefinition(singleElementDefinition.getCardinalityDefinition(), currentNodePath, CardinalityDefinition.OPTIONAL);
-        } else {
-            validateCardinalityDefinition(singleElementDefinition.getCardinalityDefinition(), currentNodePath, CardinalityDefinition.REQUIRED, CardinalityDefinition.OPTIONAL, CardinalityDefinition.PROHIBITED);
-        }
+        validateId(singleElementDefinition.getId(), currentNodePath);
+        CardinalityDefinition[] validCardinalityDefinitions = getSingleElementDefinitionCardinalities(parentNodeDefinition);
+        validateCardinalityDefinition(singleElementDefinition.getCardinalityDefinition(), validCardinalityDefinitions, currentNodePath);
 
         for (ElementDefinition childElementDefinition : singleElementDefinition.getElementDefinitions()) {
             validateElementDefinition(singleElementDefinition, childElementDefinition, currentNodePath);
@@ -179,9 +226,25 @@ final class FormDefinitionValidatorImpl implements FormDefinitionValidator {
         for (SingleElementDefinition childSingleElementDefinition : singleElementDefinition.getSingleElementDefinitions()) {
             validateSingleElementDefinition(singleElementDefinition, childSingleElementDefinition, currentNodePath);
         }
-
         for (OtherNodeDefinition childOtherNodeDefinition : singleElementDefinition.getOtherNodeDefinitions()) {
             validateOtherNodeDefinition(singleElementDefinition, childOtherNodeDefinition, currentNodePath);
+        }
+    }
+
+    private CardinalityDefinition[] getSingleElementDefinitionCardinalities(final NodeDefinition parentNodeDefinition) {
+        CardinalityDefinition[] validCardinalityDefinitions;
+        if (parentNodeDefinition instanceof OtherNodeDefinition) {
+            for (OtherNodeDefinitionValidator otherNodeDefinitionValidator : _otherNodeDefinitionValidators) {
+                validCardinalityDefinitions = otherNodeDefinitionValidator.getSingleElementDefinitionCardinalities((OtherNodeDefinition) parentNodeDefinition);
+                if (validCardinalityDefinitions != null) {
+                    return validCardinalityDefinitions;
+                }
+            }
+        }
+        if (parentNodeDefinition instanceof SingleElementDefinition) {
+            return new CardinalityDefinition[]{CardinalityDefinition.OPTIONAL, CardinalityDefinition.OPTIONAL_MULTIPLE};
+        } else {
+            return CardinalityDefinition.values();
         }
     }
 
@@ -191,7 +254,7 @@ final class FormDefinitionValidatorImpl implements FormDefinitionValidator {
 
         validateGroup(formReferenceDefinition.getGroup(), currentNodePath);
         validateId(formReferenceDefinition.getId(), currentNodePath);
-        validateFormReference(formReferenceDefinition, currentNodePath);
+        validateFormDefinitionKey(new FormDefinitionKey(formReferenceDefinition), currentNodePath);
 
         for (OtherNodeDefinition childOtherNodeDefinition : formReferenceDefinition.getOtherNodeDefinitions()) {
             validateOtherNodeDefinition(formReferenceDefinition, childOtherNodeDefinition, currentNodePath);
@@ -202,80 +265,6 @@ final class FormDefinitionValidatorImpl implements FormDefinitionValidator {
     public void validateOtherNodeDefinition(final NodeDefinition parentNodeDefinition, final OtherNodeDefinition otherNodeDefinition, final NodePath nodePath) {
         for (OtherNodeDefinitionValidator otherNodeDefinitionValidator : _otherNodeDefinitionValidators) {
             otherNodeDefinitionValidator.validate(parentNodeDefinition, otherNodeDefinition, this, nodePath);
-        }
-    }
-
-    private void validateGroup(final String group, final NodePath nodePath) {
-        if (!isEmptyString(group) && !isStringHasValidCharacters(group)) {
-            throw new FormDefinitionValidationException(Messages.Validation.getGroupIsNotValidMessage(group), nodePath);
-        }
-    }
-
-    private void validateEmptyId(final String id, final NodePath nodePath) {
-        if (!isEmptyString(id)) {
-            throw new FormDefinitionValidationException(Messages.Validation.getIdIsNotEmptyMessage(id), nodePath);
-        }
-    }
-
-    private void validateId(final String id, final NodePath nodePath) {
-        if (isEmptyString(id)) {
-            throw new FormDefinitionValidationException(Messages.Validation.getIdIsEmptyMessage(), nodePath);
-        }
-        if (!isStringHasValidCharacters(id)) {
-            throw new FormDefinitionValidationException(Messages.Validation.getIdIsNotValidMessage(id), nodePath);
-        }
-    }
-
-    private void validateLookup(final String lookup, final NodePath nodePath) {
-        if (isBlankString(lookup)) {
-            throw new FormDefinitionValidationException(Messages.Validation.getLookupIsEmptyMessage(), nodePath);
-        }
-    }
-
-    private void validateCardinalityDefinition(final CardinalityDefinition cardinalityDefinition, final NodePath nodePath, final CardinalityDefinition... validCardinalityDefinitions) {
-        if (cardinalityDefinition == null) {
-            throw new FormDefinitionValidationException(Messages.Validation.getCardinalityIsEmptyMessage(), nodePath);
-        }
-        boolean isCardinalityDefinitionValid = false;
-        for (CardinalityDefinition validCardinalityDefinition : validCardinalityDefinitions) {
-            if (cardinalityDefinition == validCardinalityDefinition) {
-                isCardinalityDefinitionValid = true;
-                break;
-            }
-        }
-        if (!isCardinalityDefinitionValid) {
-            throw new FormDefinitionValidationException(Messages.Validation.getCardinalityIsNotValidMessage(cardinalityDefinition.getCardinality()), nodePath);
-        }
-    }
-
-    private void validateSource(final String source, final NodePath nodePath) {
-        if (isBlankString(source)) {
-            throw new FormDefinitionValidationException(Messages.Validation.getSourceIsEmptyMessage(), nodePath);
-        }
-    }
-
-    private void validateUniqueNodeIds(final List<String> nodeIds, final NodePath nodePath) {
-        Set<String> uniqueNodeIds = new HashSet<>();
-        for (String nodeId : nodeIds) {
-            if (!uniqueNodeIds.add(nodeId)) {
-                throw new FormDefinitionValidationException(Messages.Validation.getIdIsNotUniqueMessage(nodeId), nodePath);
-            }
-        }
-    }
-
-    private void validateUniqueFormReferences(final List<FormDefinitionKey> formReferences, final NodePath nodePath) {
-        Set<FormDefinitionKey> uniqueFormReferences = new HashSet<>();
-        for (FormDefinitionKey formReference : formReferences) {
-            if (!uniqueFormReferences.add(formReference)) {
-                throw new FormDefinitionValidationException(Messages.Validation.getFormReferenceIsNotUniqueMessage(formReference), nodePath);
-            }
-        }
-    }
-
-    private void validateFormReference(final FormReferenceDefinition formReferenceDefinition, final NodePath nodePath) {
-        FormDefinitionKey formDefinitionKey = new FormDefinitionKey(formReferenceDefinition);
-        if (!_allFormDefinitionKeys.contains(formDefinitionKey)) {
-            throw new FormDefinitionValidationException(Messages.Validation.getUnresolvedFormReferenceMessage(formDefinitionKey), nodePath);
         }
     }
 
