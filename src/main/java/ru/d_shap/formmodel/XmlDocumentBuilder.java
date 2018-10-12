@@ -106,7 +106,7 @@ public final class XmlDocumentBuilder {
         try {
             return _documentBuilder.parse(inputSource);
         } catch (IOException | SAXException ex) {
-            throw new InputSourceReadException(ex);
+            throw new InputSourceException(ex);
         }
     }
 

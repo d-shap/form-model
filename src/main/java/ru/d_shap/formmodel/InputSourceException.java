@@ -20,11 +20,11 @@
 package ru.d_shap.formmodel;
 
 /**
- * Exception is thrown when the input source can not be read.
+ * Exception is thrown when there is something wrong with the input source.
  *
  * @author Dmitry Shapovalov
  */
-public final class InputSourceReadException extends FormModelException {
+public final class InputSourceException extends FormModelException {
 
     private static final long serialVersionUID = 1L;
 
@@ -33,7 +33,7 @@ public final class InputSourceReadException extends FormModelException {
      *
      * @param throwable cause exception.
      */
-    public InputSourceReadException(final Throwable throwable) {
+    public InputSourceException(final Throwable throwable) {
         super(throwable);
     }
 

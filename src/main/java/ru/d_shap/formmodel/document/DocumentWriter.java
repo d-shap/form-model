@@ -32,7 +32,7 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Node;
 
-import ru.d_shap.formmodel.OutputResultWriteException;
+import ru.d_shap.formmodel.OutputResultException;
 
 /**
  * Document transformation helper class.
@@ -76,7 +76,7 @@ public final class DocumentWriter {
                 writer.close();
             }
         } catch (IOException | TransformerException ex) {
-            throw new OutputResultWriteException(ex);
+            throw new OutputResultException(ex);
         }
     }
 

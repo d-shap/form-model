@@ -27,7 +27,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import ru.d_shap.formmodel.InputSourceReadException;
+import ru.d_shap.formmodel.InputSourceException;
 import ru.d_shap.formmodel.XmlDocumentBuilderConfigurator;
 import ru.d_shap.formmodel.definition.model.FormDefinition;
 
@@ -158,7 +158,7 @@ public final class FormXmlDefinitionsFileLoader extends FormXmlDefinitionsLoader
             FormXmlDefinitionsInputStreamLoader formXmlDefinitionsInputStreamLoader = new FormXmlDefinitionsInputStreamLoader(this, inputStream, source);
             formDefinitions.addAll(formXmlDefinitionsInputStreamLoader.load());
         } catch (IOException ex) {
-            throw new InputSourceReadException(ex);
+            throw new InputSourceException(ex);
         }
     }
 

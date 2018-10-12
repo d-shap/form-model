@@ -20,11 +20,11 @@
 package ru.d_shap.formmodel;
 
 /**
- * Exception is thrown when the output result can not be written.
+ * Exception is thrown when there is something wrong with the output result.
  *
  * @author Dmitry Shapovalov
  */
-public final class OutputResultWriteException extends FormModelException {
+public final class OutputResultException extends FormModelException {
 
     private static final long serialVersionUID = 1L;
 
@@ -33,7 +33,7 @@ public final class OutputResultWriteException extends FormModelException {
      *
      * @param throwable cause exception.
      */
-    public OutputResultWriteException(final Throwable throwable) {
+    public OutputResultException(final Throwable throwable) {
         super(throwable);
     }
 

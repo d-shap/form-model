@@ -28,7 +28,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
 
-import ru.d_shap.formmodel.InputSourceReadException;
+import ru.d_shap.formmodel.InputSourceException;
 import ru.d_shap.formmodel.XmlDocumentBuilderConfigurator;
 import ru.d_shap.formmodel.definition.model.FormDefinition;
 
@@ -94,7 +94,7 @@ public final class FormXmlDefinitionsInputStreamLoader extends FormXmlDefinition
                 close();
             }
         } catch (IOException ex) {
-            throw new InputSourceReadException(ex);
+            throw new InputSourceException(ex);
         }
     }
 
