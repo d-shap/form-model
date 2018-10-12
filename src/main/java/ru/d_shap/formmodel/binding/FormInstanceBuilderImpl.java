@@ -110,7 +110,7 @@ final class FormInstanceBuilderImpl implements FormInstanceBuilder {
         BindedAttribute bindedAttribute = _formInstanceBinder.bindAttributeDefinition(bindingSource, lastBindedForm, lastBindedElement, parentElement, attributeDefinition);
         validateBindedAttribute(bindedAttribute, attributeDefinition, nodePath);
         if (bindedAttribute != null) {
-            Element element = createAttributeInstanceElement(document, (FormDefinition) parentElement.getUserData(USER_DATA_FORM_DEFINITION), attributeDefinition, bindedAttribute);
+            Element element = createAttributeInstanceElement(document, (FormDefinition) getParentElementUserData(parentElement, USER_DATA_FORM_DEFINITION), attributeDefinition, bindedAttribute);
             parentElement.appendChild(element);
             NodePath currentNodePath = new NodePath(nodePath, attributeDefinition);
             bindNodeDefinitions(bindingSource, document, lastBindedForm, lastBindedElement, element, attributeDefinition.getAllNodeDefinitions(), currentNodePath);
@@ -144,7 +144,7 @@ final class FormInstanceBuilderImpl implements FormInstanceBuilder {
         validateBindedElement(bindedElements, elementDefinition, nodePath);
         if (bindedElements != null) {
             for (BindedElement bindedElement : bindedElements) {
-                Element element = createElementInstanceElement(document, (FormDefinition) parentElement.getUserData(USER_DATA_FORM_DEFINITION), elementDefinition, bindedElement);
+                Element element = createElementInstanceElement(document, (FormDefinition) getParentElementUserData(parentElement, USER_DATA_FORM_DEFINITION), elementDefinition, bindedElement);
                 parentElement.appendChild(element);
                 NodePath currentNodePath = new NodePath(nodePath, elementDefinition);
                 bindNodeDefinitions(bindingSource, document, lastBindedForm, bindedElement, element, elementDefinition.getAllNodeDefinitions(), currentNodePath);
@@ -190,7 +190,7 @@ final class FormInstanceBuilderImpl implements FormInstanceBuilder {
 
     @Override
     public void buildSingleElementInstance(final BindingSource bindingSource, final Document document, final BindedForm lastBindedForm, final BindedElement lastBindedElement, final Element parentElement, final SingleElementDefinition singleElementDefinition, final NodePath nodePath) {
-        Element element = createSingleElementInstanceElement(document, (FormDefinition) parentElement.getUserData(USER_DATA_FORM_DEFINITION), singleElementDefinition);
+        Element element = createSingleElementInstanceElement(document, (FormDefinition) getParentElementUserData(parentElement, USER_DATA_FORM_DEFINITION), singleElementDefinition);
         NodePath currentNodePath = new NodePath(nodePath, singleElementDefinition);
         bindNodeDefinitions(bindingSource, document, lastBindedForm, lastBindedElement, element, singleElementDefinition.getAllNodeDefinitions(), currentNodePath);
         validateBindedSingleElementDefinition(element, singleElementDefinition, nodePath);
@@ -286,6 +286,19 @@ final class FormInstanceBuilderImpl implements FormInstanceBuilder {
         if (!EmptyStringHelper.isBlank(attributeValue)) {
             element.setAttribute(attributeName, attributeValue);
         }
+    }
+
+    @Override
+    public Object getParentElementUserData(final Element parentElement, final String key) {
+        Node currentNode = parentElement;
+        while (currentNode != null) {
+            Object userData = currentNode.getUserData(key);
+            if (userData != null) {
+                return userData;
+            }
+            currentNode = currentNode.getParentNode();
+        }
+        return null;
     }
 
     private void setUserData(final Element element, final String key, final Object data) {
