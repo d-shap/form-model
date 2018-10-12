@@ -69,6 +69,14 @@ final class FormInstanceBuilderImpl implements FormInstanceBuilder {
         }
     }
 
+    void preBind(final BindingSource bindingSource, final FormDefinition formDefinition) {
+        _formInstanceBinder.preBind(bindingSource, formDefinition);
+    }
+
+    void postBind(final BindingSource bindingSource, final FormDefinition formDefinition) {
+        _formInstanceBinder.postBind(bindingSource, formDefinition);
+    }
+
     void buildFormInstance(final BindingSource bindingSource, final Document document, final FormDefinition formDefinition) {
         BindedForm bindedForm = _formInstanceBinder.bindFormDefinition(bindingSource, null, null, null, formDefinition);
         validateBindedForm(bindedForm, formDefinition);
