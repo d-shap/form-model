@@ -41,7 +41,7 @@ public final class ServiceFinder {
      * Find services with the specified interface.
      *
      * @param service the specified interface.
-     * @param <T>     generic type of the specified interface.
+     * @param <T>     the generic type of the specified interface.
      *
      * @return services with the specified interface.
      */
@@ -52,7 +52,7 @@ public final class ServiceFinder {
     /**
      * Privileged action to find services.
      *
-     * @param <T> generic type of the specified interface.
+     * @param <T> the generic type of the specified interface.
      *
      * @author Dmitry Shapovalov
      */
