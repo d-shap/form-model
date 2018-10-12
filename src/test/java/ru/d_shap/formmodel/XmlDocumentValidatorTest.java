@@ -60,7 +60,7 @@ public final class XmlDocumentValidatorTest extends BaseFormModelTest {
             InputStream inputStream = new ByteArrayInputStream(xml.getBytes());
             new XmlDocumentValidator(inputStream);
             Assertions.fail("XmlDocumentValidator test fail");
-        } catch (XmlDocumentValidatorException ex) {
+        } catch (XmlDocumentValidatorConfigurationException ex) {
             Assertions.assertThat(ex).hasCause(SAXException.class);
         }
     }
@@ -91,8 +91,16 @@ public final class XmlDocumentValidatorTest extends BaseFormModelTest {
         String validXml = "<?xml version='1.0'?>\n";
         validXml += "<fm:form xmlns:fm='http://d-shap.ru/schema/form-model/1.0'>";
         validXml += "</fm:form>";
-        XmlDocumentValidator.getFormModelDocumentValidator().validate(parse(validXml));
-        XmlDocumentValidator.getFormModelDocumentValidator().validate(parse(validXml).getDocumentElement());
+        try {
+            XmlDocumentValidator.getFormModelDocumentValidator().validate(parse(validXml));
+        } catch (SAXException ex) {
+            Assertions.fail("XmlDocumentValidator test fail");
+        }
+        try {
+            XmlDocumentValidator.getFormModelDocumentValidator().validate(parse(validXml).getDocumentElement());
+        } catch (SAXException ex) {
+            Assertions.fail("XmlDocumentValidator test fail");
+        }
 
         try {
             String invalidXml = "<?xml version='1.0'?>\n";
@@ -100,8 +108,8 @@ public final class XmlDocumentValidatorTest extends BaseFormModelTest {
             invalidXml += "</fm:formS>";
             XmlDocumentValidator.getFormModelDocumentValidator().validate(parse(invalidXml));
             Assertions.fail("XmlDocumentValidator test fail");
-        } catch (XmlDocumentValidatorException ex) {
-            Assertions.assertThat(ex).hasCause(SAXException.class);
+        } catch (SAXException ex) {
+            Assertions.assertThat(ex).isNotNull();
         }
         try {
             String invalidXml = "<?xml version='1.0'?>\n";
@@ -109,8 +117,8 @@ public final class XmlDocumentValidatorTest extends BaseFormModelTest {
             invalidXml += "</fm:formS>";
             XmlDocumentValidator.getFormModelDocumentValidator().validate(parse(invalidXml).getDocumentElement());
             Assertions.fail("XmlDocumentValidator test fail");
-        } catch (XmlDocumentValidatorException ex) {
-            Assertions.assertThat(ex).hasCause(SAXException.class);
+        } catch (SAXException ex) {
+            Assertions.assertThat(ex).isNotNull();
         }
     }
 

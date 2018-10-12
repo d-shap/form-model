@@ -57,7 +57,7 @@ public final class XmlDocumentBuilderTest extends BaseFormModelTest {
         try {
             new XmlDocumentBuilder(new ErrorXmlDocumentBuilderConfiguratorImpl());
             Assertions.fail("XmlDocumentBuilder test fail");
-        } catch (XmlDocumentBuilderException ex) {
+        } catch (XmlDocumentBuilderConfigurationException ex) {
             Assertions.assertThat(ex).hasCause(ParserConfigurationException.class);
         }
     }
@@ -76,7 +76,7 @@ public final class XmlDocumentBuilderTest extends BaseFormModelTest {
         try {
             XmlDocumentBuilder.getDocumentBuilder(new ErrorXmlDocumentBuilderConfiguratorImpl());
             Assertions.fail("XmlDocumentBuilder test fail");
-        } catch (XmlDocumentBuilderException ex) {
+        } catch (XmlDocumentBuilderConfigurationException ex) {
             Assertions.assertThat(ex).hasCause(ParserConfigurationException.class);
         }
     }
