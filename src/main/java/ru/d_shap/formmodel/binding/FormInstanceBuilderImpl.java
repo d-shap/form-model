@@ -227,7 +227,7 @@ final class FormInstanceBuilderImpl implements FormInstanceBuilder {
     private void addUniqueElementDefinitions(final Element element, final List<ElementDefinition> uniqueElementDefinitions) {
         Object object = element.getUserData(USER_DATA_NODE_DEFINITION);
         if (object instanceof ElementDefinition) {
-            if (!uniqueElementDefinitions.contains(object)) {
+            if (!listContainsIdentity(uniqueElementDefinitions, (ElementDefinition) object)) {
                 uniqueElementDefinitions.add((ElementDefinition) object);
             }
             return;
@@ -239,6 +239,15 @@ final class FormInstanceBuilderImpl implements FormInstanceBuilder {
                 addUniqueElementDefinitions((Element) node, uniqueElementDefinitions);
             }
         }
+    }
+
+    private boolean listContainsIdentity(final List<ElementDefinition> uniqueElementDefinitions, final ElementDefinition elementDefinition) {
+        for (int i = 0; i < uniqueElementDefinitions.size(); i++) {
+            if (uniqueElementDefinitions.get(i) == elementDefinition) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
