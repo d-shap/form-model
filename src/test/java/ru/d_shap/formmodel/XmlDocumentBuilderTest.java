@@ -119,7 +119,7 @@ public final class XmlDocumentBuilderTest extends BaseFormModelTest {
         try {
             XmlDocumentBuilder.getDocumentBuilder().parse(new InputSource(new ReadErrorInputStream()));
             Assertions.fail("XmlDocumentBuilder test fail");
-        } catch (InputSourceReadException ex) {
+        } catch (InputSourceException ex) {
             Assertions.assertThat(ex).hasMessage("READ ERROR!");
             Assertions.assertThat(ex).hasCause(IOException.class);
         }

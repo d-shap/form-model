@@ -28,7 +28,7 @@ import org.junit.Test;
 
 import ru.d_shap.assertions.Assertions;
 import ru.d_shap.formmodel.BaseFormModelTest;
-import ru.d_shap.formmodel.InputSourceReadException;
+import ru.d_shap.formmodel.InputSourceException;
 import ru.d_shap.formmodel.definition.model.FormDefinition;
 
 /**
@@ -99,7 +99,7 @@ public final class FormXmlDefinitionsInputStreamLoaderTest extends BaseFormModel
             FormXmlDefinitionsInputStreamLoader formXmlDefinitionsInputStreamLoader = new FormXmlDefinitionsInputStreamLoader(inputStream, "source");
             formXmlDefinitionsInputStreamLoader.load();
             Assertions.fail("FormXmlDefinitionsInputStreamLoader test fail");
-        } catch (InputSourceReadException ex) {
+        } catch (InputSourceException ex) {
             Assertions.assertThat(ex).hasMessage("READ ERROR!");
             Assertions.assertThat(ex).hasCause(IOException.class);
         }
@@ -108,7 +108,7 @@ public final class FormXmlDefinitionsInputStreamLoaderTest extends BaseFormModel
             FormXmlDefinitionsInputStreamLoader formXmlDefinitionsInputStreamLoader = new FormXmlDefinitionsInputStreamLoader(inputStream, "source");
             formXmlDefinitionsInputStreamLoader.load();
             Assertions.fail("FormXmlDefinitionsInputStreamLoader test fail");
-        } catch (InputSourceReadException ex) {
+        } catch (InputSourceException ex) {
             Assertions.assertThat(ex).hasMessage("CLOSE ERROR!");
             Assertions.assertThat(ex).hasCause(IOException.class);
         }

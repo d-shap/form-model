@@ -29,7 +29,7 @@ import org.junit.Test;
 
 import ru.d_shap.assertions.Assertions;
 import ru.d_shap.formmodel.BaseFormModelTest;
-import ru.d_shap.formmodel.InputSourceReadException;
+import ru.d_shap.formmodel.InputSourceException;
 import ru.d_shap.formmodel.definition.model.FormDefinition;
 import ru.d_shap.formmodel.definition.model.FormDefinitions;
 
@@ -262,7 +262,7 @@ public final class FormXmlDefinitionsFileLoaderTest extends BaseFormModelTest {
             FormXmlDefinitionsFileLoader formXmlDefinitionsFileLoader = new FormXmlDefinitionsFileLoader(file);
             formXmlDefinitionsFileLoader.load();
             Assertions.fail("FormXmlDefinitionsFileLoader test fail");
-        } catch (InputSourceReadException ex) {
+        } catch (InputSourceException ex) {
             Assertions.assertThat(ex).hasCause(FileNotFoundException.class);
         }
     }
