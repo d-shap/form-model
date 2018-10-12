@@ -28,6 +28,7 @@ import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 import ru.d_shap.assertions.Assertions;
 
@@ -71,7 +72,11 @@ public final class XmlDocumentBuilderTest extends BaseFormModelTest {
         Assertions.assertThat(XmlDocumentBuilder.getDocumentBuilder()).isNotSameAs(XmlDocumentBuilder.getDocumentBuilder());
 
         Assertions.assertThat(XmlDocumentBuilder.getDocumentBuilder(null)).isNotNull();
-        Assertions.assertThat(XmlDocumentBuilder.getDocumentBuilder(new XmlDocumentBuilderConfiguratorImpl())).isNotNull();
+        Assertions.assertThat(XmlDocumentBuilder.getDocumentBuilder(null)).isNotSameAs(XmlDocumentBuilder.getDocumentBuilder(null));
+
+        XmlDocumentBuilderConfigurator xmlDocumentBuilderConfigurator = new XmlDocumentBuilderConfiguratorImpl();
+        Assertions.assertThat(XmlDocumentBuilder.getDocumentBuilder(xmlDocumentBuilderConfigurator)).isNotNull();
+        Assertions.assertThat(XmlDocumentBuilder.getDocumentBuilder(xmlDocumentBuilderConfigurator)).isNotSameAs(XmlDocumentBuilder.getDocumentBuilder(xmlDocumentBuilderConfigurator));
 
         try {
             XmlDocumentBuilder.getDocumentBuilder(new ErrorXmlDocumentBuilderConfiguratorImpl());
@@ -122,6 +127,16 @@ public final class XmlDocumentBuilderTest extends BaseFormModelTest {
         } catch (InputSourceException ex) {
             Assertions.assertThat(ex).hasMessage("READ ERROR!");
             Assertions.assertThat(ex).hasCause(IOException.class);
+        }
+        try {
+            String xml = "<?xml version='1.0'?>\n";
+            xml += "<document xmlns:ns1='http://example.com'>";
+            xml += "<ns1:element>value</ns1:element>";
+            xml += "<document>";
+            XmlDocumentBuilder.getDocumentBuilder().parse(new InputSource(new StringReader(xml)));
+            Assertions.fail("XmlDocumentBuilder test fail");
+        } catch (InputSourceException ex) {
+            Assertions.assertThat(ex).hasCause(SAXException.class);
         }
     }
 
