@@ -105,17 +105,9 @@ public final class FormXmlDefinitionsFileLoaderTest extends BaseFormModelTest {
         Assertions.assertThat(formDefinitions15.get(0).getOtherAttributeNames()).isEmpty();
         Assertions.assertThat(formDefinitions15.get(0).getSource()).endsWith(File.separator + "simpleForm.xml");
 
-        Assertions.assertThat(formXmlDefinitionsFileLoader15.getXmlDocumentBuilder()).isSameAs(formXmlDefinitionsFileLoader11.getXmlDocumentBuilder());
-        Assertions.assertThat(formXmlDefinitionsFileLoader15.getXmlDocumentValidator()).isSameAs(formXmlDefinitionsFileLoader11.getXmlDocumentValidator());
-        Assertions.assertThat(formXmlDefinitionsFileLoader15.getFormXmlDefinitionBuilder()).isSameAs(formXmlDefinitionsFileLoader11.getFormXmlDefinitionBuilder());
-
         FormXmlDefinitionsFileLoader formXmlDefinitionsFileLoader16 = new FormXmlDefinitionsFileLoader(formXmlDefinitionsFileLoader12, simpleForm, new SkipFileFilter());
         List<FormDefinition> formDefinitions16 = formXmlDefinitionsFileLoader16.load();
         Assertions.assertThat(formDefinitions16).hasSize(0);
-
-        Assertions.assertThat(formXmlDefinitionsFileLoader16.getXmlDocumentBuilder()).isSameAs(formXmlDefinitionsFileLoader12.getXmlDocumentBuilder());
-        Assertions.assertThat(formXmlDefinitionsFileLoader16.getXmlDocumentValidator()).isSameAs(formXmlDefinitionsFileLoader12.getXmlDocumentValidator());
-        Assertions.assertThat(formXmlDefinitionsFileLoader16.getFormXmlDefinitionBuilder()).isSameAs(formXmlDefinitionsFileLoader12.getFormXmlDefinitionBuilder());
 
         FormXmlDefinitionsFileLoader formXmlDefinitionsFileLoader21 = new FormXmlDefinitionsFileLoader(parentDirectory);
         FormDefinitions formDefinitions21 = new FormDefinitions();
@@ -238,18 +230,10 @@ public final class FormXmlDefinitionsFileLoaderTest extends BaseFormModelTest {
         Assertions.assertThat(formDefinitions25.getFormDefinition("subforms", "id2").getOtherAttributeNames()).isEmpty();
         Assertions.assertThat(formDefinitions25.getFormDefinition("subforms", "id2").getSource()).endsWith(File.separator + "subforms" + File.separator + "form2.xml");
 
-        Assertions.assertThat(formXmlDefinitionsFileLoader25.getXmlDocumentBuilder()).isSameAs(formXmlDefinitionsFileLoader21.getXmlDocumentBuilder());
-        Assertions.assertThat(formXmlDefinitionsFileLoader25.getXmlDocumentValidator()).isSameAs(formXmlDefinitionsFileLoader21.getXmlDocumentValidator());
-        Assertions.assertThat(formXmlDefinitionsFileLoader25.getFormXmlDefinitionBuilder()).isSameAs(formXmlDefinitionsFileLoader21.getFormXmlDefinitionBuilder());
-
         FormXmlDefinitionsFileLoader formXmlDefinitionsFileLoader26 = new FormXmlDefinitionsFileLoader(formXmlDefinitionsFileLoader22, parentDirectory, new SkipFileFilter());
         FormDefinitions formDefinitions26 = new FormDefinitions();
         formXmlDefinitionsFileLoader26.load(formDefinitions26);
         Assertions.assertThat(formDefinitions26.getFormDefinitions().size()).isEqualTo(0);
-
-        Assertions.assertThat(formXmlDefinitionsFileLoader26.getXmlDocumentBuilder()).isSameAs(formXmlDefinitionsFileLoader22.getXmlDocumentBuilder());
-        Assertions.assertThat(formXmlDefinitionsFileLoader26.getXmlDocumentValidator()).isSameAs(formXmlDefinitionsFileLoader22.getXmlDocumentValidator());
-        Assertions.assertThat(formXmlDefinitionsFileLoader26.getFormXmlDefinitionBuilder()).isSameAs(formXmlDefinitionsFileLoader22.getFormXmlDefinitionBuilder());
     }
 
     /**
