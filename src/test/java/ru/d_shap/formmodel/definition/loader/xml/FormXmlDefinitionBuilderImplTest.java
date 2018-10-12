@@ -689,18 +689,44 @@ public final class FormXmlDefinitionBuilderImplTest extends BaseFormModelTest {
      */
     @Test
     public void createAttributeDefinitionAttributeTypeTest() {
-        String xml1 = "<?xml version='1.0'?>\n";
-        xml1 += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
-        xml1 += "<ns1:element id='id2' lookup='lookup2' type='required'>";
-        xml1 += "<ns1:attribute id='id3' lookup='lookup3'>";
-        xml1 += "</ns1:attribute>";
-        xml1 += "</ns1:element>";
-        xml1 += "</ns1:form>";
-        Document document1 = parse(xml1);
-        Element parentElement1 = (Element) document1.getDocumentElement().getFirstChild();
-        Element element1 = (Element) parentElement1.getFirstChild();
-        AttributeDefinition attributeDefinition1 = createBuilder().createAttributeDefinition(parentElement1, element1, new NodePath("parent"));
-        Assertions.assertThat(attributeDefinition1.getCardinalityDefinition()).isSameAs(CardinalityDefinition.REQUIRED);
+        String xml11 = "<?xml version='1.0'?>\n";
+        xml11 += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml11 += "<ns1:element id='id2' lookup='lookup2' type='required'>";
+        xml11 += "<ns1:attribute id='id3' lookup='lookup3'>";
+        xml11 += "</ns1:attribute>";
+        xml11 += "</ns1:element>";
+        xml11 += "</ns1:form>";
+        Document document11 = parse(xml11);
+        Element parentElement11 = (Element) document11.getDocumentElement().getFirstChild();
+        Element element11 = (Element) parentElement11.getFirstChild();
+        AttributeDefinition attributeDefinition11 = createBuilder().createAttributeDefinition(parentElement11, element11, new NodePath("parent"));
+        Assertions.assertThat(attributeDefinition11.getCardinalityDefinition()).isSameAs(CardinalityDefinition.REQUIRED);
+
+        String xml12 = "<?xml version='1.0'?>\n";
+        xml12 += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml12 += "<otherNode>";
+        xml12 += "<ns1:attribute id='id3' lookup='lookup3'>";
+        xml12 += "</ns1:attribute>";
+        xml12 += "</otherNode>";
+        xml12 += "</ns1:form>";
+        Document document12 = parse(xml12);
+        Element parentElement12 = (Element) document12.getDocumentElement().getFirstChild();
+        Element element12 = (Element) parentElement12.getFirstChild();
+        AttributeDefinition attributeDefinition12 = createBuilder().createAttributeDefinition(parentElement12, element12, new NodePath("parent"));
+        Assertions.assertThat(attributeDefinition12.getCardinalityDefinition()).isSameAs(CardinalityDefinition.REQUIRED);
+
+        String xml13 = "<?xml version='1.0'?>\n";
+        xml13 += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml13 += "<ns2:otherNode xmlns:ns2='http://d-shap.ru/schema/form-model-other-node/1.0'>";
+        xml13 += "<ns1:attribute id='id3' lookup='lookup3'>";
+        xml13 += "</ns1:attribute>";
+        xml13 += "</ns2:otherNode>";
+        xml13 += "</ns1:form>";
+        Document document13 = parse(xml13);
+        Element parentElement13 = (Element) document13.getDocumentElement().getFirstChild();
+        Element element13 = (Element) parentElement13.getFirstChild();
+        AttributeDefinition attributeDefinition13 = createBuilder().createAttributeDefinition(parentElement13, element13, new NodePath("parent"));
+        Assertions.assertThat(attributeDefinition13.getCardinalityDefinition()).isSameAs(CardinalityDefinition.PROHIBITED);
 
         String xml2 = "<?xml version='1.0'?>\n";
         xml2 += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
