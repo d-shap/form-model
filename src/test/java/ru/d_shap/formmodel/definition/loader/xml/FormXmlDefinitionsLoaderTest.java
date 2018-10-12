@@ -19,10 +19,15 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.formmodel.definition.loader.xml;
 
+import java.io.StringReader;
+
 import org.junit.Test;
+import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
 
 import ru.d_shap.assertions.Assertions;
 import ru.d_shap.formmodel.BaseFormModelTest;
+import ru.d_shap.formmodel.definition.FormDefinitionValidationException;
 
 /**
  * Tests for {@link FormXmlDefinitionsLoader}.
@@ -42,40 +47,94 @@ public final class FormXmlDefinitionsLoaderTest extends BaseFormModelTest {
      * {@link FormXmlDefinitionsLoader} class test.
      */
     @Test
-    public void getXmlDocumentBuilderTest() {
+    public void parseTest() {
+        String xml = "<?xml version='1.0'?>\n";
+        xml += "<document xmlns:ns1='http://example.com'>";
+        xml += "<ns1:element>value</ns1:element>";
+        xml += "</document>";
+
         FormXmlDefinitionsLoaderImpl formXmlDefinitionsLoader1 = new FormXmlDefinitionsLoaderImpl();
-        Assertions.assertThat(new FormXmlDefinitionsLoaderImpl().getXmlDocumentBuilder()).isNotNull();
-        Assertions.assertThat(new FormXmlDefinitionsLoaderImpl().getXmlDocumentBuilder()).isNotSameAs(formXmlDefinitionsLoader1.getXmlDocumentBuilder());
+        Document document1 = formXmlDefinitionsLoader1.parse(new InputSource(new StringReader(xml)));
+        Assertions.assertThat(document1.getDocumentElement().getTagName()).isEqualTo("document");
+        Assertions.assertThat(document1.getDocumentElement().getFirstChild().getNamespaceURI()).isEqualTo("http://example.com");
+        Assertions.assertThat(document1.getDocumentElement().getFirstChild().getLocalName()).isEqualTo("element");
+        Assertions.assertThat(document1.getDocumentElement().getFirstChild().getTextContent()).isEqualTo("value");
 
         FormXmlDefinitionsLoaderImpl formXmlDefinitionsLoader2 = new FormXmlDefinitionsLoaderImpl(new XmlDocumentBuilderConfiguratorImpl());
-        Assertions.assertThat(new FormXmlDefinitionsLoaderImpl(new XmlDocumentBuilderConfiguratorImpl()).getXmlDocumentBuilder()).isNotNull();
-        Assertions.assertThat(new FormXmlDefinitionsLoaderImpl(new XmlDocumentBuilderConfiguratorImpl()).getXmlDocumentBuilder()).isNotSameAs(formXmlDefinitionsLoader2.getXmlDocumentBuilder());
+        Document document2 = formXmlDefinitionsLoader2.parse(new InputSource(new StringReader(xml)));
+        Assertions.assertThat(document2.getDocumentElement().getTagName()).isEqualTo("document");
+        Assertions.assertThat(document2.getDocumentElement().getFirstChild().getNamespaceURI()).isEqualTo("http://example.com");
+        Assertions.assertThat(document2.getDocumentElement().getFirstChild().getLocalName()).isEqualTo("element");
+        Assertions.assertThat(document2.getDocumentElement().getFirstChild().getTextContent()).isEqualTo("value");
 
         FormXmlDefinitionsLoaderImpl formXmlDefinitionsLoader3 = new FormXmlDefinitionsLoaderImpl(formXmlDefinitionsLoader1);
-        Assertions.assertThat(new FormXmlDefinitionsLoaderImpl(formXmlDefinitionsLoader3).getXmlDocumentBuilder()).isNotNull();
-        Assertions.assertThat(new FormXmlDefinitionsLoaderImpl(formXmlDefinitionsLoader3).getXmlDocumentBuilder()).isSameAs(formXmlDefinitionsLoader3.getXmlDocumentBuilder());
-        Assertions.assertThat(new FormXmlDefinitionsLoaderImpl(formXmlDefinitionsLoader3).getXmlDocumentBuilder()).isSameAs(formXmlDefinitionsLoader1.getXmlDocumentBuilder());
-        Assertions.assertThat(new FormXmlDefinitionsLoaderImpl(formXmlDefinitionsLoader1).getXmlDocumentBuilder()).isSameAs(formXmlDefinitionsLoader1.getXmlDocumentBuilder());
+        Document document3 = formXmlDefinitionsLoader3.parse(new InputSource(new StringReader(xml)));
+        Assertions.assertThat(document3.getDocumentElement().getTagName()).isEqualTo("document");
+        Assertions.assertThat(document3.getDocumentElement().getFirstChild().getNamespaceURI()).isEqualTo("http://example.com");
+        Assertions.assertThat(document3.getDocumentElement().getFirstChild().getLocalName()).isEqualTo("element");
+        Assertions.assertThat(document3.getDocumentElement().getFirstChild().getTextContent()).isEqualTo("value");
     }
 
     /**
      * {@link FormXmlDefinitionsLoader} class test.
      */
     @Test
-    public void getXmlDocumentValidatorTest() {
-        FormXmlDefinitionsLoaderImpl formXmlDefinitionsLoader1 = new FormXmlDefinitionsLoaderImpl();
-        Assertions.assertThat(new FormXmlDefinitionsLoaderImpl().getXmlDocumentValidator()).isNotNull();
-        Assertions.assertThat(new FormXmlDefinitionsLoaderImpl().getXmlDocumentValidator()).isNotSameAs(formXmlDefinitionsLoader1.getXmlDocumentValidator());
+    public void validateTest() {
+        String xml1 = "<?xml version='1.0'?>\n";
+        xml1 += "<ns1:form id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml1 += "<ns1:single-element id='id' type='optional'>";
+        xml1 += "<ns1:element lookup='lookup' repr='repr1' count='-1'>";
+        xml1 += "</ns1:element>";
+        xml1 += "<ns1:element lookup='lookup' repr='repr2' count='-1'>";
+        xml1 += "</ns1:element>";
+        xml1 += "</ns1:single-element>";
+        xml1 += "</ns1:form>";
+        Document document1 = parse(xml1);
 
-        FormXmlDefinitionsLoaderImpl formXmlDefinitionsLoader2 = new FormXmlDefinitionsLoaderImpl(new XmlDocumentBuilderConfiguratorImpl());
-        Assertions.assertThat(new FormXmlDefinitionsLoaderImpl(new XmlDocumentBuilderConfiguratorImpl()).getXmlDocumentValidator()).isNotNull();
-        Assertions.assertThat(new FormXmlDefinitionsLoaderImpl(new XmlDocumentBuilderConfiguratorImpl()).getXmlDocumentValidator()).isNotSameAs(formXmlDefinitionsLoader2.getXmlDocumentValidator());
+        FormXmlDefinitionsLoaderImpl formXmlDefinitionsLoader11 = new FormXmlDefinitionsLoaderImpl();
+        formXmlDefinitionsLoader11.validate(document1);
 
-        FormXmlDefinitionsLoaderImpl formXmlDefinitionsLoader3 = new FormXmlDefinitionsLoaderImpl(formXmlDefinitionsLoader1);
-        Assertions.assertThat(new FormXmlDefinitionsLoaderImpl(formXmlDefinitionsLoader3).getXmlDocumentValidator()).isNotNull();
-        Assertions.assertThat(new FormXmlDefinitionsLoaderImpl(formXmlDefinitionsLoader3).getXmlDocumentValidator()).isSameAs(formXmlDefinitionsLoader3.getXmlDocumentValidator());
-        Assertions.assertThat(new FormXmlDefinitionsLoaderImpl(formXmlDefinitionsLoader3).getXmlDocumentValidator()).isSameAs(formXmlDefinitionsLoader1.getXmlDocumentValidator());
-        Assertions.assertThat(new FormXmlDefinitionsLoaderImpl(formXmlDefinitionsLoader1).getXmlDocumentValidator()).isSameAs(formXmlDefinitionsLoader1.getXmlDocumentValidator());
+        FormXmlDefinitionsLoaderImpl formXmlDefinitionsLoader12 = new FormXmlDefinitionsLoaderImpl(new XmlDocumentBuilderConfiguratorImpl());
+        formXmlDefinitionsLoader12.validate(document1);
+
+        FormXmlDefinitionsLoaderImpl formXmlDefinitionsLoader13 = new FormXmlDefinitionsLoaderImpl(formXmlDefinitionsLoader11);
+        formXmlDefinitionsLoader13.validate(document1);
+
+        String xml2 = "<?xml version='1.0'?>\n";
+        xml2 += "<ns1:form id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml2 += "<ns1:single-element id='id' type='optional'>";
+        xml2 += "<ns1:element lookup='lookup' repr='repr1' count='-1'>";
+        xml2 += "</ns1:element>";
+        xml2 += "<ns1:element lookup='lookup' repr='repr2' count='-1'>";
+        xml2 += "<!--INVALID!-->";
+        xml2 += "</ns1:element>";
+        xml2 += "</ns1:single-element>";
+        xml2 += "</ns1:form>";
+        Document document2 = parse(xml2);
+
+        FormXmlDefinitionsLoaderImpl formXmlDefinitionsLoader21 = new FormXmlDefinitionsLoaderImpl();
+        try {
+            formXmlDefinitionsLoader21.validate(document2);
+            Assertions.fail("FormXmlDefinitionsLoader test fail");
+        } catch (FormDefinitionValidationException ex) {
+            Assertions.assertThat(ex).hasMessage("Invalid comment found!");
+        }
+
+        FormXmlDefinitionsLoaderImpl formXmlDefinitionsLoader22 = new FormXmlDefinitionsLoaderImpl(new XmlDocumentBuilderConfiguratorImpl());
+        try {
+            formXmlDefinitionsLoader22.validate(document2);
+            Assertions.fail("FormXmlDefinitionsLoader test fail");
+        } catch (FormDefinitionValidationException ex) {
+            Assertions.assertThat(ex).hasMessage("Invalid comment found!");
+        }
+
+        FormXmlDefinitionsLoaderImpl formXmlDefinitionsLoader23 = new FormXmlDefinitionsLoaderImpl(formXmlDefinitionsLoader21);
+        try {
+            formXmlDefinitionsLoader23.validate(document2);
+            Assertions.fail("FormXmlDefinitionsLoader test fail");
+        } catch (FormDefinitionValidationException ex) {
+            Assertions.assertThat(ex).hasMessage("Invalid comment found!");
+        }
     }
 
     /**
@@ -83,19 +142,22 @@ public final class FormXmlDefinitionsLoaderTest extends BaseFormModelTest {
      */
     @Test
     public void getFormXmlDefinitionBuilderTest() {
+        String xml = "<?xml version='1.0'?>\n";
+        xml += "<ns1:form id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml += "</ns1:form>";
+        Document document = parse(xml);
+
         FormXmlDefinitionsLoaderImpl formXmlDefinitionsLoader1 = new FormXmlDefinitionsLoaderImpl();
-        Assertions.assertThat(new FormXmlDefinitionsLoaderImpl().getFormXmlDefinitionBuilder()).isNotNull();
-        Assertions.assertThat(new FormXmlDefinitionsLoaderImpl().getFormXmlDefinitionBuilder()).isNotSameAs(formXmlDefinitionsLoader1.getFormXmlDefinitionBuilder());
+        Assertions.assertThat(formXmlDefinitionsLoader1.getFormXmlDefinitionBuilder()).isNotNull();
+        Assertions.assertThat(formXmlDefinitionsLoader1.getFormXmlDefinitionBuilder().isFormDefinition(document.getDocumentElement())).isTrue();
 
         FormXmlDefinitionsLoaderImpl formXmlDefinitionsLoader2 = new FormXmlDefinitionsLoaderImpl(new XmlDocumentBuilderConfiguratorImpl());
-        Assertions.assertThat(new FormXmlDefinitionsLoaderImpl(new XmlDocumentBuilderConfiguratorImpl()).getFormXmlDefinitionBuilder()).isNotNull();
-        Assertions.assertThat(new FormXmlDefinitionsLoaderImpl(new XmlDocumentBuilderConfiguratorImpl()).getFormXmlDefinitionBuilder()).isNotSameAs(formXmlDefinitionsLoader2.getFormXmlDefinitionBuilder());
+        Assertions.assertThat(formXmlDefinitionsLoader2.getFormXmlDefinitionBuilder()).isNotNull();
+        Assertions.assertThat(formXmlDefinitionsLoader2.getFormXmlDefinitionBuilder().isFormDefinition(document.getDocumentElement())).isTrue();
 
         FormXmlDefinitionsLoaderImpl formXmlDefinitionsLoader3 = new FormXmlDefinitionsLoaderImpl(formXmlDefinitionsLoader1);
-        Assertions.assertThat(new FormXmlDefinitionsLoaderImpl(formXmlDefinitionsLoader3).getFormXmlDefinitionBuilder()).isNotNull();
-        Assertions.assertThat(new FormXmlDefinitionsLoaderImpl(formXmlDefinitionsLoader3).getFormXmlDefinitionBuilder()).isSameAs(formXmlDefinitionsLoader3.getFormXmlDefinitionBuilder());
-        Assertions.assertThat(new FormXmlDefinitionsLoaderImpl(formXmlDefinitionsLoader3).getFormXmlDefinitionBuilder()).isSameAs(formXmlDefinitionsLoader1.getFormXmlDefinitionBuilder());
-        Assertions.assertThat(new FormXmlDefinitionsLoaderImpl(formXmlDefinitionsLoader1).getFormXmlDefinitionBuilder()).isSameAs(formXmlDefinitionsLoader1.getFormXmlDefinitionBuilder());
+        Assertions.assertThat(formXmlDefinitionsLoader3.getFormXmlDefinitionBuilder()).isNotNull();
+        Assertions.assertThat(formXmlDefinitionsLoader3.getFormXmlDefinitionBuilder().isFormDefinition(document.getDocumentElement())).isTrue();
     }
 
 }
