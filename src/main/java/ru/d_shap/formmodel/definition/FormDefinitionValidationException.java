@@ -19,6 +19,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.formmodel.definition;
 
+import ru.d_shap.formmodel.FormModelException;
 import ru.d_shap.formmodel.definition.model.NodePath;
 
 /**
@@ -26,7 +27,7 @@ import ru.d_shap.formmodel.definition.model.NodePath;
  *
  * @author Dmitry Shapovalov
  */
-public final class FormDefinitionValidationException extends FormDefinitionException {
+public final class FormDefinitionValidationException extends FormModelException {
 
     private static final long serialVersionUID = 1L;
 
