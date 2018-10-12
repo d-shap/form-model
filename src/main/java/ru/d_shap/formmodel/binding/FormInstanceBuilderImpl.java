@@ -61,7 +61,12 @@ final class FormInstanceBuilderImpl implements FormInstanceBuilder {
         super();
         _formDefinitions = formDefinitions;
         _formInstanceBinder = formInstanceBinder;
-        _otherNodeInstanceBuilders = new ArrayList<>(otherNodeInstanceBuilders);
+        _otherNodeInstanceBuilders = new ArrayList<>();
+        for (OtherNodeInstanceBuilder otherNodeInstanceBuilder : otherNodeInstanceBuilders) {
+            if (otherNodeInstanceBuilder.isCompatible(_formInstanceBinder.getClass())) {
+                _otherNodeInstanceBuilders.add(otherNodeInstanceBuilder);
+            }
+        }
     }
 
     void buildFormInstance(final BindingSource bindingSource, final Document document, final FormDefinition formDefinition) {
