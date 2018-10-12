@@ -20,6 +20,8 @@
 package ru.d_shap.formmodel.definition.loader.xml;
 
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.xml.sax.SAXException;
 
 import ru.d_shap.formmodel.definition.model.CardinalityDefinition;
 import ru.d_shap.formmodel.definition.model.NodePath;
@@ -70,5 +72,14 @@ public interface OtherNodeXmlDefinitionBuilder {
      * @return the default cardinality definition of the child single element definition.
      */
     CardinalityDefinition getSingleElementDefinitionCardinality(Element parentElement);
+
+    /**
+     * Validate the XML node against the schema.
+     *
+     * @param node the XML node to validate.
+     *
+     * @throws SAXException if the XML node is not valid.
+     */
+    void validate(Node node) throws SAXException;
 
 }
