@@ -21,6 +21,7 @@ package ru.d_shap.formmodel.binding;
 
 import java.util.List;
 
+import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import ru.d_shap.formmodel.binding.model.BindedAttribute;
@@ -51,8 +52,9 @@ public interface FormInstanceBinder {
      *
      * @param bindingSource  the binding source.
      * @param formDefinition the form definition.
+     * @param document       the binded document.
      */
-    void postBind(BindingSource bindingSource, FormDefinition formDefinition);
+    void postBind(BindingSource bindingSource, FormDefinition formDefinition, Document document);
 
     /**
      * Bind the form definition with the binding source.
