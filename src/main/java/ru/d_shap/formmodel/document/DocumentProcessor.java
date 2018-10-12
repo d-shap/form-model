@@ -32,6 +32,14 @@ import ru.d_shap.formmodel.binding.model.BindingSource;
  */
 public interface DocumentProcessor<T> {
 
+    /**
+     * Process the document.
+     *
+     * @param bindingSource the binding source.
+     * @param document      the document.
+     *
+     * @return the result of the document processing.
+     */
     T process(BindingSource bindingSource, Document document);
 
 }
