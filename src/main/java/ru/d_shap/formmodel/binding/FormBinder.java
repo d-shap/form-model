@@ -40,8 +40,6 @@ public final class FormBinder {
 
     private final FormDefinitions _formDefinitions;
 
-    private final FormInstanceBinder _formInstanceBinder;
-
     private final FormInstanceBuilderImpl _formInstanceBuilder;
 
     /**
@@ -53,9 +51,8 @@ public final class FormBinder {
     public FormBinder(final FormDefinitions formDefinitions, final FormInstanceBinder formInstanceBinder) {
         super();
         _formDefinitions = formDefinitions.copyOf();
-        _formInstanceBinder = formInstanceBinder;
         List<OtherNodeInstanceBuilder> otherNodeInstanceBuilders = ServiceFinder.find(OtherNodeInstanceBuilder.class);
-        _formInstanceBuilder = new FormInstanceBuilderImpl(_formDefinitions, _formInstanceBinder, otherNodeInstanceBuilders);
+        _formInstanceBuilder = new FormInstanceBuilderImpl(_formDefinitions, formInstanceBinder, otherNodeInstanceBuilders);
     }
 
     /**
@@ -89,10 +86,10 @@ public final class FormBinder {
         XmlDocumentBuilder xmlDocumentBuilder = XmlDocumentBuilder.getDocumentBuilder();
         Document document = xmlDocumentBuilder.newDocument();
         try {
-            _formInstanceBinder.preBind(bindingSource, formDefinition);
+            _formInstanceBuilder.preBind(bindingSource, formDefinition);
             _formInstanceBuilder.buildFormInstance(bindingSource, document, formDefinition);
         } finally {
-            _formInstanceBinder.postBind(bindingSource, formDefinition);
+            _formInstanceBuilder.postBind(bindingSource, formDefinition);
         }
         validate(document);
         return document;
