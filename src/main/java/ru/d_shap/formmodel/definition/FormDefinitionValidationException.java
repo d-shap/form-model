@@ -50,6 +50,15 @@ public final class FormDefinitionValidationException extends FormModelException 
         super(getMessage(message, nodePath));
     }
 
+    /**
+     * Create new object.
+     *
+     * @param throwable cause exception.
+     */
+    public FormDefinitionValidationException(final Throwable throwable) {
+        super(throwable);
+    }
+
     private static String getMessage(final String message, final NodePath nodePath) {
         if (nodePath == null) {
             return String.valueOf(message);
