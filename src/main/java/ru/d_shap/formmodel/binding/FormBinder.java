@@ -30,6 +30,7 @@ import ru.d_shap.formmodel.XmlDocumentValidator;
 import ru.d_shap.formmodel.binding.model.BindingSource;
 import ru.d_shap.formmodel.definition.model.FormDefinition;
 import ru.d_shap.formmodel.definition.model.FormDefinitions;
+import ru.d_shap.formmodel.document.DocumentProcessor;
 
 /**
  * The form binder.
@@ -107,6 +108,37 @@ public final class FormBinder {
         } catch (SAXException ex) {
             throw new FormBindingException(ex);
         }
+    }
+
+    /**
+     * Bind the specified form definition with the specified binding source and process the result document.
+     *
+     * @param bindingSource     the specified binding source.
+     * @param id                the specified form's ID.
+     * @param documentProcessor the document processor.
+     * @param <T>               the generic type of the result of the document processing.
+     *
+     * @return the result of the document processing.
+     */
+    public <T> T processDocument(final BindingSource bindingSource, final String id, final DocumentProcessor<T> documentProcessor) {
+        Document document = bind(bindingSource, id);
+        return documentProcessor.process(bindingSource, document);
+    }
+
+    /**
+     * Bind the specified form definition with the specified binding source and process the result document.
+     *
+     * @param bindingSource     the specified binding source.
+     * @param group             the specified form's group.
+     * @param id                the specified form's ID.
+     * @param documentProcessor the document processor.
+     * @param <T>               the generic type of the result of the document processing.
+     *
+     * @return the result of the document processing.
+     */
+    public <T> T processDocument(final BindingSource bindingSource, final String group, final String id, final DocumentProcessor<T> documentProcessor) {
+        Document document = bind(bindingSource, group, id);
+        return documentProcessor.process(bindingSource, document);
     }
 
 }
