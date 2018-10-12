@@ -22,6 +22,7 @@ package ru.d_shap.formmodel.binding;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import ru.d_shap.assertions.Assertions;
@@ -68,6 +69,19 @@ public final class FormInstanceBinderImpl implements FormInstanceBinder {
         Assertions.assertThat(_formDefinition).isNull();
         Assertions.assertThat(formDefinition).isNotNull();
         _formDefinition = formDefinition;
+    }
+
+    @Override
+    public void postBind(final BindingSource bindingSource, final FormDefinition formDefinition, final Document document) {
+        Assertions.assertThat(_bindingSource).isNotNull();
+        Assertions.assertThat(bindingSource).isNotNull();
+        Assertions.assertThat(_bindingSource).isSameAs(bindingSource);
+        _bindingSource = null;
+
+        Assertions.assertThat(_formDefinition).isNotNull();
+        Assertions.assertThat(formDefinition).isNotNull();
+        Assertions.assertThat(_formDefinition).isSameAs(formDefinition);
+        _formDefinition = null;
     }
 
     @Override
@@ -133,19 +147,6 @@ public final class FormInstanceBinderImpl implements FormInstanceBinder {
         }
 
         return new BindedAttributeImpl(representation);
-    }
-
-    @Override
-    public void postBind(final BindingSource bindingSource, final FormDefinition formDefinition) {
-        Assertions.assertThat(_bindingSource).isNotNull();
-        Assertions.assertThat(bindingSource).isNotNull();
-        Assertions.assertThat(_bindingSource).isSameAs(bindingSource);
-        _bindingSource = null;
-
-        Assertions.assertThat(_formDefinition).isNotNull();
-        Assertions.assertThat(formDefinition).isNotNull();
-        Assertions.assertThat(_formDefinition).isSameAs(formDefinition);
-        _formDefinition = null;
     }
 
 }
