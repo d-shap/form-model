@@ -19,6 +19,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.formmodel.definition;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -55,7 +56,7 @@ public final class FormDefinitionValidationExceptionTest extends BaseFormModelTe
         FormDefinition formDefinition = new FormDefinition("group", "id", new ArrayList<NodeDefinition>(), new HashMap<String, String>(), "source");
         ElementDefinition elementDefinition = new ElementDefinition("id", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>());
 
-        Assertions.assertThat(new FormDefinitionValidationException(null)).hasMessage("null");
+        Assertions.assertThat(new FormDefinitionValidationException((String) null)).hasMessage("null");
         Assertions.assertThat(new FormDefinitionValidationException(null, null)).hasMessage("null");
         Assertions.assertThat(new FormDefinitionValidationException(null, new NodePath())).hasMessage("null, ");
         Assertions.assertThat(new FormDefinitionValidationException(null, new NodePath(new NodePath(formDefinition), elementDefinition))).hasMessage("null, {source}form[@group:id]/element[@id]");
@@ -69,6 +70,46 @@ public final class FormDefinitionValidationExceptionTest extends BaseFormModelTe
         Assertions.assertThat(new FormDefinitionValidationException(Messages.Validation.getIdIsEmptyMessage(), null)).hasMessage("[ID is empty]");
         Assertions.assertThat(new FormDefinitionValidationException(Messages.Validation.getIdIsEmptyMessage(), new NodePath())).hasMessage("[ID is empty], ");
         Assertions.assertThat(new FormDefinitionValidationException(Messages.Validation.getIdIsEmptyMessage(), new NodePath(formDefinition))).hasMessage("[ID is empty], {source}form[@group:id]");
+
+        Assertions.assertThat(new FormDefinitionValidationException((Throwable) null)).toMessage().isNull();
+        Assertions.assertThat(new FormDefinitionValidationException(new IOException())).toMessage().isNull();
+        Assertions.assertThat(new FormDefinitionValidationException(new IOException(""))).hasMessage("");
+        Assertions.assertThat(new FormDefinitionValidationException(new IOException(" "))).hasMessage(" ");
+        Assertions.assertThat(new FormDefinitionValidationException(new IOException("io error"))).hasMessage("io error");
+    }
+
+    /**
+     * {@link FormDefinitionValidationException} class test.
+     */
+    @Test
+    public void errorCauseTest() {
+        FormDefinition formDefinition = new FormDefinition("group", "id", new ArrayList<NodeDefinition>(), new HashMap<String, String>(), "source");
+        ElementDefinition elementDefinition = new ElementDefinition("id", "lookup", CardinalityDefinition.REQUIRED, new ArrayList<NodeDefinition>(), new HashMap<String, String>());
+
+        Assertions.assertThat(new FormDefinitionValidationException((String) null)).toCause().isNull();
+        Assertions.assertThat(new FormDefinitionValidationException(null, null)).toCause().isNull();
+        Assertions.assertThat(new FormDefinitionValidationException(null, new NodePath())).toCause().isNull();
+        Assertions.assertThat(new FormDefinitionValidationException(null, new NodePath(new NodePath(formDefinition), elementDefinition))).toCause().isNull();
+
+        Assertions.assertThat(new FormDefinitionValidationException(Messages.Validation.getGroupIsNotValidMessage("-group"))).toCause().isNull();
+        Assertions.assertThat(new FormDefinitionValidationException(Messages.Validation.getGroupIsNotValidMessage("-group"), null)).toCause().isNull();
+        Assertions.assertThat(new FormDefinitionValidationException(Messages.Validation.getGroupIsNotValidMessage("-group"), new NodePath())).toCause().isNull();
+        Assertions.assertThat(new FormDefinitionValidationException(Messages.Validation.getGroupIsNotValidMessage("-group"), new NodePath(new NodePath(formDefinition), elementDefinition))).toCause().isNull();
+
+        Assertions.assertThat(new FormDefinitionValidationException(Messages.Validation.getIdIsEmptyMessage())).toCause().isNull();
+        Assertions.assertThat(new FormDefinitionValidationException(Messages.Validation.getIdIsEmptyMessage(), null)).toCause().isNull();
+        Assertions.assertThat(new FormDefinitionValidationException(Messages.Validation.getIdIsEmptyMessage(), new NodePath())).toCause().isNull();
+        Assertions.assertThat(new FormDefinitionValidationException(Messages.Validation.getIdIsEmptyMessage(), new NodePath(formDefinition))).toCause().isNull();
+
+        Assertions.assertThat(new FormDefinitionValidationException((Throwable) null)).toCause().isNull();
+        Assertions.assertThat(new FormDefinitionValidationException(new IOException())).hasCause(IOException.class);
+        Assertions.assertThat(new FormDefinitionValidationException(new IOException())).toCause().toMessage().isNull();
+        Assertions.assertThat(new FormDefinitionValidationException(new IOException(""))).hasCause(IOException.class);
+        Assertions.assertThat(new FormDefinitionValidationException(new IOException(""))).hasCauseMessage("");
+        Assertions.assertThat(new FormDefinitionValidationException(new IOException(" "))).hasCause(IOException.class);
+        Assertions.assertThat(new FormDefinitionValidationException(new IOException(" "))).hasCauseMessage(" ");
+        Assertions.assertThat(new FormDefinitionValidationException(new IOException("io error"))).hasCause(IOException.class);
+        Assertions.assertThat(new FormDefinitionValidationException(new IOException("io error"))).hasCauseMessage("io error");
     }
 
 }
