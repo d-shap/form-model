@@ -73,6 +73,16 @@ public interface FormInstanceBuilder {
     String USER_DATA_BINDED_OBJECT = FormInstanceBuilder.class.getName() + "_BINDED_OBJECT__";
 
     /**
+     * Get the user data from the parent element.
+     *
+     * @param parentElement the parent element.
+     * @param key           the key to obtain the user data.
+     *
+     * @return the user data.
+     */
+    Object getParentElementUserData(Element parentElement, String key);
+
+    /**
      * Create the binded XML element for the specified attribute definition and attach it to the owner document.
      *
      * @param bindingSource       the binding source.
