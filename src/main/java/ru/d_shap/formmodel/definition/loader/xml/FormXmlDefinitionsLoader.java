@@ -44,7 +44,7 @@ public abstract class FormXmlDefinitionsLoader extends FormDefinitionsLoader {
 
     private final XmlDocumentValidator _xmlDocumentValidator;
 
-    final List<OtherNodeXmlDefinitionBuilder> _otherNodeXmlDefinitionBuilders;
+    private final List<OtherNodeXmlDefinitionBuilder> _otherNodeXmlDefinitionBuilders;
 
     private final FormXmlDefinitionBuilderImpl _formXmlDefinitionBuilder;
 
