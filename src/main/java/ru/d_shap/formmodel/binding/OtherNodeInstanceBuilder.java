@@ -38,11 +38,11 @@ public interface OtherNodeInstanceBuilder {
     /**
      * Check if this other node instance builder is compatible with the specified form instance binder.
      *
-     * @param formInstanceBinder the specified form instance binder.
+     * @param clazz the specified form instance binder.
      *
      * @return true if this other node instance builder is compatible with the specified form instance binder.
      */
-    boolean isCompatible(FormInstanceBinder formInstanceBinder);
+    boolean isCompatible(Class<? extends FormInstanceBinder> clazz);
 
     /**
      * Create the binded XML element for the specified other node definition and attach it to the owner document.
