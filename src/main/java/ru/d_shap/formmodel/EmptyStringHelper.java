@@ -40,8 +40,9 @@ public final class EmptyStringHelper {
     public static boolean isEmpty(final String str) {
         if (str == null) {
             return true;
+        } else {
+            return "".equals(str);
         }
-        return "".equals(str);
     }
 
     /**
