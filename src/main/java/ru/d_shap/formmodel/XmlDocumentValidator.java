@@ -74,7 +74,7 @@ public final class XmlDocumentValidator {
                 inputStream.close();
             }
         } catch (IOException | SAXException ex) {
-            throw new XmlDocumentValidatorException(ex);
+            throw new XmlDocumentValidatorConfigurationException(ex);
         }
     }
 

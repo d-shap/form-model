@@ -62,7 +62,7 @@ public final class XmlDocumentBuilder {
             documentBuilderFactory.setNamespaceAware(true);
             _documentBuilder = documentBuilderFactory.newDocumentBuilder();
         } catch (ParserConfigurationException ex) {
-            throw new XmlDocumentBuilderException(ex);
+            throw new XmlDocumentBuilderConfigurationException(ex);
         }
     }
 

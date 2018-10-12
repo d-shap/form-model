@@ -20,11 +20,11 @@
 package ru.d_shap.formmodel;
 
 /**
- * Exception is thrown by the XML document validator.
+ * Exception is thrown when there are some configuration problems with the XML document builder.
  *
  * @author Dmitry Shapovalov
  */
-public final class XmlDocumentValidatorException extends FormModelException {
+public final class XmlDocumentBuilderConfigurationException extends FormModelException {
 
     private static final long serialVersionUID = 1L;
 
@@ -33,7 +33,7 @@ public final class XmlDocumentValidatorException extends FormModelException {
      *
      * @param throwable cause exception.
      */
-    public XmlDocumentValidatorException(final Throwable throwable) {
+    public XmlDocumentBuilderConfigurationException(final Throwable throwable) {
         super(throwable);
     }
 
