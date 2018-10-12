@@ -20,7 +20,11 @@
 package ru.d_shap.formmodel;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringReader;
+
+import javax.xml.transform.stream.StreamSource;
 
 import org.junit.Test;
 import org.xml.sax.SAXException;
@@ -87,7 +91,7 @@ public final class XmlDocumentValidatorTest extends BaseFormModelTest {
      * {@link XmlDocumentValidator} class test.
      */
     @Test
-    public void validateTest() {
+    public void validateNodeTest() {
         String validXml = "<?xml version='1.0'?>\n";
         validXml += "<fm:form xmlns:fm='http://d-shap.ru/schema/form-model/1.0'>";
         validXml += "</fm:form>";
@@ -119,6 +123,41 @@ public final class XmlDocumentValidatorTest extends BaseFormModelTest {
             Assertions.fail("XmlDocumentValidator test fail");
         } catch (SAXException ex) {
             Assertions.assertThat(ex).isNotNull();
+        }
+    }
+
+    /**
+     * {@link XmlDocumentValidator} class test.
+     */
+    @Test
+    public void validateSourceTest() {
+        String validXml = "<?xml version='1.0'?>\n";
+        validXml += "<fm:form xmlns:fm='http://d-shap.ru/schema/form-model/1.0'>";
+        validXml += "</fm:form>";
+        try {
+            XmlDocumentValidator.getFormModelDocumentValidator().validate(new StreamSource(new StringReader(validXml)));
+        } catch (SAXException ex) {
+            Assertions.fail("XmlDocumentValidator test fail");
+        }
+        try {
+            String invalidXml = "<?xml version='1.0'?>\n";
+            invalidXml += "<fm:formS xmlns:fm='http://d-shap.ru/schema/form-model/1.0'>";
+            invalidXml += "</fm:formS>";
+            XmlDocumentValidator.getFormModelDocumentValidator().validate(new StreamSource(new StringReader(invalidXml)));
+            Assertions.fail("XmlDocumentValidator test fail");
+        } catch (SAXException ex) {
+            Assertions.assertThat(ex).isNotNull();
+        }
+        try {
+            try {
+                XmlDocumentValidator.getFormModelDocumentValidator().validate(new StreamSource(new ReadErrorInputStream()));
+                Assertions.fail("XmlDocumentValidator test fail");
+            } catch (SAXException ex) {
+                Assertions.fail("XmlDocumentValidator test fail");
+            }
+        } catch (InputSourceException ex) {
+            Assertions.assertThat(ex).hasMessage("READ ERROR!");
+            Assertions.assertThat(ex).hasCause(IOException.class);
         }
     }
 
