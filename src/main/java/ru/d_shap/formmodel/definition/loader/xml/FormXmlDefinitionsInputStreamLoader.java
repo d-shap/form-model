@@ -86,7 +86,7 @@ public final class FormXmlDefinitionsInputStreamLoader extends FormXmlDefinition
         try {
             try {
                 InputSource inputSource = new InputSource(_inputStream);
-                Document document = getXmlDocumentBuilder().parse(inputSource);
+                Document document = parse(inputSource);
                 Element element = document.getDocumentElement();
                 FormXmlDefinitionsElementLoader formXmlDefinitionsElementLoader = new FormXmlDefinitionsElementLoader(this, element, _source);
                 return formXmlDefinitionsElementLoader.load();
