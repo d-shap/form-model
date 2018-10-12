@@ -19,9 +19,11 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.formmodel.definition.loader.xml;
 
+import org.w3c.dom.Comment;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 import ru.d_shap.formmodel.Messages;
 import ru.d_shap.formmodel.definition.model.AttributeDefinition;
@@ -49,6 +51,26 @@ public final class OtherNodeXmlDefinitionBuilderImpl implements OtherNodeXmlDefi
      */
     public OtherNodeXmlDefinitionBuilderImpl() {
         super();
+    }
+
+    @Override
+    public void validate(final Node node) throws SAXException {
+        if (hasInvalidComment(node)) {
+            throw new SAXException("Invalid comment found!");
+        }
+    }
+
+    private boolean hasInvalidComment(final Node node) {
+        if (node instanceof Comment) {
+            return "INVALID!".equals(node.getTextContent());
+        }
+        NodeList nodeList = node.getChildNodes();
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            if (hasInvalidComment(nodeList.item(i))) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
