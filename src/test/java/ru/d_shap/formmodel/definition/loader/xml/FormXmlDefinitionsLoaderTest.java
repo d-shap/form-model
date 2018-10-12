@@ -24,6 +24,7 @@ import java.io.StringReader;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 import ru.d_shap.assertions.Assertions;
 import ru.d_shap.formmodel.BaseFormModelTest;
@@ -103,10 +104,9 @@ public final class FormXmlDefinitionsLoaderTest extends BaseFormModelTest {
         String xml2 = "<?xml version='1.0'?>\n";
         xml2 += "<ns1:form id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
         xml2 += "<ns1:single-element id='id' type='optional'>";
-        xml2 += "<ns1:element lookup='lookup' repr='repr1' count='-1'>";
-        xml2 += "</ns1:element>";
+        xml2 += "<ns1:elemenT lookup='lookup' repr='repr1' count='-1'>";
+        xml2 += "</ns1:elemenT>";
         xml2 += "<ns1:element lookup='lookup' repr='repr2' count='-1'>";
-        xml2 += "<!--INVALID!-->";
         xml2 += "</ns1:element>";
         xml2 += "</ns1:single-element>";
         xml2 += "</ns1:form>";
@@ -117,7 +117,7 @@ public final class FormXmlDefinitionsLoaderTest extends BaseFormModelTest {
             formXmlDefinitionsLoader21.validate(document2);
             Assertions.fail("FormXmlDefinitionsLoader test fail");
         } catch (FormDefinitionValidationException ex) {
-            Assertions.assertThat(ex).hasMessage("Invalid comment found!");
+            Assertions.assertThat(ex).hasCause(SAXException.class);
         }
 
         FormXmlDefinitionsLoaderImpl formXmlDefinitionsLoader22 = new FormXmlDefinitionsLoaderImpl(new XmlDocumentBuilderConfiguratorImpl());
@@ -125,12 +125,48 @@ public final class FormXmlDefinitionsLoaderTest extends BaseFormModelTest {
             formXmlDefinitionsLoader22.validate(document2);
             Assertions.fail("FormXmlDefinitionsLoader test fail");
         } catch (FormDefinitionValidationException ex) {
-            Assertions.assertThat(ex).hasMessage("Invalid comment found!");
+            Assertions.assertThat(ex).hasCause(SAXException.class);
         }
 
         FormXmlDefinitionsLoaderImpl formXmlDefinitionsLoader23 = new FormXmlDefinitionsLoaderImpl(formXmlDefinitionsLoader21);
         try {
             formXmlDefinitionsLoader23.validate(document2);
+            Assertions.fail("FormXmlDefinitionsLoader test fail");
+        } catch (FormDefinitionValidationException ex) {
+            Assertions.assertThat(ex).hasCause(SAXException.class);
+        }
+
+        String xml3 = "<?xml version='1.0'?>\n";
+        xml3 += "<ns1:form id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml3 += "<ns1:single-element id='id' type='optional'>";
+        xml3 += "<ns1:element lookup='lookup' repr='repr1' count='-1'>";
+        xml3 += "</ns1:element>";
+        xml3 += "<ns1:element lookup='lookup' repr='repr2' count='-1'>";
+        xml3 += "<!--INVALID!-->";
+        xml3 += "</ns1:element>";
+        xml3 += "</ns1:single-element>";
+        xml3 += "</ns1:form>";
+        Document document3 = parse(xml3);
+
+        FormXmlDefinitionsLoaderImpl formXmlDefinitionsLoader31 = new FormXmlDefinitionsLoaderImpl();
+        try {
+            formXmlDefinitionsLoader31.validate(document3);
+            Assertions.fail("FormXmlDefinitionsLoader test fail");
+        } catch (FormDefinitionValidationException ex) {
+            Assertions.assertThat(ex).hasMessage("Invalid comment found!");
+        }
+
+        FormXmlDefinitionsLoaderImpl formXmlDefinitionsLoader32 = new FormXmlDefinitionsLoaderImpl(new XmlDocumentBuilderConfiguratorImpl());
+        try {
+            formXmlDefinitionsLoader32.validate(document3);
+            Assertions.fail("FormXmlDefinitionsLoader test fail");
+        } catch (FormDefinitionValidationException ex) {
+            Assertions.assertThat(ex).hasMessage("Invalid comment found!");
+        }
+
+        FormXmlDefinitionsLoaderImpl formXmlDefinitionsLoader33 = new FormXmlDefinitionsLoaderImpl(formXmlDefinitionsLoader31);
+        try {
+            formXmlDefinitionsLoader33.validate(document3);
             Assertions.fail("FormXmlDefinitionsLoader test fail");
         } catch (FormDefinitionValidationException ex) {
             Assertions.assertThat(ex).hasMessage("Invalid comment found!");
