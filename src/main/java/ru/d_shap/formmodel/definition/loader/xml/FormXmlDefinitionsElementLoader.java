@@ -66,7 +66,7 @@ public final class FormXmlDefinitionsElementLoader extends FormXmlDefinitionsLoa
     public List<FormDefinition> load() {
         List<FormDefinition> formDefinitions = new ArrayList<>();
         if (getFormXmlDefinitionBuilder().isFormDefinition(_element)) {
-            getXmlDocumentValidator().validate(_element);
+            validate(_element);
             FormDefinition formDefinition = getFormXmlDefinitionBuilder().createFormDefinition(_element, _source);
             formDefinitions.add(formDefinition);
         }
