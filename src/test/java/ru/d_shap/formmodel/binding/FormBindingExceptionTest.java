@@ -19,6 +19,8 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.formmodel.binding;
 
+import java.io.IOException;
+
 import org.junit.Test;
 
 import ru.d_shap.assertions.Assertions;
@@ -44,7 +46,7 @@ public final class FormBindingExceptionTest extends BaseFormModelTest {
      */
     @Test
     public void errorMessageTest() {
-        Assertions.assertThat(new FormBindingException(null)).hasMessage("null");
+        Assertions.assertThat(new FormBindingException((String) null)).hasMessage("null");
         Assertions.assertThat(new FormBindingException(null, null)).hasMessage("null");
         Assertions.assertThat(new FormBindingException(null, new NodePath())).hasMessage("null, ");
         Assertions.assertThat(new FormBindingException(null, new NodePath(new NodePath("form"), "element"))).hasMessage("null, form/element");
@@ -53,6 +55,38 @@ public final class FormBindingExceptionTest extends BaseFormModelTest {
         Assertions.assertThat(new FormBindingException("[Binding exception message]", null)).hasMessage("[Binding exception message]");
         Assertions.assertThat(new FormBindingException("[Binding exception message]", new NodePath())).hasMessage("[Binding exception message], ");
         Assertions.assertThat(new FormBindingException("[Binding exception message]", new NodePath(new NodePath("form"), "element"))).hasMessage("[Binding exception message], form/element");
+
+        Assertions.assertThat(new FormBindingException((Throwable) null)).toMessage().isNull();
+        Assertions.assertThat(new FormBindingException(new IOException())).toMessage().isNull();
+        Assertions.assertThat(new FormBindingException(new IOException(""))).hasMessage("");
+        Assertions.assertThat(new FormBindingException(new IOException(" "))).hasMessage(" ");
+        Assertions.assertThat(new FormBindingException(new IOException("io error"))).hasMessage("io error");
+    }
+
+    /**
+     * {@link FormBindingException} class test.
+     */
+    @Test
+    public void errorCauseTest() {
+        Assertions.assertThat(new FormBindingException((String) null)).toCause().isNull();
+        Assertions.assertThat(new FormBindingException(null, null)).toCause().isNull();
+        Assertions.assertThat(new FormBindingException(null, new NodePath())).toCause().isNull();
+        Assertions.assertThat(new FormBindingException(null, new NodePath(new NodePath("form"), "element"))).toCause().isNull();
+
+        Assertions.assertThat(new FormBindingException("[Binding exception message]")).toCause().isNull();
+        Assertions.assertThat(new FormBindingException("[Binding exception message]", null)).toCause().isNull();
+        Assertions.assertThat(new FormBindingException("[Binding exception message]", new NodePath())).toCause().isNull();
+        Assertions.assertThat(new FormBindingException("[Binding exception message]", new NodePath(new NodePath("form"), "element"))).toCause().isNull();
+
+        Assertions.assertThat(new FormBindingException((Throwable) null)).toCause().isNull();
+        Assertions.assertThat(new FormBindingException(new IOException())).hasCause(IOException.class);
+        Assertions.assertThat(new FormBindingException(new IOException())).toCause().toMessage().isNull();
+        Assertions.assertThat(new FormBindingException(new IOException(""))).hasCause(IOException.class);
+        Assertions.assertThat(new FormBindingException(new IOException(""))).hasCauseMessage("");
+        Assertions.assertThat(new FormBindingException(new IOException(" "))).hasCause(IOException.class);
+        Assertions.assertThat(new FormBindingException(new IOException(" "))).hasCauseMessage(" ");
+        Assertions.assertThat(new FormBindingException(new IOException("io error"))).hasCause(IOException.class);
+        Assertions.assertThat(new FormBindingException(new IOException("io error"))).hasCauseMessage("io error");
     }
 
 }
