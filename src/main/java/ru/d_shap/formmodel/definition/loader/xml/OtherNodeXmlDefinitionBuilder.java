@@ -35,6 +35,15 @@ import ru.d_shap.formmodel.definition.model.OtherNodeDefinition;
 public interface OtherNodeXmlDefinitionBuilder {
 
     /**
+     * Validate the XML node against the schema.
+     *
+     * @param node the XML node to validate.
+     *
+     * @throws SAXException if the XML node is not valid.
+     */
+    void validate(Node node) throws SAXException;
+
+    /**
      * Create the other node definition for the specified XML element.
      *
      * @param parentElement            the parent XML element.
@@ -72,14 +81,5 @@ public interface OtherNodeXmlDefinitionBuilder {
      * @return the default cardinality definition of the child single element definition.
      */
     CardinalityDefinition getSingleElementDefinitionCardinality(Element parentElement);
-
-    /**
-     * Validate the XML node against the schema.
-     *
-     * @param node the XML node to validate.
-     *
-     * @throws SAXException if the XML node is not valid.
-     */
-    void validate(Node node) throws SAXException;
 
 }
