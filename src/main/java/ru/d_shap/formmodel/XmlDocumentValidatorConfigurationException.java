@@ -28,12 +28,7 @@ public final class XmlDocumentValidatorConfigurationException extends FormModelE
 
     private static final long serialVersionUID = 1L;
 
-    /**
-     * Create new object.
-     *
-     * @param throwable cause exception.
-     */
-    public XmlDocumentValidatorConfigurationException(final Throwable throwable) {
+    XmlDocumentValidatorConfigurationException(final Throwable throwable) {
         super(throwable);
     }
 

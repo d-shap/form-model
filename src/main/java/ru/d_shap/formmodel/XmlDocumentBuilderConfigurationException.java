@@ -28,12 +28,7 @@ public final class XmlDocumentBuilderConfigurationException extends FormModelExc
 
     private static final long serialVersionUID = 1L;
 
-    /**
-     * Create new object.
-     *
-     * @param throwable cause exception.
-     */
-    public XmlDocumentBuilderConfigurationException(final Throwable throwable) {
+    XmlDocumentBuilderConfigurationException(final Throwable throwable) {
         super(throwable);
     }
 
