@@ -100,12 +100,25 @@ public final class XmlDocumentValidator {
      * Validate the XML node against the schema.
      *
      * @param node the XML node to validate.
+     *
+     * @throws SAXException if the XML node is not valid.
      */
-    public void validate(final Node node) {
+    public void validate(final Node node) throws SAXException {
+        validate(new DOMSource(node));
+    }
+
+    /**
+     * Validate the XML source against the schema.
+     *
+     * @param source the XML source to validate.
+     *
+     * @throws SAXException if the XML source is not valid.
+     */
+    public void validate(final Source source) throws SAXException {
         try {
-            _validator.validate(new DOMSource(node));
-        } catch (IOException | SAXException ex) {
-            throw new XmlDocumentValidatorException(ex);
+            _validator.validate(source);
+        } catch (IOException ex) {
+            throw new InputSourceException(ex);
         }
     }
 
