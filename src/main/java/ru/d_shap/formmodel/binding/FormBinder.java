@@ -22,6 +22,7 @@ package ru.d_shap.formmodel.binding;
 import java.util.List;
 
 import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
 
 import ru.d_shap.formmodel.ServiceFinder;
 import ru.d_shap.formmodel.XmlDocumentBuilder;
@@ -93,8 +94,16 @@ public final class FormBinder {
         } finally {
             _formInstanceBinder.postBind(bindingSource, formDefinition);
         }
-        XmlDocumentValidator.getFormInstanceDocumentValidator().validate(document);
+        validate(document);
         return document;
+    }
+
+    private void validate(final Document document) {
+        try {
+            XmlDocumentValidator.getFormInstanceDocumentValidator().validate(document);
+        } catch (SAXException ex) {
+            throw new FormBindingException(ex);
+        }
     }
 
 }
