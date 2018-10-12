@@ -21,10 +21,16 @@ package ru.d_shap.formmodel.definition.loader.xml;
 
 import java.util.List;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+
 import ru.d_shap.formmodel.ServiceFinder;
 import ru.d_shap.formmodel.XmlDocumentBuilder;
 import ru.d_shap.formmodel.XmlDocumentBuilderConfigurator;
 import ru.d_shap.formmodel.XmlDocumentValidator;
+import ru.d_shap.formmodel.definition.FormDefinitionValidationException;
 import ru.d_shap.formmodel.definition.loader.FormDefinitionsLoader;
 
 /**
@@ -38,6 +44,8 @@ public abstract class FormXmlDefinitionsLoader extends FormDefinitionsLoader {
 
     private final XmlDocumentValidator _xmlDocumentValidator;
 
+    final List<OtherNodeXmlDefinitionBuilder> _otherNodeXmlDefinitionBuilders;
+
     private final FormXmlDefinitionBuilderImpl _formXmlDefinitionBuilder;
 
     /**
@@ -47,8 +55,8 @@ public abstract class FormXmlDefinitionsLoader extends FormDefinitionsLoader {
         super();
         _xmlDocumentBuilder = XmlDocumentBuilder.getDocumentBuilder(null);
         _xmlDocumentValidator = XmlDocumentValidator.getFormModelDocumentValidator();
-        List<OtherNodeXmlDefinitionBuilder> otherNodeXmlDefinitionBuilders = ServiceFinder.find(OtherNodeXmlDefinitionBuilder.class);
-        _formXmlDefinitionBuilder = new FormXmlDefinitionBuilderImpl(otherNodeXmlDefinitionBuilders);
+        _otherNodeXmlDefinitionBuilders = ServiceFinder.find(OtherNodeXmlDefinitionBuilder.class);
+        _formXmlDefinitionBuilder = new FormXmlDefinitionBuilderImpl(_otherNodeXmlDefinitionBuilders);
     }
 
     /**
@@ -60,8 +68,8 @@ public abstract class FormXmlDefinitionsLoader extends FormDefinitionsLoader {
         super();
         _xmlDocumentBuilder = XmlDocumentBuilder.getDocumentBuilder(xmlDocumentBuilderConfigurator);
         _xmlDocumentValidator = XmlDocumentValidator.getFormModelDocumentValidator();
-        List<OtherNodeXmlDefinitionBuilder> otherNodeXmlDefinitionBuilders = ServiceFinder.find(OtherNodeXmlDefinitionBuilder.class);
-        _formXmlDefinitionBuilder = new FormXmlDefinitionBuilderImpl(otherNodeXmlDefinitionBuilders);
+        _otherNodeXmlDefinitionBuilders = ServiceFinder.find(OtherNodeXmlDefinitionBuilder.class);
+        _formXmlDefinitionBuilder = new FormXmlDefinitionBuilderImpl(_otherNodeXmlDefinitionBuilders);
     }
 
     /**
@@ -73,25 +81,35 @@ public abstract class FormXmlDefinitionsLoader extends FormDefinitionsLoader {
         super();
         _xmlDocumentBuilder = formXmlDefinitionsLoader._xmlDocumentBuilder;
         _xmlDocumentValidator = formXmlDefinitionsLoader._xmlDocumentValidator;
+        _otherNodeXmlDefinitionBuilders = formXmlDefinitionsLoader._otherNodeXmlDefinitionBuilders;
         _formXmlDefinitionBuilder = formXmlDefinitionsLoader._formXmlDefinitionBuilder;
     }
 
     /**
-     * Get the XML document builder.
+     * Parse the input source and create new XML document.
      *
-     * @return the XML document builder.
+     * @param inputSource the input source.
+     *
+     * @return new XML document.
      */
-    protected final XmlDocumentBuilder getXmlDocumentBuilder() {
-        return _xmlDocumentBuilder;
+    protected final Document parse(final InputSource inputSource) {
+        return _xmlDocumentBuilder.parse(inputSource);
     }
 
     /**
-     * Get the XML document validator.
+     * Validate the XML node against the schema.
      *
-     * @return the XML document validator.
+     * @param node the XML node to validate.
      */
-    protected final XmlDocumentValidator getXmlDocumentValidator() {
-        return _xmlDocumentValidator;
+    protected final void validate(final Node node) {
+        try {
+            _xmlDocumentValidator.validate(node);
+            for (OtherNodeXmlDefinitionBuilder otherNodeXmlDefinitionBuilder : _otherNodeXmlDefinitionBuilders) {
+                otherNodeXmlDefinitionBuilder.validate(node);
+            }
+        } catch (SAXException ex) {
+            throw new FormDefinitionValidationException(ex);
+        }
     }
 
     /**
