@@ -24,8 +24,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import ru.d_shap.formmodel.EmptyStringHelper;
 import ru.d_shap.formmodel.Messages;
-import ru.d_shap.formmodel.StringUtils;
 import ru.d_shap.formmodel.definition.FormDefinitionValidationException;
 import ru.d_shap.formmodel.definition.model.AttributeDefinition;
 import ru.d_shap.formmodel.definition.model.CardinalityDefinition;
@@ -44,6 +44,27 @@ import ru.d_shap.formmodel.definition.model.SingleElementDefinition;
  * @author Dmitry Shapovalov
  */
 final class FormDefinitionValidatorImpl implements FormDefinitionValidator {
+
+    private static final Set<Character> VALID_START_CHARACTERS;
+
+    private static final Set<Character> VALID_CHARACTERS;
+
+    static {
+        VALID_START_CHARACTERS = new HashSet<>();
+        for (char ch = 'a'; ch < 'z' + 1; ch++) {
+            VALID_START_CHARACTERS.add(ch);
+        }
+        for (char ch = 'A'; ch < 'Z' + 1; ch++) {
+            VALID_START_CHARACTERS.add(ch);
+        }
+        VALID_START_CHARACTERS.add('_');
+
+        VALID_CHARACTERS = new HashSet<>(VALID_START_CHARACTERS);
+        for (char ch = '0'; ch < '9' + 1; ch++) {
+            VALID_CHARACTERS.add(ch);
+        }
+        VALID_CHARACTERS.add('-');
+    }
 
     private static final CardinalityDefinition[] ATTRIBUTE_DEFAULT_CARDINALITY = new CardinalityDefinition[]{CardinalityDefinition.REQUIRED, CardinalityDefinition.OPTIONAL, CardinalityDefinition.PROHIBITED};
 
@@ -67,17 +88,25 @@ final class FormDefinitionValidatorImpl implements FormDefinitionValidator {
 
     @Override
     public boolean isEmptyString(final String str) {
-        return StringUtils.isEmpty(str);
+        return EmptyStringHelper.isEmpty(str);
     }
 
     @Override
     public boolean isBlankString(final String str) {
-        return StringUtils.isBlank(str);
+        return EmptyStringHelper.isBlank(str);
     }
 
     @Override
     public boolean isStringHasValidCharacters(final String str) {
-        return StringUtils.hasValidCharacters(str);
+        if (!VALID_START_CHARACTERS.contains(str.charAt(0))) {
+            return false;
+        }
+        for (int i = 1; i < str.length(); i++) {
+            if (!VALID_CHARACTERS.contains(str.charAt(i))) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override

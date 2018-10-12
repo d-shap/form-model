@@ -27,8 +27,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import ru.d_shap.formmodel.EmptyStringHelper;
 import ru.d_shap.formmodel.Messages;
-import ru.d_shap.formmodel.StringUtils;
 import ru.d_shap.formmodel.binding.model.BindedAttribute;
 import ru.d_shap.formmodel.binding.model.BindedElement;
 import ru.d_shap.formmodel.binding.model.BindedForm;
@@ -261,7 +261,7 @@ final class FormInstanceBuilderImpl implements FormInstanceBuilder {
     }
 
     private void setAttribute(final Element element, final String attributeName, final String attributeValue) {
-        if (!StringUtils.isBlank(attributeValue)) {
+        if (!EmptyStringHelper.isBlank(attributeValue)) {
             element.setAttribute(attributeName, attributeValue);
         }
     }

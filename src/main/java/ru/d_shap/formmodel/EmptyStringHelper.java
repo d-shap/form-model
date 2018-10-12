@@ -19,38 +19,14 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.formmodel;
 
-import java.util.HashSet;
-import java.util.Set;
-
 /**
- * Helper class to check string values.
+ * Helper class to check empty strings.
  *
  * @author Dmitry Shapovalov
  */
-public final class StringUtils {
+public final class EmptyStringHelper {
 
-    private static final Set<Character> VALID_START_CHARACTERS;
-
-    private static final Set<Character> VALID_CHARACTERS;
-
-    static {
-        VALID_START_CHARACTERS = new HashSet<>();
-        for (char ch = 'a'; ch < 'z' + 1; ch++) {
-            VALID_START_CHARACTERS.add(ch);
-        }
-        for (char ch = 'A'; ch < 'Z' + 1; ch++) {
-            VALID_START_CHARACTERS.add(ch);
-        }
-        VALID_START_CHARACTERS.add('_');
-
-        VALID_CHARACTERS = new HashSet<>(VALID_START_CHARACTERS);
-        for (char ch = '0'; ch < '9' + 1; ch++) {
-            VALID_CHARACTERS.add(ch);
-        }
-        VALID_CHARACTERS.add('-');
-    }
-
-    private StringUtils() {
+    private EmptyStringHelper() {
         super();
     }
 
@@ -81,25 +57,6 @@ public final class StringUtils {
         }
         for (int i = 0; i < str.length(); i++) {
             if (!Character.isWhitespace(str.charAt(i))) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
-     * Check if the string has only valid characters.
-     *
-     * @param str the string to check.
-     *
-     * @return true if the string has only valid characters.
-     */
-    public static boolean hasValidCharacters(final String str) {
-        if (!VALID_START_CHARACTERS.contains(str.charAt(0))) {
-            return false;
-        }
-        for (int i = 1; i < str.length(); i++) {
-            if (!VALID_CHARACTERS.contains(str.charAt(i))) {
                 return false;
             }
         }
