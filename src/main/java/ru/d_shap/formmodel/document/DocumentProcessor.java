@@ -26,7 +26,7 @@ import ru.d_shap.formmodel.binding.model.BindingSource;
 /**
  * Processor for the document.
  *
- * @param <T> generic type of the result.
+ * @param <T> the generic type of the result.
  *
  * @author Dmitry Shapovalov
  */
