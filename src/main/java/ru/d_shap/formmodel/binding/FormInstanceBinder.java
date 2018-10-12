@@ -47,6 +47,14 @@ public interface FormInstanceBinder {
     void preBind(BindingSource bindingSource, FormDefinition formDefinition);
 
     /**
+     * Callback method is called after the form definition is binded with the binding source.
+     *
+     * @param bindingSource  the binding source.
+     * @param formDefinition the form definition.
+     */
+    void postBind(BindingSource bindingSource, FormDefinition formDefinition);
+
+    /**
      * Bind the form definition with the binding source.
      *
      * @param bindingSource     the binding source.
@@ -84,13 +92,5 @@ public interface FormInstanceBinder {
      * @return the binded attribute.
      */
     BindedAttribute bindAttributeDefinition(BindingSource bindingSource, BindedForm lastBindedForm, BindedElement lastBindedElement, Element parentElement, AttributeDefinition attributeDefinition);
-
-    /**
-     * Callback method is called after the form definition is binded with the binding source.
-     *
-     * @param bindingSource  the binding source.
-     * @param formDefinition the form definition.
-     */
-    void postBind(BindingSource bindingSource, FormDefinition formDefinition);
 
 }
