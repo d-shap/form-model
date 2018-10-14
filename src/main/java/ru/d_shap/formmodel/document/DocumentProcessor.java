@@ -21,8 +21,6 @@ package ru.d_shap.formmodel.document;
 
 import org.w3c.dom.Document;
 
-import ru.d_shap.formmodel.binding.model.BindingSource;
-
 /**
  * Processor for the document.
  *
@@ -35,11 +33,10 @@ public interface DocumentProcessor<T> {
     /**
      * Process the document.
      *
-     * @param bindingSource the binding source.
-     * @param document      the document.
+     * @param document the document.
      *
      * @return the result of the document processing.
      */
-    T process(BindingSource bindingSource, Document document);
+    T process(Document document);
 
 }
