@@ -306,7 +306,7 @@
                             </execution>
                         </executions>
                         <configuration>
-                            <keyname>maven signature - form-model</keyname>
+                            <keyname>(maven signature - form-model)</keyname>
                         </configuration>
                     </plugin>
                 </plugins>
