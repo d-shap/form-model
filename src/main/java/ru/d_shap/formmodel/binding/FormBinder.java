@@ -83,6 +83,37 @@ public final class FormBinder {
         return bind(bindingSource, formDefinition);
     }
 
+    /**
+     * Bind the specified form definition with the specified binding source and process the result document.
+     *
+     * @param bindingSource     the specified binding source.
+     * @param id                the specified form's ID.
+     * @param documentProcessor the document processor.
+     * @param <T>               the generic type of the result of the document processing.
+     *
+     * @return the result of the document processing.
+     */
+    public <T> T bind(final BindingSource bindingSource, final String id, final DocumentProcessor<T> documentProcessor) {
+        Document document = bind(bindingSource, id);
+        return documentProcessor.process(document);
+    }
+
+    /**
+     * Bind the specified form definition with the specified binding source and process the result document.
+     *
+     * @param bindingSource     the specified binding source.
+     * @param group             the specified form's group.
+     * @param id                the specified form's ID.
+     * @param documentProcessor the document processor.
+     * @param <T>               the generic type of the result of the document processing.
+     *
+     * @return the result of the document processing.
+     */
+    public <T> T bind(final BindingSource bindingSource, final String group, final String id, final DocumentProcessor<T> documentProcessor) {
+        Document document = bind(bindingSource, group, id);
+        return documentProcessor.process(document);
+    }
+
     private Document bind(final BindingSource bindingSource, final FormDefinition formDefinition) {
         XmlDocumentBuilder xmlDocumentBuilder = XmlDocumentBuilder.getDocumentBuilder();
         Document document = xmlDocumentBuilder.newDocument();
@@ -108,37 +139,6 @@ public final class FormBinder {
         } catch (SAXException ex) {
             throw new FormBindingException(ex);
         }
-    }
-
-    /**
-     * Bind the specified form definition with the specified binding source and process the result document.
-     *
-     * @param bindingSource     the specified binding source.
-     * @param id                the specified form's ID.
-     * @param documentProcessor the document processor.
-     * @param <T>               the generic type of the result of the document processing.
-     *
-     * @return the result of the document processing.
-     */
-    public <T> T processDocument(final BindingSource bindingSource, final String id, final DocumentProcessor<T> documentProcessor) {
-        Document document = bind(bindingSource, id);
-        return documentProcessor.process(bindingSource, document);
-    }
-
-    /**
-     * Bind the specified form definition with the specified binding source and process the result document.
-     *
-     * @param bindingSource     the specified binding source.
-     * @param group             the specified form's group.
-     * @param id                the specified form's ID.
-     * @param documentProcessor the document processor.
-     * @param <T>               the generic type of the result of the document processing.
-     *
-     * @return the result of the document processing.
-     */
-    public <T> T processDocument(final BindingSource bindingSource, final String group, final String id, final DocumentProcessor<T> documentProcessor) {
-        Document document = bind(bindingSource, group, id);
-        return documentProcessor.process(bindingSource, document);
     }
 
 }
