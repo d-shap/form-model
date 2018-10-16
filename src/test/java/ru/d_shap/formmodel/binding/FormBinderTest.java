@@ -25,6 +25,7 @@ import java.util.List;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.xml.sax.SAXException;
 
 import ru.d_shap.assertions.Assertions;
 import ru.d_shap.formmodel.BaseFormModelTest;
@@ -74,7 +75,7 @@ public final class FormBinderTest extends BaseFormModelTest {
         try {
             String xml2 = "<?xml version='1.0'?>\n";
             xml2 += "<ns1:form id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
-            xml2 += "<ns1:element id='el-id' lookup='lookup' type='required' repr='repr1' count='3'>";
+            xml2 += "<ns1:element id='el-id' lookup='lookup' type='required' repr='repr' count='3'>";
             xml2 += "</ns1:element>";
             xml2 += "</ns1:form>";
             FormDefinitions formDefinitions2 = createFormDefinitionsFromXml(xml2);
@@ -83,6 +84,34 @@ public final class FormBinderTest extends BaseFormModelTest {
             Assertions.fail("FormBinder test fail");
         } catch (FormBindingException ex) {
             Assertions.assertThat(ex).hasMessage("[Required element is present more than once: element[@el-id]], {source}form[@:id]");
+        }
+
+        String xml3 = "<?xml version='1.0'?>\n";
+        xml3 += "<ns1:form id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0' xmlns:ns2='http://d-shap.ru/schema/form-model-other-node/1.0'>";
+        xml3 += "<ns1:element id='id' lookup='lookup'>";
+        xml3 += "</ns1:element>";
+        xml3 += "<ns2:otherNode repr='other' valid='true'>";
+        xml3 += "</ns2:otherNode>";
+        xml3 += "</ns1:form>";
+        FormDefinitions formDefinitions3 = createFormDefinitionsFromXml(xml3);
+        FormBinder formBinder3 = new FormBinder(formDefinitions3, new FormInstanceBinderImpl());
+        Document document3 = formBinder3.bind(new BindingSourceImpl("source"), "id");
+        Assertions.assertThat(DocumentWriter.getAsString(document3)).isEqualTo("<form id=\"id\" xmlns=\"http://d-shap.ru/schema/form-instance/1.0\"><element id=\"id\"/><otherNode repr=\"other\" xmlns=\"http://d-shap.ru/schema/form-instance-other-node/1.0\"/></form>");
+
+        try {
+            String xml4 = "<?xml version='1.0'?>\n";
+            xml4 += "<ns1:form id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0' xmlns:ns2='http://d-shap.ru/schema/form-model-other-node/1.0'>";
+            xml4 += "<ns1:element id='id' lookup='lookup'>";
+            xml4 += "</ns1:element>";
+            xml4 += "<ns2:otherNode repr='insertInvalidElement' valid='true'>";
+            xml4 += "</ns2:otherNode>";
+            xml4 += "</ns1:form>";
+            FormDefinitions formDefinitions4 = createFormDefinitionsFromXml(xml4);
+            FormBinder formBinder4 = new FormBinder(formDefinitions4, new FormInstanceBinderImpl());
+            formBinder4.bind(new BindingSourceImpl("source"), "id");
+            Assertions.fail("FormBinder test fail");
+        } catch (FormBindingException ex) {
+            Assertions.assertThat(ex).hasCause(SAXException.class);
         }
     }
 
