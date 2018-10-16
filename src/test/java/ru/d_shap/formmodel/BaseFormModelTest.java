@@ -142,7 +142,7 @@ public class BaseFormModelTest {
      *
      * @return container for all form definitions.
      */
-    protected final FormDefinitions createFormDefinitions(final String... xmls) {
+    protected final FormDefinitions createFormDefinitionsFromXml(final String... xmls) {
         List<FormDefinition> formDefinitions1 = new ArrayList<>();
         for (String xml : xmls) {
             Document document = parse(xml);
