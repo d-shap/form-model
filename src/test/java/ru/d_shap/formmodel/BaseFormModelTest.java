@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
 import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -39,10 +40,12 @@ import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 
 import ru.d_shap.formmodel.definition.loader.FormDefinitionsLoader;
+import ru.d_shap.formmodel.definition.loader.xml.FormXmlDefinitionsElementLoader;
 import ru.d_shap.formmodel.definition.loader.xml.FormXmlDefinitionsLoader;
 import ru.d_shap.formmodel.definition.model.AttributeDefinition;
 import ru.d_shap.formmodel.definition.model.ElementDefinition;
 import ru.d_shap.formmodel.definition.model.FormDefinition;
+import ru.d_shap.formmodel.definition.model.FormDefinitions;
 import ru.d_shap.formmodel.definition.model.FormReferenceDefinition;
 import ru.d_shap.formmodel.definition.model.NodeDefinition;
 import ru.d_shap.formmodel.definition.model.SingleElementDefinition;
@@ -130,6 +133,26 @@ public class BaseFormModelTest {
         Reader reader = new StringReader(xml);
         InputSource inputSource = new InputSource(reader);
         return documentBuilder.parse(inputSource);
+    }
+
+    /**
+     * Create container for all form definitions.
+     *
+     * @param xmls the source XML documents.
+     *
+     * @return container for all form definitions.
+     */
+    protected final FormDefinitions createFormDefinitions(final String... xmls) {
+        List<FormDefinition> formDefinitions1 = new ArrayList<>();
+        for (String xml : xmls) {
+            Document document = parse(xml);
+            FormXmlDefinitionsElementLoader formXmlDefinitionsElementLoader = new FormXmlDefinitionsElementLoader(document.getDocumentElement(), "source");
+            List<FormDefinition> formDefinitions2 = formXmlDefinitionsElementLoader.load();
+            formDefinitions1.addAll(formDefinitions2);
+        }
+        FormDefinitions formDefinitions = new FormDefinitions();
+        formDefinitions.addFormDefinitions(formDefinitions1);
+        return formDefinitions;
     }
 
     /**
