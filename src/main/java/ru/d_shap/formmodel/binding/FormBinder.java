@@ -116,21 +116,17 @@ public final class FormBinder {
 
     private Document bind(final BindingSource bindingSource, final FormDefinition formDefinition) {
         XmlDocumentBuilder xmlDocumentBuilder = XmlDocumentBuilder.getDocumentBuilder();
-        Document document = xmlDocumentBuilder.newDocument();
-        boolean success = false;
+        Document newDocument = xmlDocumentBuilder.newDocument();
+        Document bindedDocument = null;
         try {
             _formInstanceBuilder.preBind(bindingSource, formDefinition);
-            _formInstanceBuilder.buildFormInstance(bindingSource, document, formDefinition);
-            success = true;
+            _formInstanceBuilder.buildFormInstance(bindingSource, newDocument, formDefinition);
+            bindedDocument = newDocument;
+            validate(bindedDocument);
         } finally {
-            if (success) {
-                _formInstanceBuilder.postBind(bindingSource, formDefinition, document);
-            } else {
-                _formInstanceBuilder.postBind(bindingSource, formDefinition, null);
-            }
+            _formInstanceBuilder.postBind(bindingSource, formDefinition, bindedDocument);
         }
-        validate(document);
-        return document;
+        return bindedDocument;
     }
 
     private void validate(final Document document) {
