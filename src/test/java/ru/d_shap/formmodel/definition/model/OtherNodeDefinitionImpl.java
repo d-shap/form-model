@@ -53,6 +53,15 @@ public final class OtherNodeDefinitionImpl implements OtherNodeDefinition {
     }
 
     /**
+     * Get the string representation of this definition.
+     *
+     * @return the string representation of this definition.
+     */
+    public String getRepresentation() {
+        return _representation;
+    }
+
+    /**
      * Define if this definition is valid.
      *
      * @return true if this definition is valid.
