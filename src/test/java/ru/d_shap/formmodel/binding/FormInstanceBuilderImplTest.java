@@ -105,8 +105,8 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
     public void buildAttributeInstanceDefaultTest() {
         String xml = "<?xml version='1.0'?>\n";
         xml += "<ns1:form id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
-        xml += "<ns1:element id='id' lookup='lookup' type='required'>";
-        xml += "<ns1:attribute id='id' lookup='lookup' type='required'>";
+        xml += "<ns1:element id='id' lookup='lookup'>";
+        xml += "<ns1:attribute id='id' lookup='lookup'>";
         xml += "</ns1:attribute>";
         xml += "</ns1:element>";
         xml += "</ns1:form>";
@@ -125,7 +125,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
         try {
             String xml1 = "<?xml version='1.0'?>\n";
             xml1 += "<ns1:form id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
-            xml1 += "<ns1:element id='id' lookup='lookup' type='required'>";
+            xml1 += "<ns1:element id='id' lookup='lookup'>";
             xml1 += "<ns1:attribute id='id' lookup='lookup' type='required' repr='repr' count='0'>";
             xml1 += "</ns1:attribute>";
             xml1 += "</ns1:element>";
@@ -141,7 +141,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
 
         String xml2 = "<?xml version='1.0'?>\n";
         xml2 += "<ns1:form id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
-        xml2 += "<ns1:element id='id' lookup='lookup' type='required'>";
+        xml2 += "<ns1:element id='id' lookup='lookup'>";
         xml2 += "<ns1:attribute id='id' lookup='lookup' type='required' repr='repr' count='1'>";
         xml2 += "</ns1:attribute>";
         xml2 += "</ns1:element>";
@@ -160,7 +160,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
     public void buildAttributeInstanceReprOptionalTest() {
         String xml1 = "<?xml version='1.0'?>\n";
         xml1 += "<ns1:form id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
-        xml1 += "<ns1:element id='id' lookup='lookup' type='required'>";
+        xml1 += "<ns1:element id='id' lookup='lookup'>";
         xml1 += "<ns1:attribute id='id' lookup='lookup' type='optional' repr='repr' count='0'>";
         xml1 += "</ns1:attribute>";
         xml1 += "</ns1:element>";
@@ -173,7 +173,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
 
         String xml2 = "<?xml version='1.0'?>\n";
         xml2 += "<ns1:form id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
-        xml2 += "<ns1:element id='id' lookup='lookup' type='required'>";
+        xml2 += "<ns1:element id='id' lookup='lookup'>";
         xml2 += "<ns1:attribute id='id' lookup='lookup' type='optional' repr='repr' count='1'>";
         xml2 += "</ns1:attribute>";
         xml2 += "</ns1:element>";
@@ -192,7 +192,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
     public void buildAttributeInstanceReprProhibitedTest() {
         String xml1 = "<?xml version='1.0'?>\n";
         xml1 += "<ns1:form id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
-        xml1 += "<ns1:element id='id' lookup='lookup' type='required'>";
+        xml1 += "<ns1:element id='id' lookup='lookup'>";
         xml1 += "<ns1:attribute id='id' lookup='lookup' type='prohibited' repr='repr' count='0'>";
         xml1 += "</ns1:attribute>";
         xml1 += "</ns1:element>";
@@ -206,7 +206,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
         try {
             String xml2 = "<?xml version='1.0'?>\n";
             xml2 += "<ns1:form id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
-            xml2 += "<ns1:element id='id' lookup='lookup' type='required'>";
+            xml2 += "<ns1:element id='id' lookup='lookup'>";
             xml2 += "<ns1:attribute id='id' lookup='lookup' type='prohibited' repr='repr' count='1'>";
             xml2 += "</ns1:attribute>";
             xml2 += "</ns1:element>";
@@ -228,7 +228,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
     public void buildElementInstanceDefaultTest() {
         String xml = "<?xml version='1.0'?>\n";
         xml += "<ns1:form id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
-        xml += "<ns1:element id='id' lookup='lookup' type='required'>";
+        xml += "<ns1:element id='id' lookup='lookup'>";
         xml += "</ns1:element>";
         xml += "</ns1:form>";
         FormDefinitions formDefinitions = createFormDefinitionsFromXml(xml);
@@ -528,7 +528,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
     public void buildSingleElementInstanceDefaultTest() {
         String xml1 = "<?xml version='1.0'?>\n";
         xml1 += "<ns1:form id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
-        xml1 += "<ns1:single-element id='id' type='required'>";
+        xml1 += "<ns1:single-element id='id'>";
         xml1 += "<ns1:element id='id' lookup='lookup'>";
         xml1 += "</ns1:element>";
         xml1 += "</ns1:single-element>";
@@ -542,7 +542,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
         try {
             String xml2 = "<?xml version='1.0'?>\n";
             xml2 += "<ns1:form id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
-            xml2 += "<ns1:single-element id='id' type='required'>";
+            xml2 += "<ns1:single-element id='id'>";
             xml2 += "<ns1:element id='id1' lookup='lookup'>";
             xml2 += "</ns1:element>";
             xml2 += "<ns1:element id='id2' lookup='lookup'>";
@@ -557,6 +557,21 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
         } catch (FormBindingException ex) {
             Assertions.assertThat(ex).hasMessage("[Multiple single elements are present: single-element[@id]], {source}form[@:id]");
         }
+
+        String xml3 = "<?xml version='1.0'?>\n";
+        xml3 += "<ns1:form id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml3 += "<ns1:single-element id='id'>";
+        xml3 += "<ns1:single-element id='id'>";
+        xml3 += "<ns1:element id='id' lookup='lookup'>";
+        xml3 += "</ns1:element>";
+        xml3 += "</ns1:single-element>";
+        xml3 += "</ns1:single-element>";
+        xml3 += "</ns1:form>";
+        FormDefinitions formDefinitions3 = createFormDefinitionsFromXml(xml3);
+        FormInstanceBuilderImpl formInstanceBuilder3 = createBinder(formDefinitions3);
+        Document document3 = newDocument();
+        formInstanceBuilder3.buildFormInstance(new BindingSourceImpl("repr"), document3, formDefinitions3.getFormDefinition("id"));
+        Assertions.assertThat(DocumentWriter.getAsString(document3)).isEqualTo("<form id=\"id\" xmlns=\"http://d-shap.ru/schema/form-instance/1.0\"><single-element id=\"id\"><single-element id=\"id\"><element id=\"id\"/></single-element></single-element></form>");
     }
 
     /**
