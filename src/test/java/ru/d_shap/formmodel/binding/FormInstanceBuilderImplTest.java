@@ -55,7 +55,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
             String xml1 = "<?xml version='1.0'?>\n";
             xml1 += "<ns1:form id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
             xml1 += "</ns1:form>";
-            FormDefinitions formDefinitions1 = createFormDefinitions(xml1);
+            FormDefinitions formDefinitions1 = createFormDefinitionsFromXml(xml1);
             FormInstanceBuilderImpl formInstanceBuilder1 = createBinder(formDefinitions1);
             Document document1 = newDocument();
             formInstanceBuilder1.buildFormInstance(new BindingSourceImpl(null), document1, formDefinitions1.getFormDefinition("id"));
@@ -67,7 +67,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
         String xml2 = "<?xml version='1.0'?>\n";
         xml2 += "<ns1:form id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
         xml2 += "</ns1:form>";
-        FormDefinitions formDefinitions2 = createFormDefinitions(xml2);
+        FormDefinitions formDefinitions2 = createFormDefinitionsFromXml(xml2);
         FormInstanceBuilderImpl formInstanceBuilder2 = createBinder(formDefinitions2);
         Document document2 = newDocument();
         formInstanceBuilder2.buildFormInstance(new BindingSourceImpl("source repr"), document2, formDefinitions2.getFormDefinition("id"));
@@ -82,7 +82,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
         String xml1 = "<?xml version='1.0'?>\n";
         xml1 += "<ns1:form id='id' repr='repr' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
         xml1 += "</ns1:form>";
-        FormDefinitions formDefinitions1 = createFormDefinitions(xml1);
+        FormDefinitions formDefinitions1 = createFormDefinitionsFromXml(xml1);
         FormInstanceBuilderImpl formInstanceBuilder1 = createBinder(formDefinitions1);
         Document document1 = newDocument();
         formInstanceBuilder1.buildFormInstance(new BindingSourceImpl(null), document1, formDefinitions1.getFormDefinition("id"));
@@ -91,7 +91,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
         String xml2 = "<?xml version='1.0'?>\n";
         xml2 += "<ns1:form id='id' repr='repr' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
         xml2 += "</ns1:form>";
-        FormDefinitions formDefinitions2 = createFormDefinitions(xml2);
+        FormDefinitions formDefinitions2 = createFormDefinitionsFromXml(xml2);
         FormInstanceBuilderImpl formInstanceBuilder2 = createBinder(formDefinitions2);
         Document document2 = newDocument();
         formInstanceBuilder2.buildFormInstance(new BindingSourceImpl("source repr"), document2, formDefinitions2.getFormDefinition("id"));
@@ -110,7 +110,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
         xml += "</ns1:attribute>";
         xml += "</ns1:element>";
         xml += "</ns1:form>";
-        FormDefinitions formDefinitions = createFormDefinitions(xml);
+        FormDefinitions formDefinitions = createFormDefinitionsFromXml(xml);
         FormInstanceBuilderImpl formInstanceBuilder = createBinder(formDefinitions);
         Document document = newDocument();
         formInstanceBuilder.buildFormInstance(new BindingSourceImpl("repr"), document, formDefinitions.getFormDefinition("id"));
@@ -130,7 +130,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
             xml1 += "</ns1:attribute>";
             xml1 += "</ns1:element>";
             xml1 += "</ns1:form>";
-            FormDefinitions formDefinitions1 = createFormDefinitions(xml1);
+            FormDefinitions formDefinitions1 = createFormDefinitionsFromXml(xml1);
             FormInstanceBuilderImpl formInstanceBuilder1 = createBinder(formDefinitions1);
             Document document1 = newDocument();
             formInstanceBuilder1.buildFormInstance(new BindingSourceImpl("repr"), document1, formDefinitions1.getFormDefinition("id"));
@@ -146,7 +146,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
         xml2 += "</ns1:attribute>";
         xml2 += "</ns1:element>";
         xml2 += "</ns1:form>";
-        FormDefinitions formDefinitions2 = createFormDefinitions(xml2);
+        FormDefinitions formDefinitions2 = createFormDefinitionsFromXml(xml2);
         FormInstanceBuilderImpl formInstanceBuilder2 = createBinder(formDefinitions2);
         Document document2 = newDocument();
         formInstanceBuilder2.buildFormInstance(new BindingSourceImpl("repr"), document2, formDefinitions2.getFormDefinition("id"));
@@ -165,7 +165,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
         xml1 += "</ns1:attribute>";
         xml1 += "</ns1:element>";
         xml1 += "</ns1:form>";
-        FormDefinitions formDefinitions1 = createFormDefinitions(xml1);
+        FormDefinitions formDefinitions1 = createFormDefinitionsFromXml(xml1);
         FormInstanceBuilderImpl formInstanceBuilder1 = createBinder(formDefinitions1);
         Document document1 = newDocument();
         formInstanceBuilder1.buildFormInstance(new BindingSourceImpl("repr"), document1, formDefinitions1.getFormDefinition("id"));
@@ -178,7 +178,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
         xml2 += "</ns1:attribute>";
         xml2 += "</ns1:element>";
         xml2 += "</ns1:form>";
-        FormDefinitions formDefinitions2 = createFormDefinitions(xml2);
+        FormDefinitions formDefinitions2 = createFormDefinitionsFromXml(xml2);
         FormInstanceBuilderImpl formInstanceBuilder2 = createBinder(formDefinitions2);
         Document document2 = newDocument();
         formInstanceBuilder2.buildFormInstance(new BindingSourceImpl("repr"), document2, formDefinitions2.getFormDefinition("id"));
@@ -197,7 +197,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
         xml1 += "</ns1:attribute>";
         xml1 += "</ns1:element>";
         xml1 += "</ns1:form>";
-        FormDefinitions formDefinitions1 = createFormDefinitions(xml1);
+        FormDefinitions formDefinitions1 = createFormDefinitionsFromXml(xml1);
         FormInstanceBuilderImpl formInstanceBuilder1 = createBinder(formDefinitions1);
         Document document1 = newDocument();
         formInstanceBuilder1.buildFormInstance(new BindingSourceImpl("repr"), document1, formDefinitions1.getFormDefinition("id"));
@@ -211,7 +211,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
             xml2 += "</ns1:attribute>";
             xml2 += "</ns1:element>";
             xml2 += "</ns1:form>";
-            FormDefinitions formDefinitions2 = createFormDefinitions(xml2);
+            FormDefinitions formDefinitions2 = createFormDefinitionsFromXml(xml2);
             FormInstanceBuilderImpl formInstanceBuilder2 = createBinder(formDefinitions2);
             Document document2 = newDocument();
             formInstanceBuilder2.buildFormInstance(new BindingSourceImpl("repr"), document2, formDefinitions2.getFormDefinition("id"));
@@ -231,7 +231,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
         xml += "<ns1:element id='id' lookup='lookup' type='required'>";
         xml += "</ns1:element>";
         xml += "</ns1:form>";
-        FormDefinitions formDefinitions = createFormDefinitions(xml);
+        FormDefinitions formDefinitions = createFormDefinitionsFromXml(xml);
         FormInstanceBuilderImpl formInstanceBuilder = createBinder(formDefinitions);
         Document document = newDocument();
         formInstanceBuilder.buildFormInstance(new BindingSourceImpl("repr"), document, formDefinitions.getFormDefinition("id"));
@@ -249,7 +249,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
             xml1 += "<ns1:element id='id' lookup='lookup' type='required' repr='repr' count='-1'>";
             xml1 += "</ns1:element>";
             xml1 += "</ns1:form>";
-            FormDefinitions formDefinitions1 = createFormDefinitions(xml1);
+            FormDefinitions formDefinitions1 = createFormDefinitionsFromXml(xml1);
             FormInstanceBuilderImpl formInstanceBuilder1 = createBinder(formDefinitions1);
             Document document1 = newDocument();
             formInstanceBuilder1.buildFormInstance(new BindingSourceImpl("repr"), document1, formDefinitions1.getFormDefinition("id"));
@@ -264,7 +264,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
             xml2 += "<ns1:element id='id' lookup='lookup' type='required' repr='repr' count='0'>";
             xml2 += "</ns1:element>";
             xml2 += "</ns1:form>";
-            FormDefinitions formDefinitions2 = createFormDefinitions(xml2);
+            FormDefinitions formDefinitions2 = createFormDefinitionsFromXml(xml2);
             FormInstanceBuilderImpl formInstanceBuilder2 = createBinder(formDefinitions2);
             Document document2 = newDocument();
             formInstanceBuilder2.buildFormInstance(new BindingSourceImpl("repr"), document2, formDefinitions2.getFormDefinition("id"));
@@ -278,7 +278,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
         xml3 += "<ns1:element id='id' lookup='lookup' type='required' repr='repr' count='1'>";
         xml3 += "</ns1:element>";
         xml3 += "</ns1:form>";
-        FormDefinitions formDefinitions3 = createFormDefinitions(xml3);
+        FormDefinitions formDefinitions3 = createFormDefinitionsFromXml(xml3);
         FormInstanceBuilderImpl formInstanceBuilder3 = createBinder(formDefinitions3);
         Document document3 = newDocument();
         formInstanceBuilder3.buildFormInstance(new BindingSourceImpl("repr"), document3, formDefinitions3.getFormDefinition("id"));
@@ -290,7 +290,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
             xml4 += "<ns1:element id='id' lookup='lookup' type='required' repr='repr' count='2'>";
             xml4 += "</ns1:element>";
             xml4 += "</ns1:form>";
-            FormDefinitions formDefinitions4 = createFormDefinitions(xml4);
+            FormDefinitions formDefinitions4 = createFormDefinitionsFromXml(xml4);
             FormInstanceBuilderImpl formInstanceBuilder4 = createBinder(formDefinitions4);
             Document document4 = newDocument();
             formInstanceBuilder4.buildFormInstance(new BindingSourceImpl("repr"), document4, formDefinitions4.getFormDefinition("id"));
@@ -311,7 +311,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
             xml1 += "<ns1:element id='id' lookup='lookup' type='required+' repr='repr' count='-1'>";
             xml1 += "</ns1:element>";
             xml1 += "</ns1:form>";
-            FormDefinitions formDefinitions1 = createFormDefinitions(xml1);
+            FormDefinitions formDefinitions1 = createFormDefinitionsFromXml(xml1);
             FormInstanceBuilderImpl formInstanceBuilder1 = createBinder(formDefinitions1);
             Document document1 = newDocument();
             formInstanceBuilder1.buildFormInstance(new BindingSourceImpl("repr"), document1, formDefinitions1.getFormDefinition("id"));
@@ -326,7 +326,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
             xml2 += "<ns1:element id='id' lookup='lookup' type='required+' repr='repr' count='0'>";
             xml2 += "</ns1:element>";
             xml2 += "</ns1:form>";
-            FormDefinitions formDefinitions2 = createFormDefinitions(xml2);
+            FormDefinitions formDefinitions2 = createFormDefinitionsFromXml(xml2);
             FormInstanceBuilderImpl formInstanceBuilder2 = createBinder(formDefinitions2);
             Document document2 = newDocument();
             formInstanceBuilder2.buildFormInstance(new BindingSourceImpl("repr"), document2, formDefinitions2.getFormDefinition("id"));
@@ -340,7 +340,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
         xml3 += "<ns1:element id='id' lookup='lookup' type='required+' repr='repr' count='1'>";
         xml3 += "</ns1:element>";
         xml3 += "</ns1:form>";
-        FormDefinitions formDefinitions3 = createFormDefinitions(xml3);
+        FormDefinitions formDefinitions3 = createFormDefinitionsFromXml(xml3);
         FormInstanceBuilderImpl formInstanceBuilder3 = createBinder(formDefinitions3);
         Document document3 = newDocument();
         formInstanceBuilder3.buildFormInstance(new BindingSourceImpl("repr"), document3, formDefinitions3.getFormDefinition("id"));
@@ -351,7 +351,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
         xml4 += "<ns1:element id='id' lookup='lookup' type='required+' repr='repr' count='2'>";
         xml4 += "</ns1:element>";
         xml4 += "</ns1:form>";
-        FormDefinitions formDefinitions4 = createFormDefinitions(xml4);
+        FormDefinitions formDefinitions4 = createFormDefinitionsFromXml(xml4);
         FormInstanceBuilderImpl formInstanceBuilder4 = createBinder(formDefinitions4);
         Document document4 = newDocument();
         formInstanceBuilder4.buildFormInstance(new BindingSourceImpl("repr"), document4, formDefinitions4.getFormDefinition("id"));
@@ -368,7 +368,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
         xml1 += "<ns1:element id='id' lookup='lookup' type='optional' repr='repr' count='-1'>";
         xml1 += "</ns1:element>";
         xml1 += "</ns1:form>";
-        FormDefinitions formDefinitions1 = createFormDefinitions(xml1);
+        FormDefinitions formDefinitions1 = createFormDefinitionsFromXml(xml1);
         FormInstanceBuilderImpl formInstanceBuilder1 = createBinder(formDefinitions1);
         Document document1 = newDocument();
         formInstanceBuilder1.buildFormInstance(new BindingSourceImpl("repr"), document1, formDefinitions1.getFormDefinition("id"));
@@ -379,7 +379,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
         xml2 += "<ns1:element id='id' lookup='lookup' type='optional' repr='repr' count='0'>";
         xml2 += "</ns1:element>";
         xml2 += "</ns1:form>";
-        FormDefinitions formDefinitions2 = createFormDefinitions(xml2);
+        FormDefinitions formDefinitions2 = createFormDefinitionsFromXml(xml2);
         FormInstanceBuilderImpl formInstanceBuilder2 = createBinder(formDefinitions2);
         Document document2 = newDocument();
         formInstanceBuilder2.buildFormInstance(new BindingSourceImpl("repr"), document2, formDefinitions2.getFormDefinition("id"));
@@ -390,7 +390,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
         xml3 += "<ns1:element id='id' lookup='lookup' type='optional' repr='repr' count='1'>";
         xml3 += "</ns1:element>";
         xml3 += "</ns1:form>";
-        FormDefinitions formDefinitions3 = createFormDefinitions(xml3);
+        FormDefinitions formDefinitions3 = createFormDefinitionsFromXml(xml3);
         FormInstanceBuilderImpl formInstanceBuilder3 = createBinder(formDefinitions3);
         Document document3 = newDocument();
         formInstanceBuilder3.buildFormInstance(new BindingSourceImpl("repr"), document3, formDefinitions3.getFormDefinition("id"));
@@ -402,7 +402,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
             xml4 += "<ns1:element id='id' lookup='lookup' type='optional' repr='repr' count='2'>";
             xml4 += "</ns1:element>";
             xml4 += "</ns1:form>";
-            FormDefinitions formDefinitions4 = createFormDefinitions(xml4);
+            FormDefinitions formDefinitions4 = createFormDefinitionsFromXml(xml4);
             FormInstanceBuilderImpl formInstanceBuilder4 = createBinder(formDefinitions4);
             Document document4 = newDocument();
             formInstanceBuilder4.buildFormInstance(new BindingSourceImpl("repr"), document4, formDefinitions4.getFormDefinition("id"));
@@ -422,7 +422,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
         xml1 += "<ns1:element id='id' lookup='lookup' type='optional+' repr='repr' count='-1'>";
         xml1 += "</ns1:element>";
         xml1 += "</ns1:form>";
-        FormDefinitions formDefinitions1 = createFormDefinitions(xml1);
+        FormDefinitions formDefinitions1 = createFormDefinitionsFromXml(xml1);
         FormInstanceBuilderImpl formInstanceBuilder1 = createBinder(formDefinitions1);
         Document document1 = newDocument();
         formInstanceBuilder1.buildFormInstance(new BindingSourceImpl("repr"), document1, formDefinitions1.getFormDefinition("id"));
@@ -433,7 +433,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
         xml2 += "<ns1:element id='id' lookup='lookup' type='optional+' repr='repr' count='0'>";
         xml2 += "</ns1:element>";
         xml2 += "</ns1:form>";
-        FormDefinitions formDefinitions2 = createFormDefinitions(xml2);
+        FormDefinitions formDefinitions2 = createFormDefinitionsFromXml(xml2);
         FormInstanceBuilderImpl formInstanceBuilder2 = createBinder(formDefinitions2);
         Document document2 = newDocument();
         formInstanceBuilder2.buildFormInstance(new BindingSourceImpl("repr"), document2, formDefinitions2.getFormDefinition("id"));
@@ -444,7 +444,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
         xml3 += "<ns1:element id='id' lookup='lookup' type='optional+' repr='repr' count='1'>";
         xml3 += "</ns1:element>";
         xml3 += "</ns1:form>";
-        FormDefinitions formDefinitions3 = createFormDefinitions(xml3);
+        FormDefinitions formDefinitions3 = createFormDefinitionsFromXml(xml3);
         FormInstanceBuilderImpl formInstanceBuilder3 = createBinder(formDefinitions3);
         Document document3 = newDocument();
         formInstanceBuilder3.buildFormInstance(new BindingSourceImpl("repr"), document3, formDefinitions3.getFormDefinition("id"));
@@ -455,7 +455,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
         xml4 += "<ns1:element id='id' lookup='lookup' type='optional+' repr='repr' count='2'>";
         xml4 += "</ns1:element>";
         xml4 += "</ns1:form>";
-        FormDefinitions formDefinitions4 = createFormDefinitions(xml4);
+        FormDefinitions formDefinitions4 = createFormDefinitionsFromXml(xml4);
         FormInstanceBuilderImpl formInstanceBuilder4 = createBinder(formDefinitions4);
         Document document4 = newDocument();
         formInstanceBuilder4.buildFormInstance(new BindingSourceImpl("repr"), document4, formDefinitions4.getFormDefinition("id"));
@@ -472,7 +472,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
         xml1 += "<ns1:element id='id' lookup='lookup' type='prohibited' repr='repr' count='-1'>";
         xml1 += "</ns1:element>";
         xml1 += "</ns1:form>";
-        FormDefinitions formDefinitions1 = createFormDefinitions(xml1);
+        FormDefinitions formDefinitions1 = createFormDefinitionsFromXml(xml1);
         FormInstanceBuilderImpl formInstanceBuilder1 = createBinder(formDefinitions1);
         Document document1 = newDocument();
         formInstanceBuilder1.buildFormInstance(new BindingSourceImpl("repr"), document1, formDefinitions1.getFormDefinition("id"));
@@ -483,7 +483,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
         xml2 += "<ns1:element id='id' lookup='lookup' type='prohibited' repr='repr' count='0'>";
         xml2 += "</ns1:element>";
         xml2 += "</ns1:form>";
-        FormDefinitions formDefinitions2 = createFormDefinitions(xml2);
+        FormDefinitions formDefinitions2 = createFormDefinitionsFromXml(xml2);
         FormInstanceBuilderImpl formInstanceBuilder2 = createBinder(formDefinitions2);
         Document document2 = newDocument();
         formInstanceBuilder2.buildFormInstance(new BindingSourceImpl("repr"), document2, formDefinitions2.getFormDefinition("id"));
@@ -495,7 +495,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
             xml3 += "<ns1:element id='id' lookup='lookup' type='prohibited' repr='repr' count='1'>";
             xml3 += "</ns1:element>";
             xml3 += "</ns1:form>";
-            FormDefinitions formDefinitions3 = createFormDefinitions(xml3);
+            FormDefinitions formDefinitions3 = createFormDefinitionsFromXml(xml3);
             FormInstanceBuilderImpl formInstanceBuilder3 = createBinder(formDefinitions3);
             Document document3 = newDocument();
             formInstanceBuilder3.buildFormInstance(new BindingSourceImpl("repr"), document3, formDefinitions3.getFormDefinition("id"));
@@ -510,7 +510,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
             xml4 += "<ns1:element id='id' lookup='lookup' type='prohibited' repr='repr' count='2'>";
             xml4 += "</ns1:element>";
             xml4 += "</ns1:form>";
-            FormDefinitions formDefinitions4 = createFormDefinitions(xml4);
+            FormDefinitions formDefinitions4 = createFormDefinitionsFromXml(xml4);
             FormInstanceBuilderImpl formInstanceBuilder4 = createBinder(formDefinitions4);
             Document document4 = newDocument();
             formInstanceBuilder4.buildFormInstance(new BindingSourceImpl("repr"), document4, formDefinitions4.getFormDefinition("id"));
@@ -533,7 +533,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
         xml1 += "</ns1:element>";
         xml1 += "</ns1:single-element>";
         xml1 += "</ns1:form>";
-        FormDefinitions formDefinitions1 = createFormDefinitions(xml1);
+        FormDefinitions formDefinitions1 = createFormDefinitionsFromXml(xml1);
         FormInstanceBuilderImpl formInstanceBuilder1 = createBinder(formDefinitions1);
         Document document1 = newDocument();
         formInstanceBuilder1.buildFormInstance(new BindingSourceImpl("repr"), document1, formDefinitions1.getFormDefinition("id"));
@@ -549,7 +549,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
             xml2 += "</ns1:element>";
             xml2 += "</ns1:single-element>";
             xml2 += "</ns1:form>";
-            FormDefinitions formDefinitions2 = createFormDefinitions(xml2);
+            FormDefinitions formDefinitions2 = createFormDefinitionsFromXml(xml2);
             FormInstanceBuilderImpl formInstanceBuilder2 = createBinder(formDefinitions2);
             Document document2 = newDocument();
             formInstanceBuilder2.buildFormInstance(new BindingSourceImpl("repr"), document2, formDefinitions2.getFormDefinition("id"));
@@ -574,7 +574,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
             xml11 += "</ns1:element>";
             xml11 += "</ns1:single-element>";
             xml11 += "</ns1:form>";
-            FormDefinitions formDefinitions11 = createFormDefinitions(xml11);
+            FormDefinitions formDefinitions11 = createFormDefinitionsFromXml(xml11);
             FormInstanceBuilderImpl formInstanceBuilder11 = createBinder(formDefinitions11);
             Document document11 = newDocument();
             formInstanceBuilder11.buildFormInstance(new BindingSourceImpl("repr"), document11, formDefinitions11.getFormDefinition("id"));
@@ -593,7 +593,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
             xml12 += "</ns1:element>";
             xml12 += "</ns1:single-element>";
             xml12 += "</ns1:form>";
-            FormDefinitions formDefinitions12 = createFormDefinitions(xml12);
+            FormDefinitions formDefinitions12 = createFormDefinitionsFromXml(xml12);
             FormInstanceBuilderImpl formInstanceBuilder12 = createBinder(formDefinitions12);
             Document document12 = newDocument();
             formInstanceBuilder12.buildFormInstance(new BindingSourceImpl("repr"), document12, formDefinitions12.getFormDefinition("id"));
@@ -611,7 +611,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
         xml13 += "</ns1:element>";
         xml13 += "</ns1:single-element>";
         xml13 += "</ns1:form>";
-        FormDefinitions formDefinitions13 = createFormDefinitions(xml13);
+        FormDefinitions formDefinitions13 = createFormDefinitionsFromXml(xml13);
         FormInstanceBuilderImpl formInstanceBuilder13 = createBinder(formDefinitions13);
         Document document13 = newDocument();
         formInstanceBuilder13.buildFormInstance(new BindingSourceImpl("repr"), document13, formDefinitions13.getFormDefinition("id"));
@@ -627,7 +627,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
             xml14 += "</ns1:element>";
             xml14 += "</ns1:single-element>";
             xml14 += "</ns1:form>";
-            FormDefinitions formDefinitions14 = createFormDefinitions(xml14);
+            FormDefinitions formDefinitions14 = createFormDefinitionsFromXml(xml14);
             FormInstanceBuilderImpl formInstanceBuilder14 = createBinder(formDefinitions14);
             Document document14 = newDocument();
             formInstanceBuilder14.buildFormInstance(new BindingSourceImpl("repr"), document14, formDefinitions14.getFormDefinition("id"));
@@ -645,7 +645,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
         xml15 += "</ns1:element>";
         xml15 += "</ns1:single-element>";
         xml15 += "</ns1:form>";
-        FormDefinitions formDefinitions15 = createFormDefinitions(xml15);
+        FormDefinitions formDefinitions15 = createFormDefinitionsFromXml(xml15);
         FormInstanceBuilderImpl formInstanceBuilder15 = createBinder(formDefinitions15);
         Document document15 = newDocument();
         formInstanceBuilder15.buildFormInstance(new BindingSourceImpl("repr"), document15, formDefinitions15.getFormDefinition("id"));
@@ -661,7 +661,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
             xml21 += "</ns1:element>";
             xml21 += "</ns1:single-element>";
             xml21 += "</ns1:form>";
-            FormDefinitions formDefinitions21 = createFormDefinitions(xml21);
+            FormDefinitions formDefinitions21 = createFormDefinitionsFromXml(xml21);
             FormInstanceBuilderImpl formInstanceBuilder21 = createBinder(formDefinitions21);
             Document document21 = newDocument();
             formInstanceBuilder21.buildFormInstance(new BindingSourceImpl("repr"), document21, formDefinitions21.getFormDefinition("id"));
@@ -680,7 +680,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
             xml22 += "</ns1:element>";
             xml22 += "</ns1:single-element>";
             xml22 += "</ns1:form>";
-            FormDefinitions formDefinitions22 = createFormDefinitions(xml22);
+            FormDefinitions formDefinitions22 = createFormDefinitionsFromXml(xml22);
             FormInstanceBuilderImpl formInstanceBuilder22 = createBinder(formDefinitions22);
             Document document22 = newDocument();
             formInstanceBuilder22.buildFormInstance(new BindingSourceImpl("repr"), document22, formDefinitions22.getFormDefinition("id"));
@@ -698,7 +698,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
         xml23 += "</ns1:element>";
         xml23 += "</ns1:single-element>";
         xml23 += "</ns1:form>";
-        FormDefinitions formDefinitions23 = createFormDefinitions(xml23);
+        FormDefinitions formDefinitions23 = createFormDefinitionsFromXml(xml23);
         FormInstanceBuilderImpl formInstanceBuilder23 = createBinder(formDefinitions23);
         Document document23 = newDocument();
         formInstanceBuilder23.buildFormInstance(new BindingSourceImpl("repr"), document23, formDefinitions23.getFormDefinition("id"));
@@ -714,7 +714,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
             xml24 += "</ns1:element>";
             xml24 += "</ns1:single-element>";
             xml24 += "</ns1:form>";
-            FormDefinitions formDefinitions24 = createFormDefinitions(xml24);
+            FormDefinitions formDefinitions24 = createFormDefinitionsFromXml(xml24);
             FormInstanceBuilderImpl formInstanceBuilder24 = createBinder(formDefinitions24);
             Document document24 = newDocument();
             formInstanceBuilder24.buildFormInstance(new BindingSourceImpl("repr"), document24, formDefinitions24.getFormDefinition("id"));
@@ -732,7 +732,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
         xml25 += "</ns1:element>";
         xml25 += "</ns1:single-element>";
         xml25 += "</ns1:form>";
-        FormDefinitions formDefinitions25 = createFormDefinitions(xml25);
+        FormDefinitions formDefinitions25 = createFormDefinitionsFromXml(xml25);
         FormInstanceBuilderImpl formInstanceBuilder25 = createBinder(formDefinitions25);
         Document document25 = newDocument();
         formInstanceBuilder25.buildFormInstance(new BindingSourceImpl("repr"), document25, formDefinitions25.getFormDefinition("id"));
@@ -747,7 +747,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
         xml31 += "</ns1:element>";
         xml31 += "</ns1:single-element>";
         xml31 += "</ns1:form>";
-        FormDefinitions formDefinitions31 = createFormDefinitions(xml31);
+        FormDefinitions formDefinitions31 = createFormDefinitionsFromXml(xml31);
         FormInstanceBuilderImpl formInstanceBuilder31 = createBinder(formDefinitions31);
         Document document31 = newDocument();
         formInstanceBuilder31.buildFormInstance(new BindingSourceImpl("repr"), document31, formDefinitions31.getFormDefinition("id"));
@@ -762,7 +762,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
         xml32 += "</ns1:element>";
         xml32 += "</ns1:single-element>";
         xml32 += "</ns1:form>";
-        FormDefinitions formDefinitions32 = createFormDefinitions(xml32);
+        FormDefinitions formDefinitions32 = createFormDefinitionsFromXml(xml32);
         FormInstanceBuilderImpl formInstanceBuilder32 = createBinder(formDefinitions32);
         Document document32 = newDocument();
         formInstanceBuilder32.buildFormInstance(new BindingSourceImpl("repr"), document32, formDefinitions32.getFormDefinition("id"));
@@ -778,7 +778,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
             xml33 += "</ns1:element>";
             xml33 += "</ns1:single-element>";
             xml33 += "</ns1:form>";
-            FormDefinitions formDefinitions33 = createFormDefinitions(xml33);
+            FormDefinitions formDefinitions33 = createFormDefinitionsFromXml(xml33);
             FormInstanceBuilderImpl formInstanceBuilder33 = createBinder(formDefinitions33);
             Document document33 = newDocument();
             formInstanceBuilder33.buildFormInstance(new BindingSourceImpl("repr"), document33, formDefinitions33.getFormDefinition("id"));
@@ -797,7 +797,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
             xml34 += "</ns1:element>";
             xml34 += "</ns1:single-element>";
             xml34 += "</ns1:form>";
-            FormDefinitions formDefinitions34 = createFormDefinitions(xml34);
+            FormDefinitions formDefinitions34 = createFormDefinitionsFromXml(xml34);
             FormInstanceBuilderImpl formInstanceBuilder34 = createBinder(formDefinitions34);
             Document document34 = newDocument();
             formInstanceBuilder34.buildFormInstance(new BindingSourceImpl("repr"), document34, formDefinitions34.getFormDefinition("id"));
@@ -816,7 +816,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
             xml35 += "</ns1:element>";
             xml35 += "</ns1:single-element>";
             xml35 += "</ns1:form>";
-            FormDefinitions formDefinitions35 = createFormDefinitions(xml35);
+            FormDefinitions formDefinitions35 = createFormDefinitionsFromXml(xml35);
             FormInstanceBuilderImpl formInstanceBuilder35 = createBinder(formDefinitions35);
             Document document35 = newDocument();
             formInstanceBuilder35.buildFormInstance(new BindingSourceImpl("repr"), document35, formDefinitions35.getFormDefinition("id"));
@@ -835,7 +835,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
             xml41 += "</ns1:element>";
             xml41 += "</ns1:single-element>";
             xml41 += "</ns1:form>";
-            FormDefinitions formDefinitions41 = createFormDefinitions(xml41);
+            FormDefinitions formDefinitions41 = createFormDefinitionsFromXml(xml41);
             FormInstanceBuilderImpl formInstanceBuilder41 = createBinder(formDefinitions41);
             Document document41 = newDocument();
             formInstanceBuilder41.buildFormInstance(new BindingSourceImpl("repr"), document41, formDefinitions41.getFormDefinition("id"));
@@ -854,7 +854,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
             xml42 += "</ns1:element>";
             xml42 += "</ns1:single-element>";
             xml42 += "</ns1:form>";
-            FormDefinitions formDefinitions42 = createFormDefinitions(xml42);
+            FormDefinitions formDefinitions42 = createFormDefinitionsFromXml(xml42);
             FormInstanceBuilderImpl formInstanceBuilder42 = createBinder(formDefinitions42);
             Document document42 = newDocument();
             formInstanceBuilder42.buildFormInstance(new BindingSourceImpl("repr"), document42, formDefinitions42.getFormDefinition("id"));
@@ -873,7 +873,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
             xml43 += "</ns1:element>";
             xml43 += "</ns1:single-element>";
             xml43 += "</ns1:form>";
-            FormDefinitions formDefinitions43 = createFormDefinitions(xml43);
+            FormDefinitions formDefinitions43 = createFormDefinitionsFromXml(xml43);
             FormInstanceBuilderImpl formInstanceBuilder43 = createBinder(formDefinitions43);
             Document document43 = newDocument();
             formInstanceBuilder43.buildFormInstance(new BindingSourceImpl("repr"), document43, formDefinitions43.getFormDefinition("id"));
@@ -892,7 +892,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
             xml44 += "</ns1:element>";
             xml44 += "</ns1:single-element>";
             xml44 += "</ns1:form>";
-            FormDefinitions formDefinitions44 = createFormDefinitions(xml44);
+            FormDefinitions formDefinitions44 = createFormDefinitionsFromXml(xml44);
             FormInstanceBuilderImpl formInstanceBuilder44 = createBinder(formDefinitions44);
             Document document44 = newDocument();
             formInstanceBuilder44.buildFormInstance(new BindingSourceImpl("repr"), document44, formDefinitions44.getFormDefinition("id"));
@@ -911,7 +911,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
             xml45 += "</ns1:element>";
             xml45 += "</ns1:single-element>";
             xml45 += "</ns1:form>";
-            FormDefinitions formDefinitions45 = createFormDefinitions(xml45);
+            FormDefinitions formDefinitions45 = createFormDefinitionsFromXml(xml45);
             FormInstanceBuilderImpl formInstanceBuilder45 = createBinder(formDefinitions45);
             Document document45 = newDocument();
             formInstanceBuilder45.buildFormInstance(new BindingSourceImpl("repr"), document45, formDefinitions45.getFormDefinition("id"));
@@ -936,7 +936,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
         xml11 += "</ns1:element>";
         xml11 += "</ns1:single-element>";
         xml11 += "</ns1:form>";
-        FormDefinitions formDefinitions11 = createFormDefinitions(xml11);
+        FormDefinitions formDefinitions11 = createFormDefinitionsFromXml(xml11);
         FormInstanceBuilderImpl formInstanceBuilder11 = createBinder(formDefinitions11);
         Document document11 = newDocument();
         formInstanceBuilder11.buildFormInstance(new BindingSourceImpl("repr"), document11, formDefinitions11.getFormDefinition("id"));
@@ -951,7 +951,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
         xml12 += "</ns1:element>";
         xml12 += "</ns1:single-element>";
         xml12 += "</ns1:form>";
-        FormDefinitions formDefinitions12 = createFormDefinitions(xml12);
+        FormDefinitions formDefinitions12 = createFormDefinitionsFromXml(xml12);
         FormInstanceBuilderImpl formInstanceBuilder12 = createBinder(formDefinitions12);
         Document document12 = newDocument();
         formInstanceBuilder12.buildFormInstance(new BindingSourceImpl("repr"), document12, formDefinitions12.getFormDefinition("id"));
@@ -966,7 +966,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
         xml13 += "</ns1:element>";
         xml13 += "</ns1:single-element>";
         xml13 += "</ns1:form>";
-        FormDefinitions formDefinitions13 = createFormDefinitions(xml13);
+        FormDefinitions formDefinitions13 = createFormDefinitionsFromXml(xml13);
         FormInstanceBuilderImpl formInstanceBuilder13 = createBinder(formDefinitions13);
         Document document13 = newDocument();
         formInstanceBuilder13.buildFormInstance(new BindingSourceImpl("repr"), document13, formDefinitions13.getFormDefinition("id"));
@@ -982,7 +982,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
             xml14 += "</ns1:element>";
             xml14 += "</ns1:single-element>";
             xml14 += "</ns1:form>";
-            FormDefinitions formDefinitions14 = createFormDefinitions(xml14);
+            FormDefinitions formDefinitions14 = createFormDefinitionsFromXml(xml14);
             FormInstanceBuilderImpl formInstanceBuilder14 = createBinder(formDefinitions14);
             Document document14 = newDocument();
             formInstanceBuilder14.buildFormInstance(new BindingSourceImpl("repr"), document14, formDefinitions14.getFormDefinition("id"));
@@ -1000,7 +1000,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
         xml15 += "</ns1:element>";
         xml15 += "</ns1:single-element>";
         xml15 += "</ns1:form>";
-        FormDefinitions formDefinitions15 = createFormDefinitions(xml15);
+        FormDefinitions formDefinitions15 = createFormDefinitionsFromXml(xml15);
         FormInstanceBuilderImpl formInstanceBuilder15 = createBinder(formDefinitions15);
         Document document15 = newDocument();
         formInstanceBuilder15.buildFormInstance(new BindingSourceImpl("repr"), document15, formDefinitions15.getFormDefinition("id"));
@@ -1015,7 +1015,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
         xml21 += "</ns1:element>";
         xml21 += "</ns1:single-element>";
         xml21 += "</ns1:form>";
-        FormDefinitions formDefinitions21 = createFormDefinitions(xml21);
+        FormDefinitions formDefinitions21 = createFormDefinitionsFromXml(xml21);
         FormInstanceBuilderImpl formInstanceBuilder21 = createBinder(formDefinitions21);
         Document document21 = newDocument();
         formInstanceBuilder21.buildFormInstance(new BindingSourceImpl("repr"), document21, formDefinitions21.getFormDefinition("id"));
@@ -1030,7 +1030,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
         xml22 += "</ns1:element>";
         xml22 += "</ns1:single-element>";
         xml22 += "</ns1:form>";
-        FormDefinitions formDefinitions22 = createFormDefinitions(xml22);
+        FormDefinitions formDefinitions22 = createFormDefinitionsFromXml(xml22);
         FormInstanceBuilderImpl formInstanceBuilder22 = createBinder(formDefinitions22);
         Document document22 = newDocument();
         formInstanceBuilder22.buildFormInstance(new BindingSourceImpl("repr"), document22, formDefinitions22.getFormDefinition("id"));
@@ -1045,7 +1045,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
         xml23 += "</ns1:element>";
         xml23 += "</ns1:single-element>";
         xml23 += "</ns1:form>";
-        FormDefinitions formDefinitions23 = createFormDefinitions(xml23);
+        FormDefinitions formDefinitions23 = createFormDefinitionsFromXml(xml23);
         FormInstanceBuilderImpl formInstanceBuilder23 = createBinder(formDefinitions23);
         Document document23 = newDocument();
         formInstanceBuilder23.buildFormInstance(new BindingSourceImpl("repr"), document23, formDefinitions23.getFormDefinition("id"));
@@ -1061,7 +1061,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
             xml24 += "</ns1:element>";
             xml24 += "</ns1:single-element>";
             xml24 += "</ns1:form>";
-            FormDefinitions formDefinitions24 = createFormDefinitions(xml24);
+            FormDefinitions formDefinitions24 = createFormDefinitionsFromXml(xml24);
             FormInstanceBuilderImpl formInstanceBuilder24 = createBinder(formDefinitions24);
             Document document24 = newDocument();
             formInstanceBuilder24.buildFormInstance(new BindingSourceImpl("repr"), document24, formDefinitions24.getFormDefinition("id"));
@@ -1079,7 +1079,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
         xml25 += "</ns1:element>";
         xml25 += "</ns1:single-element>";
         xml25 += "</ns1:form>";
-        FormDefinitions formDefinitions25 = createFormDefinitions(xml25);
+        FormDefinitions formDefinitions25 = createFormDefinitionsFromXml(xml25);
         FormInstanceBuilderImpl formInstanceBuilder25 = createBinder(formDefinitions25);
         Document document25 = newDocument();
         formInstanceBuilder25.buildFormInstance(new BindingSourceImpl("repr"), document25, formDefinitions25.getFormDefinition("id"));
@@ -1094,7 +1094,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
         xml31 += "</ns1:element>";
         xml31 += "</ns1:single-element>";
         xml31 += "</ns1:form>";
-        FormDefinitions formDefinitions31 = createFormDefinitions(xml31);
+        FormDefinitions formDefinitions31 = createFormDefinitionsFromXml(xml31);
         FormInstanceBuilderImpl formInstanceBuilder31 = createBinder(formDefinitions31);
         Document document31 = newDocument();
         formInstanceBuilder31.buildFormInstance(new BindingSourceImpl("repr"), document31, formDefinitions31.getFormDefinition("id"));
@@ -1109,7 +1109,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
         xml32 += "</ns1:element>";
         xml32 += "</ns1:single-element>";
         xml32 += "</ns1:form>";
-        FormDefinitions formDefinitions32 = createFormDefinitions(xml32);
+        FormDefinitions formDefinitions32 = createFormDefinitionsFromXml(xml32);
         FormInstanceBuilderImpl formInstanceBuilder32 = createBinder(formDefinitions32);
         Document document32 = newDocument();
         formInstanceBuilder32.buildFormInstance(new BindingSourceImpl("repr"), document32, formDefinitions32.getFormDefinition("id"));
@@ -1125,7 +1125,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
             xml33 += "</ns1:element>";
             xml33 += "</ns1:single-element>";
             xml33 += "</ns1:form>";
-            FormDefinitions formDefinitions33 = createFormDefinitions(xml33);
+            FormDefinitions formDefinitions33 = createFormDefinitionsFromXml(xml33);
             FormInstanceBuilderImpl formInstanceBuilder33 = createBinder(formDefinitions33);
             Document document33 = newDocument();
             formInstanceBuilder33.buildFormInstance(new BindingSourceImpl("repr"), document33, formDefinitions33.getFormDefinition("id"));
@@ -1144,7 +1144,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
             xml34 += "</ns1:element>";
             xml34 += "</ns1:single-element>";
             xml34 += "</ns1:form>";
-            FormDefinitions formDefinitions34 = createFormDefinitions(xml34);
+            FormDefinitions formDefinitions34 = createFormDefinitionsFromXml(xml34);
             FormInstanceBuilderImpl formInstanceBuilder34 = createBinder(formDefinitions34);
             Document document34 = newDocument();
             formInstanceBuilder34.buildFormInstance(new BindingSourceImpl("repr"), document34, formDefinitions34.getFormDefinition("id"));
@@ -1163,7 +1163,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
             xml35 += "</ns1:element>";
             xml35 += "</ns1:single-element>";
             xml35 += "</ns1:form>";
-            FormDefinitions formDefinitions35 = createFormDefinitions(xml35);
+            FormDefinitions formDefinitions35 = createFormDefinitionsFromXml(xml35);
             FormInstanceBuilderImpl formInstanceBuilder35 = createBinder(formDefinitions35);
             Document document35 = newDocument();
             formInstanceBuilder35.buildFormInstance(new BindingSourceImpl("repr"), document35, formDefinitions35.getFormDefinition("id"));
@@ -1182,7 +1182,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
             xml41 += "</ns1:element>";
             xml41 += "</ns1:single-element>";
             xml41 += "</ns1:form>";
-            FormDefinitions formDefinitions41 = createFormDefinitions(xml41);
+            FormDefinitions formDefinitions41 = createFormDefinitionsFromXml(xml41);
             FormInstanceBuilderImpl formInstanceBuilder41 = createBinder(formDefinitions41);
             Document document41 = newDocument();
             formInstanceBuilder41.buildFormInstance(new BindingSourceImpl("repr"), document41, formDefinitions41.getFormDefinition("id"));
@@ -1201,7 +1201,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
             xml42 += "</ns1:element>";
             xml42 += "</ns1:single-element>";
             xml42 += "</ns1:form>";
-            FormDefinitions formDefinitions42 = createFormDefinitions(xml42);
+            FormDefinitions formDefinitions42 = createFormDefinitionsFromXml(xml42);
             FormInstanceBuilderImpl formInstanceBuilder42 = createBinder(formDefinitions42);
             Document document42 = newDocument();
             formInstanceBuilder42.buildFormInstance(new BindingSourceImpl("repr"), document42, formDefinitions42.getFormDefinition("id"));
@@ -1220,7 +1220,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
             xml43 += "</ns1:element>";
             xml43 += "</ns1:single-element>";
             xml43 += "</ns1:form>";
-            FormDefinitions formDefinitions43 = createFormDefinitions(xml43);
+            FormDefinitions formDefinitions43 = createFormDefinitionsFromXml(xml43);
             FormInstanceBuilderImpl formInstanceBuilder43 = createBinder(formDefinitions43);
             Document document43 = newDocument();
             formInstanceBuilder43.buildFormInstance(new BindingSourceImpl("repr"), document43, formDefinitions43.getFormDefinition("id"));
@@ -1239,7 +1239,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
             xml44 += "</ns1:element>";
             xml44 += "</ns1:single-element>";
             xml44 += "</ns1:form>";
-            FormDefinitions formDefinitions44 = createFormDefinitions(xml44);
+            FormDefinitions formDefinitions44 = createFormDefinitionsFromXml(xml44);
             FormInstanceBuilderImpl formInstanceBuilder44 = createBinder(formDefinitions44);
             Document document44 = newDocument();
             formInstanceBuilder44.buildFormInstance(new BindingSourceImpl("repr"), document44, formDefinitions44.getFormDefinition("id"));
@@ -1258,7 +1258,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
             xml45 += "</ns1:element>";
             xml45 += "</ns1:single-element>";
             xml45 += "</ns1:form>";
-            FormDefinitions formDefinitions45 = createFormDefinitions(xml45);
+            FormDefinitions formDefinitions45 = createFormDefinitionsFromXml(xml45);
             FormInstanceBuilderImpl formInstanceBuilder45 = createBinder(formDefinitions45);
             Document document45 = newDocument();
             formInstanceBuilder45.buildFormInstance(new BindingSourceImpl("repr"), document45, formDefinitions45.getFormDefinition("id"));
@@ -1282,7 +1282,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
         xml11 += "</ns1:element>";
         xml11 += "</ns1:single-element>";
         xml11 += "</ns1:form>";
-        FormDefinitions formDefinitions11 = createFormDefinitions(xml11);
+        FormDefinitions formDefinitions11 = createFormDefinitionsFromXml(xml11);
         FormInstanceBuilderImpl formInstanceBuilder11 = createBinder(formDefinitions11);
         Document document11 = newDocument();
         formInstanceBuilder11.buildFormInstance(new BindingSourceImpl("repr"), document11, formDefinitions11.getFormDefinition("id"));
@@ -1297,7 +1297,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
         xml12 += "</ns1:element>";
         xml12 += "</ns1:single-element>";
         xml12 += "</ns1:form>";
-        FormDefinitions formDefinitions12 = createFormDefinitions(xml12);
+        FormDefinitions formDefinitions12 = createFormDefinitionsFromXml(xml12);
         FormInstanceBuilderImpl formInstanceBuilder12 = createBinder(formDefinitions12);
         Document document12 = newDocument();
         formInstanceBuilder12.buildFormInstance(new BindingSourceImpl("repr"), document12, formDefinitions12.getFormDefinition("id"));
@@ -1313,7 +1313,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
             xml13 += "</ns1:element>";
             xml13 += "</ns1:single-element>";
             xml13 += "</ns1:form>";
-            FormDefinitions formDefinitions13 = createFormDefinitions(xml13);
+            FormDefinitions formDefinitions13 = createFormDefinitionsFromXml(xml13);
             FormInstanceBuilderImpl formInstanceBuilder13 = createBinder(formDefinitions13);
             Document document13 = newDocument();
             formInstanceBuilder13.buildFormInstance(new BindingSourceImpl("repr"), document13, formDefinitions13.getFormDefinition("id"));
@@ -1332,7 +1332,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
             xml14 += "</ns1:element>";
             xml14 += "</ns1:single-element>";
             xml14 += "</ns1:form>";
-            FormDefinitions formDefinitions14 = createFormDefinitions(xml14);
+            FormDefinitions formDefinitions14 = createFormDefinitionsFromXml(xml14);
             FormInstanceBuilderImpl formInstanceBuilder14 = createBinder(formDefinitions14);
             Document document14 = newDocument();
             formInstanceBuilder14.buildFormInstance(new BindingSourceImpl("repr"), document14, formDefinitions14.getFormDefinition("id"));
@@ -1351,7 +1351,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
             xml15 += "</ns1:element>";
             xml15 += "</ns1:single-element>";
             xml15 += "</ns1:form>";
-            FormDefinitions formDefinitions15 = createFormDefinitions(xml15);
+            FormDefinitions formDefinitions15 = createFormDefinitionsFromXml(xml15);
             FormInstanceBuilderImpl formInstanceBuilder15 = createBinder(formDefinitions15);
             Document document15 = newDocument();
             formInstanceBuilder15.buildFormInstance(new BindingSourceImpl("repr"), document15, formDefinitions15.getFormDefinition("id"));
@@ -1369,7 +1369,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
         xml21 += "</ns1:element>";
         xml21 += "</ns1:single-element>";
         xml21 += "</ns1:form>";
-        FormDefinitions formDefinitions21 = createFormDefinitions(xml21);
+        FormDefinitions formDefinitions21 = createFormDefinitionsFromXml(xml21);
         FormInstanceBuilderImpl formInstanceBuilder21 = createBinder(formDefinitions21);
         Document document21 = newDocument();
         formInstanceBuilder21.buildFormInstance(new BindingSourceImpl("repr"), document21, formDefinitions21.getFormDefinition("id"));
@@ -1384,7 +1384,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
         xml22 += "</ns1:element>";
         xml22 += "</ns1:single-element>";
         xml22 += "</ns1:form>";
-        FormDefinitions formDefinitions22 = createFormDefinitions(xml22);
+        FormDefinitions formDefinitions22 = createFormDefinitionsFromXml(xml22);
         FormInstanceBuilderImpl formInstanceBuilder22 = createBinder(formDefinitions22);
         Document document22 = newDocument();
         formInstanceBuilder22.buildFormInstance(new BindingSourceImpl("repr"), document22, formDefinitions22.getFormDefinition("id"));
@@ -1400,7 +1400,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
             xml23 += "</ns1:element>";
             xml23 += "</ns1:single-element>";
             xml23 += "</ns1:form>";
-            FormDefinitions formDefinitions23 = createFormDefinitions(xml23);
+            FormDefinitions formDefinitions23 = createFormDefinitionsFromXml(xml23);
             FormInstanceBuilderImpl formInstanceBuilder23 = createBinder(formDefinitions23);
             Document document23 = newDocument();
             formInstanceBuilder23.buildFormInstance(new BindingSourceImpl("repr"), document23, formDefinitions23.getFormDefinition("id"));
@@ -1419,7 +1419,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
             xml24 += "</ns1:element>";
             xml24 += "</ns1:single-element>";
             xml24 += "</ns1:form>";
-            FormDefinitions formDefinitions24 = createFormDefinitions(xml24);
+            FormDefinitions formDefinitions24 = createFormDefinitionsFromXml(xml24);
             FormInstanceBuilderImpl formInstanceBuilder24 = createBinder(formDefinitions24);
             Document document24 = newDocument();
             formInstanceBuilder24.buildFormInstance(new BindingSourceImpl("repr"), document24, formDefinitions24.getFormDefinition("id"));
@@ -1438,7 +1438,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
             xml25 += "</ns1:element>";
             xml25 += "</ns1:single-element>";
             xml25 += "</ns1:form>";
-            FormDefinitions formDefinitions25 = createFormDefinitions(xml25);
+            FormDefinitions formDefinitions25 = createFormDefinitionsFromXml(xml25);
             FormInstanceBuilderImpl formInstanceBuilder25 = createBinder(formDefinitions25);
             Document document25 = newDocument();
             formInstanceBuilder25.buildFormInstance(new BindingSourceImpl("repr"), document25, formDefinitions25.getFormDefinition("id"));
@@ -1457,7 +1457,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
             xml31 += "</ns1:element>";
             xml31 += "</ns1:single-element>";
             xml31 += "</ns1:form>";
-            FormDefinitions formDefinitions31 = createFormDefinitions(xml31);
+            FormDefinitions formDefinitions31 = createFormDefinitionsFromXml(xml31);
             FormInstanceBuilderImpl formInstanceBuilder31 = createBinder(formDefinitions31);
             Document document31 = newDocument();
             formInstanceBuilder31.buildFormInstance(new BindingSourceImpl("repr"), document31, formDefinitions31.getFormDefinition("id"));
@@ -1476,7 +1476,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
             xml32 += "</ns1:element>";
             xml32 += "</ns1:single-element>";
             xml32 += "</ns1:form>";
-            FormDefinitions formDefinitions32 = createFormDefinitions(xml32);
+            FormDefinitions formDefinitions32 = createFormDefinitionsFromXml(xml32);
             FormInstanceBuilderImpl formInstanceBuilder32 = createBinder(formDefinitions32);
             Document document32 = newDocument();
             formInstanceBuilder32.buildFormInstance(new BindingSourceImpl("repr"), document32, formDefinitions32.getFormDefinition("id"));
@@ -1495,7 +1495,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
             xml33 += "</ns1:element>";
             xml33 += "</ns1:single-element>";
             xml33 += "</ns1:form>";
-            FormDefinitions formDefinitions33 = createFormDefinitions(xml33);
+            FormDefinitions formDefinitions33 = createFormDefinitionsFromXml(xml33);
             FormInstanceBuilderImpl formInstanceBuilder33 = createBinder(formDefinitions33);
             Document document33 = newDocument();
             formInstanceBuilder33.buildFormInstance(new BindingSourceImpl("repr"), document33, formDefinitions33.getFormDefinition("id"));
@@ -1514,7 +1514,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
             xml34 += "</ns1:element>";
             xml34 += "</ns1:single-element>";
             xml34 += "</ns1:form>";
-            FormDefinitions formDefinitions34 = createFormDefinitions(xml34);
+            FormDefinitions formDefinitions34 = createFormDefinitionsFromXml(xml34);
             FormInstanceBuilderImpl formInstanceBuilder34 = createBinder(formDefinitions34);
             Document document34 = newDocument();
             formInstanceBuilder34.buildFormInstance(new BindingSourceImpl("repr"), document34, formDefinitions34.getFormDefinition("id"));
@@ -1533,7 +1533,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
             xml35 += "</ns1:element>";
             xml35 += "</ns1:single-element>";
             xml35 += "</ns1:form>";
-            FormDefinitions formDefinitions35 = createFormDefinitions(xml35);
+            FormDefinitions formDefinitions35 = createFormDefinitionsFromXml(xml35);
             FormInstanceBuilderImpl formInstanceBuilder35 = createBinder(formDefinitions35);
             Document document35 = newDocument();
             formInstanceBuilder35.buildFormInstance(new BindingSourceImpl("repr"), document35, formDefinitions35.getFormDefinition("id"));
@@ -1552,7 +1552,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
             xml41 += "</ns1:element>";
             xml41 += "</ns1:single-element>";
             xml41 += "</ns1:form>";
-            FormDefinitions formDefinitions41 = createFormDefinitions(xml41);
+            FormDefinitions formDefinitions41 = createFormDefinitionsFromXml(xml41);
             FormInstanceBuilderImpl formInstanceBuilder41 = createBinder(formDefinitions41);
             Document document41 = newDocument();
             formInstanceBuilder41.buildFormInstance(new BindingSourceImpl("repr"), document41, formDefinitions41.getFormDefinition("id"));
@@ -1571,7 +1571,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
             xml42 += "</ns1:element>";
             xml42 += "</ns1:single-element>";
             xml42 += "</ns1:form>";
-            FormDefinitions formDefinitions42 = createFormDefinitions(xml42);
+            FormDefinitions formDefinitions42 = createFormDefinitionsFromXml(xml42);
             FormInstanceBuilderImpl formInstanceBuilder42 = createBinder(formDefinitions42);
             Document document42 = newDocument();
             formInstanceBuilder42.buildFormInstance(new BindingSourceImpl("repr"), document42, formDefinitions42.getFormDefinition("id"));
@@ -1590,7 +1590,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
             xml43 += "</ns1:element>";
             xml43 += "</ns1:single-element>";
             xml43 += "</ns1:form>";
-            FormDefinitions formDefinitions43 = createFormDefinitions(xml43);
+            FormDefinitions formDefinitions43 = createFormDefinitionsFromXml(xml43);
             FormInstanceBuilderImpl formInstanceBuilder43 = createBinder(formDefinitions43);
             Document document43 = newDocument();
             formInstanceBuilder43.buildFormInstance(new BindingSourceImpl("repr"), document43, formDefinitions43.getFormDefinition("id"));
@@ -1609,7 +1609,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
             xml44 += "</ns1:element>";
             xml44 += "</ns1:single-element>";
             xml44 += "</ns1:form>";
-            FormDefinitions formDefinitions44 = createFormDefinitions(xml44);
+            FormDefinitions formDefinitions44 = createFormDefinitionsFromXml(xml44);
             FormInstanceBuilderImpl formInstanceBuilder44 = createBinder(formDefinitions44);
             Document document44 = newDocument();
             formInstanceBuilder44.buildFormInstance(new BindingSourceImpl("repr"), document44, formDefinitions44.getFormDefinition("id"));
@@ -1628,7 +1628,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
             xml45 += "</ns1:element>";
             xml45 += "</ns1:single-element>";
             xml45 += "</ns1:form>";
-            FormDefinitions formDefinitions45 = createFormDefinitions(xml45);
+            FormDefinitions formDefinitions45 = createFormDefinitionsFromXml(xml45);
             FormInstanceBuilderImpl formInstanceBuilder45 = createBinder(formDefinitions45);
             Document document45 = newDocument();
             formInstanceBuilder45.buildFormInstance(new BindingSourceImpl("repr"), document45, formDefinitions45.getFormDefinition("id"));
