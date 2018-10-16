@@ -19,7 +19,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.formmodel.binding;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
@@ -30,8 +29,6 @@ import ru.d_shap.formmodel.BaseFormModelTest;
 import ru.d_shap.formmodel.ServiceFinder;
 import ru.d_shap.formmodel.XmlDocumentBuilder;
 import ru.d_shap.formmodel.binding.model.BindingSourceImpl;
-import ru.d_shap.formmodel.definition.loader.xml.FormXmlDefinitionsElementLoader;
-import ru.d_shap.formmodel.definition.model.FormDefinition;
 import ru.d_shap.formmodel.definition.model.FormDefinitions;
 import ru.d_shap.formmodel.document.DocumentWriter;
 
@@ -1655,19 +1652,6 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
     @Test
     public void buildOtherNodeInstanceTest() {
 
-    }
-
-    private FormDefinitions createFormDefinitions(final String... xmls) {
-        List<FormDefinition> formDefinitions1 = new ArrayList<>();
-        for (String xml : xmls) {
-            Document document = parse(xml);
-            FormXmlDefinitionsElementLoader formXmlDefinitionsElementLoader = new FormXmlDefinitionsElementLoader(document.getDocumentElement(), "source");
-            List<FormDefinition> formDefinitions2 = formXmlDefinitionsElementLoader.load();
-            formDefinitions1.addAll(formDefinitions2);
-        }
-        FormDefinitions formDefinitions = new FormDefinitions();
-        formDefinitions.addFormDefinitions(formDefinitions1);
-        return formDefinitions;
     }
 
     private FormInstanceBuilderImpl createBinder(final FormDefinitions formDefinitions) {
