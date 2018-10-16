@@ -51,7 +51,7 @@ public final class OtherNodeInstanceBuilderImpl implements OtherNodeInstanceBuil
 
     @Override
     public boolean isCompatible(final Class<? extends FormInstanceBinder> clazz) {
-        return true;
+        return clazz == FormInstanceBinderImpl.class;
     }
 
     @Override
