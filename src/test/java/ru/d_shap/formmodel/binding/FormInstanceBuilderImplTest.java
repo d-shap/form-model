@@ -930,10 +930,112 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
             FormInstanceBuilderImpl formInstanceBuilder45 = createBinder(formDefinitions45);
             Document document45 = newDocument();
             formInstanceBuilder45.buildFormInstance(new BindingSourceImpl("repr"), document45, formDefinitions45.getFormDefinition("id"));
-            Assertions.assertThat(DocumentWriter.getAsString(document45)).isEqualTo("");
             Assertions.fail("FormInstanceBuilderImpl test fail");
         } catch (FormBindingException ex) {
             Assertions.assertThat(ex).hasMessage("[Optional element is present more than once: element[@id2]], {source}form[@:id]/single-element[@id]");
+        }
+
+        try {
+            String xml51 = "<?xml version='1.0'?>\n";
+            xml51 += "<ns1:form id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+            xml51 += "<ns1:single-element id='id' type='required'>";
+            xml51 += "<ns1:single-element id='id1' type='optional'>";
+            xml51 += "<ns1:element id='id3' lookup='lookup' repr='repr1' count='-1'>";
+            xml51 += "</ns1:element>";
+            xml51 += "<ns1:element id='id4' lookup='lookup' repr='repr2' count='-1'>";
+            xml51 += "</ns1:element>";
+            xml51 += "</ns1:single-element>";
+            xml51 += "<ns1:element id='id2' lookup='lookup' repr='repr2' count='-1'>";
+            xml51 += "</ns1:element>";
+            xml51 += "</ns1:single-element>";
+            xml51 += "</ns1:form>";
+            FormDefinitions formDefinitions51 = createFormDefinitionsFromXml(xml51);
+            FormInstanceBuilderImpl formInstanceBuilder51 = createBinder(formDefinitions51);
+            Document document51 = newDocument();
+            formInstanceBuilder51.buildFormInstance(new BindingSourceImpl("repr"), document51, formDefinitions51.getFormDefinition("id"));
+            Assertions.fail("FormInstanceBuilderImpl test fail");
+        } catch (FormBindingException ex) {
+            Assertions.assertThat(ex).hasMessage("[Required single element is not present: single-element[@id]], {source}form[@:id]");
+        }
+
+        String xml52 = "<?xml version='1.0'?>\n";
+        xml52 += "<ns1:form id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml52 += "<ns1:single-element id='id' type='required'>";
+        xml52 += "<ns1:single-element id='id1' type='optional'>";
+        xml52 += "<ns1:element id='id3' lookup='lookup' repr='repr1' count='1'>";
+        xml52 += "</ns1:element>";
+        xml52 += "<ns1:element id='id4' lookup='lookup' repr='repr2' count='-1'>";
+        xml52 += "</ns1:element>";
+        xml52 += "</ns1:single-element>";
+        xml52 += "<ns1:element id='id2' lookup='lookup' repr='repr2' count='-1'>";
+        xml52 += "</ns1:element>";
+        xml52 += "</ns1:single-element>";
+        xml52 += "</ns1:form>";
+        FormDefinitions formDefinitions52 = createFormDefinitionsFromXml(xml52);
+        FormInstanceBuilderImpl formInstanceBuilder52 = createBinder(formDefinitions52);
+        Document document52 = newDocument();
+        formInstanceBuilder52.buildFormInstance(new BindingSourceImpl("repr"), document52, formDefinitions52.getFormDefinition("id"));
+        Assertions.assertThat(DocumentWriter.getAsString(document52)).isEqualTo("<form id=\"id\" xmlns=\"http://d-shap.ru/schema/form-instance/1.0\"><single-element id=\"id\"><single-element id=\"id1\"><element count=\"1\" id=\"id3\" repr=\"repr1\"/></single-element></single-element></form>");
+
+        String xml53 = "<?xml version='1.0'?>\n";
+        xml53 += "<ns1:form id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml53 += "<ns1:single-element id='id' type='required'>";
+        xml53 += "<ns1:single-element id='id1' type='optional'>";
+        xml53 += "<ns1:element id='id3' lookup='lookup' repr='repr1' count='-1'>";
+        xml53 += "</ns1:element>";
+        xml53 += "<ns1:element id='id4' lookup='lookup' repr='repr2' count='1'>";
+        xml53 += "</ns1:element>";
+        xml53 += "</ns1:single-element>";
+        xml53 += "<ns1:element id='id2' lookup='lookup' repr='repr2' count='-1'>";
+        xml53 += "</ns1:element>";
+        xml53 += "</ns1:single-element>";
+        xml53 += "</ns1:form>";
+        FormDefinitions formDefinitions53 = createFormDefinitionsFromXml(xml53);
+        FormInstanceBuilderImpl formInstanceBuilder53 = createBinder(formDefinitions53);
+        Document document53 = newDocument();
+        formInstanceBuilder53.buildFormInstance(new BindingSourceImpl("repr"), document53, formDefinitions53.getFormDefinition("id"));
+        Assertions.assertThat(DocumentWriter.getAsString(document53)).isEqualTo("<form id=\"id\" xmlns=\"http://d-shap.ru/schema/form-instance/1.0\"><single-element id=\"id\"><single-element id=\"id1\"><element count=\"1\" id=\"id4\" repr=\"repr2\"/></single-element></single-element></form>");
+
+        String xml54 = "<?xml version='1.0'?>\n";
+        xml54 += "<ns1:form id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml54 += "<ns1:single-element id='id' type='required'>";
+        xml54 += "<ns1:single-element id='id1' type='optional'>";
+        xml54 += "<ns1:element id='id3' lookup='lookup' repr='repr1' count='-1'>";
+        xml54 += "</ns1:element>";
+        xml54 += "<ns1:element id='id4' lookup='lookup' repr='repr2' count='-1'>";
+        xml54 += "</ns1:element>";
+        xml54 += "</ns1:single-element>";
+        xml54 += "<ns1:element id='id2' lookup='lookup' repr='repr2' count='1'>";
+        xml54 += "</ns1:element>";
+        xml54 += "</ns1:single-element>";
+        xml54 += "</ns1:form>";
+        FormDefinitions formDefinitions54 = createFormDefinitionsFromXml(xml54);
+        FormInstanceBuilderImpl formInstanceBuilder54 = createBinder(formDefinitions54);
+        Document document54 = newDocument();
+        formInstanceBuilder54.buildFormInstance(new BindingSourceImpl("repr"), document54, formDefinitions54.getFormDefinition("id"));
+        Assertions.assertThat(DocumentWriter.getAsString(document54)).isEqualTo("<form id=\"id\" xmlns=\"http://d-shap.ru/schema/form-instance/1.0\"><single-element id=\"id\"><element count=\"1\" id=\"id2\" repr=\"repr2\"/></single-element></form>");
+
+        try {
+            String xml55 = "<?xml version='1.0'?>\n";
+            xml55 += "<ns1:form id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+            xml55 += "<ns1:single-element id='id' type='required'>";
+            xml55 += "<ns1:single-element id='id1' type='optional'>";
+            xml55 += "<ns1:element id='id3' lookup='lookup' repr='repr1' count='-1'>";
+            xml55 += "</ns1:element>";
+            xml55 += "<ns1:element id='id4' lookup='lookup' repr='repr2' count='1'>";
+            xml55 += "</ns1:element>";
+            xml55 += "</ns1:single-element>";
+            xml55 += "<ns1:element id='id2' lookup='lookup' repr='repr2' count='1'>";
+            xml55 += "</ns1:element>";
+            xml55 += "</ns1:single-element>";
+            xml55 += "</ns1:form>";
+            FormDefinitions formDefinitions55 = createFormDefinitionsFromXml(xml55);
+            FormInstanceBuilderImpl formInstanceBuilder55 = createBinder(formDefinitions55);
+            Document document55 = newDocument();
+            formInstanceBuilder55.buildFormInstance(new BindingSourceImpl("repr"), document55, formDefinitions55.getFormDefinition("id"));
+            Assertions.fail("FormInstanceBuilderImpl test fail");
+        } catch (FormBindingException ex) {
+            Assertions.assertThat(ex).hasMessage("[Multiple single elements are present: single-element[@id]], {source}form[@:id]");
         }
     }
 
@@ -1280,6 +1382,105 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
             Assertions.fail("FormInstanceBuilderImpl test fail");
         } catch (FormBindingException ex) {
             Assertions.assertThat(ex).hasMessage("[Optional element is present more than once: element[@id2]], {source}form[@:id]/single-element[@id]");
+        }
+
+        String xml51 = "<?xml version='1.0'?>\n";
+        xml51 += "<ns1:form id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml51 += "<ns1:single-element id='id' type='optional'>";
+        xml51 += "<ns1:single-element id='id1' type='optional'>";
+        xml51 += "<ns1:element id='id3' lookup='lookup' repr='repr1' count='-1'>";
+        xml51 += "</ns1:element>";
+        xml51 += "<ns1:element id='id4' lookup='lookup' repr='repr2' count='-1'>";
+        xml51 += "</ns1:element>";
+        xml51 += "</ns1:single-element>";
+        xml51 += "<ns1:element id='id2' lookup='lookup' repr='repr2' count='-1'>";
+        xml51 += "</ns1:element>";
+        xml51 += "</ns1:single-element>";
+        xml51 += "</ns1:form>";
+        FormDefinitions formDefinitions51 = createFormDefinitionsFromXml(xml51);
+        FormInstanceBuilderImpl formInstanceBuilder51 = createBinder(formDefinitions51);
+        Document document51 = newDocument();
+        formInstanceBuilder51.buildFormInstance(new BindingSourceImpl("repr"), document51, formDefinitions51.getFormDefinition("id"));
+        Assertions.assertThat(DocumentWriter.getAsString(document51)).isEqualTo("<form id=\"id\" xmlns=\"http://d-shap.ru/schema/form-instance/1.0\"/>");
+
+        String xml52 = "<?xml version='1.0'?>\n";
+        xml52 += "<ns1:form id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml52 += "<ns1:single-element id='id' type='optional'>";
+        xml52 += "<ns1:single-element id='id1' type='optional'>";
+        xml52 += "<ns1:element id='id3' lookup='lookup' repr='repr1' count='1'>";
+        xml52 += "</ns1:element>";
+        xml52 += "<ns1:element id='id4' lookup='lookup' repr='repr2' count='-1'>";
+        xml52 += "</ns1:element>";
+        xml52 += "</ns1:single-element>";
+        xml52 += "<ns1:element id='id2' lookup='lookup' repr='repr2' count='-1'>";
+        xml52 += "</ns1:element>";
+        xml52 += "</ns1:single-element>";
+        xml52 += "</ns1:form>";
+        FormDefinitions formDefinitions52 = createFormDefinitionsFromXml(xml52);
+        FormInstanceBuilderImpl formInstanceBuilder52 = createBinder(formDefinitions52);
+        Document document52 = newDocument();
+        formInstanceBuilder52.buildFormInstance(new BindingSourceImpl("repr"), document52, formDefinitions52.getFormDefinition("id"));
+        Assertions.assertThat(DocumentWriter.getAsString(document52)).isEqualTo("<form id=\"id\" xmlns=\"http://d-shap.ru/schema/form-instance/1.0\"><single-element id=\"id\"><single-element id=\"id1\"><element count=\"1\" id=\"id3\" repr=\"repr1\"/></single-element></single-element></form>");
+
+        String xml53 = "<?xml version='1.0'?>\n";
+        xml53 += "<ns1:form id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml53 += "<ns1:single-element id='id' type='optional'>";
+        xml53 += "<ns1:single-element id='id1' type='optional'>";
+        xml53 += "<ns1:element id='id3' lookup='lookup' repr='repr1' count='-1'>";
+        xml53 += "</ns1:element>";
+        xml53 += "<ns1:element id='id4' lookup='lookup' repr='repr2' count='1'>";
+        xml53 += "</ns1:element>";
+        xml53 += "</ns1:single-element>";
+        xml53 += "<ns1:element id='id2' lookup='lookup' repr='repr2' count='-1'>";
+        xml53 += "</ns1:element>";
+        xml53 += "</ns1:single-element>";
+        xml53 += "</ns1:form>";
+        FormDefinitions formDefinitions53 = createFormDefinitionsFromXml(xml53);
+        FormInstanceBuilderImpl formInstanceBuilder53 = createBinder(formDefinitions53);
+        Document document53 = newDocument();
+        formInstanceBuilder53.buildFormInstance(new BindingSourceImpl("repr"), document53, formDefinitions53.getFormDefinition("id"));
+        Assertions.assertThat(DocumentWriter.getAsString(document53)).isEqualTo("<form id=\"id\" xmlns=\"http://d-shap.ru/schema/form-instance/1.0\"><single-element id=\"id\"><single-element id=\"id1\"><element count=\"1\" id=\"id4\" repr=\"repr2\"/></single-element></single-element></form>");
+
+        String xml54 = "<?xml version='1.0'?>\n";
+        xml54 += "<ns1:form id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml54 += "<ns1:single-element id='id' type='optional'>";
+        xml54 += "<ns1:single-element id='id1' type='optional'>";
+        xml54 += "<ns1:element id='id3' lookup='lookup' repr='repr1' count='-1'>";
+        xml54 += "</ns1:element>";
+        xml54 += "<ns1:element id='id4' lookup='lookup' repr='repr2' count='-1'>";
+        xml54 += "</ns1:element>";
+        xml54 += "</ns1:single-element>";
+        xml54 += "<ns1:element id='id2' lookup='lookup' repr='repr2' count='1'>";
+        xml54 += "</ns1:element>";
+        xml54 += "</ns1:single-element>";
+        xml54 += "</ns1:form>";
+        FormDefinitions formDefinitions54 = createFormDefinitionsFromXml(xml54);
+        FormInstanceBuilderImpl formInstanceBuilder54 = createBinder(formDefinitions54);
+        Document document54 = newDocument();
+        formInstanceBuilder54.buildFormInstance(new BindingSourceImpl("repr"), document54, formDefinitions54.getFormDefinition("id"));
+        Assertions.assertThat(DocumentWriter.getAsString(document54)).isEqualTo("<form id=\"id\" xmlns=\"http://d-shap.ru/schema/form-instance/1.0\"><single-element id=\"id\"><element count=\"1\" id=\"id2\" repr=\"repr2\"/></single-element></form>");
+
+        try {
+            String xml55 = "<?xml version='1.0'?>\n";
+            xml55 += "<ns1:form id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+            xml55 += "<ns1:single-element id='id' type='optional'>";
+            xml55 += "<ns1:single-element id='id1' type='optional'>";
+            xml55 += "<ns1:element id='id3' lookup='lookup' repr='repr1' count='-1'>";
+            xml55 += "</ns1:element>";
+            xml55 += "<ns1:element id='id4' lookup='lookup' repr='repr2' count='1'>";
+            xml55 += "</ns1:element>";
+            xml55 += "</ns1:single-element>";
+            xml55 += "<ns1:element id='id2' lookup='lookup' repr='repr2' count='1'>";
+            xml55 += "</ns1:element>";
+            xml55 += "</ns1:single-element>";
+            xml55 += "</ns1:form>";
+            FormDefinitions formDefinitions55 = createFormDefinitionsFromXml(xml55);
+            FormInstanceBuilderImpl formInstanceBuilder55 = createBinder(formDefinitions55);
+            Document document55 = newDocument();
+            formInstanceBuilder55.buildFormInstance(new BindingSourceImpl("repr"), document55, formDefinitions55.getFormDefinition("id"));
+            Assertions.fail("FormInstanceBuilderImpl test fail");
+        } catch (FormBindingException ex) {
+            Assertions.assertThat(ex).hasMessage("[Multiple single elements are present: single-element[@id]], {source}form[@:id]");
         }
     }
 
@@ -1650,6 +1851,117 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
             Assertions.fail("FormInstanceBuilderImpl test fail");
         } catch (FormBindingException ex) {
             Assertions.assertThat(ex).hasMessage("[Optional element is present more than once: element[@id2]], {source}form[@:id]/single-element[@id]");
+        }
+
+        String xml51 = "<?xml version='1.0'?>\n";
+        xml51 += "<ns1:form id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml51 += "<ns1:single-element id='id' type='prohibited'>";
+        xml51 += "<ns1:single-element id='id1' type='optional'>";
+        xml51 += "<ns1:element id='id3' lookup='lookup' repr='repr1' count='-1'>";
+        xml51 += "</ns1:element>";
+        xml51 += "<ns1:element id='id4' lookup='lookup' repr='repr2' count='-1'>";
+        xml51 += "</ns1:element>";
+        xml51 += "</ns1:single-element>";
+        xml51 += "<ns1:element id='id2' lookup='lookup' repr='repr2' count='-1'>";
+        xml51 += "</ns1:element>";
+        xml51 += "</ns1:single-element>";
+        xml51 += "</ns1:form>";
+        FormDefinitions formDefinitions51 = createFormDefinitionsFromXml(xml51);
+        FormInstanceBuilderImpl formInstanceBuilder51 = createBinder(formDefinitions51);
+        Document document51 = newDocument();
+        formInstanceBuilder51.buildFormInstance(new BindingSourceImpl("repr"), document51, formDefinitions51.getFormDefinition("id"));
+        Assertions.assertThat(DocumentWriter.getAsString(document51)).isEqualTo("<form id=\"id\" xmlns=\"http://d-shap.ru/schema/form-instance/1.0\"/>");
+
+        try {
+            String xml52 = "<?xml version='1.0'?>\n";
+            xml52 += "<ns1:form id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+            xml52 += "<ns1:single-element id='id' type='prohibited'>";
+            xml52 += "<ns1:single-element id='id1' type='optional'>";
+            xml52 += "<ns1:element id='id3' lookup='lookup' repr='repr1' count='1'>";
+            xml52 += "</ns1:element>";
+            xml52 += "<ns1:element id='id4' lookup='lookup' repr='repr2' count='-1'>";
+            xml52 += "</ns1:element>";
+            xml52 += "</ns1:single-element>";
+            xml52 += "<ns1:element id='id2' lookup='lookup' repr='repr2' count='-1'>";
+            xml52 += "</ns1:element>";
+            xml52 += "</ns1:single-element>";
+            xml52 += "</ns1:form>";
+            FormDefinitions formDefinitions52 = createFormDefinitionsFromXml(xml52);
+            FormInstanceBuilderImpl formInstanceBuilder52 = createBinder(formDefinitions52);
+            Document document52 = newDocument();
+            formInstanceBuilder52.buildFormInstance(new BindingSourceImpl("repr"), document52, formDefinitions52.getFormDefinition("id"));
+            Assertions.fail("FormInstanceBuilderImpl test fail");
+        } catch (FormBindingException ex) {
+            Assertions.assertThat(ex).hasMessage("[Prohibited single element is present: single-element[@id]], {source}form[@:id]");
+        }
+
+        try {
+            String xml53 = "<?xml version='1.0'?>\n";
+            xml53 += "<ns1:form id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+            xml53 += "<ns1:single-element id='id' type='prohibited'>";
+            xml53 += "<ns1:single-element id='id1' type='optional'>";
+            xml53 += "<ns1:element id='id3' lookup='lookup' repr='repr1' count='-1'>";
+            xml53 += "</ns1:element>";
+            xml53 += "<ns1:element id='id4' lookup='lookup' repr='repr2' count='1'>";
+            xml53 += "</ns1:element>";
+            xml53 += "</ns1:single-element>";
+            xml53 += "<ns1:element id='id2' lookup='lookup' repr='repr2' count='-1'>";
+            xml53 += "</ns1:element>";
+            xml53 += "</ns1:single-element>";
+            xml53 += "</ns1:form>";
+            FormDefinitions formDefinitions53 = createFormDefinitionsFromXml(xml53);
+            FormInstanceBuilderImpl formInstanceBuilder53 = createBinder(formDefinitions53);
+            Document document53 = newDocument();
+            formInstanceBuilder53.buildFormInstance(new BindingSourceImpl("repr"), document53, formDefinitions53.getFormDefinition("id"));
+            Assertions.fail("FormInstanceBuilderImpl test fail");
+        } catch (FormBindingException ex) {
+            Assertions.assertThat(ex).hasMessage("[Prohibited single element is present: single-element[@id]], {source}form[@:id]");
+        }
+
+        try {
+            String xml54 = "<?xml version='1.0'?>\n";
+            xml54 += "<ns1:form id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+            xml54 += "<ns1:single-element id='id' type='prohibited'>";
+            xml54 += "<ns1:single-element id='id1' type='optional'>";
+            xml54 += "<ns1:element id='id3' lookup='lookup' repr='repr1' count='-1'>";
+            xml54 += "</ns1:element>";
+            xml54 += "<ns1:element id='id4' lookup='lookup' repr='repr2' count='-1'>";
+            xml54 += "</ns1:element>";
+            xml54 += "</ns1:single-element>";
+            xml54 += "<ns1:element id='id2' lookup='lookup' repr='repr2' count='1'>";
+            xml54 += "</ns1:element>";
+            xml54 += "</ns1:single-element>";
+            xml54 += "</ns1:form>";
+            FormDefinitions formDefinitions54 = createFormDefinitionsFromXml(xml54);
+            FormInstanceBuilderImpl formInstanceBuilder54 = createBinder(formDefinitions54);
+            Document document54 = newDocument();
+            formInstanceBuilder54.buildFormInstance(new BindingSourceImpl("repr"), document54, formDefinitions54.getFormDefinition("id"));
+            Assertions.fail("FormInstanceBuilderImpl test fail");
+        } catch (FormBindingException ex) {
+            Assertions.assertThat(ex).hasMessage("[Prohibited single element is present: single-element[@id]], {source}form[@:id]");
+        }
+
+        try {
+            String xml55 = "<?xml version='1.0'?>\n";
+            xml55 += "<ns1:form id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+            xml55 += "<ns1:single-element id='id' type='prohibited'>";
+            xml55 += "<ns1:single-element id='id1' type='optional'>";
+            xml55 += "<ns1:element id='id3' lookup='lookup' repr='repr1' count='-1'>";
+            xml55 += "</ns1:element>";
+            xml55 += "<ns1:element id='id4' lookup='lookup' repr='repr2' count='1'>";
+            xml55 += "</ns1:element>";
+            xml55 += "</ns1:single-element>";
+            xml55 += "<ns1:element id='id2' lookup='lookup' repr='repr2' count='1'>";
+            xml55 += "</ns1:element>";
+            xml55 += "</ns1:single-element>";
+            xml55 += "</ns1:form>";
+            FormDefinitions formDefinitions55 = createFormDefinitionsFromXml(xml55);
+            FormInstanceBuilderImpl formInstanceBuilder55 = createBinder(formDefinitions55);
+            Document document55 = newDocument();
+            formInstanceBuilder55.buildFormInstance(new BindingSourceImpl("repr"), document55, formDefinitions55.getFormDefinition("id"));
+            Assertions.fail("FormInstanceBuilderImpl test fail");
+        } catch (FormBindingException ex) {
+            Assertions.assertThat(ex).hasMessage("[Multiple single elements are present: single-element[@id]], {source}form[@:id]");
         }
     }
 
