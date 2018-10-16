@@ -65,6 +65,8 @@ public final class OtherNodeInstanceBuilderImpl implements OtherNodeInstanceBuil
                 element = document.createElementNS(NAMESPACE, LOCAL_NAME);
             }
             element.setAttribute("repr", representation);
+            element.setUserData(FormInstanceBuilder.USER_DATA_FORM_DEFINITION, formInstanceBuilder.getParentElementUserData(parentElement, FormInstanceBuilder.USER_DATA_FORM_DEFINITION), null);
+            element.setUserData(FormInstanceBuilder.USER_DATA_NODE_DEFINITION, otherNodeDefinition, null);
             parentElement.appendChild(element);
 
             NodePath currentNodePath = new NodePath(otherNodeDefinition);
