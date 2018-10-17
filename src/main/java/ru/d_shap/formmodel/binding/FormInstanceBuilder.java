@@ -138,13 +138,13 @@ public interface FormInstanceBuilder {
     void buildOtherNodeInstance(BindingSource bindingSource, Document document, BindedForm lastBindedForm, BindedElement lastBindedElement, Element parentElement, OtherNodeDefinition otherNodeDefinition, NodePath nodePath);
 
     /**
-     * Get the user data from the parent element.
+     * Get the user data from the element.
      *
-     * @param parentElement the parent element.
-     * @param key           the key to obtain the user data.
+     * @param element the element.
+     * @param key     the key to obtain the user data.
      *
      * @return the user data.
      */
-    Object getParentElementUserData(Element parentElement, String key);
+    Object getElementUserData(Element element, String key);
 
 }
