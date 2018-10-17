@@ -1601,22 +1601,4 @@ public final class FormDefinitionValidatorImplTest extends BaseFormModelTest {
         return new FormDefinitionValidatorImpl(formDefinitionKeys, otherNodeDefinitionValidators);
     }
 
-    /**
-     * Test class.
-     *
-     * @author Dmitry Shapovalov
-     */
-    private static final class AnotherNodeDefinition implements OtherNodeDefinition {
-
-        AnotherNodeDefinition() {
-            super();
-        }
-
-        @Override
-        public String toString() {
-            return "another";
-        }
-
-    }
-
 }

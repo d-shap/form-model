@@ -50,6 +50,7 @@ import ru.d_shap.formmodel.definition.model.FormDefinition;
 import ru.d_shap.formmodel.definition.model.FormDefinitions;
 import ru.d_shap.formmodel.definition.model.FormReferenceDefinition;
 import ru.d_shap.formmodel.definition.model.NodeDefinition;
+import ru.d_shap.formmodel.definition.model.OtherNodeDefinition;
 import ru.d_shap.formmodel.definition.model.SingleElementDefinition;
 import ru.d_shap.formmodel.document.DocumentLookup;
 import ru.d_shap.formmodel.document.DocumentProcessor;
@@ -309,6 +310,27 @@ public class BaseFormModelTest {
          */
         public boolean isClosed() {
             return _closed;
+        }
+
+    }
+
+    /**
+     * Test class.
+     *
+     * @author Dmitry Shapovalov
+     */
+    public static final class AnotherNodeDefinition implements OtherNodeDefinition {
+
+        /**
+         * Create new object.
+         */
+        public AnotherNodeDefinition() {
+            super();
+        }
+
+        @Override
+        public String toString() {
+            return "another";
         }
 
     }
