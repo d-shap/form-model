@@ -2119,6 +2119,14 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
 
     }
 
+    /**
+     * {@link FormInstanceBuilderImpl} class test.
+     */
+    @Test
+    public void getParentElementUserDataTest() {
+
+    }
+
     private FormInstanceBuilderImpl createBinder(final FormDefinitions formDefinitions) {
         List<OtherNodeInstanceBuilder> otherNodeInstanceBuilders = ServiceFinder.find(OtherNodeInstanceBuilder.class);
         return new FormInstanceBuilderImpl(formDefinitions, new FormInstanceBinderImpl(), otherNodeInstanceBuilders);
