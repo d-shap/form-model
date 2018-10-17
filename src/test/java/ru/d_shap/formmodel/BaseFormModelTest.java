@@ -149,6 +149,17 @@ public class BaseFormModelTest {
     }
 
     /**
+     * Create the list of the form definitions.
+     *
+     * @param formDefinitions the form definitions.
+     *
+     * @return the list of the form definitions.
+     */
+    protected final List<FormDefinition> createFormDefinitionList(final FormDefinition... formDefinitions) {
+        return Arrays.asList(formDefinitions);
+    }
+
+    /**
      * Create container for all form definitions.
      *
      * @param xmls the source XML documents.

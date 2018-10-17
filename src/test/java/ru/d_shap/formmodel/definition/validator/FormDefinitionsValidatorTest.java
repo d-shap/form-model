@@ -19,9 +19,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.formmodel.definition.validator;
 
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 
 import org.junit.Test;
 
@@ -52,7 +50,7 @@ public final class FormDefinitionsValidatorTest extends BaseFormModelTest {
     @Test
     public void validateNoFormDefinitionsTest() {
         FormDefinitionsValidator formDefinitionsValidator = new FormDefinitionsValidator();
-        formDefinitionsValidator.validate(new HashMap<FormDefinitionKey, String>(), createFormDefinitions());
+        formDefinitionsValidator.validate(new HashMap<FormDefinitionKey, String>(), createFormDefinitionList());
     }
 
     /**
@@ -62,7 +60,7 @@ public final class FormDefinitionsValidatorTest extends BaseFormModelTest {
     public void validateSingleFormDefinitionTest() {
         FormDefinitionsValidator formDefinitionsValidator = new FormDefinitionsValidator();
         FormDefinition formDefinition = new FormDefinition("group", "id", createNodeDefinitions(), createOtherAttributes(), "source");
-        formDefinitionsValidator.validate(new HashMap<FormDefinitionKey, String>(), createFormDefinitions(formDefinition));
+        formDefinitionsValidator.validate(new HashMap<FormDefinitionKey, String>(), createFormDefinitionList(formDefinition));
     }
 
     /**
@@ -74,7 +72,7 @@ public final class FormDefinitionsValidatorTest extends BaseFormModelTest {
         FormDefinition formDefinition1 = new FormDefinition("group", "id1", createNodeDefinitions(), createOtherAttributes(), "source1");
         FormDefinition formDefinition2 = new FormDefinition("group", "id2", createNodeDefinitions(), createOtherAttributes(), "source2");
         FormDefinition formDefinition3 = new FormDefinition("group", "id3", createNodeDefinitions(), createOtherAttributes(), "source3");
-        formDefinitionsValidator.validate(new HashMap<FormDefinitionKey, String>(), createFormDefinitions(formDefinition1, formDefinition2, formDefinition3));
+        formDefinitionsValidator.validate(new HashMap<FormDefinitionKey, String>(), createFormDefinitionList(formDefinition1, formDefinition2, formDefinition3));
     }
 
     /**
@@ -83,7 +81,7 @@ public final class FormDefinitionsValidatorTest extends BaseFormModelTest {
     @Test(expected = NullPointerException.class)
     public void validateNullFormSourcesFailTest() {
         FormDefinitionsValidator formDefinitionsValidator = new FormDefinitionsValidator();
-        formDefinitionsValidator.validate(null, createFormDefinitions());
+        formDefinitionsValidator.validate(null, createFormDefinitionList());
     }
 
     /**
@@ -104,7 +102,7 @@ public final class FormDefinitionsValidatorTest extends BaseFormModelTest {
             FormDefinitionsValidator formDefinitionsValidator = new FormDefinitionsValidator();
             FormDefinition formDefinition1 = new FormDefinition("group", "id1", createNodeDefinitions(), createOtherAttributes(), "source1");
             FormDefinition formDefinition2 = new FormDefinition("group", "id1", createNodeDefinitions(), createOtherAttributes(), "source1");
-            formDefinitionsValidator.validate(new HashMap<FormDefinitionKey, String>(), createFormDefinitions(formDefinition1, formDefinition2));
+            formDefinitionsValidator.validate(new HashMap<FormDefinitionKey, String>(), createFormDefinitionList(formDefinition1, formDefinition2));
             Assertions.fail("FormDefinitionsValidator test fail");
         } catch (FormDefinitionValidationException ex) {
             Assertions.assertThat(ex).hasMessage("[Form definition is not unique: @group:id1, (source1), (source1)]");
@@ -119,12 +117,12 @@ public final class FormDefinitionsValidatorTest extends BaseFormModelTest {
         FormDefinitionsValidator formDefinitionsValidator = new FormDefinitionsValidator();
         FormDefinition formDefinition1 = new FormDefinition(null, "id1", createNodeDefinitions(), createOtherAttributes(), "source1");
         FormDefinition formDefinition2 = new FormDefinition(null, "id2", createNodeDefinitions(new FormReferenceDefinition(null, "id1", createNodeDefinitions(), createOtherAttributes())), createOtherAttributes(), "source2");
-        formDefinitionsValidator.validate(new HashMap<FormDefinitionKey, String>(), createFormDefinitions(formDefinition1, formDefinition2));
+        formDefinitionsValidator.validate(new HashMap<FormDefinitionKey, String>(), createFormDefinitionList(formDefinition1, formDefinition2));
 
         try {
             FormDefinition formDefinition3 = new FormDefinition(null, "id3", createNodeDefinitions(), createOtherAttributes(), "source3");
             FormDefinition formDefinition4 = new FormDefinition(null, "id4", createNodeDefinitions(new FormReferenceDefinition(null, "id", createNodeDefinitions(), createOtherAttributes())), createOtherAttributes(), "source4");
-            formDefinitionsValidator.validate(new HashMap<FormDefinitionKey, String>(), createFormDefinitions(formDefinition3, formDefinition4));
+            formDefinitionsValidator.validate(new HashMap<FormDefinitionKey, String>(), createFormDefinitionList(formDefinition3, formDefinition4));
             Assertions.fail("FormDefinitionsValidator test fail");
         } catch (FormDefinitionValidationException ex) {
             Assertions.assertThat(ex).hasMessage("[Form definition key is not valid: @:id], {source4}form[@:id4]/form-reference[@:id]");
@@ -138,11 +136,11 @@ public final class FormDefinitionsValidatorTest extends BaseFormModelTest {
     public void validateFormReferenceToSelfTest() {
         FormDefinitionsValidator formDefinitionsValidator = new FormDefinitionsValidator();
         FormDefinition formDefinition1 = new FormDefinition(null, "id1", createNodeDefinitions(new FormReferenceDefinition(null, "id1", createNodeDefinitions(), createOtherAttributes())), createOtherAttributes(), "source1");
-        formDefinitionsValidator.validate(new HashMap<FormDefinitionKey, String>(), createFormDefinitions(formDefinition1));
+        formDefinitionsValidator.validate(new HashMap<FormDefinitionKey, String>(), createFormDefinitionList(formDefinition1));
 
         try {
             FormDefinition formDefinition2 = new FormDefinition(null, "id2", createNodeDefinitions(new FormReferenceDefinition(null, "id1", createNodeDefinitions(), createOtherAttributes())), createOtherAttributes(), "source2");
-            formDefinitionsValidator.validate(new HashMap<FormDefinitionKey, String>(), createFormDefinitions(formDefinition2));
+            formDefinitionsValidator.validate(new HashMap<FormDefinitionKey, String>(), createFormDefinitionList(formDefinition2));
             Assertions.fail("FormDefinitionsValidator test fail");
         } catch (FormDefinitionValidationException ex) {
             Assertions.assertThat(ex).hasMessage("[Form definition key is not valid: @:id1], {source2}form[@:id2]/form-reference[@:id1]");
@@ -157,20 +155,16 @@ public final class FormDefinitionsValidatorTest extends BaseFormModelTest {
         FormDefinitionsValidator formDefinitionsValidator = new FormDefinitionsValidator();
         FormDefinition formDefinition1 = new FormDefinition(null, "id1", createNodeDefinitions(new FormReferenceDefinition(null, "id2", createNodeDefinitions(), createOtherAttributes())), createOtherAttributes(), "source1");
         FormDefinition formDefinition2 = new FormDefinition(null, "id2", createNodeDefinitions(new FormReferenceDefinition(null, "id1", createNodeDefinitions(), createOtherAttributes())), createOtherAttributes(), "source2");
-        formDefinitionsValidator.validate(new HashMap<FormDefinitionKey, String>(), createFormDefinitions(formDefinition1, formDefinition2));
+        formDefinitionsValidator.validate(new HashMap<FormDefinitionKey, String>(), createFormDefinitionList(formDefinition1, formDefinition2));
 
         try {
             FormDefinition formDefinition3 = new FormDefinition(null, "id1", createNodeDefinitions(new FormReferenceDefinition(null, "id", createNodeDefinitions(), createOtherAttributes())), createOtherAttributes(), "source1");
             FormDefinition formDefinition4 = new FormDefinition(null, "id2", createNodeDefinitions(new FormReferenceDefinition(null, "id1", createNodeDefinitions(), createOtherAttributes())), createOtherAttributes(), "source2");
-            formDefinitionsValidator.validate(new HashMap<FormDefinitionKey, String>(), createFormDefinitions(formDefinition3, formDefinition4));
+            formDefinitionsValidator.validate(new HashMap<FormDefinitionKey, String>(), createFormDefinitionList(formDefinition3, formDefinition4));
             Assertions.fail("FormDefinitionsValidator test fail");
         } catch (FormDefinitionValidationException ex) {
             Assertions.assertThat(ex).hasMessage("[Form definition key is not valid: @:id], {source1}form[@:id1]/form-reference[@:id]");
         }
-    }
-
-    private List<FormDefinition> createFormDefinitions(final FormDefinition... formDefinitions) {
-        return Arrays.asList(formDefinitions);
     }
 
 }
