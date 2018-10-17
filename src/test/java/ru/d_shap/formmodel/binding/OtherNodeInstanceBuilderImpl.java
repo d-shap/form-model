@@ -42,6 +42,8 @@ public final class OtherNodeInstanceBuilderImpl implements OtherNodeInstanceBuil
 
     private static final String INSERT_INVALID_ELEMENT_REPRESENTATION = "insertInvalidElement";
 
+    private static final String INSERT_INVALID_NODE_DEFINITION = "insertInvalidNodeDefinition";
+
     /**
      * Create new object.
      */
@@ -66,7 +68,11 @@ public final class OtherNodeInstanceBuilderImpl implements OtherNodeInstanceBuil
             }
             element.setAttribute("repr", representation);
             element.setUserData(FormInstanceBuilder.USER_DATA_FORM_DEFINITION, formInstanceBuilder.getParentElementUserData(parentElement, FormInstanceBuilder.USER_DATA_FORM_DEFINITION), null);
-            element.setUserData(FormInstanceBuilder.USER_DATA_NODE_DEFINITION, otherNodeDefinition, null);
+            if (INSERT_INVALID_NODE_DEFINITION.equalsIgnoreCase(representation)) {
+                element.setUserData(FormInstanceBuilder.USER_DATA_NODE_DEFINITION, new Object(), null);
+            } else {
+                element.setUserData(FormInstanceBuilder.USER_DATA_NODE_DEFINITION, otherNodeDefinition, null);
+            }
             parentElement.appendChild(element);
 
             NodePath currentNodePath = new NodePath(otherNodeDefinition);
