@@ -211,43 +211,17 @@ final class FormInstanceBuilderImpl implements FormInstanceBuilder {
     }
 
     private void validateBindedSingleElementDefinition(final Element element, final SingleElementDefinition singleElementDefinition, final NodePath nodePath) {
-        List<ElementDefinition> uniqueElementDefinitions = new ArrayList<>();
-        addUniqueElementDefinitions(element, uniqueElementDefinitions);
-        if (uniqueElementDefinitions.size() > 1) {
+        List<NodeDefinition> uniqueNodeDefinitions = new ArrayList<>();
+        addUniqueNodeDefinitions(element, uniqueNodeDefinitions, SingleElementDefinition.class);
+        if (uniqueNodeDefinitions.size() > 1) {
             throw new FormBindingException(Messages.Binding.getMultipleSingleElementsArePresentMessage(singleElementDefinition), nodePath);
         }
-        if (singleElementDefinition.getCardinalityDefinition() == CardinalityDefinition.REQUIRED && uniqueElementDefinitions.isEmpty()) {
+        if (singleElementDefinition.getCardinalityDefinition() == CardinalityDefinition.REQUIRED && uniqueNodeDefinitions.isEmpty()) {
             throw new FormBindingException(Messages.Binding.getRequiredSingleElementIsNotPresentMessage(singleElementDefinition), nodePath);
         }
-        if (singleElementDefinition.getCardinalityDefinition() == CardinalityDefinition.PROHIBITED && !uniqueElementDefinitions.isEmpty()) {
+        if (singleElementDefinition.getCardinalityDefinition() == CardinalityDefinition.PROHIBITED && !uniqueNodeDefinitions.isEmpty()) {
             throw new FormBindingException(Messages.Binding.getProhibitedSingleElementIsPresentMessage(singleElementDefinition), nodePath);
         }
-    }
-
-    private void addUniqueElementDefinitions(final Element element, final List<ElementDefinition> uniqueElementDefinitions) {
-        Object object = element.getUserData(USER_DATA_NODE_DEFINITION);
-        if (object instanceof ElementDefinition) {
-            if (!listContainsIdentity(uniqueElementDefinitions, (ElementDefinition) object)) {
-                uniqueElementDefinitions.add((ElementDefinition) object);
-            }
-            return;
-        }
-        NodeList nodeList = element.getChildNodes();
-        for (int i = 0; i < nodeList.getLength(); i++) {
-            Node node = nodeList.item(i);
-            if (node instanceof Element) {
-                addUniqueElementDefinitions((Element) node, uniqueElementDefinitions);
-            }
-        }
-    }
-
-    private boolean listContainsIdentity(final List<ElementDefinition> uniqueElementDefinitions, final ElementDefinition elementDefinition) {
-        for (int i = 0; i < uniqueElementDefinitions.size(); i++) {
-            if (uniqueElementDefinitions.get(i) == elementDefinition) {
-                return true;
-            }
-        }
-        return false;
     }
 
     @Override
@@ -303,6 +277,32 @@ final class FormInstanceBuilderImpl implements FormInstanceBuilder {
 
     private void setUserData(final Element element, final String key, final Object data) {
         element.setUserData(key, data, null);
+    }
+
+    private void addUniqueNodeDefinitions(final Element element, final List<NodeDefinition> uniqueNodeDefinitions, final Class<? extends NodeDefinition> excludeNodeDefinitionClass) {
+        Object object = element.getUserData(USER_DATA_NODE_DEFINITION);
+        if (object instanceof NodeDefinition && !excludeNodeDefinitionClass.isInstance(object)) {
+            if (!listContainsIdentity(uniqueNodeDefinitions, (NodeDefinition) object)) {
+                uniqueNodeDefinitions.add((NodeDefinition) object);
+            }
+            return;
+        }
+        NodeList nodeList = element.getChildNodes();
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Node node = nodeList.item(i);
+            if (node instanceof Element) {
+                addUniqueNodeDefinitions((Element) node, uniqueNodeDefinitions, excludeNodeDefinitionClass);
+            }
+        }
+    }
+
+    private boolean listContainsIdentity(final List<NodeDefinition> uniqueNodeDefinitions, final NodeDefinition nodeDefinition) {
+        for (int i = 0; i < uniqueNodeDefinitions.size(); i++) {
+            if (uniqueNodeDefinitions.get(i) == nodeDefinition) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void bindNodeDefinitions(final BindingSource bindingSource, final Document document, final BindedForm lastBindedForm, final BindedElement lastBindedElement, final Element parentElement, final List<NodeDefinition> nodeDefinitions, final NodePath nodePath) {
