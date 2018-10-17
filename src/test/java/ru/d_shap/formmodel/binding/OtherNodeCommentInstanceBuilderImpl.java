@@ -34,7 +34,7 @@ import ru.d_shap.formmodel.definition.model.OtherNodeDefinition;
  *
  * @author Dmitry Shapovalov
  */
-public final class CommentInstanceBuilderImpl implements OtherNodeInstanceBuilder {
+public final class OtherNodeCommentInstanceBuilderImpl implements OtherNodeInstanceBuilder {
 
     private final boolean _compatible;
 
@@ -43,7 +43,7 @@ public final class CommentInstanceBuilderImpl implements OtherNodeInstanceBuilde
      *
      * @param compatible true if this builder is compatible with the binder.
      */
-    public CommentInstanceBuilderImpl(final boolean compatible) {
+    public OtherNodeCommentInstanceBuilderImpl(final boolean compatible) {
         super();
         _compatible = compatible;
     }

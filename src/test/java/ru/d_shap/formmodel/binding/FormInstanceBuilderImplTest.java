@@ -2224,7 +2224,7 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
 
     private FormInstanceBuilderImpl createBinder(final FormDefinitions formDefinitions, final boolean addCommentsForOtherNodes) {
         List<OtherNodeInstanceBuilder> otherNodeInstanceBuilders = ServiceFinder.find(OtherNodeInstanceBuilder.class);
-        CommentInstanceBuilderImpl commentInstanceBuilder = new CommentInstanceBuilderImpl(addCommentsForOtherNodes);
+        OtherNodeCommentInstanceBuilderImpl commentInstanceBuilder = new OtherNodeCommentInstanceBuilderImpl(addCommentsForOtherNodes);
         otherNodeInstanceBuilders.add(commentInstanceBuilder);
         return new FormInstanceBuilderImpl(formDefinitions, new FormInstanceBinderImpl(), otherNodeInstanceBuilders);
     }
