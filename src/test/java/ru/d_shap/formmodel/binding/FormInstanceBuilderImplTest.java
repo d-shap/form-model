@@ -1969,7 +1969,75 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
      */
     @Test
     public void buildFormReferenceInstanceTest() {
+        String xml11 = "<?xml version='1.0'?>\n";
+        xml11 += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml11 += "<ns1:element id='id1' lookup='lookup'>";
+        xml11 += "</ns1:element>";
+        xml11 += "</ns1:form>";
 
+        String xml12 = "<?xml version='1.0'?>\n";
+        xml12 += "<ns1:form id='id2' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml12 += "<ns1:form-reference id='id1'>";
+        xml12 += "</ns1:form-reference>";
+        xml12 += "<ns1:element id='id2' lookup='lookup'>";
+        xml12 += "</ns1:element>";
+        xml12 += "</ns1:form>";
+
+        FormDefinitions formDefinitions1 = createFormDefinitionsFromXml(xml11, xml12);
+        FormInstanceBuilderImpl formInstanceBuilder1 = createBinder(formDefinitions1);
+        Document document1 = newDocument();
+        formInstanceBuilder1.buildFormInstance(new BindingSourceImpl("repr"), document1, formDefinitions1.getFormDefinition("id2"));
+        Assertions.assertThat(DocumentWriter.getAsString(document1)).isEqualTo("<form id=\"id2\" xmlns=\"http://d-shap.ru/schema/form-instance/1.0\"><form-reference id=\"id1\"><element id=\"id1\"/></form-reference><element id=\"id2\"/></form>");
+
+        String xml21 = "<?xml version='1.0'?>\n";
+        xml21 += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml21 += "<ns1:element id='id1' lookup='lookup' type='optional' repr='repr' count='0'>";
+        xml21 += "</ns1:element>";
+        xml21 += "</ns1:form>";
+
+        String xml22 = "<?xml version='1.0'?>\n";
+        xml22 += "<ns1:form id='id2' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml22 += "<ns1:form-reference id='id1'>";
+        xml22 += "</ns1:form-reference>";
+        xml22 += "<ns1:element id='id2' lookup='lookup'>";
+        xml22 += "</ns1:element>";
+        xml22 += "</ns1:form>";
+
+        FormDefinitions formDefinitions2 = createFormDefinitionsFromXml(xml21, xml22);
+        FormInstanceBuilderImpl formInstanceBuilder2 = createBinder(formDefinitions2);
+        Document document2 = newDocument();
+        formInstanceBuilder2.buildFormInstance(new BindingSourceImpl("repr"), document2, formDefinitions2.getFormDefinition("id2"));
+        Assertions.assertThat(DocumentWriter.getAsString(document2)).isEqualTo("<form id=\"id2\" xmlns=\"http://d-shap.ru/schema/form-instance/1.0\"><element id=\"id2\"/></form>");
+
+        String xml31 = "<?xml version='1.0'?>\n";
+        xml31 += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml31 += "<ns1:element id='id1' lookup='lookup'>";
+        xml31 += "</ns1:element>";
+        xml31 += "</ns1:form>";
+
+        String xml32 = "<?xml version='1.0'?>\n";
+        xml32 += "<ns1:form id='id2' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml32 += "<ns1:form-reference id='id1'>";
+        xml32 += "</ns1:form-reference>";
+        xml32 += "<ns1:element id='id2' lookup='lookup'>";
+        xml32 += "</ns1:element>";
+        xml32 += "</ns1:form>";
+
+        String xml33 = "<?xml version='1.0'?>\n";
+        xml33 += "<ns1:form id='id3' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml33 += "<ns1:form-reference id='id1'>";
+        xml33 += "</ns1:form-reference>";
+        xml33 += "<ns1:form-reference id='id2'>";
+        xml33 += "</ns1:form-reference>";
+        xml33 += "<ns1:element id='id3' lookup='lookup'>";
+        xml33 += "</ns1:element>";
+        xml33 += "</ns1:form>";
+
+        FormDefinitions formDefinitions3 = createFormDefinitionsFromXml(xml31, xml32, xml33);
+        FormInstanceBuilderImpl formInstanceBuilder3 = createBinder(formDefinitions3);
+        Document document3 = newDocument();
+        formInstanceBuilder3.buildFormInstance(new BindingSourceImpl("repr"), document3, formDefinitions3.getFormDefinition("id3"));
+        Assertions.assertThat(DocumentWriter.getAsString(document3)).isEqualTo("<form id=\"id3\" xmlns=\"http://d-shap.ru/schema/form-instance/1.0\"><form-reference id=\"id1\"><element id=\"id1\"/></form-reference><form-reference id=\"id2\"><form-reference id=\"id1\"><element id=\"id1\"/></form-reference><element id=\"id2\"/></form-reference><element id=\"id3\"/></form>");
     }
 
     /**
