@@ -122,6 +122,15 @@ public class BaseFormModelTest {
     }
 
     /**
+     * Create new XML document.
+     *
+     * @return new XML document.
+     */
+    protected final Document newDocument() {
+        return XmlDocumentBuilder.getDocumentBuilder().newDocument();
+    }
+
+    /**
      * Parse XML document.
      *
      * @param xml XML document to parse.

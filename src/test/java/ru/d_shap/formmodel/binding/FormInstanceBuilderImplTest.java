@@ -28,7 +28,6 @@ import org.w3c.dom.Element;
 import ru.d_shap.assertions.Assertions;
 import ru.d_shap.formmodel.BaseFormModelTest;
 import ru.d_shap.formmodel.ServiceFinder;
-import ru.d_shap.formmodel.XmlDocumentBuilder;
 import ru.d_shap.formmodel.binding.model.BindingSourceImpl;
 import ru.d_shap.formmodel.definition.model.FormDefinitions;
 import ru.d_shap.formmodel.document.DocumentWriter;
@@ -2472,10 +2471,6 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
         OtherNodeCommentInstanceBuilderImpl commentInstanceBuilder = new OtherNodeCommentInstanceBuilderImpl(addCommentsForOtherNodes);
         otherNodeInstanceBuilders.add(commentInstanceBuilder);
         return new FormInstanceBuilderImpl(formDefinitions, new FormInstanceBinderImpl(), otherNodeInstanceBuilders);
-    }
-
-    private Document newDocument() {
-        return XmlDocumentBuilder.getDocumentBuilder().newDocument();
     }
 
 }

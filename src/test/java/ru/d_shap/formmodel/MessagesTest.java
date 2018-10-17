@@ -151,7 +151,7 @@ public final class MessagesTest extends BaseFormModelTest {
     public void getNodeRepresentationTest() {
         Assertions.assertThat(Messages.Representation.getNodeRepresentation(null)).isEqualTo("null");
 
-        Document document1 = XmlDocumentBuilder.getDocumentBuilder().newDocument();
+        Document document1 = newDocument();
         Assertions.assertThat(Messages.Representation.getNodeRepresentation(document1.createElement("someElement"))).isEqualTo("someElement");
         Assertions.assertThat(Messages.Representation.getNodeRepresentation(document1.createElementNS("http://example.com", "someElement"))).isEqualTo("{http://example.com}someElement");
 
@@ -169,7 +169,7 @@ public final class MessagesTest extends BaseFormModelTest {
      */
     @Test
     public void getFormDefinitionIsNotValidMessageTest() {
-        Document document = XmlDocumentBuilder.getDocumentBuilder().newDocument();
+        Document document = newDocument();
         Assertions.assertThat(Messages.Validation.getFormDefinitionIsNotValidMessage(null)).isEqualTo("[Form definition is not valid: null]");
         Assertions.assertThat(Messages.Validation.getFormDefinitionIsNotValidMessage(document.createElement("someElement"))).isEqualTo("[Form definition is not valid: someElement]");
         Assertions.assertThat(Messages.Validation.getFormDefinitionIsNotValidMessage(document.createElementNS("http://example.com", "someElement"))).isEqualTo("[Form definition is not valid: {http://example.com}someElement]");
@@ -180,7 +180,7 @@ public final class MessagesTest extends BaseFormModelTest {
      */
     @Test
     public void getAttributeDefinitionIsNotValidMessageTest() {
-        Document document = XmlDocumentBuilder.getDocumentBuilder().newDocument();
+        Document document = newDocument();
         Assertions.assertThat(Messages.Validation.getAttributeDefinitionIsNotValidMessage(null)).isEqualTo("[Attribute definition is not valid: null]");
         Assertions.assertThat(Messages.Validation.getAttributeDefinitionIsNotValidMessage(document.createElement("someElement"))).isEqualTo("[Attribute definition is not valid: someElement]");
         Assertions.assertThat(Messages.Validation.getAttributeDefinitionIsNotValidMessage(document.createElementNS("http://example.com", "someElement"))).isEqualTo("[Attribute definition is not valid: {http://example.com}someElement]");
@@ -191,7 +191,7 @@ public final class MessagesTest extends BaseFormModelTest {
      */
     @Test
     public void getElementDefinitionIsNotValidMessageTest() {
-        Document document = XmlDocumentBuilder.getDocumentBuilder().newDocument();
+        Document document = newDocument();
         Assertions.assertThat(Messages.Validation.getElementDefinitionIsNotValidMessage(null)).isEqualTo("[Element definition is not valid: null]");
         Assertions.assertThat(Messages.Validation.getElementDefinitionIsNotValidMessage(document.createElement("someElement"))).isEqualTo("[Element definition is not valid: someElement]");
         Assertions.assertThat(Messages.Validation.getElementDefinitionIsNotValidMessage(document.createElementNS("http://example.com", "someElement"))).isEqualTo("[Element definition is not valid: {http://example.com}someElement]");
@@ -202,7 +202,7 @@ public final class MessagesTest extends BaseFormModelTest {
      */
     @Test
     public void getSingleElementDefinitionIsNotValidMessageTest() {
-        Document document = XmlDocumentBuilder.getDocumentBuilder().newDocument();
+        Document document = newDocument();
         Assertions.assertThat(Messages.Validation.getSingleElementDefinitionIsNotValidMessage(null)).isEqualTo("[Single element definition is not valid: null]");
         Assertions.assertThat(Messages.Validation.getSingleElementDefinitionIsNotValidMessage(document.createElement("someElement"))).isEqualTo("[Single element definition is not valid: someElement]");
         Assertions.assertThat(Messages.Validation.getSingleElementDefinitionIsNotValidMessage(document.createElementNS("http://example.com", "someElement"))).isEqualTo("[Single element definition is not valid: {http://example.com}someElement]");
@@ -213,7 +213,7 @@ public final class MessagesTest extends BaseFormModelTest {
      */
     @Test
     public void getFormReferenceDefinitionIsNotValidMessageTest() {
-        Document document = XmlDocumentBuilder.getDocumentBuilder().newDocument();
+        Document document = newDocument();
         Assertions.assertThat(Messages.Validation.getFormReferenceDefinitionIsNotValidMessage(null)).isEqualTo("[Form reference definition is not valid: null]");
         Assertions.assertThat(Messages.Validation.getFormReferenceDefinitionIsNotValidMessage(document.createElement("someElement"))).isEqualTo("[Form reference definition is not valid: someElement]");
         Assertions.assertThat(Messages.Validation.getFormReferenceDefinitionIsNotValidMessage(document.createElementNS("http://example.com", "someElement"))).isEqualTo("[Form reference definition is not valid: {http://example.com}someElement]");
@@ -224,7 +224,7 @@ public final class MessagesTest extends BaseFormModelTest {
      */
     @Test
     public void getOtherNodeDefinitionIsNotValidMessageTest() {
-        Document document = XmlDocumentBuilder.getDocumentBuilder().newDocument();
+        Document document = newDocument();
         Assertions.assertThat(Messages.Validation.getOtherNodeDefinitionIsNotValidMessage(null)).isEqualTo("[Other node definition is not valid: null]");
         Assertions.assertThat(Messages.Validation.getOtherNodeDefinitionIsNotValidMessage(document.createElement("someElement"))).isEqualTo("[Other node definition is not valid: someElement]");
         Assertions.assertThat(Messages.Validation.getOtherNodeDefinitionIsNotValidMessage(document.createElementNS("http://example.com", "someElement"))).isEqualTo("[Other node definition is not valid: {http://example.com}someElement]");
@@ -235,7 +235,7 @@ public final class MessagesTest extends BaseFormModelTest {
      */
     @Test
     public void getChildElementIsNotValidMessageTest() {
-        Document document = XmlDocumentBuilder.getDocumentBuilder().newDocument();
+        Document document = newDocument();
         Assertions.assertThat(Messages.Validation.getChildElementIsNotValidMessage(null)).isEqualTo("[Child element is not valid: null]");
         Assertions.assertThat(Messages.Validation.getChildElementIsNotValidMessage(document.createElement("someElement"))).isEqualTo("[Child element is not valid: someElement]");
         Assertions.assertThat(Messages.Validation.getChildElementIsNotValidMessage(document.createElementNS("http://example.com", "someElement"))).isEqualTo("[Child element is not valid: {http://example.com}someElement]");
