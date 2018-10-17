@@ -44,12 +44,14 @@ public final class OtherNodeDefinitionValidatorImpl implements OtherNodeDefiniti
 
     @Override
     public void validate(final NodeDefinition parentNodeDefinition, final OtherNodeDefinition otherNodeDefinition, final FormDefinitionValidator formDefinitionValidator, final NodePath nodePath) {
-        NodePath currentNodePath = new NodePath(nodePath, otherNodeDefinition);
+        if (!(otherNodeDefinition instanceof OtherNodeDefinitionImpl)) {
+            return;
+        }
 
+        NodePath currentNodePath = new NodePath(nodePath, otherNodeDefinition);
         if (!((OtherNodeDefinitionImpl) otherNodeDefinition).isValid()) {
             throw new FormDefinitionValidationException("[Not valid!]", currentNodePath);
         }
-
         if (((OtherNodeDefinitionImpl) otherNodeDefinition).getAttributeDefinition() != null) {
             formDefinitionValidator.validateAttributeDefinition(otherNodeDefinition, ((OtherNodeDefinitionImpl) otherNodeDefinition).getAttributeDefinition(), currentNodePath);
         }
