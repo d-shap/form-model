@@ -23,6 +23,7 @@ import java.util.List;
 
 import org.junit.Test;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 import ru.d_shap.assertions.Assertions;
 import ru.d_shap.formmodel.BaseFormModelTest;
@@ -2382,7 +2383,36 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
      */
     @Test
     public void getParentElementUserDataTest() {
+        String xml1 = "<?xml version='1.0'?>\n";
+        xml1 += "<ns1:form id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml1 += "</ns1:form>";
+        FormDefinitions formDefinitions1 = createFormDefinitionsFromXml(xml1);
+        FormInstanceBuilderImpl formInstanceBuilder1 = createBinder(formDefinitions1);
+        Document document1 = newDocument();
+        formInstanceBuilder1.buildFormInstance(new BindingSourceImpl("source repr"), document1, formDefinitions1.getFormDefinition("id"));
+        Element element1 = document1.getDocumentElement();
+        Assertions.assertThat(formInstanceBuilder1.getParentElementUserData(element1, FormInstanceBuilder.USER_DATA_FORM_DEFINITION)).isSameAs(formDefinitions1.getFormDefinition("id"));
+        Assertions.assertThat(formInstanceBuilder1.getParentElementUserData(element1, "wrong key")).isNull();
 
+        String xml2 = "<?xml version='1.0'?>\n";
+        xml2 += "<ns1:form id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml2 += "<ns1:element id='id' lookup='lookup'>";
+        xml2 += "</ns1:element>";
+        xml2 += "</ns1:form>";
+        FormDefinitions formDefinitions2 = createFormDefinitionsFromXml(xml2);
+        FormInstanceBuilderImpl formInstanceBuilder2 = createBinder(formDefinitions2);
+        Document document2 = newDocument();
+        formInstanceBuilder2.buildFormInstance(new BindingSourceImpl("source repr"), document2, formDefinitions2.getFormDefinition("id"));
+        Element element21 = document2.getDocumentElement();
+        Element element22 = (Element) element21.getFirstChild();
+        Object userData = new Object();
+        element21.setUserData("user data", userData, null);
+        Assertions.assertThat(formInstanceBuilder2.getParentElementUserData(element21, FormInstanceBuilder.USER_DATA_FORM_DEFINITION)).isSameAs(formDefinitions2.getFormDefinition("id"));
+        Assertions.assertThat(formInstanceBuilder2.getParentElementUserData(element21, "user data")).isSameAs(userData);
+        Assertions.assertThat(formInstanceBuilder2.getParentElementUserData(element21, "wrong key")).isNull();
+        Assertions.assertThat(formInstanceBuilder2.getParentElementUserData(element22, FormInstanceBuilder.USER_DATA_FORM_DEFINITION)).isSameAs(formDefinitions2.getFormDefinition("id"));
+        Assertions.assertThat(formInstanceBuilder2.getParentElementUserData(element22, "user data")).isSameAs(userData);
+        Assertions.assertThat(formInstanceBuilder2.getParentElementUserData(element22, "wrong key")).isNull();
     }
 
     private FormInstanceBuilderImpl createBinder(final FormDefinitions formDefinitions) {
