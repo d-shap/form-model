@@ -50,6 +50,34 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
      * {@link FormInstanceBuilderImpl} class test.
      */
     @Test
+    public void compatibleOtherNodeInstanceBuildersTest() {
+        String xml1 = "<?xml version='1.0'?>\n";
+        xml1 += "<ns1:form id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0' xmlns:ns2='http://example.com'>";
+        xml1 += "<ns2:otherNode>";
+        xml1 += "</ns2:otherNode>";
+        xml1 += "</ns1:form>";
+        FormDefinitions formDefinitions1 = createFormDefinitionsFromXml(xml1);
+        FormInstanceBuilderImpl formInstanceBuilder1 = createBinder(formDefinitions1, false);
+        Document document1 = newDocument();
+        formInstanceBuilder1.buildFormInstance(new BindingSourceImpl("source repr"), document1, formDefinitions1.getFormDefinition("id"));
+        Assertions.assertThat(DocumentWriter.getAsString(document1)).isEqualTo("<form id=\"id\" xmlns=\"http://d-shap.ru/schema/form-instance/1.0\"/>");
+
+        String xml2 = "<?xml version='1.0'?>\n";
+        xml2 += "<ns1:form id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0' xmlns:ns2='http://example.com'>";
+        xml2 += "<ns2:otherNode>";
+        xml2 += "</ns2:otherNode>";
+        xml2 += "</ns1:form>";
+        FormDefinitions formDefinitions2 = createFormDefinitionsFromXml(xml2);
+        FormInstanceBuilderImpl formInstanceBuilder2 = createBinder(formDefinitions2, true);
+        Document document2 = newDocument();
+        formInstanceBuilder2.buildFormInstance(new BindingSourceImpl("source repr"), document2, formDefinitions2.getFormDefinition("id"));
+        Assertions.assertThat(DocumentWriter.getAsString(document2)).isEqualTo("<form id=\"id\" xmlns=\"http://d-shap.ru/schema/form-instance/1.0\"><!--COMMENT TEXT!--></form>");
+    }
+
+    /**
+     * {@link FormInstanceBuilderImpl} class test.
+     */
+    @Test
     public void buildFormInstanceDefaultTest() {
         try {
             String xml1 = "<?xml version='1.0'?>\n";
@@ -2191,7 +2219,13 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
     }
 
     private FormInstanceBuilderImpl createBinder(final FormDefinitions formDefinitions) {
+        return createBinder(formDefinitions, false);
+    }
+
+    private FormInstanceBuilderImpl createBinder(final FormDefinitions formDefinitions, final boolean addCommentsForOtherNodes) {
         List<OtherNodeInstanceBuilder> otherNodeInstanceBuilders = ServiceFinder.find(OtherNodeInstanceBuilder.class);
+        CommentInstanceBuilderImpl commentInstanceBuilder = new CommentInstanceBuilderImpl(addCommentsForOtherNodes);
+        otherNodeInstanceBuilders.add(commentInstanceBuilder);
         return new FormInstanceBuilderImpl(formDefinitions, new FormInstanceBinderImpl(), otherNodeInstanceBuilders);
     }
 
