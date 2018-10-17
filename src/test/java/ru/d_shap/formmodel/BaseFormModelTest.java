@@ -37,8 +37,10 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
 
+import ru.d_shap.formmodel.binding.model.BindedElementImpl;
 import ru.d_shap.formmodel.definition.loader.FormDefinitionsLoader;
 import ru.d_shap.formmodel.definition.loader.xml.FormXmlDefinitionsElementLoader;
 import ru.d_shap.formmodel.definition.loader.xml.FormXmlDefinitionsLoader;
@@ -49,6 +51,8 @@ import ru.d_shap.formmodel.definition.model.FormDefinitions;
 import ru.d_shap.formmodel.definition.model.FormReferenceDefinition;
 import ru.d_shap.formmodel.definition.model.NodeDefinition;
 import ru.d_shap.formmodel.definition.model.SingleElementDefinition;
+import ru.d_shap.formmodel.document.DocumentLookup;
+import ru.d_shap.formmodel.document.DocumentProcessor;
 
 /**
  * Base form model test class.
@@ -417,6 +421,38 @@ public class BaseFormModelTest {
         @Override
         public boolean accept(final File file) {
             return false;
+        }
+
+    }
+
+    /**
+     * Test class.
+     *
+     * @author Dmitry Shapovalov
+     */
+    public static final class DocumentProcessorImpl implements DocumentProcessor<List<String>> {
+
+        private final String _id;
+
+        /**
+         * Create new object.
+         *
+         * @param id element's ID to looup.
+         */
+        public DocumentProcessorImpl(final String id) {
+            super();
+            _id = id;
+        }
+
+        @Override
+        public List<String> process(final Document document) {
+            List<Element> elements = DocumentLookup.getElementsWithId(document, _id);
+            List<BindedElementImpl> bindedElements = DocumentLookup.getBindedElements(elements, BindedElementImpl.class);
+            List<String> result = new ArrayList<>();
+            for (BindedElementImpl bindedElement : bindedElements) {
+                result.add(bindedElement.toString());
+            }
+            return result;
         }
 
     }

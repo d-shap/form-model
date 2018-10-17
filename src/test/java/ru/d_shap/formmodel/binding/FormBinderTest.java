@@ -19,23 +19,18 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.formmodel.binding;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
 import ru.d_shap.assertions.Assertions;
 import ru.d_shap.formmodel.BaseFormModelTest;
 import ru.d_shap.formmodel.ServiceFinder;
-import ru.d_shap.formmodel.binding.model.BindedElementImpl;
 import ru.d_shap.formmodel.binding.model.BindingSourceImpl;
 import ru.d_shap.formmodel.definition.FormDefinitionNotFoundException;
 import ru.d_shap.formmodel.definition.model.FormDefinitions;
-import ru.d_shap.formmodel.document.DocumentLookup;
-import ru.d_shap.formmodel.document.DocumentProcessor;
 import ru.d_shap.formmodel.document.DocumentWriter;
 
 /**
@@ -174,11 +169,11 @@ public final class FormBinderTest extends BaseFormModelTest {
         xml1 += "</ns1:form>";
         FormDefinitions formDefinitions1 = createFormDefinitionsFromXml(xml1);
         FormBinder formBinder1 = new FormBinder(formDefinitions1, new FormInstanceBinderImpl());
-        List<String> elements1 = formBinder1.bind(new BindingSourceImpl("source"), "id", new DocumentProcessorImpl());
+        List<String> elements1 = formBinder1.bind(new BindingSourceImpl("source"), "id", new DocumentProcessorImpl("el-id"));
         Assertions.assertThat(elements1).containsExactlyInOrder("Element: repr1[0]", "Element: repr1[1]", "Element: repr1[2]");
 
         try {
-            formBinder1.bind(new BindingSourceImpl("source"), "wrong id", new DocumentProcessorImpl());
+            formBinder1.bind(new BindingSourceImpl("source"), "wrong id", new DocumentProcessorImpl("el-id"));
             Assertions.fail("FormBinder test fail");
         } catch (FormDefinitionNotFoundException ex) {
             Assertions.assertThat(ex).hasMessage("[Form definition was not found: @:wrong id]");
@@ -192,7 +187,7 @@ public final class FormBinderTest extends BaseFormModelTest {
             xml2 += "</ns1:form>";
             FormDefinitions formDefinitions2 = createFormDefinitionsFromXml(xml2);
             FormBinder formBinder2 = new FormBinder(formDefinitions2, new FormInstanceBinderImpl());
-            formBinder2.bind(new BindingSourceImpl("source"), "id", new DocumentProcessorImpl());
+            formBinder2.bind(new BindingSourceImpl("source"), "id", new DocumentProcessorImpl("el-id"));
             Assertions.fail("FormBinder test fail");
         } catch (FormBindingException ex) {
             Assertions.assertThat(ex).hasMessage("[Required element is present more than once: element[@el-id]], {source}form[@:id]");
@@ -211,23 +206,23 @@ public final class FormBinderTest extends BaseFormModelTest {
         xml1 += "</ns1:form>";
         FormDefinitions formDefinitions1 = createFormDefinitionsFromXml(xml1);
         FormBinder formBinder1 = new FormBinder(formDefinitions1, new FormInstanceBinderImpl());
-        List<String> elements1 = formBinder1.bind(new BindingSourceImpl("source"), "group", "id", new DocumentProcessorImpl());
+        List<String> elements1 = formBinder1.bind(new BindingSourceImpl("source"), "group", "id", new DocumentProcessorImpl("el-id"));
         Assertions.assertThat(elements1).containsExactlyInOrder("Element: repr1[0]", "Element: repr1[1]", "Element: repr1[2]");
 
         try {
-            formBinder1.bind(new BindingSourceImpl("source"), "group", "wrong id", new DocumentProcessorImpl());
+            formBinder1.bind(new BindingSourceImpl("source"), "group", "wrong id", new DocumentProcessorImpl("el-id"));
             Assertions.fail("FormBinder test fail");
         } catch (FormDefinitionNotFoundException ex) {
             Assertions.assertThat(ex).hasMessage("[Form definition was not found: @group:wrong id]");
         }
         try {
-            formBinder1.bind(new BindingSourceImpl("source"), "wrong group", "id", new DocumentProcessorImpl());
+            formBinder1.bind(new BindingSourceImpl("source"), "wrong group", "id", new DocumentProcessorImpl("el-id"));
             Assertions.fail("FormBinder test fail");
         } catch (FormDefinitionNotFoundException ex) {
             Assertions.assertThat(ex).hasMessage("[Form definition was not found: @wrong group:id]");
         }
         try {
-            formBinder1.bind(new BindingSourceImpl("source"), "wrong group", "wrong id", new DocumentProcessorImpl());
+            formBinder1.bind(new BindingSourceImpl("source"), "wrong group", "wrong id", new DocumentProcessorImpl("el-id"));
             Assertions.fail("FormBinder test fail");
         } catch (FormDefinitionNotFoundException ex) {
             Assertions.assertThat(ex).hasMessage("[Form definition was not found: @wrong group:wrong id]");
@@ -241,7 +236,7 @@ public final class FormBinderTest extends BaseFormModelTest {
             xml2 += "</ns1:form>";
             FormDefinitions formDefinitions2 = createFormDefinitionsFromXml(xml2);
             FormBinder formBinder2 = new FormBinder(formDefinitions2, new FormInstanceBinderImpl());
-            formBinder2.bind(new BindingSourceImpl("source"), "group", "id", new DocumentProcessorImpl());
+            formBinder2.bind(new BindingSourceImpl("source"), "group", "id", new DocumentProcessorImpl("el-id"));
             Assertions.fail("FormBinder test fail");
         } catch (FormBindingException ex) {
             Assertions.assertThat(ex).hasMessage("[Required element is present more than once: element[@el-id]], {source}form[@group:id]");
@@ -251,30 +246,6 @@ public final class FormBinderTest extends BaseFormModelTest {
     private FormInstanceBuilderImpl createBinder(final FormDefinitions formDefinitions) {
         List<OtherNodeInstanceBuilder> otherNodeInstanceBuilders = ServiceFinder.find(OtherNodeInstanceBuilder.class);
         return new FormInstanceBuilderImpl(formDefinitions, new FormInstanceBinderImpl(), otherNodeInstanceBuilders);
-    }
-
-    /**
-     * Test class.
-     *
-     * @author Dmitry Shapovalov
-     */
-    private static final class DocumentProcessorImpl implements DocumentProcessor<List<String>> {
-
-        DocumentProcessorImpl() {
-            super();
-        }
-
-        @Override
-        public List<String> process(final Document document) {
-            List<Element> elements = DocumentLookup.getElementsWithId(document, "el-id");
-            List<BindedElementImpl> bindedElements = DocumentLookup.getBindedElements(elements, BindedElementImpl.class);
-            List<String> result = new ArrayList<>();
-            for (BindedElementImpl bindedElement : bindedElements) {
-                result.add(bindedElement.toString());
-            }
-            return result;
-        }
-
     }
 
 }
