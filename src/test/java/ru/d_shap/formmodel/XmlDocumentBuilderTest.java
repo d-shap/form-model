@@ -111,6 +111,7 @@ public final class XmlDocumentBuilderTest extends BaseFormModelTest {
         Assertions.assertThat(document.getDocumentElement().getNamespaceURI()).isNull();
         Assertions.assertThat(document.getDocumentElement().getLocalName()).isEqualTo("document");
         Assertions.assertThat(document.getDocumentElement().getTextContent()).isEqualTo("value");
+        Assertions.assertThat(document.getDocumentElement().getChildNodes().getLength()).isEqualTo(1);
         Assertions.assertThat(document.getDocumentElement().getChildNodes().item(0).getNodeName()).isEqualTo("ns1:element");
         Assertions.assertThat(document.getDocumentElement().getChildNodes().item(0).getNamespaceURI()).isEqualTo("http://example.com");
         Assertions.assertThat(document.getDocumentElement().getChildNodes().item(0).getLocalName()).isEqualTo("element");
@@ -157,6 +158,7 @@ public final class XmlDocumentBuilderTest extends BaseFormModelTest {
         Assertions.assertThat(document.getDocumentElement().getNodeName()).isEqualTo("document");
         Assertions.assertThat(document.getDocumentElement().getNamespaceURI()).isNull();
         Assertions.assertThat(document.getDocumentElement().getLocalName()).isEqualTo("document");
+        Assertions.assertThat(document.getDocumentElement().getChildNodes().getLength()).isEqualTo(1);
         Assertions.assertThat(document.getDocumentElement().getChildNodes().item(0)).isInstanceOf(Text.class);
         Assertions.assertThat(document.getDocumentElement().getChildNodes().item(0).getTextContent()).isEqualTo("text_pre_cdata_text_text_post");
     }
@@ -167,21 +169,23 @@ public final class XmlDocumentBuilderTest extends BaseFormModelTest {
     @Test
     public void ignoringElementContentWhitespaceTest() {
         String xml = "<?xml version='1.0'?>\n";
-        xml += "<document xmlns:ns1='http://example.com'>";
-        xml += "   <ns1:element>  a   </ns1:element>";
+        xml += "<!DOCTYPE document [\n";
+        xml += "<!ELEMENT document (element)>\n";
+        xml += "<!ELEMENT element (#PCDATA)>\n";
+        xml += "]>\n";
+        xml += "<document>\n";
+        xml += "    <element>a</element>\n";
         xml += "</document>";
         Document document = XmlDocumentBuilder.getDocumentBuilder().parse(new InputSource(new StringReader(xml)));
         Assertions.assertThat(document).isNotNull();
         Assertions.assertThat(document.getDocumentElement().getNodeName()).isEqualTo("document");
         Assertions.assertThat(document.getDocumentElement().getNamespaceURI()).isNull();
         Assertions.assertThat(document.getDocumentElement().getLocalName()).isEqualTo("document");
-        Assertions.assertThat(document.getDocumentElement().getChildNodes().getLength()).isEqualTo(2);
-        Assertions.assertThat(document.getDocumentElement().getChildNodes().item(0)).isInstanceOf(Text.class);
-        Assertions.assertThat(document.getDocumentElement().getChildNodes().item(0).getTextContent()).isEqualTo("   ");
-        Assertions.assertThat(document.getDocumentElement().getChildNodes().item(1).getNodeName()).isEqualTo("ns1:element");
-        Assertions.assertThat(document.getDocumentElement().getChildNodes().item(1).getNamespaceURI()).isEqualTo("http://example.com");
-        Assertions.assertThat(document.getDocumentElement().getChildNodes().item(1).getLocalName()).isEqualTo("element");
-        Assertions.assertThat(document.getDocumentElement().getChildNodes().item(1).getTextContent()).isEqualTo("  a   ");
+        Assertions.assertThat(document.getDocumentElement().getChildNodes().getLength()).isEqualTo(1);
+        Assertions.assertThat(document.getDocumentElement().getChildNodes().item(0).getNodeName()).isEqualTo("element");
+        Assertions.assertThat(document.getDocumentElement().getChildNodes().item(0).getNamespaceURI()).isNull();
+        Assertions.assertThat(document.getDocumentElement().getChildNodes().item(0).getLocalName()).isEqualTo("element");
+        Assertions.assertThat(document.getDocumentElement().getChildNodes().item(0).getTextContent()).isEqualTo("a");
     }
 
 }
