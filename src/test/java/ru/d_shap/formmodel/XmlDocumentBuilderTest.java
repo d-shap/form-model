@@ -26,7 +26,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.junit.Test;
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
+import org.w3c.dom.Text;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
@@ -107,13 +107,14 @@ public final class XmlDocumentBuilderTest extends BaseFormModelTest {
         xml += "</document>";
         Document document = XmlDocumentBuilder.getDocumentBuilder().parse(new InputSource(new StringReader(xml)));
         Assertions.assertThat(document).isNotNull();
-        Assertions.assertThat(document.getDocumentElement().getTagName()).isEqualTo("document");
+        Assertions.assertThat(document.getDocumentElement().getNodeName()).isEqualTo("document");
         Assertions.assertThat(document.getDocumentElement().getNamespaceURI()).isNull();
         Assertions.assertThat(document.getDocumentElement().getLocalName()).isEqualTo("document");
-        Assertions.assertThat(((Element) document.getDocumentElement().getFirstChild()).getTagName()).isEqualTo("ns1:element");
-        Assertions.assertThat(document.getDocumentElement().getFirstChild().getNamespaceURI()).isEqualTo("http://example.com");
-        Assertions.assertThat(document.getDocumentElement().getFirstChild().getLocalName()).isEqualTo("element");
         Assertions.assertThat(document.getDocumentElement().getTextContent()).isEqualTo("value");
+        Assertions.assertThat(document.getDocumentElement().getChildNodes().item(0).getNodeName()).isEqualTo("ns1:element");
+        Assertions.assertThat(document.getDocumentElement().getChildNodes().item(0).getNamespaceURI()).isEqualTo("http://example.com");
+        Assertions.assertThat(document.getDocumentElement().getChildNodes().item(0).getLocalName()).isEqualTo("element");
+        Assertions.assertThat(document.getDocumentElement().getChildNodes().item(0).getTextContent()).isEqualTo("value");
     }
 
     /**
@@ -138,6 +139,49 @@ public final class XmlDocumentBuilderTest extends BaseFormModelTest {
         } catch (InputSourceException ex) {
             Assertions.assertThat(ex).hasCause(SAXException.class);
         }
+    }
+
+    /**
+     * {@link XmlDocumentBuilder} class test.
+     */
+    @Test
+    public void coalescingTest() {
+        String xml = "<?xml version='1.0'?>\n";
+        xml += "<document xmlns:ns1='http://example.com'>";
+        xml += "text_pre";
+        xml += "<![CDATA[_cdata_text_]]>";
+        xml += "text_post";
+        xml += "</document>";
+        Document document = XmlDocumentBuilder.getDocumentBuilder().parse(new InputSource(new StringReader(xml)));
+        Assertions.assertThat(document).isNotNull();
+        Assertions.assertThat(document.getDocumentElement().getNodeName()).isEqualTo("document");
+        Assertions.assertThat(document.getDocumentElement().getNamespaceURI()).isNull();
+        Assertions.assertThat(document.getDocumentElement().getLocalName()).isEqualTo("document");
+        Assertions.assertThat(document.getDocumentElement().getChildNodes().item(0)).isInstanceOf(Text.class);
+        Assertions.assertThat(document.getDocumentElement().getChildNodes().item(0).getTextContent()).isEqualTo("text_pre_cdata_text_text_post");
+    }
+
+    /**
+     * {@link XmlDocumentBuilder} class test.
+     */
+    @Test
+    public void ignoringElementContentWhitespaceTest() {
+        String xml = "<?xml version='1.0'?>\n";
+        xml += "<document xmlns:ns1='http://example.com'>";
+        xml += "   <ns1:element>  a   </ns1:element>";
+        xml += "</document>";
+        Document document = XmlDocumentBuilder.getDocumentBuilder().parse(new InputSource(new StringReader(xml)));
+        Assertions.assertThat(document).isNotNull();
+        Assertions.assertThat(document.getDocumentElement().getNodeName()).isEqualTo("document");
+        Assertions.assertThat(document.getDocumentElement().getNamespaceURI()).isNull();
+        Assertions.assertThat(document.getDocumentElement().getLocalName()).isEqualTo("document");
+        Assertions.assertThat(document.getDocumentElement().getChildNodes().getLength()).isEqualTo(2);
+        Assertions.assertThat(document.getDocumentElement().getChildNodes().item(0)).isInstanceOf(Text.class);
+        Assertions.assertThat(document.getDocumentElement().getChildNodes().item(0).getTextContent()).isEqualTo("   ");
+        Assertions.assertThat(document.getDocumentElement().getChildNodes().item(1).getNodeName()).isEqualTo("ns1:element");
+        Assertions.assertThat(document.getDocumentElement().getChildNodes().item(1).getNamespaceURI()).isEqualTo("http://example.com");
+        Assertions.assertThat(document.getDocumentElement().getChildNodes().item(1).getLocalName()).isEqualTo("element");
+        Assertions.assertThat(document.getDocumentElement().getChildNodes().item(1).getTextContent()).isEqualTo("  a   ");
     }
 
 }
