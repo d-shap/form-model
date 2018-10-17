@@ -131,6 +131,14 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
      * {@link FormInstanceBuilderImpl} class test.
      */
     @Test
+    public void buildFormInstanceUserDataTest() {
+        // TODO
+    }
+
+    /**
+     * {@link FormInstanceBuilderImpl} class test.
+     */
+    @Test
     public void buildAttributeInstanceDefaultTest() {
         String xml = "<?xml version='1.0'?>\n";
         xml += "<ns1:form id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
@@ -248,6 +256,14 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
         } catch (FormBindingException ex) {
             Assertions.assertThat(ex).hasMessage("[Prohibited attribute is present: attribute[@id]], {source}form[@:id]/element[@id]");
         }
+    }
+
+    /**
+     * {@link FormInstanceBuilderImpl} class test.
+     */
+    @Test
+    public void buildAttributeInstanceUserDataTest() {
+        // TODO
     }
 
     /**
@@ -547,6 +563,14 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
         } catch (FormBindingException ex) {
             Assertions.assertThat(ex).hasMessage("[Prohibited element is present: element[@id]], {source}form[@:id]");
         }
+    }
+
+    /**
+     * {@link FormInstanceBuilderImpl} class test.
+     */
+    @Test
+    public void buildElementInstanceUserDataTest() {
+        // TODO
     }
 
     /**
@@ -2078,6 +2102,14 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
      * {@link FormInstanceBuilderImpl} class test.
      */
     @Test
+    public void buildSingleElementInstanceUserDataTest() {
+        // TODO
+    }
+
+    /**
+     * {@link FormInstanceBuilderImpl} class test.
+     */
+    @Test
     public void buildFormReferenceInstanceTest() {
         String xml11 = "<?xml version='1.0'?>\n";
         xml11 += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
@@ -2198,6 +2230,14 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
         Document document = newDocument();
         formInstanceBuilder.buildFormInstance(new BindingSourceImpl("repr"), document, formDefinitions.getFormDefinition("id2"));
         Assertions.assertThat(DocumentWriter.getAsString(document)).isEqualTo("<form id=\"id2\" xmlns=\"http://d-shap.ru/schema/form-instance/1.0\"><form-reference attr1=\"val1\" attr2=\"val2\" id=\"id1\"><element id=\"id1\"/></form-reference><element id=\"id2\"/></form>");
+    }
+
+    /**
+     * {@link FormInstanceBuilderImpl} class test.
+     */
+    @Test
+    public void buildFormReferenceInstanceUserDataTest() {
+        // TODO
     }
 
     /**
@@ -2376,6 +2416,14 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
         Document document6 = newDocument();
         formInstanceBuilder6.buildFormInstance(new BindingSourceImpl("repr"), document6, formDefinitions6.getFormDefinition("id"));
         Assertions.assertThat(DocumentWriter.getAsString(document6)).isEqualTo("<form id=\"id\" xmlns=\"http://d-shap.ru/schema/form-instance/1.0\"><otherNode repr=\"other1\" xmlns=\"http://d-shap.ru/schema/form-instance-other-node/1.0\"><otherNode repr=\"other2\"/><!--COMMENT TEXT!--></otherNode><!--COMMENT TEXT!--></form>");
+    }
+
+    /**
+     * {@link FormInstanceBuilderImpl} class test.
+     */
+    @Test
+    public void buildOtherNodeInstanceUserDataTest() {
+        // TODO
     }
 
     /**
