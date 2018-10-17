@@ -282,12 +282,6 @@ final class FormInstanceBuilderImpl implements FormInstanceBuilder {
         }
     }
 
-    private void setAttribute(final Element element, final String attributeName, final String attributeValue) {
-        if (!EmptyStringHelper.isBlank(attributeValue)) {
-            element.setAttribute(attributeName, attributeValue);
-        }
-    }
-
     @Override
     public Object getParentElementUserData(final Element parentElement, final String key) {
         Node currentNode = parentElement;
@@ -299,6 +293,12 @@ final class FormInstanceBuilderImpl implements FormInstanceBuilder {
             currentNode = currentNode.getParentNode();
         }
         return null;
+    }
+
+    private void setAttribute(final Element element, final String attributeName, final String attributeValue) {
+        if (!EmptyStringHelper.isBlank(attributeValue)) {
+            element.setAttribute(attributeName, attributeValue);
+        }
     }
 
     private void setUserData(final Element element, final String key, final Object data) {
