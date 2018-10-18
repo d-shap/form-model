@@ -82,6 +82,35 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
      * {@link FormInstanceBuilderImpl} class test.
      */
     @Test
+    public void preBindTest() {
+        String xml = "<?xml version='1.0'?>\n";
+        xml += "<ns1:form id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml += "</ns1:form>";
+        FormDefinitions formDefinitions = createFormDefinitionsFromXml(xml);
+        FormInstanceBuilderImpl formInstanceBuilder = createBinder(formDefinitions, false);
+        BindingSourceImpl bindingSource = new BindingSourceImpl("source repr");
+        formInstanceBuilder.preBind(bindingSource, formDefinitions.getFormDefinition("id"));
+    }
+
+    /**
+     * {@link FormInstanceBuilderImpl} class test.
+     */
+    @Test
+    public void postBindTest() {
+        String xml = "<?xml version='1.0'?>\n";
+        xml += "<ns1:form id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml += "</ns1:form>";
+        FormDefinitions formDefinitions = createFormDefinitionsFromXml(xml);
+        FormInstanceBuilderImpl formInstanceBuilder = createBinder(formDefinitions, false);
+        BindingSourceImpl bindingSource = new BindingSourceImpl("source repr");
+        formInstanceBuilder.preBind(bindingSource, formDefinitions.getFormDefinition("id"));
+        formInstanceBuilder.postBind(bindingSource, formDefinitions.getFormDefinition("id"), newDocument());
+    }
+
+    /**
+     * {@link FormInstanceBuilderImpl} class test.
+     */
+    @Test
     public void buildFormInstanceDefaultTest() {
         try {
             String xml1 = "<?xml version='1.0'?>\n";
