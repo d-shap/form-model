@@ -43,6 +43,7 @@ import ru.d_shap.formmodel.definition.model.NodePath;
 import ru.d_shap.formmodel.definition.model.OtherNodeDefinition;
 import ru.d_shap.formmodel.definition.model.SingleElementDefinition;
 import ru.d_shap.formmodel.utils.EmptyStringHelper;
+import ru.d_shap.formmodel.utils.IdentityHelper;
 
 /**
  * Builder for the form instance.
@@ -282,7 +283,7 @@ final class FormInstanceBuilderImpl implements FormInstanceBuilder {
     private void addUniqueNodeDefinitions(final Element element, final List<NodeDefinition> uniqueNodeDefinitions, final Class<? extends NodeDefinition> excludeNodeDefinitionClass) {
         Object object = element.getUserData(USER_DATA_NODE_DEFINITION);
         if (object instanceof NodeDefinition && !excludeNodeDefinitionClass.isInstance(object)) {
-            if (!listContainsIdentity(uniqueNodeDefinitions, (NodeDefinition) object)) {
+            if (!IdentityHelper.contains(uniqueNodeDefinitions, (NodeDefinition) object)) {
                 uniqueNodeDefinitions.add((NodeDefinition) object);
             }
             return;
@@ -294,15 +295,6 @@ final class FormInstanceBuilderImpl implements FormInstanceBuilder {
                 addUniqueNodeDefinitions((Element) node, uniqueNodeDefinitions, excludeNodeDefinitionClass);
             }
         }
-    }
-
-    private boolean listContainsIdentity(final List<NodeDefinition> uniqueNodeDefinitions, final NodeDefinition nodeDefinition) {
-        for (int i = 0; i < uniqueNodeDefinitions.size(); i++) {
-            if (uniqueNodeDefinitions.get(i) == nodeDefinition) {
-                return true;
-            }
-        }
-        return false;
     }
 
     private void bindNodeDefinitions(final BindingSource bindingSource, final Document document, final BindedForm lastBindedForm, final BindedElement lastBindedElement, final Element parentElement, final List<NodeDefinition> nodeDefinitions, final NodePath nodePath) {
