@@ -28,6 +28,7 @@ import org.w3c.dom.Element;
 import ru.d_shap.assertions.Assertions;
 import ru.d_shap.formmodel.BaseFormModelTest;
 import ru.d_shap.formmodel.ServiceFinder;
+import ru.d_shap.formmodel.binding.model.BindedFormImpl;
 import ru.d_shap.formmodel.binding.model.BindingSourceImpl;
 import ru.d_shap.formmodel.definition.model.FormDefinitions;
 import ru.d_shap.formmodel.document.DocumentWriter;
@@ -131,7 +132,28 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
      */
     @Test
     public void buildFormInstanceUserDataTest() {
-        // TODO
+        String xml1 = "<?xml version='1.0'?>\n";
+        xml1 += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml1 += "</ns1:form>";
+        String xml2 = "<?xml version='1.0'?>\n";
+        xml2 += "<ns1:form id='id2' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml2 += "</ns1:form>";
+        FormDefinitions formDefinitions = createFormDefinitionsFromXml(xml1, xml2);
+        FormInstanceBuilderImpl formInstanceBuilder = createBinder(formDefinitions);
+
+        Document document1 = newDocument();
+        formInstanceBuilder.buildFormInstance(new BindingSourceImpl("source repr"), document1, formDefinitions.getFormDefinition("id1"));
+        Assertions.assertThat(document1.getDocumentElement().getUserData(FormInstanceBuilder.USER_DATA_FORM_DEFINITION)).isSameAs(formDefinitions.getFormDefinition("id1"));
+        Assertions.assertThat(document1.getDocumentElement().getUserData(FormInstanceBuilder.USER_DATA_NODE_DEFINITION)).isSameAs(formDefinitions.getFormDefinition("id1"));
+        Assertions.assertThat(document1.getDocumentElement().getUserData(FormInstanceBuilder.USER_DATA_BINDED_OBJECT)).isInstanceOf(BindedFormImpl.class);
+        Assertions.assertThat(document1.getDocumentElement().getUserData(FormInstanceBuilder.USER_DATA_BINDED_OBJECT)).hasToString("Form: source repr");
+
+        Document document2 = newDocument();
+        formInstanceBuilder.buildFormInstance(new BindingSourceImpl("source repr"), document2, formDefinitions.getFormDefinition("id2"));
+        Assertions.assertThat(document2.getDocumentElement().getUserData(FormInstanceBuilder.USER_DATA_FORM_DEFINITION)).isSameAs(formDefinitions.getFormDefinition("id2"));
+        Assertions.assertThat(document2.getDocumentElement().getUserData(FormInstanceBuilder.USER_DATA_NODE_DEFINITION)).isSameAs(formDefinitions.getFormDefinition("id2"));
+        Assertions.assertThat(document2.getDocumentElement().getUserData(FormInstanceBuilder.USER_DATA_BINDED_OBJECT)).isInstanceOf(BindedFormImpl.class);
+        Assertions.assertThat(document2.getDocumentElement().getUserData(FormInstanceBuilder.USER_DATA_BINDED_OBJECT)).hasToString("Form: source repr");
     }
 
     /**
