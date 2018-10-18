@@ -99,17 +99,25 @@ public final class FormDefinitionValidatorImplTest extends BaseFormModelTest {
      */
     @Test
     public void isStringHasValidCharactersTest() {
+        Assertions.assertThat(createValidator().isStringHasValidCharacters("a")).isTrue();
         Assertions.assertThat(createValidator().isStringHasValidCharacters("aVal")).isTrue();
+        Assertions.assertThat(createValidator().isStringHasValidCharacters("A")).isTrue();
         Assertions.assertThat(createValidator().isStringHasValidCharacters("AVal")).isTrue();
+        Assertions.assertThat(createValidator().isStringHasValidCharacters("z")).isTrue();
         Assertions.assertThat(createValidator().isStringHasValidCharacters("zVal")).isTrue();
+        Assertions.assertThat(createValidator().isStringHasValidCharacters("Z")).isTrue();
         Assertions.assertThat(createValidator().isStringHasValidCharacters("ZVal")).isTrue();
+        Assertions.assertThat(createValidator().isStringHasValidCharacters("_")).isTrue();
         Assertions.assertThat(createValidator().isStringHasValidCharacters("_Val")).isTrue();
         Assertions.assertThat(createValidator().isStringHasValidCharacters("a_Val")).isTrue();
         Assertions.assertThat(createValidator().isStringHasValidCharacters("a-Val")).isTrue();
         Assertions.assertThat(createValidator().isStringHasValidCharacters("a1234567890Val")).isTrue();
 
+        Assertions.assertThat(createValidator().isStringHasValidCharacters(" ")).isFalse();
         Assertions.assertThat(createValidator().isStringHasValidCharacters(" Val")).isFalse();
+        Assertions.assertThat(createValidator().isStringHasValidCharacters("-")).isFalse();
         Assertions.assertThat(createValidator().isStringHasValidCharacters("-Val")).isFalse();
+        Assertions.assertThat(createValidator().isStringHasValidCharacters("0")).isFalse();
         Assertions.assertThat(createValidator().isStringHasValidCharacters("0Val")).isFalse();
         Assertions.assertThat(createValidator().isStringHasValidCharacters("йVal")).isFalse();
         Assertions.assertThat(createValidator().isStringHasValidCharacters("a Val")).isFalse();
