@@ -22,6 +22,7 @@ package ru.d_shap.formmodel.utils;
 import org.junit.Test;
 
 import ru.d_shap.assertions.Assertions;
+import ru.d_shap.formmodel.BaseFormModelTest;
 import ru.d_shap.formmodel.Messages;
 
 /**
@@ -29,7 +30,7 @@ import ru.d_shap.formmodel.Messages;
  *
  * @author Dmitry Shapovalov
  */
-public final class NullValueHelperTest {
+public final class NullValueHelperTest extends BaseFormModelTest {
 
     /**
      * Test class constructor.
