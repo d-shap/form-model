@@ -98,13 +98,16 @@ final class FormDefinitionValidatorImpl implements FormDefinitionValidator {
 
     @Override
     public boolean isStringHasValidCharacters(final String str) {
-        if (!VALID_START_CHARACTERS.contains(str.charAt(0))) {
+        int idx = 0;
+        if (!VALID_START_CHARACTERS.contains(str.charAt(idx))) {
             return false;
         }
-        for (int i = 1; i < str.length(); i++) {
-            if (!VALID_CHARACTERS.contains(str.charAt(i))) {
+        idx++;
+        while (idx < str.length()) {
+            if (!VALID_CHARACTERS.contains(str.charAt(idx))) {
                 return false;
             }
+            idx++;
         }
         return true;
     }
