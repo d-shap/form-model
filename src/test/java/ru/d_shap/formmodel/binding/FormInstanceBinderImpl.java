@@ -53,11 +53,40 @@ public final class FormInstanceBinderImpl implements FormInstanceBinder {
 
     private FormDefinition _formDefinition;
 
+    private Document _document;
+
     /**
      * Create new object.
      */
     public FormInstanceBinderImpl() {
         super();
+    }
+
+    /**
+     * Get the binding source.
+     *
+     * @return the binding source.
+     */
+    public BindingSource getBindingSource() {
+        return _bindingSource;
+    }
+
+    /**
+     * Get the form definition.
+     *
+     * @return the form definition.
+     */
+    public FormDefinition getFormDefinition() {
+        return _formDefinition;
+    }
+
+    /**
+     * Get the binded document.
+     *
+     * @return the binded document.
+     */
+    public Document getDocument() {
+        return _document;
     }
 
     @Override
@@ -82,6 +111,8 @@ public final class FormInstanceBinderImpl implements FormInstanceBinder {
         Assertions.assertThat(formDefinition).isNotNull();
         Assertions.assertThat(_formDefinition).isSameAs(formDefinition);
         _formDefinition = null;
+
+        _document = document;
     }
 
     @Override
