@@ -2508,6 +2508,24 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
     /**
      * {@link FormInstanceBuilderImpl} class test.
      */
+    @Test(expected = StackOverflowError.class)
+    public void buildFormReferenceInstanceSelfReferenceFailTest() {
+        String xml = "<?xml version='1.0'?>\n";
+        xml += "<ns1:form id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml += "<ns1:element id='id' lookup='lookup'>";
+        xml += "<ns1:form-reference id='id'>";
+        xml += "</ns1:form-reference>";
+        xml += "</ns1:element>";
+        xml += "</ns1:form>";
+        FormDefinitions formDefinitions = createFormDefinitionsFromXml(xml);
+        FormInstanceBuilderImpl formInstanceBuilder = createBinder(formDefinitions);
+        Document document = newDocument();
+        formInstanceBuilder.buildFormInstance(new BindingSourceImpl("repr"), document, formDefinitions.getFormDefinition("id"));
+    }
+
+    /**
+     * {@link FormInstanceBuilderImpl} class test.
+     */
     @Test
     public void buildOtherNodeInstanceTest() {
         String xml1 = "<?xml version='1.0'?>\n";
