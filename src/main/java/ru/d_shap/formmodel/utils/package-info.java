@@ -18,6 +18,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 /**
- * Form-model utils.
+ * Form-model utility classes.
  */
 package ru.d_shap.formmodel.utils;
