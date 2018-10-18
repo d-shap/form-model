@@ -87,9 +87,16 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
         xml += "<ns1:form id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
         xml += "</ns1:form>";
         FormDefinitions formDefinitions = createFormDefinitionsFromXml(xml);
-        FormInstanceBuilderImpl formInstanceBuilder = createBinder(formDefinitions, false);
+        FormInstanceBinderImpl formInstanceBinder = new FormInstanceBinderImpl();
+        Assertions.assertThat(formInstanceBinder.getBindingSource()).isNull();
+        Assertions.assertThat(formInstanceBinder.getFormDefinition()).isNull();
+        Assertions.assertThat(formInstanceBinder.getDocument()).isNull();
+        FormInstanceBuilderImpl formInstanceBuilder = createBinder(formDefinitions, formInstanceBinder);
         BindingSourceImpl bindingSource = new BindingSourceImpl("source repr");
         formInstanceBuilder.preBind(bindingSource, formDefinitions.getFormDefinition("id"));
+        Assertions.assertThat(formInstanceBinder.getBindingSource()).isSameAs(bindingSource);
+        Assertions.assertThat(formInstanceBinder.getFormDefinition()).isSameAs(formDefinitions.getFormDefinition("id"));
+        Assertions.assertThat(formInstanceBinder.getDocument()).isNull();
     }
 
     /**
@@ -101,10 +108,15 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
         xml += "<ns1:form id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
         xml += "</ns1:form>";
         FormDefinitions formDefinitions = createFormDefinitionsFromXml(xml);
-        FormInstanceBuilderImpl formInstanceBuilder = createBinder(formDefinitions, false);
+        FormInstanceBinderImpl formInstanceBinder = new FormInstanceBinderImpl();
+        FormInstanceBuilderImpl formInstanceBuilder = createBinder(formDefinitions, formInstanceBinder);
         BindingSourceImpl bindingSource = new BindingSourceImpl("source repr");
         formInstanceBuilder.preBind(bindingSource, formDefinitions.getFormDefinition("id"));
-        formInstanceBuilder.postBind(bindingSource, formDefinitions.getFormDefinition("id"), newDocument());
+        Document document = newDocument();
+        formInstanceBuilder.postBind(bindingSource, formDefinitions.getFormDefinition("id"), document);
+        Assertions.assertThat(formInstanceBinder.getBindingSource()).isNull();
+        Assertions.assertThat(formInstanceBinder.getFormDefinition()).isNull();
+        Assertions.assertThat(formInstanceBinder.getDocument()).isSameAs(document);
     }
 
     /**
@@ -2831,14 +2843,22 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
     }
 
     private FormInstanceBuilderImpl createBinder(final FormDefinitions formDefinitions) {
-        return createBinder(formDefinitions, false);
+        return createBinder(formDefinitions, false, new FormInstanceBinderImpl());
     }
 
     private FormInstanceBuilderImpl createBinder(final FormDefinitions formDefinitions, final boolean addCommentsForOtherNodes) {
+        return createBinder(formDefinitions, addCommentsForOtherNodes, new FormInstanceBinderImpl());
+    }
+
+    private FormInstanceBuilderImpl createBinder(final FormDefinitions formDefinitions, final FormInstanceBinderImpl formInstanceBinder) {
+        return createBinder(formDefinitions, false, formInstanceBinder);
+    }
+
+    private FormInstanceBuilderImpl createBinder(final FormDefinitions formDefinitions, final boolean addCommentsForOtherNodes, final FormInstanceBinderImpl formInstanceBinder) {
         List<OtherNodeInstanceBuilder> otherNodeInstanceBuilders = ServiceFinder.find(OtherNodeInstanceBuilder.class);
         OtherNodeCommentInstanceBuilderImpl commentInstanceBuilder = new OtherNodeCommentInstanceBuilderImpl(addCommentsForOtherNodes);
         otherNodeInstanceBuilders.add(commentInstanceBuilder);
-        return new FormInstanceBuilderImpl(formDefinitions, new FormInstanceBinderImpl(), otherNodeInstanceBuilders);
+        return new FormInstanceBuilderImpl(formDefinitions, formInstanceBinder, otherNodeInstanceBuilders);
     }
 
 }
