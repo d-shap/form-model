@@ -67,6 +67,13 @@ public final class XmlDocumentValidatorTest extends BaseFormModelTest {
         } catch (XmlDocumentValidatorConfigurationException ex) {
             Assertions.assertThat(ex).hasCause(SAXException.class);
         }
+
+        try {
+            new XmlDocumentValidator(new ReadErrorInputStream());
+            Assertions.fail("XmlDocumentValidator test fail");
+        } catch (XmlDocumentValidatorConfigurationException ex) {
+            Assertions.assertThat(ex).hasCause(SAXException.class);
+        }
     }
 
     /**
@@ -159,6 +166,22 @@ public final class XmlDocumentValidatorTest extends BaseFormModelTest {
             Assertions.assertThat(ex).hasMessage("READ ERROR!");
             Assertions.assertThat(ex).hasCause(IOException.class);
         }
+    }
+
+    /**
+     * {@link XmlDocumentValidator} class test.
+     */
+    @Test
+    public void closeTest() {
+        String xml = "<?xml version='1.0'?>\n";
+        xml += "<xs:schema xmlns:xs='http://www.w3.org/2001/XMLSchema'>";
+        xml += "<xs:element name='element' type='xs:string' />";
+        xml += "</xs:schema>";
+        InputStream inputStream = new ByteArrayInputStream(xml.getBytes());
+        CloseableInputStream closeableInputStream = new CloseableInputStream(inputStream);
+        Assertions.assertThat(closeableInputStream.isClosed()).isFalse();
+        new XmlDocumentValidator(closeableInputStream);
+        Assertions.assertThat(closeableInputStream.isClosed()).isTrue();
     }
 
 }
