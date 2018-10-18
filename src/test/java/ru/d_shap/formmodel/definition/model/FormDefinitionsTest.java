@@ -87,6 +87,10 @@ public final class FormDefinitionsTest extends BaseFormModelTest {
         } catch (FormDefinitionNotFoundException ex) {
             Assertions.assertThat(ex).hasMessage("[Form definition was not found: @group:id3]");
         }
+
+        FormDefinition formDefinition5 = new FormDefinition("group", "id5", createNodeDefinitions(new FormReferenceDefinition("group", "id1", createNodeDefinitions(), createOtherAttributes())), createOtherAttributes(), "source5");
+        FormDefinition formDefinition6 = new FormDefinition("group", "id6", createNodeDefinitions(new FormReferenceDefinition("group", "id5", createNodeDefinitions(), createOtherAttributes())), createOtherAttributes(), "source6");
+        formDefinitionsCopy.addFormDefinitions(Arrays.asList(formDefinition5, formDefinition6));
     }
 
     /**
