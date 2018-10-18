@@ -19,8 +19,11 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.formmodel;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.io.StringReader;
+import java.io.UnsupportedEncodingException;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -186,6 +189,38 @@ public final class XmlDocumentBuilderTest extends BaseFormModelTest {
         Assertions.assertThat(document.getDocumentElement().getChildNodes().item(0).getNamespaceURI()).isNull();
         Assertions.assertThat(document.getDocumentElement().getChildNodes().item(0).getLocalName()).isEqualTo("element");
         Assertions.assertThat(document.getDocumentElement().getChildNodes().item(0).getTextContent()).isEqualTo("a");
+    }
+
+    /**
+     * {@link XmlDocumentBuilder} class test.
+     */
+    @Test
+    public void stderrTest() {
+        PrintStream stderr = System.err;
+        try {
+            try {
+                String encoding = "UTF-8";
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                PrintStream printStream = new PrintStream(byteArrayOutputStream, true, encoding);
+                System.setErr(printStream);
+                try {
+                    String xml = "<?xml version='1.0'?>\n";
+                    xml += "<document xmlns:ns1='http://example.com'>";
+                    xml += "<ns1:element>value</ns1:element>";
+                    xml += "<document>";
+                    XmlDocumentBuilder.getDocumentBuilder().parse(new InputSource(new StringReader(xml)));
+                    Assertions.fail("XmlDocumentBuilder test fail");
+                } catch (InputSourceException ex) {
+                    Assertions.assertThat(ex).hasCause(SAXException.class);
+                }
+                String message = new String(byteArrayOutputStream.toByteArray(), encoding);
+                Assertions.assertThat(message).isBlank();
+            } catch (UnsupportedEncodingException ex) {
+                Assertions.fail(ex.getMessage());
+            }
+        } finally {
+            System.setErr(stderr);
+        }
     }
 
 }
