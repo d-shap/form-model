@@ -20,7 +20,7 @@
 package ru.d_shap.formmodel.definition.model;
 
 import ru.d_shap.formmodel.Messages;
-import ru.d_shap.formmodel.NullValueHelper;
+import ru.d_shap.formmodel.utils.NullValueHelper;
 
 /**
  * Form definition key.

@@ -26,9 +26,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import ru.d_shap.formmodel.NullValueHelper;
 import ru.d_shap.formmodel.definition.FormDefinitionNotFoundException;
 import ru.d_shap.formmodel.definition.validator.FormDefinitionsValidator;
+import ru.d_shap.formmodel.utils.NullValueHelper;
 
 /**
  * Container for all form definitions.

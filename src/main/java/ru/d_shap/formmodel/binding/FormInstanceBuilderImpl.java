@@ -27,7 +27,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import ru.d_shap.formmodel.EmptyStringHelper;
 import ru.d_shap.formmodel.Messages;
 import ru.d_shap.formmodel.binding.model.BindedAttribute;
 import ru.d_shap.formmodel.binding.model.BindedElement;
@@ -43,6 +42,7 @@ import ru.d_shap.formmodel.definition.model.NodeDefinition;
 import ru.d_shap.formmodel.definition.model.NodePath;
 import ru.d_shap.formmodel.definition.model.OtherNodeDefinition;
 import ru.d_shap.formmodel.definition.model.SingleElementDefinition;
+import ru.d_shap.formmodel.utils.EmptyStringHelper;
 
 /**
  * Builder for the form instance.

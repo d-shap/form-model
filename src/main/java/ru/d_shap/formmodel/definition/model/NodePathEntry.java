@@ -19,7 +19,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.formmodel.definition.model;
 
-import ru.d_shap.formmodel.NullValueHelper;
+import ru.d_shap.formmodel.utils.NullValueHelper;
 
 /**
  * Single path entry within the node path.

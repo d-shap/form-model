@@ -24,7 +24,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import ru.d_shap.formmodel.EmptyStringHelper;
 import ru.d_shap.formmodel.Messages;
 import ru.d_shap.formmodel.definition.FormDefinitionValidationException;
 import ru.d_shap.formmodel.definition.model.AttributeDefinition;
@@ -37,6 +36,7 @@ import ru.d_shap.formmodel.definition.model.NodeDefinition;
 import ru.d_shap.formmodel.definition.model.NodePath;
 import ru.d_shap.formmodel.definition.model.OtherNodeDefinition;
 import ru.d_shap.formmodel.definition.model.SingleElementDefinition;
+import ru.d_shap.formmodel.utils.EmptyStringHelper;
 
 /**
  * Validator for the form definition.

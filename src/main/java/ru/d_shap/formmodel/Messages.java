@@ -28,6 +28,7 @@ import ru.d_shap.formmodel.definition.model.FormDefinition;
 import ru.d_shap.formmodel.definition.model.FormDefinitionKey;
 import ru.d_shap.formmodel.definition.model.FormReferenceDefinition;
 import ru.d_shap.formmodel.definition.model.SingleElementDefinition;
+import ru.d_shap.formmodel.utils.NullValueHelper;
 
 /**
  * Helper class to create messages.
