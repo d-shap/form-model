@@ -28,6 +28,7 @@ import org.w3c.dom.Element;
 import ru.d_shap.assertions.Assertions;
 import ru.d_shap.formmodel.BaseFormModelTest;
 import ru.d_shap.formmodel.ServiceFinder;
+import ru.d_shap.formmodel.binding.model.BindedAttribute;
 import ru.d_shap.formmodel.binding.model.BindedFormImpl;
 import ru.d_shap.formmodel.binding.model.BindingSourceImpl;
 import ru.d_shap.formmodel.definition.model.FormDefinitions;
@@ -149,11 +150,27 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
         Assertions.assertThat(document1.getDocumentElement().getUserData(FormInstanceBuilder.USER_DATA_BINDED_OBJECT)).hasToString("Form: source repr");
 
         Document document2 = newDocument();
-        formInstanceBuilder.buildFormInstance(new BindingSourceImpl("source repr"), document2, formDefinitions.getFormDefinition("id2"));
-        Assertions.assertThat(document2.getDocumentElement().getUserData(FormInstanceBuilder.USER_DATA_FORM_DEFINITION)).isSameAs(formDefinitions.getFormDefinition("id2"));
-        Assertions.assertThat(document2.getDocumentElement().getUserData(FormInstanceBuilder.USER_DATA_NODE_DEFINITION)).isSameAs(formDefinitions.getFormDefinition("id2"));
+        formInstanceBuilder.buildFormInstance(new BindingSourceImpl("source repr"), document2, formDefinitions.getFormDefinition("id1"));
+        Assertions.assertThat(document2.getDocumentElement().getUserData(FormInstanceBuilder.USER_DATA_FORM_DEFINITION)).isSameAs(formDefinitions.getFormDefinition("id1"));
+        Assertions.assertThat(document2.getDocumentElement().getUserData(FormInstanceBuilder.USER_DATA_NODE_DEFINITION)).isSameAs(formDefinitions.getFormDefinition("id1"));
         Assertions.assertThat(document2.getDocumentElement().getUserData(FormInstanceBuilder.USER_DATA_BINDED_OBJECT)).isInstanceOf(BindedFormImpl.class);
         Assertions.assertThat(document2.getDocumentElement().getUserData(FormInstanceBuilder.USER_DATA_BINDED_OBJECT)).hasToString("Form: source repr");
+        Assertions.assertThat(document2.getDocumentElement().getUserData(FormInstanceBuilder.USER_DATA_BINDED_OBJECT)).isNotSameAs(document1.getDocumentElement().getUserData(FormInstanceBuilder.USER_DATA_BINDED_OBJECT));
+
+        Document document3 = newDocument();
+        formInstanceBuilder.buildFormInstance(new BindingSourceImpl("source repr"), document3, formDefinitions.getFormDefinition("id2"));
+        Assertions.assertThat(document3.getDocumentElement().getUserData(FormInstanceBuilder.USER_DATA_FORM_DEFINITION)).isSameAs(formDefinitions.getFormDefinition("id2"));
+        Assertions.assertThat(document3.getDocumentElement().getUserData(FormInstanceBuilder.USER_DATA_NODE_DEFINITION)).isSameAs(formDefinitions.getFormDefinition("id2"));
+        Assertions.assertThat(document3.getDocumentElement().getUserData(FormInstanceBuilder.USER_DATA_BINDED_OBJECT)).isInstanceOf(BindedFormImpl.class);
+        Assertions.assertThat(document3.getDocumentElement().getUserData(FormInstanceBuilder.USER_DATA_BINDED_OBJECT)).hasToString("Form: source repr");
+
+        Document document4 = newDocument();
+        formInstanceBuilder.buildFormInstance(new BindingSourceImpl("source repr"), document4, formDefinitions.getFormDefinition("id2"));
+        Assertions.assertThat(document4.getDocumentElement().getUserData(FormInstanceBuilder.USER_DATA_FORM_DEFINITION)).isSameAs(formDefinitions.getFormDefinition("id2"));
+        Assertions.assertThat(document4.getDocumentElement().getUserData(FormInstanceBuilder.USER_DATA_NODE_DEFINITION)).isSameAs(formDefinitions.getFormDefinition("id2"));
+        Assertions.assertThat(document4.getDocumentElement().getUserData(FormInstanceBuilder.USER_DATA_BINDED_OBJECT)).isInstanceOf(BindedFormImpl.class);
+        Assertions.assertThat(document4.getDocumentElement().getUserData(FormInstanceBuilder.USER_DATA_BINDED_OBJECT)).hasToString("Form: source repr");
+        Assertions.assertThat(document4.getDocumentElement().getUserData(FormInstanceBuilder.USER_DATA_BINDED_OBJECT)).isNotSameAs(document3.getDocumentElement().getUserData(FormInstanceBuilder.USER_DATA_BINDED_OBJECT));
     }
 
     /**
@@ -284,7 +301,41 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
      */
     @Test
     public void buildAttributeInstanceUserDataTest() {
-        // TODO
+        String xml = "<?xml version='1.0'?>\n";
+        xml += "<ns1:form id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml += "<ns1:element id='id' lookup='lookup'>";
+        xml += "<ns1:attribute id='id1' lookup='lookup' repr='repr1' count='1'>";
+        xml += "</ns1:attribute>";
+        xml += "<ns1:attribute id='id2' lookup='lookup' repr='repr2' count='1'>";
+        xml += "</ns1:attribute>";
+        xml += "</ns1:element>";
+        xml += "</ns1:form>";
+        FormDefinitions formDefinitions = createFormDefinitionsFromXml(xml);
+        FormInstanceBuilderImpl formInstanceBuilder = createBinder(formDefinitions);
+
+        Document document1 = newDocument();
+        formInstanceBuilder.buildFormInstance(new BindingSourceImpl("source repr"), document1, formDefinitions.getFormDefinition("id"));
+        Assertions.assertThat(document1.getDocumentElement().getChildNodes().item(0).getChildNodes().item(0).getUserData(FormInstanceBuilder.USER_DATA_FORM_DEFINITION)).isSameAs(formDefinitions.getFormDefinition("id"));
+        Assertions.assertThat(document1.getDocumentElement().getChildNodes().item(0).getChildNodes().item(0).getUserData(FormInstanceBuilder.USER_DATA_NODE_DEFINITION)).isSameAs(formDefinitions.getFormDefinition("id").getElementDefinitions().get(0).getAttributeDefinitions().get(0));
+        Assertions.assertThat(document1.getDocumentElement().getChildNodes().item(0).getChildNodes().item(0).getUserData(FormInstanceBuilder.USER_DATA_BINDED_OBJECT)).isInstanceOf(BindedAttribute.class);
+        Assertions.assertThat(document1.getDocumentElement().getChildNodes().item(0).getChildNodes().item(0).getUserData(FormInstanceBuilder.USER_DATA_BINDED_OBJECT)).hasToString("Attribute: repr1");
+        Assertions.assertThat(document1.getDocumentElement().getChildNodes().item(0).getChildNodes().item(1).getUserData(FormInstanceBuilder.USER_DATA_FORM_DEFINITION)).isSameAs(formDefinitions.getFormDefinition("id"));
+        Assertions.assertThat(document1.getDocumentElement().getChildNodes().item(0).getChildNodes().item(1).getUserData(FormInstanceBuilder.USER_DATA_NODE_DEFINITION)).isSameAs(formDefinitions.getFormDefinition("id").getElementDefinitions().get(0).getAttributeDefinitions().get(1));
+        Assertions.assertThat(document1.getDocumentElement().getChildNodes().item(0).getChildNodes().item(1).getUserData(FormInstanceBuilder.USER_DATA_BINDED_OBJECT)).isInstanceOf(BindedAttribute.class);
+        Assertions.assertThat(document1.getDocumentElement().getChildNodes().item(0).getChildNodes().item(1).getUserData(FormInstanceBuilder.USER_DATA_BINDED_OBJECT)).hasToString("Attribute: repr2");
+
+        Document document2 = newDocument();
+        formInstanceBuilder.buildFormInstance(new BindingSourceImpl("source repr"), document2, formDefinitions.getFormDefinition("id"));
+        Assertions.assertThat(document2.getDocumentElement().getChildNodes().item(0).getChildNodes().item(0).getUserData(FormInstanceBuilder.USER_DATA_FORM_DEFINITION)).isSameAs(formDefinitions.getFormDefinition("id"));
+        Assertions.assertThat(document2.getDocumentElement().getChildNodes().item(0).getChildNodes().item(0).getUserData(FormInstanceBuilder.USER_DATA_NODE_DEFINITION)).isSameAs(formDefinitions.getFormDefinition("id").getElementDefinitions().get(0).getAttributeDefinitions().get(0));
+        Assertions.assertThat(document2.getDocumentElement().getChildNodes().item(0).getChildNodes().item(0).getUserData(FormInstanceBuilder.USER_DATA_BINDED_OBJECT)).isInstanceOf(BindedAttribute.class);
+        Assertions.assertThat(document2.getDocumentElement().getChildNodes().item(0).getChildNodes().item(0).getUserData(FormInstanceBuilder.USER_DATA_BINDED_OBJECT)).hasToString("Attribute: repr1");
+        Assertions.assertThat(document2.getDocumentElement().getChildNodes().item(0).getChildNodes().item(0).getUserData(FormInstanceBuilder.USER_DATA_BINDED_OBJECT)).isNotSameAs(document1.getDocumentElement().getChildNodes().item(0).getChildNodes().item(0).getUserData(FormInstanceBuilder.USER_DATA_BINDED_OBJECT));
+        Assertions.assertThat(document2.getDocumentElement().getChildNodes().item(0).getChildNodes().item(1).getUserData(FormInstanceBuilder.USER_DATA_FORM_DEFINITION)).isSameAs(formDefinitions.getFormDefinition("id"));
+        Assertions.assertThat(document2.getDocumentElement().getChildNodes().item(0).getChildNodes().item(1).getUserData(FormInstanceBuilder.USER_DATA_NODE_DEFINITION)).isSameAs(formDefinitions.getFormDefinition("id").getElementDefinitions().get(0).getAttributeDefinitions().get(1));
+        Assertions.assertThat(document2.getDocumentElement().getChildNodes().item(0).getChildNodes().item(1).getUserData(FormInstanceBuilder.USER_DATA_BINDED_OBJECT)).isInstanceOf(BindedAttribute.class);
+        Assertions.assertThat(document2.getDocumentElement().getChildNodes().item(0).getChildNodes().item(1).getUserData(FormInstanceBuilder.USER_DATA_BINDED_OBJECT)).hasToString("Attribute: repr2");
+        Assertions.assertThat(document2.getDocumentElement().getChildNodes().item(0).getChildNodes().item(1).getUserData(FormInstanceBuilder.USER_DATA_BINDED_OBJECT)).isNotSameAs(document1.getDocumentElement().getChildNodes().item(0).getChildNodes().item(1).getUserData(FormInstanceBuilder.USER_DATA_BINDED_OBJECT));
     }
 
     /**
