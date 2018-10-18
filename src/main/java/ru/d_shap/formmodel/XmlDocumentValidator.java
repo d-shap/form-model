@@ -65,15 +65,11 @@ public final class XmlDocumentValidator {
     public XmlDocumentValidator(final InputStream inputStream) {
         super();
         try {
-            try {
-                SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-                Source source = new StreamSource(inputStream);
-                Schema schema = schemaFactory.newSchema(source);
-                _validator = schema.newValidator();
-            } finally {
-                inputStream.close();
-            }
-        } catch (IOException | SAXException ex) {
+            SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+            Source source = new StreamSource(inputStream);
+            Schema schema = schemaFactory.newSchema(source);
+            _validator = schema.newValidator();
+        } catch (SAXException ex) {
             throw new XmlDocumentValidatorConfigurationException(ex);
         }
     }
