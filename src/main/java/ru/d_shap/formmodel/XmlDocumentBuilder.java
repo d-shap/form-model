@@ -28,6 +28,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
 
 /**
  * XML document builder.
@@ -61,6 +62,7 @@ public final class XmlDocumentBuilder {
             documentBuilderFactory.setIgnoringElementContentWhitespace(true);
             documentBuilderFactory.setNamespaceAware(true);
             _documentBuilder = documentBuilderFactory.newDocumentBuilder();
+            _documentBuilder.setErrorHandler(new DefaultHandler());
         } catch (ParserConfigurationException ex) {
             throw new XmlDocumentBuilderConfigurationException(ex);
         }
