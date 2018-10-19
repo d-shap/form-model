@@ -35,7 +35,7 @@ import org.w3c.dom.Node;
 import ru.d_shap.formmodel.OutputResultException;
 
 /**
- * Document transformation helper class.
+ * Document writer helper class.
  *
  * @author Dmitry Shapovalov
  */
@@ -46,13 +46,49 @@ public final class DocumentWriter {
     }
 
     /**
-     * Write the XML node to the specified writer.
+     * Create new document writer with the specified encoding.
      *
-     * @param node   the XML node.
-     * @param writer the specified writer
+     * @param encoding the specified encoding.
+     *
+     * @return document writer for the next invocation.
      */
-    public static void writeTo(final Node node, final Writer writer) {
-        writeTo(node, writer, false);
+    public static DocumentWriterImpl withEncoding(final String encoding) {
+        DocumentWriterImpl documentWriter = new DocumentWriterImpl();
+        documentWriter._encoding = encoding;
+        return documentWriter;
+    }
+
+    /**
+     * Create new document writer with the XML declaration.
+     *
+     * @return document writer for the next invocation.
+     */
+    public static DocumentWriterImpl withXmlDeclaration() {
+        DocumentWriterImpl documentWriter = new DocumentWriterImpl();
+        documentWriter._xmlDeclaration = true;
+        return documentWriter;
+    }
+
+    /**
+     * Create new document writer with the standalone declaration.
+     *
+     * @return document writer for the next invocation.
+     */
+    public static DocumentWriterImpl withStandalone() {
+        DocumentWriterImpl documentWriter = new DocumentWriterImpl();
+        documentWriter._standalone = true;
+        return documentWriter;
+    }
+
+    /**
+     * Create new document writer with the indentation.
+     *
+     * @return document writer for the next invocation.
+     */
+    public static DocumentWriterImpl withIndent() {
+        DocumentWriterImpl documentWriter = new DocumentWriterImpl();
+        documentWriter._indent = true;
+        return documentWriter;
     }
 
     /**
@@ -60,24 +96,10 @@ public final class DocumentWriter {
      *
      * @param node   the XML node.
      * @param writer the specified writer
-     * @param indent true to add additional whitespaces.
      */
-    public static void writeTo(final Node node, final Writer writer, final boolean indent) {
-        try {
-            try {
-                TransformerFactory transformerFactory = TransformerFactory.newInstance();
-                Transformer transformer = transformerFactory.newTransformer();
-                transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
-                if (indent) {
-                    transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-                }
-                transformer.transform(new DOMSource(node), new StreamResult(writer));
-            } finally {
-                writer.close();
-            }
-        } catch (IOException | TransformerException ex) {
-            throw new OutputResultException(ex);
-        }
+    public static void writeTo(final Node node, final Writer writer) {
+        DocumentWriterImpl documentWriter = new DocumentWriterImpl();
+        documentWriter.writeTo(node, writer);
     }
 
     /**
@@ -88,21 +110,134 @@ public final class DocumentWriter {
      * @return the string representation of the XML node.
      */
     public static String getAsString(final Node node) {
-        return getAsString(node, false);
+        DocumentWriterImpl documentWriter = new DocumentWriterImpl();
+        return documentWriter.getAsString(node);
     }
 
     /**
-     * Get the string representation of the XML node.
+     * Document writer implementation.
      *
-     * @param node   the XML node.
-     * @param indent true to add additional whitespaces.
-     *
-     * @return the string representation of the XML node.
+     * @author Dmitry Shapovalov
      */
-    public static String getAsString(final Node node, final boolean indent) {
-        Writer writer = new StringWriter();
-        writeTo(node, writer, indent);
-        return writer.toString();
+    public static final class DocumentWriterImpl {
+
+        private String _encoding;
+
+        private boolean _xmlDeclaration;
+
+        private boolean _standalone;
+
+        private boolean _indent;
+
+        DocumentWriterImpl() {
+            super();
+        }
+
+        private DocumentWriterImpl(final DocumentWriterImpl documentWriter) {
+            super();
+            _encoding = documentWriter._encoding;
+            _xmlDeclaration = documentWriter._xmlDeclaration;
+            _standalone = documentWriter._standalone;
+            _indent = documentWriter._indent;
+        }
+
+        /**
+         * Create new document writer with the specified encoding.
+         *
+         * @param encoding the specified encoding.
+         *
+         * @return document writer for the next invocation.
+         */
+        public DocumentWriterImpl andEncoding(final String encoding) {
+            DocumentWriterImpl documentWriter = new DocumentWriterImpl(this);
+            documentWriter._encoding = encoding;
+            return documentWriter;
+        }
+
+        /**
+         * Create new document writer with the XML declaration.
+         *
+         * @return document writer for the next invocation.
+         */
+        public DocumentWriterImpl andXmlDeclaration() {
+            DocumentWriterImpl documentWriter = new DocumentWriterImpl(this);
+            documentWriter._xmlDeclaration = true;
+            return documentWriter;
+        }
+
+        /**
+         * Create new document writer with the standalone declaration.
+         *
+         * @return document writer for the next invocation.
+         */
+        public DocumentWriterImpl andStandalone() {
+            DocumentWriterImpl documentWriter = new DocumentWriterImpl(this);
+            documentWriter._standalone = true;
+            return documentWriter;
+        }
+
+        /**
+         * Create new document writer with the indentation.
+         *
+         * @return document writer for the next invocation.
+         */
+        public DocumentWriterImpl andIndent() {
+            DocumentWriterImpl documentWriter = new DocumentWriterImpl(this);
+            documentWriter._indent = true;
+            return documentWriter;
+        }
+
+        /**
+         * Write the XML node to the specified writer.
+         *
+         * @param node   the XML node.
+         * @param writer the specified writer
+         */
+        public void writeTo(final Node node, final Writer writer) {
+            try {
+                try {
+                    TransformerFactory transformerFactory = TransformerFactory.newInstance();
+                    Transformer transformer = transformerFactory.newTransformer();
+                    if (_encoding != null) {
+                        transformer.setOutputProperty(OutputKeys.ENCODING, _encoding);
+                    }
+                    if (_xmlDeclaration) {
+                        transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
+                    } else {
+                        transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+                    }
+                    if (_standalone) {
+                        transformer.setOutputProperty(OutputKeys.STANDALONE, "yes");
+                    } else {
+                        transformer.setOutputProperty(OutputKeys.STANDALONE, "no");
+                    }
+                    if (_indent) {
+                        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+                    } else {
+                        transformer.setOutputProperty(OutputKeys.INDENT, "no");
+                    }
+                    transformer.transform(new DOMSource(node), new StreamResult(writer));
+                } finally {
+                    writer.close();
+                }
+            } catch (IOException | TransformerException ex) {
+                throw new OutputResultException(ex);
+            }
+        }
+
+        /**
+         * Get the string representation of the XML node.
+         *
+         * @param node the XML node.
+         *
+         * @return the string representation of the XML node.
+         */
+        public String getAsString(final Node node) {
+            Writer writer = new StringWriter();
+            writeTo(node, writer);
+            return writer.toString();
+        }
+
     }
 
 }
