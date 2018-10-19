@@ -35,6 +35,7 @@ import org.w3c.dom.NodeList;
 import ru.d_shap.formmodel.binding.FormInstanceBuilder;
 import ru.d_shap.formmodel.binding.model.BindedAttribute;
 import ru.d_shap.formmodel.binding.model.BindedElement;
+import ru.d_shap.formmodel.utils.IdentityHelper;
 
 /**
  * Document lookup helper class.
@@ -147,28 +148,9 @@ public final class DocumentLookup {
     public <T extends BindedElement> List<T> getBindedElements(final List<Element> elements, final Class<T> clazz) {
         List<T> bindedElements = new ArrayList<>();
         for (Element element : elements) {
-            doGetBindedElements(element, bindedElements, clazz);
+            getBindedObjects(element, bindedElements, clazz);
         }
         return bindedElements;
-    }
-
-    private <T extends BindedElement> void doGetBindedElements(final Element element, final List<T> bindedElements, final Class<T> clazz) {
-        if (FormInstanceBuilder.NAMESPACE.equals(element.getNamespaceURI())) {
-            if (FormInstanceBuilder.ELEMENT_INSTANCE_ELEMENT_NAME.equals(element.getLocalName())) {
-                Object bindedElement = element.getUserData(FormInstanceBuilder.USER_DATA_BINDED_OBJECT);
-                if (clazz.isInstance(bindedElement)) {
-                    bindedElements.add(clazz.cast(bindedElement));
-                }
-            } else if (FormInstanceBuilder.SINGLE_ELEMENT_INSTANCE_ELEMENT_NAME.equals(element.getLocalName())) {
-                NodeList nodeList = element.getChildNodes();
-                for (int i = 0; i < nodeList.getLength(); i++) {
-                    Node item = nodeList.item(i);
-                    if (item instanceof Element) {
-                        doGetBindedElements((Element) item, bindedElements, clazz);
-                    }
-                }
-            }
-        }
     }
 
     /**
@@ -194,16 +176,27 @@ public final class DocumentLookup {
     public <T extends BindedAttribute> List<T> getBindedAttributes(final List<Element> elements, final Class<T> clazz) {
         List<T> bindedAttributes = new ArrayList<>();
         for (Element element : elements) {
-            doGetBindedAttributes(element, bindedAttributes, clazz);
+            getBindedObjects(element, bindedAttributes, clazz);
         }
         return bindedAttributes;
     }
 
-    private <T extends BindedAttribute> void doGetBindedAttributes(final Element element, final List<T> bindedAttributes, final Class<T> clazz) {
-        if (FormInstanceBuilder.NAMESPACE.equals(element.getNamespaceURI()) && FormInstanceBuilder.ATTRIBUTE_INSTANCE_ELEMENT_NAME.equals(element.getLocalName())) {
-            Object bindedAttribute = element.getUserData(FormInstanceBuilder.USER_DATA_BINDED_OBJECT);
-            if (clazz.isInstance(bindedAttribute)) {
-                bindedAttributes.add(clazz.cast(bindedAttribute));
+    private <T> void getBindedObjects(final Element element, final List<T> bindedObjects, final Class<T> bindedObjectClass) {
+        Object bindedObject = element.getUserData(FormInstanceBuilder.USER_DATA_BINDED_OBJECT);
+        if (bindedObject != null) {
+            if (bindedObjectClass.isInstance(bindedObject)) {
+                T castedBindedObject = bindedObjectClass.cast(bindedObject);
+                if (!IdentityHelper.contains(bindedObjects, castedBindedObject)) {
+                    bindedObjects.add(castedBindedObject);
+                }
+            }
+            return;
+        }
+        NodeList nodeList = element.getChildNodes();
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Node item = nodeList.item(i);
+            if (item instanceof Element) {
+                getBindedObjects((Element) item, bindedObjects, bindedObjectClass);
             }
         }
     }
