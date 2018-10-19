@@ -43,23 +43,37 @@ import ru.d_shap.formmodel.binding.model.BindedElement;
  */
 public final class DocumentLookup {
 
-    private DocumentLookup() {
+    private final XPath _xPath;
+
+    /**
+     * Create new object.
+     */
+    public DocumentLookup() {
         super();
+        XPathFactory xPathFactory = XPathFactory.newInstance();
+        _xPath = xPathFactory.newXPath();
     }
 
     /**
-     * Perform XPath lookup and return the XML elements found.
+     * Get the document lookup instance.
+     *
+     * @return the document lookup instance.
+     */
+    public static DocumentLookup getDocumentLookup() {
+        return new DocumentLookup();
+    }
+
+    /**
+     * Perform lookup and return the XML elements found.
      *
      * @param node   the source node.
      * @param lookup the XPath lookup expression.
      *
      * @return the XML elements found.
      */
-    public static List<Element> getElements(final Node node, final String lookup) {
+    public List<Element> getElements(final Node node, final String lookup) {
         try {
-            XPathFactory xPathFactory = XPathFactory.newInstance();
-            XPath xPath = xPathFactory.newXPath();
-            XPathExpression xPathExpression = xPath.compile(lookup);
+            XPathExpression xPathExpression = _xPath.compile(lookup);
             NodeList nodeList = (NodeList) xPathExpression.evaluate(node, XPathConstants.NODESET);
             List<Element> elements = new ArrayList<>();
             for (int i = 0; i < nodeList.getLength(); i++) {
@@ -75,19 +89,38 @@ public final class DocumentLookup {
     }
 
     /**
-     * Perform XPath lookup and return the XML elements with the specified ID.
+     * Perform lookup and return the XML elements with the specified ID.
      *
      * @param node the source node.
      * @param id   the specified ID.
      *
-     * @return the XML elements with the specified ID.
+     * @return the XML elements found.
      */
-    public static List<Element> getElementsWithId(final Node node, final String id) {
+    public List<Element> getElementsWithId(final Node node, final String id) {
         String namespaceCondition = "namespace-uri() = '" + FormInstanceBuilder.NAMESPACE + "'";
         String attributeCondition = "local-name() = '" + FormInstanceBuilder.ATTRIBUTE_INSTANCE_ELEMENT_NAME + "' and @" + FormInstanceBuilder.ATTRIBUTE_INSTANCE_ATTRIBUTE_ID + " = '" + id + "'";
         String elementCondition = "local-name() = '" + FormInstanceBuilder.ELEMENT_INSTANCE_ELEMENT_NAME + "' and @" + FormInstanceBuilder.ELEMENT_INSTANCE_ATTRIBUTE_ID + " = '" + id + "'";
         String singleElementCondition = "local-name() = '" + FormInstanceBuilder.SINGLE_ELEMENT_INSTANCE_ELEMENT_NAME + "' and @" + FormInstanceBuilder.SINGLE_ELEMENT_INSTANCE_ATTRIBUTE_ID + " = '" + id + "'";
         String lookup = ".//*[" + namespaceCondition + " and (" + attributeCondition + " or " + elementCondition + " or " + singleElementCondition + ")]";
+        return getElements(node, lookup);
+    }
+
+    /**
+     * Perform lookup and return the XML elements with the specified attribute value for the specified attribute name.
+     *
+     * @param node           the source node.
+     * @param attributeName  the specified attribute name.
+     * @param attributeValue the specified attribute value.
+     *
+     * @return the XML elements found.
+     */
+    public List<Element> getElementsWithAttribute(final Node node, final String attributeName, final String attributeValue) {
+        String namespaceCondition = "namespace-uri() = '" + FormInstanceBuilder.NAMESPACE + "'";
+        String attributeCondition = "local-name() = '" + FormInstanceBuilder.ATTRIBUTE_INSTANCE_ELEMENT_NAME + "'";
+        String elementCondition = "local-name() = '" + FormInstanceBuilder.ELEMENT_INSTANCE_ELEMENT_NAME + "'";
+        String singleElementCondition = "local-name() = '" + FormInstanceBuilder.SINGLE_ELEMENT_INSTANCE_ELEMENT_NAME + "'";
+        String lookupCondition = "@" + attributeName + " = '" + attributeValue + "'";
+        String lookup = ".//*[" + namespaceCondition + " and (" + attributeCondition + " or " + elementCondition + " or " + singleElementCondition + ") and " + lookupCondition + "]";
         return getElements(node, lookup);
     }
 
@@ -98,7 +131,7 @@ public final class DocumentLookup {
      *
      * @return the binded elements.
      */
-    public static List<BindedElement> getBindedElements(final List<Element> elements) {
+    public List<BindedElement> getBindedElements(final List<Element> elements) {
         return getBindedElements(elements, BindedElement.class);
     }
 
@@ -111,7 +144,7 @@ public final class DocumentLookup {
      *
      * @return the binded elements.
      */
-    public static <T extends BindedElement> List<T> getBindedElements(final List<Element> elements, final Class<T> clazz) {
+    public <T extends BindedElement> List<T> getBindedElements(final List<Element> elements, final Class<T> clazz) {
         List<T> bindedElements = new ArrayList<>();
         for (Element element : elements) {
             doGetBindedElements(element, bindedElements, clazz);
@@ -119,7 +152,7 @@ public final class DocumentLookup {
         return bindedElements;
     }
 
-    private static <T extends BindedElement> void doGetBindedElements(final Element element, final List<T> bindedElements, final Class<T> clazz) {
+    private <T extends BindedElement> void doGetBindedElements(final Element element, final List<T> bindedElements, final Class<T> clazz) {
         if (FormInstanceBuilder.NAMESPACE.equals(element.getNamespaceURI())) {
             if (FormInstanceBuilder.ELEMENT_INSTANCE_ELEMENT_NAME.equals(element.getLocalName())) {
                 Object bindedElement = element.getUserData(FormInstanceBuilder.USER_DATA_BINDED_OBJECT);
@@ -145,7 +178,7 @@ public final class DocumentLookup {
      *
      * @return the binded attributes.
      */
-    public static List<BindedAttribute> getBindedAttributes(final List<Element> elements) {
+    public List<BindedAttribute> getBindedAttributes(final List<Element> elements) {
         return getBindedAttributes(elements, BindedAttribute.class);
     }
 
@@ -158,7 +191,7 @@ public final class DocumentLookup {
      *
      * @return the binded attributes.
      */
-    public static <T extends BindedAttribute> List<T> getBindedAttributes(final List<Element> elements, final Class<T> clazz) {
+    public <T extends BindedAttribute> List<T> getBindedAttributes(final List<Element> elements, final Class<T> clazz) {
         List<T> bindedAttributes = new ArrayList<>();
         for (Element element : elements) {
             doGetBindedAttributes(element, bindedAttributes, clazz);
@@ -166,7 +199,7 @@ public final class DocumentLookup {
         return bindedAttributes;
     }
 
-    private static <T extends BindedAttribute> void doGetBindedAttributes(final Element element, final List<T> bindedAttributes, final Class<T> clazz) {
+    private <T extends BindedAttribute> void doGetBindedAttributes(final Element element, final List<T> bindedAttributes, final Class<T> clazz) {
         if (FormInstanceBuilder.NAMESPACE.equals(element.getNamespaceURI()) && FormInstanceBuilder.ATTRIBUTE_INSTANCE_ELEMENT_NAME.equals(element.getLocalName())) {
             Object bindedAttribute = element.getUserData(FormInstanceBuilder.USER_DATA_BINDED_OBJECT);
             if (clazz.isInstance(bindedAttribute)) {
