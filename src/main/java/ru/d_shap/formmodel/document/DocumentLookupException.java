@@ -22,7 +22,7 @@ package ru.d_shap.formmodel.document;
 import ru.d_shap.formmodel.FormModelException;
 
 /**
- * Exception is thrown when the XPath lookup can not be performed.
+ * Exception is thrown when the document lookup can not be performed.
  *
  * @author Dmitry Shapovalov
  */
