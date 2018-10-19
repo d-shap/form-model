@@ -479,8 +479,9 @@ public class BaseFormModelTest {
 
         @Override
         public List<String> process(final Document document) {
-            List<Element> elements = DocumentLookup.getElementsWithId(document, _id);
-            List<BindedElementImpl> bindedElements = DocumentLookup.getBindedElements(elements, BindedElementImpl.class);
+            DocumentLookup documentLookup = DocumentLookup.getDocumentLookup();
+            List<Element> elements = documentLookup.getElementsWithId(document, _id);
+            List<BindedElementImpl> bindedElements = documentLookup.getBindedElements(elements, BindedElementImpl.class);
             List<String> result = new ArrayList<>();
             for (BindedElementImpl bindedElement : bindedElements) {
                 result.add(bindedElement.toString());
