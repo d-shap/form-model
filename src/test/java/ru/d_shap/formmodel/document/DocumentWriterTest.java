@@ -19,6 +19,9 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.formmodel.document;
 
+import org.junit.Test;
+
+import ru.d_shap.assertions.Assertions;
 import ru.d_shap.formmodel.BaseFormModelTest;
 
 /**
@@ -33,6 +36,94 @@ public final class DocumentWriterTest extends BaseFormModelTest {
      */
     public DocumentWriterTest() {
         super();
+    }
+
+    /**
+     * {@link DocumentWriter} class test.
+     */
+    @Test
+    public void constructorTest() {
+        Assertions.assertThat(DocumentWriter.class).hasOnePrivateConstructor();
+    }
+
+    /**
+     * {@link DocumentWriter} class test.
+     */
+    @Test
+    public void writeToDefaultTest() {
+
+    }
+
+    /**
+     * {@link DocumentWriter} class test.
+     */
+    @Test
+    public void writeToWithXmlDeclarationTest() {
+
+    }
+
+    /**
+     * {@link DocumentWriter} class test.
+     */
+    @Test
+    public void writeToWithEncodingTest() {
+
+    }
+
+    /**
+     * {@link DocumentWriter} class test.
+     */
+    @Test
+    public void writeToWithStandaloneTest() {
+
+    }
+
+    /**
+     * {@link DocumentWriter} class test.
+     */
+    @Test
+    public void writeToWithIndentTest() {
+
+    }
+
+    /**
+     * {@link DocumentWriter} class test.
+     */
+    @Test
+    public void getAsStringDefaultTest() {
+
+    }
+
+    /**
+     * {@link DocumentWriter} class test.
+     */
+    @Test
+    public void getAsStringWithXmlDeclarationTest() {
+
+    }
+
+    /**
+     * {@link DocumentWriter} class test.
+     */
+    @Test
+    public void getAsStringWithEncodingTest() {
+
+    }
+
+    /**
+     * {@link DocumentWriter} class test.
+     */
+    @Test
+    public void getAsStringWithStandaloneTest() {
+
+    }
+
+    /**
+     * {@link DocumentWriter} class test.
+     */
+    @Test
+    public void getAsStringWithIndentTest() {
+
     }
 
 }
