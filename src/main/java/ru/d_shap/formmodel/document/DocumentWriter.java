@@ -46,6 +46,17 @@ public final class DocumentWriter {
     }
 
     /**
+     * Create new document writer with the XML declaration.
+     *
+     * @return document writer for the next invocation.
+     */
+    public static DocumentWriterImpl withXmlDeclaration() {
+        DocumentWriterImpl documentWriter = new DocumentWriterImpl();
+        documentWriter._xmlDeclaration = true;
+        return documentWriter;
+    }
+
+    /**
      * Create new document writer with the specified encoding.
      *
      * @param encoding the specified encoding.
@@ -55,17 +66,6 @@ public final class DocumentWriter {
     public static DocumentWriterImpl withEncoding(final String encoding) {
         DocumentWriterImpl documentWriter = new DocumentWriterImpl();
         documentWriter._encoding = encoding;
-        return documentWriter;
-    }
-
-    /**
-     * Create new document writer with the XML declaration.
-     *
-     * @return document writer for the next invocation.
-     */
-    public static DocumentWriterImpl withXmlDeclaration() {
-        DocumentWriterImpl documentWriter = new DocumentWriterImpl();
-        documentWriter._xmlDeclaration = true;
         return documentWriter;
     }
 
@@ -121,9 +121,9 @@ public final class DocumentWriter {
      */
     public static final class DocumentWriterImpl {
 
-        private String _encoding;
-
         private boolean _xmlDeclaration;
+
+        private String _encoding;
 
         private boolean _standalone;
 
@@ -135,10 +135,21 @@ public final class DocumentWriter {
 
         private DocumentWriterImpl(final DocumentWriterImpl documentWriter) {
             super();
-            _encoding = documentWriter._encoding;
             _xmlDeclaration = documentWriter._xmlDeclaration;
+            _encoding = documentWriter._encoding;
             _standalone = documentWriter._standalone;
             _indent = documentWriter._indent;
+        }
+
+        /**
+         * Create new document writer with the XML declaration.
+         *
+         * @return document writer for the next invocation.
+         */
+        public DocumentWriterImpl andXmlDeclaration() {
+            DocumentWriterImpl documentWriter = new DocumentWriterImpl(this);
+            documentWriter._xmlDeclaration = true;
+            return documentWriter;
         }
 
         /**
@@ -151,17 +162,6 @@ public final class DocumentWriter {
         public DocumentWriterImpl andEncoding(final String encoding) {
             DocumentWriterImpl documentWriter = new DocumentWriterImpl(this);
             documentWriter._encoding = encoding;
-            return documentWriter;
-        }
-
-        /**
-         * Create new document writer with the XML declaration.
-         *
-         * @return document writer for the next invocation.
-         */
-        public DocumentWriterImpl andXmlDeclaration() {
-            DocumentWriterImpl documentWriter = new DocumentWriterImpl(this);
-            documentWriter._xmlDeclaration = true;
             return documentWriter;
         }
 
@@ -198,13 +198,13 @@ public final class DocumentWriter {
                 try {
                     TransformerFactory transformerFactory = TransformerFactory.newInstance();
                     Transformer transformer = transformerFactory.newTransformer();
-                    if (_encoding != null) {
-                        transformer.setOutputProperty(OutputKeys.ENCODING, _encoding);
-                    }
                     if (_xmlDeclaration) {
                         transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
                     } else {
                         transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+                    }
+                    if (_encoding != null) {
+                        transformer.setOutputProperty(OutputKeys.ENCODING, _encoding);
                     }
                     if (_standalone) {
                         transformer.setOutputProperty(OutputKeys.STANDALONE, "yes");
