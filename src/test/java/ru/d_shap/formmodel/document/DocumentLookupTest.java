@@ -19,6 +19,8 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.formmodel.document;
 
+import org.junit.Test;
+
 import ru.d_shap.formmodel.BaseFormModelTest;
 
 /**
@@ -33,6 +35,78 @@ public final class DocumentLookupTest extends BaseFormModelTest {
      */
     public DocumentLookupTest() {
         super();
+    }
+
+    /**
+     * {@link DocumentLookup} class test.
+     */
+    @Test
+    public void createNewObjectTest() {
+
+    }
+
+    /**
+     * {@link DocumentLookup} class test.
+     */
+    @Test
+    public void getDocumentLookupTest() {
+
+    }
+
+    /**
+     * {@link DocumentLookup} class test.
+     */
+    @Test
+    public void getElementsTest() {
+
+    }
+
+    /**
+     * {@link DocumentLookup} class test.
+     */
+    @Test
+    public void getElementsWithIdTest() {
+
+    }
+
+    /**
+     * {@link DocumentLookup} class test.
+     */
+    @Test
+    public void getElementsWithAttributeTest() {
+
+    }
+
+    /**
+     * {@link DocumentLookup} class test.
+     */
+    @Test
+    public void getBindedElementsTest() {
+
+    }
+
+    /**
+     * {@link DocumentLookup} class test.
+     */
+    @Test
+    public void getBindedElementsWithClassTest() {
+
+    }
+
+    /**
+     * {@link DocumentLookup} class test.
+     */
+    @Test
+    public void getBindedAttributesTest() {
+
+    }
+
+    /**
+     * {@link DocumentLookup} class test.
+     */
+    @Test
+    public void getBindedAttributesWithClassTest() {
+
     }
 
 }
