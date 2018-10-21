@@ -19,6 +19,8 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.formmodel.document;
 
+import java.io.StringWriter;
+
 import org.junit.Test;
 import org.w3c.dom.Document;
 
@@ -52,7 +54,15 @@ public final class DocumentWriterTest extends BaseFormModelTest {
      */
     @Test
     public void writeToWriterDefaultTest() {
-
+        String xml = "<?xml version='1.0'?>\n";
+        xml += "<document>";
+        xml += "<element>value</element>";
+        xml += "</document>";
+        Document document = parse(xml);
+        document.setXmlStandalone(true);
+        StringWriter stringWriter = new StringWriter();
+        DocumentWriter.writeTo(document, stringWriter);
+        Assertions.assertThat(stringWriter.getBuffer()).isEqualTo("<document><element>value</element></document>");
     }
 
     /**
@@ -60,7 +70,15 @@ public final class DocumentWriterTest extends BaseFormModelTest {
      */
     @Test
     public void writeToWriterWithXmlDeclarationTest() {
-
+        String xml = "<?xml version='1.0'?>\n";
+        xml += "<document>";
+        xml += "<element>value</element>";
+        xml += "</document>";
+        Document document = parse(xml);
+        document.setXmlStandalone(true);
+        StringWriter stringWriter = new StringWriter();
+        DocumentWriter.withXmlDeclaration().writeTo(document, stringWriter);
+        Assertions.assertThat(stringWriter.getBuffer()).isEqualTo("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><document><element>value</element></document>");
     }
 
     /**
@@ -68,7 +86,15 @@ public final class DocumentWriterTest extends BaseFormModelTest {
      */
     @Test
     public void writeToWriterWithEncodingTest() {
-
+        String xml = "<?xml version='1.0'?>\n";
+        xml += "<document>";
+        xml += "<element>value</element>";
+        xml += "</document>";
+        Document document = parse(xml);
+        document.setXmlStandalone(true);
+        StringWriter stringWriter = new StringWriter();
+        DocumentWriter.withEncoding("UTF-16").writeTo(document, stringWriter);
+        Assertions.assertThat(stringWriter.getBuffer()).isEqualTo("<document><element>value</element></document>");
     }
 
     /**
@@ -76,7 +102,15 @@ public final class DocumentWriterTest extends BaseFormModelTest {
      */
     @Test
     public void writeToWriterWithStandaloneTest() {
-
+        String xml = "<?xml version='1.0'?>\n";
+        xml += "<document>";
+        xml += "<element>value</element>";
+        xml += "</document>";
+        Document document = parse(xml);
+        document.setXmlStandalone(true);
+        StringWriter stringWriter = new StringWriter();
+        DocumentWriter.withStandalone().writeTo(document, stringWriter);
+        Assertions.assertThat(stringWriter.getBuffer()).isEqualTo("<document><element>value</element></document>");
     }
 
     /**
@@ -84,7 +118,15 @@ public final class DocumentWriterTest extends BaseFormModelTest {
      */
     @Test
     public void writeToWriterWithIndentTest() {
-
+        String xml = "<?xml version='1.0'?>\n";
+        xml += "<document>";
+        xml += "<element>value</element>";
+        xml += "</document>";
+        Document document = parse(xml);
+        document.setXmlStandalone(true);
+        StringWriter stringWriter = new StringWriter();
+        DocumentWriter.withIndent().writeTo(document, stringWriter);
+        Assertions.assertThat(stringWriter.getBuffer()).isEqualTo("<document>\r\n<element>value</element>\r\n</document>\r\n");
     }
 
     /**
