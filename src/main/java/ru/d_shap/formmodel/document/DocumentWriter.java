@@ -20,6 +20,8 @@
 package ru.d_shap.formmodel.document;
 
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 
@@ -100,6 +102,18 @@ public final class DocumentWriter {
     public static void writeTo(final Node node, final Writer writer) {
         DocumentWriterImpl documentWriter = new DocumentWriterImpl();
         documentWriter.writeTo(node, writer);
+    }
+
+    /**
+     * Write the XML node to the specified output stream.
+     *
+     * @param node         the XML node.
+     * @param outputStream the specified output stream.
+     * @param encoding     the encoding the specified output stream.
+     */
+    public static void writeTo(final Node node, final OutputStream outputStream, final String encoding) {
+        DocumentWriterImpl documentWriter = new DocumentWriterImpl();
+        documentWriter.writeTo(node, outputStream, encoding);
     }
 
     /**
@@ -221,6 +235,21 @@ public final class DocumentWriter {
                     writer.close();
                 }
             } catch (IOException | TransformerException ex) {
+                throw new OutputResultException(ex);
+            }
+        }
+
+        /**
+         * Write the XML node to the specified output stream.
+         *
+         * @param node         the XML node.
+         * @param outputStream the specified output stream.
+         * @param encoding     the encoding the specified output stream.
+         */
+        public void writeTo(final Node node, final OutputStream outputStream, final String encoding) {
+            try {
+                withEncoding(encoding).writeTo(node, new OutputStreamWriter(outputStream, encoding));
+            } catch (IOException ex) {
                 throw new OutputResultException(ex);
             }
         }
