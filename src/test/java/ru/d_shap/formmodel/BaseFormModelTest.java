@@ -351,6 +351,55 @@ public class BaseFormModelTest {
      *
      * @author Dmitry Shapovalov
      */
+    public static final class CloseableWriter extends Writer {
+
+        private final Writer _writer;
+
+        private boolean _closed;
+
+        /**
+         * Create new object.
+         *
+         * @param writer writer
+         */
+        public CloseableWriter(final Writer writer) {
+            super();
+            _writer = writer;
+            _closed = false;
+        }
+
+        @Override
+        public void write(final char[] cbuf, final int off, final int len) throws IOException {
+            _writer.write(cbuf, off, len);
+        }
+
+        @Override
+        public void flush() throws IOException {
+            _writer.flush();
+        }
+
+        @Override
+        public void close() throws IOException {
+            _writer.close();
+            _closed = true;
+        }
+
+        /**
+         * Check if input stream is closed.
+         *
+         * @return true if input stream is closed.
+         */
+        public boolean isClosed() {
+            return _closed;
+        }
+
+    }
+
+    /**
+     * Test class.
+     *
+     * @author Dmitry Shapovalov
+     */
     public static final class AnotherNodeDefinition implements OtherNodeDefinition {
 
         /**
