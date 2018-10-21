@@ -21,11 +21,14 @@ package ru.d_shap.formmodel.document;
 
 import java.io.StringWriter;
 
+import javax.xml.transform.TransformerException;
+
 import org.junit.Test;
 import org.w3c.dom.Document;
 
 import ru.d_shap.assertions.Assertions;
 import ru.d_shap.formmodel.BaseFormModelTest;
+import ru.d_shap.formmodel.OutputResultException;
 
 /**
  * Tests for {@link DocumentWriter}.
@@ -63,6 +66,25 @@ public final class DocumentWriterTest extends BaseFormModelTest {
         StringWriter stringWriter = new StringWriter();
         DocumentWriter.writeTo(document, stringWriter);
         Assertions.assertThat(stringWriter.getBuffer()).isEqualTo("<document><element>value</element></document>");
+    }
+
+    /**
+     * {@link DocumentWriter} class test.
+     */
+    @Test
+    public void writeToWriterDefaultFailTest() {
+        try {
+            String xml = "<?xml version='1.0'?>\n";
+            xml += "<document>";
+            xml += "<element>value</element>";
+            xml += "</document>";
+            Document document = parse(xml);
+            document.setXmlStandalone(true);
+            DocumentWriter.writeTo(document, new WriteErrorWriter());
+            Assertions.fail("XmlDocumentBuilder test fail");
+        } catch (OutputResultException ex) {
+            Assertions.assertThat(ex).hasCause(TransformerException.class);
+        }
     }
 
     /**
