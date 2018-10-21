@@ -209,32 +209,28 @@ public final class DocumentWriter {
          */
         public void writeTo(final Node node, final Writer writer) {
             try {
-                try {
-                    TransformerFactory transformerFactory = TransformerFactory.newInstance();
-                    Transformer transformer = transformerFactory.newTransformer();
-                    if (_xmlDeclaration) {
-                        transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
-                    } else {
-                        transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
-                    }
-                    if (_encoding != null) {
-                        transformer.setOutputProperty(OutputKeys.ENCODING, _encoding);
-                    }
-                    if (_standalone) {
-                        transformer.setOutputProperty(OutputKeys.STANDALONE, "yes");
-                    } else {
-                        transformer.setOutputProperty(OutputKeys.STANDALONE, "no");
-                    }
-                    if (_indent) {
-                        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-                    } else {
-                        transformer.setOutputProperty(OutputKeys.INDENT, "no");
-                    }
-                    transformer.transform(new DOMSource(node), new StreamResult(writer));
-                } finally {
-                    writer.close();
+                TransformerFactory transformerFactory = TransformerFactory.newInstance();
+                Transformer transformer = transformerFactory.newTransformer();
+                if (_xmlDeclaration) {
+                    transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
+                } else {
+                    transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
                 }
-            } catch (IOException | TransformerException ex) {
+                if (_encoding != null) {
+                    transformer.setOutputProperty(OutputKeys.ENCODING, _encoding);
+                }
+                if (_standalone) {
+                    transformer.setOutputProperty(OutputKeys.STANDALONE, "yes");
+                } else {
+                    transformer.setOutputProperty(OutputKeys.STANDALONE, "no");
+                }
+                if (_indent) {
+                    transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+                } else {
+                    transformer.setOutputProperty(OutputKeys.INDENT, "no");
+                }
+                transformer.transform(new DOMSource(node), new StreamResult(writer));
+            } catch (TransformerException ex) {
                 throw new OutputResultException(ex);
             }
         }
