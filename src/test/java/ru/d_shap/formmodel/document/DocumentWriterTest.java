@@ -51,7 +51,7 @@ public final class DocumentWriterTest extends BaseFormModelTest {
      * {@link DocumentWriter} class test.
      */
     @Test
-    public void writeToDefaultTest() {
+    public void writeToWriterDefaultTest() {
 
     }
 
@@ -59,7 +59,7 @@ public final class DocumentWriterTest extends BaseFormModelTest {
      * {@link DocumentWriter} class test.
      */
     @Test
-    public void writeToWithXmlDeclarationTest() {
+    public void writeToWriterWithXmlDeclarationTest() {
 
     }
 
@@ -67,7 +67,7 @@ public final class DocumentWriterTest extends BaseFormModelTest {
      * {@link DocumentWriter} class test.
      */
     @Test
-    public void writeToWithEncodingTest() {
+    public void writeToWriterWithEncodingTest() {
 
     }
 
@@ -75,7 +75,7 @@ public final class DocumentWriterTest extends BaseFormModelTest {
      * {@link DocumentWriter} class test.
      */
     @Test
-    public void writeToWithStandaloneTest() {
+    public void writeToWriterWithStandaloneTest() {
 
     }
 
@@ -83,7 +83,47 @@ public final class DocumentWriterTest extends BaseFormModelTest {
      * {@link DocumentWriter} class test.
      */
     @Test
-    public void writeToWithIndentTest() {
+    public void writeToWriterWithIndentTest() {
+
+    }
+
+    /**
+     * {@link DocumentWriter} class test.
+     */
+    @Test
+    public void writeToOutputStreamDefaultTest() {
+
+    }
+
+    /**
+     * {@link DocumentWriter} class test.
+     */
+    @Test
+    public void writeToOutputStreamWithXmlDeclarationTest() {
+
+    }
+
+    /**
+     * {@link DocumentWriter} class test.
+     */
+    @Test
+    public void writeToOutputStreamWithEncodingTest() {
+
+    }
+
+    /**
+     * {@link DocumentWriter} class test.
+     */
+    @Test
+    public void writeToOutputStreamWithStandaloneTest() {
+
+    }
+
+    /**
+     * {@link DocumentWriter} class test.
+     */
+    @Test
+    public void writeToOutputStreamWithIndentTest() {
 
     }
 
