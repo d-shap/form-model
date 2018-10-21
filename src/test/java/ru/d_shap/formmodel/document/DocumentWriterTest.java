@@ -155,6 +155,24 @@ public final class DocumentWriterTest extends BaseFormModelTest {
      * {@link DocumentWriter} class test.
      */
     @Test
+    public void closeTest() {
+        String xml = "<?xml version='1.0'?>\n";
+        xml += "<document>";
+        xml += "<element>value</element>";
+        xml += "</document>";
+        Document document = parse(xml);
+        document.setXmlStandalone(true);
+        StringWriter stringWriter = new StringWriter();
+        CloseableWriter closeableWriter = new CloseableWriter(stringWriter);
+        Assertions.assertThat(closeableWriter.isClosed()).isFalse();
+        DocumentWriter.writeTo(document, closeableWriter);
+        Assertions.assertThat(closeableWriter.isClosed()).isFalse();
+    }
+
+    /**
+     * {@link DocumentWriter} class test.
+     */
+    @Test
     public void writeToOutputStreamDefaultTest() {
 
     }
