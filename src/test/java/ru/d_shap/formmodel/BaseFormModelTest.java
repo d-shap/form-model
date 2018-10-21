@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
 import java.io.StringReader;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -310,6 +311,37 @@ public class BaseFormModelTest {
          */
         public boolean isClosed() {
             return _closed;
+        }
+
+    }
+
+    /**
+     * Test class.
+     *
+     * @author Dmitry Shapovalov
+     */
+    public static final class WriteErrorWriter extends Writer {
+
+        /**
+         * Create new object.
+         */
+        public WriteErrorWriter() {
+            super();
+        }
+
+        @Override
+        public void write(final char[] cbuf, final int off, final int len) throws IOException {
+            throw new IOException("WRITE ERROR!");
+        }
+
+        @Override
+        public void flush() throws IOException {
+            // Ignore
+        }
+
+        @Override
+        public void close() throws IOException {
+            // Ignore
         }
 
     }
