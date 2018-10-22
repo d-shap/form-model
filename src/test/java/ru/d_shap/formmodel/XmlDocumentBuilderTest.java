@@ -199,9 +199,8 @@ public final class XmlDocumentBuilderTest extends BaseFormModelTest {
         PrintStream stderr = System.err;
         try {
             try {
-                String encoding = "UTF-8";
                 ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                PrintStream printStream = new PrintStream(byteArrayOutputStream, true, encoding);
+                PrintStream printStream = new PrintStream(byteArrayOutputStream, true, ENCODING_UTF_8);
                 System.setErr(printStream);
                 try {
                     String xml = "<?xml version='1.0'?>\n";
@@ -213,7 +212,7 @@ public final class XmlDocumentBuilderTest extends BaseFormModelTest {
                 } catch (InputSourceException ex) {
                     Assertions.assertThat(ex).hasCause(SAXException.class);
                 }
-                String message = new String(byteArrayOutputStream.toByteArray(), encoding);
+                String message = new String(byteArrayOutputStream.toByteArray(), ENCODING_UTF_8);
                 Assertions.assertThat(message).isBlank();
             } catch (UnsupportedEncodingException ex) {
                 Assertions.fail(ex.getMessage());
