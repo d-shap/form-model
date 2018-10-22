@@ -37,6 +37,8 @@ import ru.d_shap.formmodel.OutputResultException;
  */
 public final class DocumentWriterTest extends BaseFormModelTest {
 
+    private static final String SEPARATOR = System.getProperty("line.separator");
+
     /**
      * Test class constructor.
      */
@@ -148,7 +150,7 @@ public final class DocumentWriterTest extends BaseFormModelTest {
         document.setXmlStandalone(true);
         StringWriter stringWriter = new StringWriter();
         DocumentWriter.withIndent().writeTo(document, stringWriter);
-        Assertions.assertThat(stringWriter.getBuffer()).isEqualTo("<document>\r\n<element>value</element>\r\n</document>\r\n");
+        Assertions.assertThat(stringWriter.getBuffer()).isEqualTo("<document>" + SEPARATOR + "<element>value</element>" + SEPARATOR + "</document>" + SEPARATOR);
     }
 
     /**
@@ -245,7 +247,7 @@ public final class DocumentWriterTest extends BaseFormModelTest {
         Assertions.assertThat(DocumentWriter.withXmlDeclaration().getAsString(document1)).isEqualTo("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><document><element>value</element></document>");
         Assertions.assertThat(DocumentWriter.withXmlDeclaration().andEncoding("UTF-16").getAsString(document1)).isEqualTo("<?xml version=\"1.0\" encoding=\"UTF-16\" standalone=\"no\"?><document><element>value</element></document>");
         Assertions.assertThat(DocumentWriter.withXmlDeclaration().andStandalone().getAsString(document1)).isEqualTo("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><document><element>value</element></document>");
-        Assertions.assertThat(DocumentWriter.withXmlDeclaration().andIndent().getAsString(document1)).isEqualTo("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\r\n<document>\r\n<element>value</element>\r\n</document>\r\n");
+        Assertions.assertThat(DocumentWriter.withXmlDeclaration().andIndent().getAsString(document1)).isEqualTo("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>" + SEPARATOR + "<document>" + SEPARATOR + "<element>value</element>" + SEPARATOR + "</document>" + SEPARATOR);
 
         String xml2 = "<?xml version='1.0'?>\n";
         xml2 += "<document xmlns:ns1='http://example.com'>";
@@ -256,7 +258,7 @@ public final class DocumentWriterTest extends BaseFormModelTest {
         Assertions.assertThat(DocumentWriter.withXmlDeclaration().getAsString(document2)).isEqualTo("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><document xmlns:ns1=\"http://example.com\"><ns1:element>value</ns1:element></document>");
         Assertions.assertThat(DocumentWriter.withXmlDeclaration().andEncoding("UTF-16").getAsString(document2)).isEqualTo("<?xml version=\"1.0\" encoding=\"UTF-16\" standalone=\"no\"?><document xmlns:ns1=\"http://example.com\"><ns1:element>value</ns1:element></document>");
         Assertions.assertThat(DocumentWriter.withXmlDeclaration().andStandalone().getAsString(document2)).isEqualTo("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><document xmlns:ns1=\"http://example.com\"><ns1:element>value</ns1:element></document>");
-        Assertions.assertThat(DocumentWriter.withXmlDeclaration().andIndent().getAsString(document2)).isEqualTo("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\r\n<document xmlns:ns1=\"http://example.com\">\r\n<ns1:element>value</ns1:element>\r\n</document>\r\n");
+        Assertions.assertThat(DocumentWriter.withXmlDeclaration().andIndent().getAsString(document2)).isEqualTo("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>" + SEPARATOR + "<document xmlns:ns1=\"http://example.com\">" + SEPARATOR + "<ns1:element>value</ns1:element>" + SEPARATOR + "</document>" + SEPARATOR);
     }
 
     /**
@@ -273,7 +275,7 @@ public final class DocumentWriterTest extends BaseFormModelTest {
         Assertions.assertThat(DocumentWriter.withEncoding("UTF-16").getAsString(document1)).isEqualTo("<document><element>value</element></document>");
         Assertions.assertThat(DocumentWriter.withEncoding("UTF-16").andXmlDeclaration().getAsString(document1)).isEqualTo("<?xml version=\"1.0\" encoding=\"UTF-16\" standalone=\"no\"?><document><element>value</element></document>");
         Assertions.assertThat(DocumentWriter.withEncoding("UTF-16").andStandalone().getAsString(document1)).isEqualTo("<document><element>value</element></document>");
-        Assertions.assertThat(DocumentWriter.withEncoding("UTF-16").andIndent().getAsString(document1)).isEqualTo("<document>\r\n<element>value</element>\r\n</document>\r\n");
+        Assertions.assertThat(DocumentWriter.withEncoding("UTF-16").andIndent().getAsString(document1)).isEqualTo("<document>" + SEPARATOR + "<element>value</element>" + SEPARATOR + "</document>" + SEPARATOR);
 
         String xml2 = "<?xml version='1.0'?>\n";
         xml2 += "<document xmlns:ns1='http://example.com'>";
@@ -284,7 +286,7 @@ public final class DocumentWriterTest extends BaseFormModelTest {
         Assertions.assertThat(DocumentWriter.withEncoding("UTF-16").getAsString(document2)).isEqualTo("<document xmlns:ns1=\"http://example.com\"><ns1:element>value</ns1:element></document>");
         Assertions.assertThat(DocumentWriter.withEncoding("UTF-16").andXmlDeclaration().getAsString(document2)).isEqualTo("<?xml version=\"1.0\" encoding=\"UTF-16\" standalone=\"no\"?><document xmlns:ns1=\"http://example.com\"><ns1:element>value</ns1:element></document>");
         Assertions.assertThat(DocumentWriter.withEncoding("UTF-16").andStandalone().getAsString(document2)).isEqualTo("<document xmlns:ns1=\"http://example.com\"><ns1:element>value</ns1:element></document>");
-        Assertions.assertThat(DocumentWriter.withEncoding("UTF-16").andIndent().getAsString(document2)).isEqualTo("<document xmlns:ns1=\"http://example.com\">\r\n<ns1:element>value</ns1:element>\r\n</document>\r\n");
+        Assertions.assertThat(DocumentWriter.withEncoding("UTF-16").andIndent().getAsString(document2)).isEqualTo("<document xmlns:ns1=\"http://example.com\">" + SEPARATOR + "<ns1:element>value</ns1:element>" + SEPARATOR + "</document>" + SEPARATOR);
     }
 
     /**
@@ -301,7 +303,7 @@ public final class DocumentWriterTest extends BaseFormModelTest {
         Assertions.assertThat(DocumentWriter.withStandalone().getAsString(document1)).isEqualTo("<document><element>value</element></document>");
         Assertions.assertThat(DocumentWriter.withStandalone().andXmlDeclaration().getAsString(document1)).isEqualTo("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><document><element>value</element></document>");
         Assertions.assertThat(DocumentWriter.withStandalone().andEncoding("UTF-16").getAsString(document1)).isEqualTo("<document><element>value</element></document>");
-        Assertions.assertThat(DocumentWriter.withStandalone().andIndent().getAsString(document1)).isEqualTo("<document>\r\n<element>value</element>\r\n</document>\r\n");
+        Assertions.assertThat(DocumentWriter.withStandalone().andIndent().getAsString(document1)).isEqualTo("<document>" + SEPARATOR + "<element>value</element>" + SEPARATOR + "</document>" + SEPARATOR);
 
         String xml2 = "<?xml version='1.0'?>\n";
         xml2 += "<document xmlns:ns1='http://example.com'>";
@@ -312,7 +314,7 @@ public final class DocumentWriterTest extends BaseFormModelTest {
         Assertions.assertThat(DocumentWriter.withStandalone().getAsString(document2)).isEqualTo("<document xmlns:ns1=\"http://example.com\"><ns1:element>value</ns1:element></document>");
         Assertions.assertThat(DocumentWriter.withStandalone().andXmlDeclaration().getAsString(document2)).isEqualTo("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><document xmlns:ns1=\"http://example.com\"><ns1:element>value</ns1:element></document>");
         Assertions.assertThat(DocumentWriter.withStandalone().andEncoding("UTF-16").getAsString(document2)).isEqualTo("<document xmlns:ns1=\"http://example.com\"><ns1:element>value</ns1:element></document>");
-        Assertions.assertThat(DocumentWriter.withStandalone().andIndent().getAsString(document2)).isEqualTo("<document xmlns:ns1=\"http://example.com\">\r\n<ns1:element>value</ns1:element>\r\n</document>\r\n");
+        Assertions.assertThat(DocumentWriter.withStandalone().andIndent().getAsString(document2)).isEqualTo("<document xmlns:ns1=\"http://example.com\">" + SEPARATOR + "<ns1:element>value</ns1:element>" + SEPARATOR + "</document>" + SEPARATOR);
     }
 
     /**
@@ -326,10 +328,10 @@ public final class DocumentWriterTest extends BaseFormModelTest {
         xml1 += "</document>";
         Document document1 = parse(xml1);
         document1.setXmlStandalone(true);
-        Assertions.assertThat(DocumentWriter.withIndent().getAsString(document1)).isEqualTo("<document>\r\n<element>value</element>\r\n</document>\r\n");
-        Assertions.assertThat(DocumentWriter.withIndent().andXmlDeclaration().getAsString(document1)).isEqualTo("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\r\n<document>\r\n<element>value</element>\r\n</document>\r\n");
-        Assertions.assertThat(DocumentWriter.withIndent().andEncoding("UTF-16").getAsString(document1)).isEqualTo("<document>\r\n<element>value</element>\r\n</document>\r\n");
-        Assertions.assertThat(DocumentWriter.withIndent().andStandalone().getAsString(document1)).isEqualTo("<document>\r\n<element>value</element>\r\n</document>\r\n");
+        Assertions.assertThat(DocumentWriter.withIndent().getAsString(document1)).isEqualTo("<document>" + SEPARATOR + "<element>value</element>" + SEPARATOR + "</document>" + SEPARATOR);
+        Assertions.assertThat(DocumentWriter.withIndent().andXmlDeclaration().getAsString(document1)).isEqualTo("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>" + SEPARATOR + "<document>" + SEPARATOR + "<element>value</element>" + SEPARATOR + "</document>" + SEPARATOR);
+        Assertions.assertThat(DocumentWriter.withIndent().andEncoding("UTF-16").getAsString(document1)).isEqualTo("<document>" + SEPARATOR + "<element>value</element>" + SEPARATOR + "</document>" + SEPARATOR);
+        Assertions.assertThat(DocumentWriter.withIndent().andStandalone().getAsString(document1)).isEqualTo("<document>" + SEPARATOR + "<element>value</element>" + SEPARATOR + "</document>" + SEPARATOR);
 
         String xml2 = "<?xml version='1.0'?>\n";
         xml2 += "<document xmlns:ns1='http://example.com'>";
@@ -337,10 +339,10 @@ public final class DocumentWriterTest extends BaseFormModelTest {
         xml2 += "</document>";
         Document document2 = parse(xml2);
         document2.setXmlStandalone(true);
-        Assertions.assertThat(DocumentWriter.withIndent().getAsString(document2)).isEqualTo("<document xmlns:ns1=\"http://example.com\">\r\n<ns1:element>value</ns1:element>\r\n</document>\r\n");
-        Assertions.assertThat(DocumentWriter.withIndent().andXmlDeclaration().getAsString(document2)).isEqualTo("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\r\n<document xmlns:ns1=\"http://example.com\">\r\n<ns1:element>value</ns1:element>\r\n</document>\r\n");
-        Assertions.assertThat(DocumentWriter.withIndent().andEncoding("UTF-16").getAsString(document2)).isEqualTo("<document xmlns:ns1=\"http://example.com\">\r\n<ns1:element>value</ns1:element>\r\n</document>\r\n");
-        Assertions.assertThat(DocumentWriter.withIndent().andStandalone().getAsString(document2)).isEqualTo("<document xmlns:ns1=\"http://example.com\">\r\n<ns1:element>value</ns1:element>\r\n</document>\r\n");
+        Assertions.assertThat(DocumentWriter.withIndent().getAsString(document2)).isEqualTo("<document xmlns:ns1=\"http://example.com\">" + SEPARATOR + "<ns1:element>value</ns1:element>" + SEPARATOR + "</document>" + SEPARATOR);
+        Assertions.assertThat(DocumentWriter.withIndent().andXmlDeclaration().getAsString(document2)).isEqualTo("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>" + SEPARATOR + "<document xmlns:ns1=\"http://example.com\">" + SEPARATOR + "<ns1:element>value</ns1:element>" + SEPARATOR + "</document>" + SEPARATOR);
+        Assertions.assertThat(DocumentWriter.withIndent().andEncoding("UTF-16").getAsString(document2)).isEqualTo("<document xmlns:ns1=\"http://example.com\">" + SEPARATOR + "<ns1:element>value</ns1:element>" + SEPARATOR + "</document>" + SEPARATOR);
+        Assertions.assertThat(DocumentWriter.withIndent().andStandalone().getAsString(document2)).isEqualTo("<document xmlns:ns1=\"http://example.com\">" + SEPARATOR + "<ns1:element>value</ns1:element>" + SEPARATOR + "</document>" + SEPARATOR);
     }
 
 }
