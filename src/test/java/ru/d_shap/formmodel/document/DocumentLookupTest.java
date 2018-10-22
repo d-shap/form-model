@@ -33,6 +33,7 @@ import ru.d_shap.formmodel.binding.FormBinder;
 import ru.d_shap.formmodel.binding.FormInstanceBinderImpl;
 import ru.d_shap.formmodel.binding.FormInstanceBuilder;
 import ru.d_shap.formmodel.binding.model.BindedElement;
+import ru.d_shap.formmodel.binding.model.BindedElementImpl;
 import ru.d_shap.formmodel.binding.model.BindingSourceImpl;
 import ru.d_shap.formmodel.definition.model.FormDefinitions;
 
@@ -343,7 +344,85 @@ public final class DocumentLookupTest extends BaseFormModelTest {
      */
     @Test
     public void getBindedElementsWithClassTest() {
+        String xml1 = "<?xml version='1.0'?>\n";
+        xml1 += "<ns1:form id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0' xmlns:ns2='http://d-shap.ru/schema/form-model-other-node/1.0'>";
+        xml1 += "<ns1:element id='id' lookup='lookup' repr='repr1' count='1'>";
+        xml1 += "<ns1:single-element id='id'>";
+        xml1 += "<ns1:element id='id' lookup='lookup' type='optional+' repr='repr2' count='3'>";
+        xml1 += "<ns1:attribute id='id' lookup='lookup' repr='repr3' count='1'>";
+        xml1 += "</ns1:attribute>";
+        xml1 += "</ns1:element>";
+        xml1 += "<ns1:element id='id' lookup='lookup' repr='repr4' count='0'>";
+        xml1 += "</ns1:element>";
+        xml1 += "<ns2:otherNode repr='insertInvalidNodeDefinition' valid='true'>";
+        xml1 += "</ns2:otherNode>";
+        xml1 += "</ns1:single-element>";
+        xml1 += "</ns1:element>";
+        xml1 += "</ns1:form>";
+        FormDefinitions formDefinitions1 = createFormDefinitionsFromXml(xml1);
+        FormBinder formBinder1 = new FormBinder(formDefinitions1, new FormInstanceBinderImpl());
+        Document document1 = formBinder1.bind(new BindingSourceImpl("source"), "id");
+        document1.getDocumentElement().getFirstChild().getFirstChild().appendChild(document1.createComment("COMMENT TEXT"));
+        List<Element> elements1 = DocumentLookup.getDocumentLookup().getElementsWithId(document1, "id");
+        Assertions.assertThat(elements1).hasSize(8);
+        List<BindedElement> bindedElements11 = DocumentLookup.getDocumentLookup().getBindedElements(elements1, BindedElement.class);
+        Assertions.assertThat(bindedElements11).hasSize(4);
+        Assertions.assertThat(bindedElements11.get(0)).hasToString("Element: repr1[0]");
+        Assertions.assertThat(bindedElements11.get(1)).hasToString("Element: repr2[0]");
+        Assertions.assertThat(bindedElements11.get(2)).hasToString("Element: repr2[1]");
+        Assertions.assertThat(bindedElements11.get(3)).hasToString("Element: repr2[2]");
+        List<BindedElementImpl> bindedElements12 = DocumentLookup.getDocumentLookup().getBindedElements(elements1, BindedElementImpl.class);
+        Assertions.assertThat(bindedElements12).hasSize(4);
+        Assertions.assertThat(bindedElements12.get(0)).hasToString("Element: repr1[0]");
+        Assertions.assertThat(bindedElements12.get(1)).hasToString("Element: repr2[0]");
+        Assertions.assertThat(bindedElements12.get(2)).hasToString("Element: repr2[1]");
+        Assertions.assertThat(bindedElements12.get(3)).hasToString("Element: repr2[2]");
+        List<AnotherBindedElement> bindedElements13 = DocumentLookup.getDocumentLookup().getBindedElements(elements1, AnotherBindedElement.class);
+        Assertions.assertThat(bindedElements13).hasSize(0);
 
+        String xml2 = "<?xml version='1.0'?>\n";
+        xml2 += "<ns1:form id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0' xmlns:ns2='http://d-shap.ru/schema/form-model-other-node/1.0'>";
+        xml2 += "<ns1:element id='id1' lookup='lookup' repr='repr1' count='1'>";
+        xml2 += "<ns1:single-element id='id2'>";
+        xml2 += "<ns1:element id='id3' lookup='lookup' type='optional+' repr='repr2' count='3'>";
+        xml2 += "<ns1:attribute id='id4' lookup='lookup' repr='repr3' count='1'>";
+        xml2 += "</ns1:attribute>";
+        xml2 += "</ns1:element>";
+        xml2 += "<ns1:element id='id5' lookup='lookup' repr='repr4' count='0'>";
+        xml2 += "</ns1:element>";
+        xml2 += "<ns2:otherNode repr='insertInvalidNodeDefinition' valid='true'>";
+        xml2 += "</ns2:otherNode>";
+        xml2 += "</ns1:single-element>";
+        xml2 += "</ns1:element>";
+        xml2 += "</ns1:form>";
+        FormDefinitions formDefinitions2 = createFormDefinitionsFromXml(xml2);
+        FormBinder formBinder2 = new FormBinder(formDefinitions2, new FormInstanceBinderImpl());
+        Document document2 = formBinder2.bind(new BindingSourceImpl("source"), "id");
+        document2.getDocumentElement().getFirstChild().getFirstChild().appendChild(document2.createComment("COMMENT TEXT"));
+        List<Element> elements21 = DocumentLookup.getDocumentLookup().getElementsWithId(document2, "id1");
+        Assertions.assertThat(elements21).hasSize(1);
+        List<BindedElement> bindedElements211 = DocumentLookup.getDocumentLookup().getBindedElements(elements21, BindedElement.class);
+        Assertions.assertThat(bindedElements211).hasSize(1);
+        Assertions.assertThat(bindedElements211.get(0)).hasToString("Element: repr1[0]");
+        List<BindedElementImpl> bindedElements212 = DocumentLookup.getDocumentLookup().getBindedElements(elements21, BindedElementImpl.class);
+        Assertions.assertThat(bindedElements212).hasSize(1);
+        Assertions.assertThat(bindedElements212.get(0)).hasToString("Element: repr1[0]");
+        List<AnotherBindedElement> bindedElements213 = DocumentLookup.getDocumentLookup().getBindedElements(elements21, AnotherBindedElement.class);
+        Assertions.assertThat(bindedElements213).hasSize(0);
+        List<Element> elements22 = DocumentLookup.getDocumentLookup().getElementsWithId(document2, "id2");
+        Assertions.assertThat(elements22).hasSize(1);
+        List<BindedElement> bindedElements221 = DocumentLookup.getDocumentLookup().getBindedElements(elements22, BindedElement.class);
+        Assertions.assertThat(bindedElements221).hasSize(3);
+        Assertions.assertThat(bindedElements221.get(0)).hasToString("Element: repr2[0]");
+        Assertions.assertThat(bindedElements221.get(1)).hasToString("Element: repr2[1]");
+        Assertions.assertThat(bindedElements221.get(2)).hasToString("Element: repr2[2]");
+        List<BindedElementImpl> bindedElements222 = DocumentLookup.getDocumentLookup().getBindedElements(elements22, BindedElementImpl.class);
+        Assertions.assertThat(bindedElements222).hasSize(3);
+        Assertions.assertThat(bindedElements222.get(0)).hasToString("Element: repr2[0]");
+        Assertions.assertThat(bindedElements222.get(1)).hasToString("Element: repr2[1]");
+        Assertions.assertThat(bindedElements222.get(2)).hasToString("Element: repr2[2]");
+        List<AnotherBindedElement> bindedElements223 = DocumentLookup.getDocumentLookup().getBindedElements(elements22, AnotherBindedElement.class);
+        Assertions.assertThat(bindedElements223).hasSize(0);
     }
 
     /**
