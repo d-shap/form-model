@@ -25,6 +25,7 @@ import java.io.OutputStreamWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 
+import javax.xml.transform.ErrorListener;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
@@ -211,6 +212,8 @@ public final class DocumentWriter {
             try {
                 TransformerFactory transformerFactory = TransformerFactory.newInstance();
                 Transformer transformer = transformerFactory.newTransformer();
+                transformer.setErrorListener(new SkipErrorListener());
+
                 if (_xmlDeclaration) {
                     transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
                 } else {
@@ -229,6 +232,7 @@ public final class DocumentWriter {
                 } else {
                     transformer.setOutputProperty(OutputKeys.INDENT, "no");
                 }
+
                 transformer.transform(new DOMSource(node), new StreamResult(writer));
             } catch (TransformerException ex) {
                 throw new OutputResultException(ex);
@@ -261,6 +265,34 @@ public final class DocumentWriter {
             Writer writer = new StringWriter();
             writeTo(node, writer);
             return writer.toString();
+        }
+
+    }
+
+    /**
+     * Error listener to prevent write to System error stream.
+     *
+     * @author Dmitry Shapovalov
+     */
+    static final class SkipErrorListener implements ErrorListener {
+
+        SkipErrorListener() {
+            super();
+        }
+
+        @Override
+        public void warning(final TransformerException exception) throws TransformerException {
+            // Ignore
+        }
+
+        @Override
+        public void error(final TransformerException exception) throws TransformerException {
+            // Ignore
+        }
+
+        @Override
+        public void fatalError(final TransformerException exception) throws TransformerException {
+            // Ignore
         }
 
     }
