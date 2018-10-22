@@ -214,9 +214,7 @@ public final class DocumentWriter {
                 Transformer transformer = transformerFactory.newTransformer();
                 transformer.setErrorListener(new SkipErrorListener());
 
-                if (_xmlDeclaration) {
-                    transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
-                } else {
+                if (!_xmlDeclaration) {
                     transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
                 }
                 if (_encoding != null) {
@@ -229,8 +227,6 @@ public final class DocumentWriter {
                 }
                 if (_indent) {
                     transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-                } else {
-                    transformer.setOutputProperty(OutputKeys.INDENT, "no");
                 }
 
                 transformer.transform(new DOMSource(node), new StreamResult(writer));
