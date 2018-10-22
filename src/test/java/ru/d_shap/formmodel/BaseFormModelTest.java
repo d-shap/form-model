@@ -41,6 +41,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
 
+import ru.d_shap.formmodel.binding.model.BindedAttribute;
+import ru.d_shap.formmodel.binding.model.BindedElement;
 import ru.d_shap.formmodel.binding.model.BindedElementImpl;
 import ru.d_shap.formmodel.definition.loader.FormDefinitionsLoader;
 import ru.d_shap.formmodel.definition.loader.xml.FormXmlDefinitionsElementLoader;
@@ -416,6 +418,38 @@ public class BaseFormModelTest {
         @Override
         public String toString() {
             return "another";
+        }
+
+    }
+
+    /**
+     * Test class.
+     *
+     * @author Dmitry Shapovalov
+     */
+    public static final class AnotherBindedElement implements BindedElement {
+
+        /**
+         * Create new object.
+         */
+        public AnotherBindedElement() {
+            super();
+        }
+
+    }
+
+    /**
+     * Test class.
+     *
+     * @author Dmitry Shapovalov
+     */
+    public static final class AnotherBindedAttribute implements BindedAttribute {
+
+        /**
+         * Create new object.
+         */
+        public AnotherBindedAttribute() {
+            super();
         }
 
     }
