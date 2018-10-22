@@ -248,7 +248,7 @@ public final class DocumentWriter {
          */
         public void writeTo(final Node node, final OutputStream outputStream, final String encoding) {
             try {
-                withEncoding(encoding).writeTo(node, new OutputStreamWriter(outputStream, encoding));
+                andEncoding(encoding).writeTo(node, new OutputStreamWriter(outputStream, encoding));
             } catch (IOException ex) {
                 throw new OutputResultException(ex);
             }
