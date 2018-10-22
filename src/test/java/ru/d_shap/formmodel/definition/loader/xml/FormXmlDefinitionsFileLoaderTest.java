@@ -299,8 +299,10 @@ public final class FormXmlDefinitionsFileLoaderTest extends BaseFormModelTest {
         Assertions.assertThat(fileFilter.accept(new File(parentDirectory, "form.XML"))).isTrue();
         Assertions.assertThat(fileFilter.accept(new File(parentDirectory, "form.XmL"))).isTrue();
         Assertions.assertThat(fileFilter.accept(new File(parentDirectory, "form.xMl"))).isTrue();
+        Assertions.assertThat(fileFilter.accept(new File(parentDirectory, ".xml"))).isTrue();
         Assertions.assertThat(fileFilter.accept(new File(parentDirectory, "form"))).isFalse();
         Assertions.assertThat(fileFilter.accept(new File(parentDirectory, "form.txt"))).isFalse();
+        Assertions.assertThat(fileFilter.accept(new File(parentDirectory, "xml"))).isFalse();
     }
 
 }
