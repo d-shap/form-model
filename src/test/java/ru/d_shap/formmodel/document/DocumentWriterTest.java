@@ -235,6 +235,26 @@ public final class DocumentWriterTest extends BaseFormModelTest {
 
     /**
      * {@link DocumentWriter} class test.
+     */
+    @Test
+    public void writeToOutputStreamDefaultFailTest() {
+        try {
+            String xml = "<?xml version='1.0'?>\n";
+            xml += "<document>";
+            xml += "<element>value</element>";
+            xml += "</document>";
+            Document document = parse(xml);
+            document.setXmlStandalone(true);
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            DocumentWriter.writeTo(document, byteArrayOutputStream, "wrong encoding");
+            Assertions.fail("XmlDocumentBuilder test fail");
+        } catch (OutputResultException ex) {
+            Assertions.assertThat(ex).hasCause(UnsupportedEncodingException.class);
+        }
+    }
+
+    /**
+     * {@link DocumentWriter} class test.
      *
      * @throws UnsupportedEncodingException unsupported encoding exception.
      */
@@ -473,6 +493,31 @@ public final class DocumentWriterTest extends BaseFormModelTest {
         Assertions.assertThat(DocumentWriter.withIndent().andXmlDeclaration().getAsString(document2)).isEqualTo("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>" + SEPARATOR + "<document xmlns:ns1=\"http://example.com\">" + SEPARATOR + "<ns1:element>value</ns1:element>" + SEPARATOR + "</document>" + SEPARATOR);
         Assertions.assertThat(DocumentWriter.withIndent().andEncoding(ENCODING_UTF_16).getAsString(document2)).isEqualTo("<document xmlns:ns1=\"http://example.com\">" + SEPARATOR + "<ns1:element>value</ns1:element>" + SEPARATOR + "</document>" + SEPARATOR);
         Assertions.assertThat(DocumentWriter.withIndent().andStandalone().getAsString(document2)).isEqualTo("<document xmlns:ns1=\"http://example.com\">" + SEPARATOR + "<ns1:element>value</ns1:element>" + SEPARATOR + "</document>" + SEPARATOR);
+    }
+
+    /**
+     * {@link DocumentWriter} class test.
+     *
+     * @throws TransformerException transformer exception.
+     */
+    @Test
+    public void skipErrorListenerMethodsTest() throws TransformerException {
+        DocumentWriter.SkipErrorListener skipErrorListener = new DocumentWriter.SkipErrorListener();
+
+        skipErrorListener.warning(new TransformerException("Message"));
+        skipErrorListener.warning(new TransformerException(""));
+        skipErrorListener.warning(new TransformerException((String) null));
+        skipErrorListener.warning(null);
+
+        skipErrorListener.error(new TransformerException("Message"));
+        skipErrorListener.error(new TransformerException(""));
+        skipErrorListener.error(new TransformerException((String) null));
+        skipErrorListener.error(null);
+
+        skipErrorListener.fatalError(new TransformerException("Message"));
+        skipErrorListener.fatalError(new TransformerException(""));
+        skipErrorListener.fatalError(new TransformerException((String) null));
+        skipErrorListener.fatalError(null);
     }
 
 }
