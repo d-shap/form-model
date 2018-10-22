@@ -28,7 +28,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
 
-import ru.d_shap.formmodel.InputSourceException;
 import ru.d_shap.formmodel.XmlDocumentBuilderConfigurator;
 import ru.d_shap.formmodel.definition.model.FormDefinition;
 
@@ -83,19 +82,11 @@ public final class FormXmlDefinitionsInputStreamLoader extends FormXmlDefinition
 
     @Override
     public List<FormDefinition> load() {
-        try {
-            try {
-                InputSource inputSource = new InputSource(_inputStream);
-                Document document = parse(inputSource);
-                Element element = document.getDocumentElement();
-                FormXmlDefinitionsElementLoader formXmlDefinitionsElementLoader = new FormXmlDefinitionsElementLoader(this, element, _source);
-                return formXmlDefinitionsElementLoader.load();
-            } finally {
-                close();
-            }
-        } catch (IOException ex) {
-            throw new InputSourceException(ex);
-        }
+        InputSource inputSource = new InputSource(_inputStream);
+        Document document = parse(inputSource);
+        Element element = document.getDocumentElement();
+        FormXmlDefinitionsElementLoader formXmlDefinitionsElementLoader = new FormXmlDefinitionsElementLoader(this, element, _source);
+        return formXmlDefinitionsElementLoader.load();
     }
 
     @Override
