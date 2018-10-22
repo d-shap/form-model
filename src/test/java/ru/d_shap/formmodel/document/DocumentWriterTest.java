@@ -208,42 +208,137 @@ public final class DocumentWriterTest extends BaseFormModelTest {
 
     /**
      * {@link DocumentWriter} class test.
+     *
+     * @throws UnsupportedEncodingException unsupported encoding exception.
      */
     @Test
-    public void writeToOutputStreamDefaultTest() {
+    public void writeToOutputStreamDefaultTest() throws UnsupportedEncodingException {
+        String xml = "<?xml version='1.0'?>\n";
+        xml += "<document>";
+        xml += "<element>value</element>";
+        xml += "</document>";
+        Document document = parse(xml);
+        document.setXmlStandalone(true);
 
+        ByteArrayOutputStream byteArrayOutputStream1 = new ByteArrayOutputStream();
+        DocumentWriter.writeTo(document, byteArrayOutputStream1, ENCODING_UTF_8);
+        byte[] bytes1 = byteArrayOutputStream1.toByteArray();
+        Assertions.assertThat(bytes1).hasLength(45);
+        Assertions.assertThat(new String(bytes1, ENCODING_UTF_8)).isEqualTo("<document><element>value</element></document>");
+
+        ByteArrayOutputStream byteArrayOutputStream2 = new ByteArrayOutputStream();
+        DocumentWriter.writeTo(document, byteArrayOutputStream2, ENCODING_UTF_16);
+        byte[] bytes2 = byteArrayOutputStream2.toByteArray();
+        Assertions.assertThat(bytes2).hasLength(92);
+        Assertions.assertThat(new String(bytes2, ENCODING_UTF_16)).isEqualTo("<document><element>value</element></document>");
     }
 
     /**
      * {@link DocumentWriter} class test.
+     *
+     * @throws UnsupportedEncodingException unsupported encoding exception.
      */
     @Test
-    public void writeToOutputStreamWithXmlDeclarationTest() {
+    public void writeToOutputStreamWithXmlDeclarationTest() throws UnsupportedEncodingException {
+        String xml = "<?xml version='1.0'?>\n";
+        xml += "<document>";
+        xml += "<element>value</element>";
+        xml += "</document>";
+        Document document = parse(xml);
+        document.setXmlStandalone(true);
 
+        ByteArrayOutputStream byteArrayOutputStream1 = new ByteArrayOutputStream();
+        DocumentWriter.withXmlDeclaration().writeTo(document, byteArrayOutputStream1, ENCODING_UTF_8);
+        byte[] bytes1 = byteArrayOutputStream1.toByteArray();
+        Assertions.assertThat(bytes1).hasLength(99);
+        Assertions.assertThat(new String(bytes1, ENCODING_UTF_8)).isEqualTo("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><document><element>value</element></document>");
+
+        ByteArrayOutputStream byteArrayOutputStream2 = new ByteArrayOutputStream();
+        DocumentWriter.withXmlDeclaration().writeTo(document, byteArrayOutputStream2, ENCODING_UTF_16);
+        byte[] bytes2 = byteArrayOutputStream2.toByteArray();
+        Assertions.assertThat(bytes2).hasLength(202);
+        Assertions.assertThat(new String(bytes2, ENCODING_UTF_16)).isEqualTo("<?xml version=\"1.0\" encoding=\"UTF-16\" standalone=\"no\"?><document><element>value</element></document>");
     }
 
     /**
      * {@link DocumentWriter} class test.
+     *
+     * @throws UnsupportedEncodingException unsupported encoding exception.
      */
     @Test
-    public void writeToOutputStreamWithEncodingTest() {
+    public void writeToOutputStreamWithEncodingTest() throws UnsupportedEncodingException {
+        String xml = "<?xml version='1.0'?>\n";
+        xml += "<document>";
+        xml += "<element>value</element>";
+        xml += "</document>";
+        Document document = parse(xml);
+        document.setXmlStandalone(true);
 
+        ByteArrayOutputStream byteArrayOutputStream1 = new ByteArrayOutputStream();
+        DocumentWriter.withEncoding(ENCODING_UTF_16).writeTo(document, byteArrayOutputStream1, ENCODING_UTF_8);
+        byte[] bytes1 = byteArrayOutputStream1.toByteArray();
+        Assertions.assertThat(bytes1).hasLength(45);
+        Assertions.assertThat(new String(bytes1, ENCODING_UTF_8)).isEqualTo("<document><element>value</element></document>");
+
+        ByteArrayOutputStream byteArrayOutputStream2 = new ByteArrayOutputStream();
+        DocumentWriter.withEncoding(ENCODING_UTF_16).writeTo(document, byteArrayOutputStream2, ENCODING_UTF_16);
+        byte[] bytes2 = byteArrayOutputStream2.toByteArray();
+        Assertions.assertThat(bytes2).hasLength(92);
+        Assertions.assertThat(new String(bytes2, ENCODING_UTF_16)).isEqualTo("<document><element>value</element></document>");
     }
 
     /**
      * {@link DocumentWriter} class test.
+     *
+     * @throws UnsupportedEncodingException unsupported encoding exception.
      */
     @Test
-    public void writeToOutputStreamWithStandaloneTest() {
+    public void writeToOutputStreamWithStandaloneTest() throws UnsupportedEncodingException {
+        String xml = "<?xml version='1.0'?>\n";
+        xml += "<document>";
+        xml += "<element>value</element>";
+        xml += "</document>";
+        Document document = parse(xml);
+        document.setXmlStandalone(true);
 
+        ByteArrayOutputStream byteArrayOutputStream1 = new ByteArrayOutputStream();
+        DocumentWriter.withStandalone().writeTo(document, byteArrayOutputStream1, ENCODING_UTF_8);
+        byte[] bytes1 = byteArrayOutputStream1.toByteArray();
+        Assertions.assertThat(bytes1).hasLength(45);
+        Assertions.assertThat(new String(bytes1, ENCODING_UTF_8)).isEqualTo("<document><element>value</element></document>");
+
+        ByteArrayOutputStream byteArrayOutputStream2 = new ByteArrayOutputStream();
+        DocumentWriter.withStandalone().writeTo(document, byteArrayOutputStream2, ENCODING_UTF_16);
+        byte[] bytes2 = byteArrayOutputStream2.toByteArray();
+        Assertions.assertThat(bytes2).hasLength(92);
+        Assertions.assertThat(new String(bytes2, ENCODING_UTF_16)).isEqualTo("<document><element>value</element></document>");
     }
 
     /**
      * {@link DocumentWriter} class test.
+     *
+     * @throws UnsupportedEncodingException unsupported encoding exception.
      */
     @Test
-    public void writeToOutputStreamWithIndentTest() {
+    public void writeToOutputStreamWithIndentTest() throws UnsupportedEncodingException {
+        String xml = "<?xml version='1.0'?>\n";
+        xml += "<document>";
+        xml += "<element>value</element>";
+        xml += "</document>";
+        Document document = parse(xml);
+        document.setXmlStandalone(true);
 
+        ByteArrayOutputStream byteArrayOutputStream1 = new ByteArrayOutputStream();
+        DocumentWriter.withIndent().writeTo(document, byteArrayOutputStream1, ENCODING_UTF_8);
+        byte[] bytes1 = byteArrayOutputStream1.toByteArray();
+        Assertions.assertThat(bytes1).hasLength(45 + SEPARATOR.length() * 3);
+        Assertions.assertThat(new String(bytes1, ENCODING_UTF_8)).isEqualTo("<document>" + SEPARATOR + "<element>value</element>" + SEPARATOR + "</document>" + SEPARATOR);
+
+        ByteArrayOutputStream byteArrayOutputStream2 = new ByteArrayOutputStream();
+        DocumentWriter.withIndent().writeTo(document, byteArrayOutputStream2, ENCODING_UTF_16);
+        byte[] bytes2 = byteArrayOutputStream2.toByteArray();
+        Assertions.assertThat(bytes2).hasLength(92 + SEPARATOR.length() * 6);
+        Assertions.assertThat(new String(bytes2, ENCODING_UTF_16)).isEqualTo("<document>" + SEPARATOR + "<element>value</element>" + SEPARATOR + "</document>" + SEPARATOR);
     }
 
     /**
