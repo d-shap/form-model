@@ -31,6 +31,7 @@ import ru.d_shap.assertions.Assertions;
 import ru.d_shap.formmodel.BaseFormModelTest;
 import ru.d_shap.formmodel.binding.FormBinder;
 import ru.d_shap.formmodel.binding.FormInstanceBinderImpl;
+import ru.d_shap.formmodel.binding.FormInstanceBuilder;
 import ru.d_shap.formmodel.binding.model.BindedElement;
 import ru.d_shap.formmodel.binding.model.BindingSourceImpl;
 import ru.d_shap.formmodel.definition.model.FormDefinitions;
@@ -238,7 +239,7 @@ public final class DocumentLookupTest extends BaseFormModelTest {
     @Test
     public void getBindedElementsTest() {
         String xml1 = "<?xml version='1.0'?>\n";
-        xml1 += "<ns1:form id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml1 += "<ns1:form id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0' xmlns:ns2='http://d-shap.ru/schema/form-model-other-node/1.0'>";
         xml1 += "<ns1:element id='id' lookup='lookup' repr='repr1' count='1'>";
         xml1 += "<ns1:single-element id='id'>";
         xml1 += "<ns1:element id='id' lookup='lookup' type='optional+' repr='repr2' count='3'>";
@@ -247,12 +248,15 @@ public final class DocumentLookupTest extends BaseFormModelTest {
         xml1 += "</ns1:element>";
         xml1 += "<ns1:element id='id' lookup='lookup' repr='repr4' count='0'>";
         xml1 += "</ns1:element>";
+        xml1 += "<ns2:otherNode repr='insertInvalidNodeDefinition' valid='true'>";
+        xml1 += "</ns2:otherNode>";
         xml1 += "</ns1:single-element>";
         xml1 += "</ns1:element>";
         xml1 += "</ns1:form>";
         FormDefinitions formDefinitions1 = createFormDefinitionsFromXml(xml1);
         FormBinder formBinder1 = new FormBinder(formDefinitions1, new FormInstanceBinderImpl());
         Document document1 = formBinder1.bind(new BindingSourceImpl("source"), "id");
+        document1.getDocumentElement().getFirstChild().getFirstChild().appendChild(document1.createComment("COMMENT TEXT"));
         List<Element> elements11 = DocumentLookup.getDocumentLookup().getElementsWithId(document1, "id");
         Assertions.assertThat(elements11).hasSize(8);
         List<BindedElement> bindedElements11 = DocumentLookup.getDocumentLookup().getBindedElements(elements11);
@@ -267,7 +271,7 @@ public final class DocumentLookupTest extends BaseFormModelTest {
         Assertions.assertThat(bindedElements12).hasSize(0);
 
         String xml2 = "<?xml version='1.0'?>\n";
-        xml2 += "<ns1:form id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml2 += "<ns1:form id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0' xmlns:ns2='http://d-shap.ru/schema/form-model-other-node/1.0'>";
         xml2 += "<ns1:element id='id1' lookup='lookup' repr='repr1' count='1'>";
         xml2 += "<ns1:single-element id='id2'>";
         xml2 += "<ns1:element id='id3' lookup='lookup' type='optional+' repr='repr2' count='3'>";
@@ -276,12 +280,15 @@ public final class DocumentLookupTest extends BaseFormModelTest {
         xml2 += "</ns1:element>";
         xml2 += "<ns1:element id='id5' lookup='lookup' repr='repr4' count='0'>";
         xml2 += "</ns1:element>";
+        xml2 += "<ns2:otherNode repr='insertInvalidNodeDefinition' valid='true'>";
+        xml2 += "</ns2:otherNode>";
         xml2 += "</ns1:single-element>";
         xml2 += "</ns1:element>";
         xml2 += "</ns1:form>";
         FormDefinitions formDefinitions2 = createFormDefinitionsFromXml(xml2);
         FormBinder formBinder2 = new FormBinder(formDefinitions2, new FormInstanceBinderImpl());
         Document document2 = formBinder2.bind(new BindingSourceImpl("source"), "id");
+        document2.getDocumentElement().getFirstChild().getFirstChild().appendChild(document2.createComment("COMMENT TEXT"));
         List<Element> elements21 = DocumentLookup.getDocumentLookup().getElementsWithId(document2, "id1");
         Assertions.assertThat(elements21).hasSize(1);
         List<BindedElement> bindedElements21 = DocumentLookup.getDocumentLookup().getBindedElements(elements21);
@@ -309,6 +316,26 @@ public final class DocumentLookupTest extends BaseFormModelTest {
         Assertions.assertThat(elements25).hasSize(0);
         List<BindedElement> bindedElements25 = DocumentLookup.getDocumentLookup().getBindedElements(elements25);
         Assertions.assertThat(bindedElements25).hasSize(0);
+
+        String xml3 = "<?xml version='1.0'?>\n";
+        xml3 += "<ns1:form id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0' xmlns:ns2='http://d-shap.ru/schema/form-model-other-node/1.0'>";
+        xml3 += "<ns1:single-element id='id'>";
+        xml3 += "<ns1:element id='id' lookup='lookup' repr='repr' count='0'>";
+        xml3 += "</ns1:element>";
+        xml3 += "<ns2:otherNode repr='otherNodeRepr' valid='true'>";
+        xml3 += "</ns2:otherNode>";
+        xml3 += "</ns1:single-element>";
+        xml3 += "</ns1:form>";
+        FormDefinitions formDefinitions3 = createFormDefinitionsFromXml(xml3);
+        FormBinder formBinder3 = new FormBinder(formDefinitions3, new FormInstanceBinderImpl());
+        Document document3 = formBinder3.bind(new BindingSourceImpl("source"), "id");
+        document3.getDocumentElement().getFirstChild().getFirstChild().appendChild(document3.createComment("COMMENT TEXT"));
+        List<Element> elements31 = DocumentLookup.getDocumentLookup().getElementsWithId(document3, "id");
+        Assertions.assertThat(elements31).hasSize(1);
+        List<BindedElement> bindedElements31 = DocumentLookup.getDocumentLookup().getBindedElements(elements31);
+        Assertions.assertThat(bindedElements31).hasSize(0);
+        Assertions.assertThat(elements31.get(0).getFirstChild().getUserData(FormInstanceBuilder.USER_DATA_NODE_DEFINITION)).hasToString("otherNodeRepr");
+        Assertions.assertThat(elements31.get(0).getFirstChild().getUserData(FormInstanceBuilder.USER_DATA_BINDED_OBJECT)).isNull();
     }
 
     /**
