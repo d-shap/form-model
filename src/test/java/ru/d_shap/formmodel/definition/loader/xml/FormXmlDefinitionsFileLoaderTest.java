@@ -112,7 +112,7 @@ public final class FormXmlDefinitionsFileLoaderTest extends BaseFormModelTest {
         FormXmlDefinitionsFileLoader formXmlDefinitionsFileLoader21 = new FormXmlDefinitionsFileLoader(parentDirectory);
         FormDefinitions formDefinitions21 = new FormDefinitions();
         formXmlDefinitionsFileLoader21.load(formDefinitions21);
-        Assertions.assertThat(formDefinitions21.getFormDefinitions().size()).isEqualTo(3);
+        Assertions.assertThat(formDefinitions21.getFormDefinitions().size()).isEqualTo(4);
         Assertions.assertThat(formDefinitions21.getFormDefinition("id").getGroup()).isEqualTo("");
         Assertions.assertThat(formDefinitions21.getFormDefinition("id").getId()).isEqualTo("id");
         Assertions.assertThat(formDefinitions21.getFormDefinition("id").getAllNodeDefinitions()).hasSize(2);
@@ -145,6 +145,14 @@ public final class FormXmlDefinitionsFileLoaderTest extends BaseFormModelTest {
         Assertions.assertThat(formDefinitions21.getFormDefinition("subforms", "id2").getFormReferenceDefinitions().get(0).getId()).isEqualTo("id1");
         Assertions.assertThat(formDefinitions21.getFormDefinition("subforms", "id2").getOtherAttributeNames()).isEmpty();
         Assertions.assertThat(formDefinitions21.getFormDefinition("subforms", "id2").getSource()).endsWith(File.separator + "subforms" + File.separator + "form2.xml");
+        Assertions.assertThat(formDefinitions21.getFormDefinition("subforms", "noFileNameForm").getGroup()).isEqualTo("subforms");
+        Assertions.assertThat(formDefinitions21.getFormDefinition("subforms", "noFileNameForm").getId()).isEqualTo("noFileNameForm");
+        Assertions.assertThat(formDefinitions21.getFormDefinition("subforms", "noFileNameForm").getAllNodeDefinitions()).hasSize(1);
+        Assertions.assertThat(formDefinitions21.getFormDefinition("subforms", "noFileNameForm").getElementDefinitions()).hasSize(1);
+        Assertions.assertThat(formDefinitions21.getFormDefinition("subforms", "noFileNameForm").getElementDefinitions().get(0).getId()).isEqualTo("id");
+        Assertions.assertThat(formDefinitions21.getFormDefinition("subforms", "noFileNameForm").getElementDefinitions().get(0).getLookup()).isEqualTo("lookup");
+        Assertions.assertThat(formDefinitions21.getFormDefinition("subforms", "noFileNameForm").getOtherAttributeNames()).isEmpty();
+        Assertions.assertThat(formDefinitions21.getFormDefinition("subforms", "noFileNameForm").getSource()).endsWith(File.separator + "subforms" + File.separator + ".xml");
 
         FormXmlDefinitionsFileLoader formXmlDefinitionsFileLoader22 = new FormXmlDefinitionsFileLoader(parentDirectory, new SkipFileFilter());
         FormDefinitions formDefinitions22 = new FormDefinitions();
@@ -154,7 +162,7 @@ public final class FormXmlDefinitionsFileLoaderTest extends BaseFormModelTest {
         FormXmlDefinitionsFileLoader formXmlDefinitionsFileLoader23 = new FormXmlDefinitionsFileLoader(new XmlDocumentBuilderConfiguratorImpl(), parentDirectory);
         FormDefinitions formDefinitions23 = new FormDefinitions();
         formXmlDefinitionsFileLoader23.load(formDefinitions23);
-        Assertions.assertThat(formDefinitions23.getFormDefinitions().size()).isEqualTo(3);
+        Assertions.assertThat(formDefinitions23.getFormDefinitions().size()).isEqualTo(4);
         Assertions.assertThat(formDefinitions23.getFormDefinition("id").getGroup()).isEqualTo("");
         Assertions.assertThat(formDefinitions23.getFormDefinition("id").getId()).isEqualTo("id");
         Assertions.assertThat(formDefinitions23.getFormDefinition("id").getAllNodeDefinitions()).hasSize(2);
@@ -187,6 +195,14 @@ public final class FormXmlDefinitionsFileLoaderTest extends BaseFormModelTest {
         Assertions.assertThat(formDefinitions23.getFormDefinition("subforms", "id2").getFormReferenceDefinitions().get(0).getId()).isEqualTo("id1");
         Assertions.assertThat(formDefinitions23.getFormDefinition("subforms", "id2").getOtherAttributeNames()).isEmpty();
         Assertions.assertThat(formDefinitions23.getFormDefinition("subforms", "id2").getSource()).endsWith(File.separator + "subforms" + File.separator + "form2.xml");
+        Assertions.assertThat(formDefinitions23.getFormDefinition("subforms", "noFileNameForm").getGroup()).isEqualTo("subforms");
+        Assertions.assertThat(formDefinitions23.getFormDefinition("subforms", "noFileNameForm").getId()).isEqualTo("noFileNameForm");
+        Assertions.assertThat(formDefinitions23.getFormDefinition("subforms", "noFileNameForm").getAllNodeDefinitions()).hasSize(1);
+        Assertions.assertThat(formDefinitions23.getFormDefinition("subforms", "noFileNameForm").getElementDefinitions()).hasSize(1);
+        Assertions.assertThat(formDefinitions23.getFormDefinition("subforms", "noFileNameForm").getElementDefinitions().get(0).getId()).isEqualTo("id");
+        Assertions.assertThat(formDefinitions23.getFormDefinition("subforms", "noFileNameForm").getElementDefinitions().get(0).getLookup()).isEqualTo("lookup");
+        Assertions.assertThat(formDefinitions23.getFormDefinition("subforms", "noFileNameForm").getOtherAttributeNames()).isEmpty();
+        Assertions.assertThat(formDefinitions23.getFormDefinition("subforms", "noFileNameForm").getSource()).endsWith(File.separator + "subforms" + File.separator + ".xml");
 
         FormXmlDefinitionsFileLoader formXmlDefinitionsFileLoader24 = new FormXmlDefinitionsFileLoader(new XmlDocumentBuilderConfiguratorImpl(), parentDirectory, new SkipFileFilter());
         FormDefinitions formDefinitions24 = new FormDefinitions();
@@ -196,7 +212,7 @@ public final class FormXmlDefinitionsFileLoaderTest extends BaseFormModelTest {
         FormXmlDefinitionsFileLoader formXmlDefinitionsFileLoader25 = new FormXmlDefinitionsFileLoader(formXmlDefinitionsFileLoader21, parentDirectory);
         FormDefinitions formDefinitions25 = new FormDefinitions();
         formXmlDefinitionsFileLoader25.load(formDefinitions25);
-        Assertions.assertThat(formDefinitions25.getFormDefinitions().size()).isEqualTo(3);
+        Assertions.assertThat(formDefinitions25.getFormDefinitions().size()).isEqualTo(4);
         Assertions.assertThat(formDefinitions25.getFormDefinition("id").getGroup()).isEqualTo("");
         Assertions.assertThat(formDefinitions25.getFormDefinition("id").getId()).isEqualTo("id");
         Assertions.assertThat(formDefinitions25.getFormDefinition("id").getAllNodeDefinitions()).hasSize(2);
@@ -229,6 +245,14 @@ public final class FormXmlDefinitionsFileLoaderTest extends BaseFormModelTest {
         Assertions.assertThat(formDefinitions25.getFormDefinition("subforms", "id2").getFormReferenceDefinitions().get(0).getId()).isEqualTo("id1");
         Assertions.assertThat(formDefinitions25.getFormDefinition("subforms", "id2").getOtherAttributeNames()).isEmpty();
         Assertions.assertThat(formDefinitions25.getFormDefinition("subforms", "id2").getSource()).endsWith(File.separator + "subforms" + File.separator + "form2.xml");
+        Assertions.assertThat(formDefinitions25.getFormDefinition("subforms", "noFileNameForm").getGroup()).isEqualTo("subforms");
+        Assertions.assertThat(formDefinitions25.getFormDefinition("subforms", "noFileNameForm").getId()).isEqualTo("noFileNameForm");
+        Assertions.assertThat(formDefinitions25.getFormDefinition("subforms", "noFileNameForm").getAllNodeDefinitions()).hasSize(1);
+        Assertions.assertThat(formDefinitions25.getFormDefinition("subforms", "noFileNameForm").getElementDefinitions()).hasSize(1);
+        Assertions.assertThat(formDefinitions25.getFormDefinition("subforms", "noFileNameForm").getElementDefinitions().get(0).getId()).isEqualTo("id");
+        Assertions.assertThat(formDefinitions25.getFormDefinition("subforms", "noFileNameForm").getElementDefinitions().get(0).getLookup()).isEqualTo("lookup");
+        Assertions.assertThat(formDefinitions25.getFormDefinition("subforms", "noFileNameForm").getOtherAttributeNames()).isEmpty();
+        Assertions.assertThat(formDefinitions25.getFormDefinition("subforms", "noFileNameForm").getSource()).endsWith(File.separator + "subforms" + File.separator + ".xml");
 
         FormXmlDefinitionsFileLoader formXmlDefinitionsFileLoader26 = new FormXmlDefinitionsFileLoader(formXmlDefinitionsFileLoader22, parentDirectory, new SkipFileFilter());
         FormDefinitions formDefinitions26 = new FormDefinitions();
