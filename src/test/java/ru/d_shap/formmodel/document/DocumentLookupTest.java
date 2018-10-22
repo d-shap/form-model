@@ -428,6 +428,34 @@ public final class DocumentLookupTest extends BaseFormModelTest {
     /**
      * {@link DocumentLookup} class test.
      */
+    @Test(expected = NullPointerException.class)
+    public void getBindedElementsWithNullClassFailTest() {
+        String xml = "<?xml version='1.0'?>\n";
+        xml += "<ns1:form id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0' xmlns:ns2='http://d-shap.ru/schema/form-model-other-node/1.0'>";
+        xml += "<ns1:element id='id' lookup='lookup' repr='repr1' count='1'>";
+        xml += "<ns1:single-element id='id'>";
+        xml += "<ns1:element id='id' lookup='lookup' type='optional+' repr='repr2' count='3'>";
+        xml += "<ns1:attribute id='id' lookup='lookup' repr='repr3' count='1'>";
+        xml += "</ns1:attribute>";
+        xml += "</ns1:element>";
+        xml += "<ns1:element id='id' lookup='lookup' repr='repr4' count='0'>";
+        xml += "</ns1:element>";
+        xml += "<ns2:otherNode repr='insertInvalidNodeDefinition' valid='true'>";
+        xml += "</ns2:otherNode>";
+        xml += "</ns1:single-element>";
+        xml += "</ns1:element>";
+        xml += "</ns1:form>";
+        FormDefinitions formDefinitions = createFormDefinitionsFromXml(xml);
+        FormBinder formBinder = new FormBinder(formDefinitions, new FormInstanceBinderImpl());
+        Document document = formBinder.bind(new BindingSourceImpl("source"), "id");
+        List<Element> elements = DocumentLookup.getDocumentLookup().getElementsWithId(document, "id");
+        Assertions.assertThat(elements).hasSize(8);
+        DocumentLookup.getDocumentLookup().getBindedElements(elements, null);
+    }
+
+    /**
+     * {@link DocumentLookup} class test.
+     */
     @Test
     public void getBindedAttributesTest() {
 
