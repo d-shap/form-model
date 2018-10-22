@@ -29,6 +29,10 @@ import org.w3c.dom.Element;
 
 import ru.d_shap.assertions.Assertions;
 import ru.d_shap.formmodel.BaseFormModelTest;
+import ru.d_shap.formmodel.binding.FormBinder;
+import ru.d_shap.formmodel.binding.FormInstanceBinderImpl;
+import ru.d_shap.formmodel.binding.model.BindingSourceImpl;
+import ru.d_shap.formmodel.definition.model.FormDefinitions;
 
 /**
  * Tests for {@link DocumentLookup}.
@@ -130,7 +134,47 @@ public final class DocumentLookupTest extends BaseFormModelTest {
      */
     @Test
     public void getElementsWithIdTest() {
+        String xml1 = "<?xml version='1.0'?>\n";
+        xml1 += "<ns1:form id='fid' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml1 += "<ns1:single-element id='seid' type='required' addSAttr='addSVal'>";
+        xml1 += "<ns1:element id='eid1' lookup='lookup' type='optional+' repr='repr1' count='3' addAttr='addVal'>";
+        xml1 += "</ns1:element>";
+        xml1 += "<ns1:element id='eid2' lookup='lookup' type='optional+' repr='repr2' count='0'>";
+        xml1 += "</ns1:element>";
+        xml1 += "</ns1:single-element>";
+        xml1 += "</ns1:form>";
+        FormDefinitions formDefinitions1 = createFormDefinitionsFromXml(xml1);
+        FormBinder formBinder1 = new FormBinder(formDefinitions1, new FormInstanceBinderImpl());
+        Document document1 = formBinder1.bind(new BindingSourceImpl("source"), "fid");
+        List<Element> elements11 = DocumentLookup.getDocumentLookup().getElementsWithId(document1, "eid1");
+        Assertions.assertThat(elements11).hasSize(3);
+        Assertions.assertThat(elements11.get(0).getAttribute("addAttr")).isEqualTo("addVal");
+        Assertions.assertThat(elements11.get(1).getAttribute("addAttr")).isEqualTo("addVal");
+        Assertions.assertThat(elements11.get(2).getAttribute("addAttr")).isEqualTo("addVal");
+        List<Element> elements12 = DocumentLookup.getDocumentLookup().getElementsWithId(document1, "seid");
+        Assertions.assertThat(elements12).hasSize(1);
+        Assertions.assertThat(elements12.get(0).getAttribute("addSAttr")).isEqualTo("addSVal");
 
+        String xml2 = "<?xml version='1.0'?>\n";
+        xml2 += "<ns1:form id='fid' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml2 += "<ns1:element id='id' lookup='lookup' repr='repr1' count='1'>";
+        xml2 += "</ns1:element>";
+        xml2 += "<ns1:element id='id' lookup='lookup' repr='repr2' count='1'>";
+        xml2 += "</ns1:element>";
+        xml2 += "<ns1:element id='id' lookup='lookup' repr='repr3' count='1'>";
+        xml2 += "<ns1:attribute id='id' lookup='lookup' repr='repr4' count='1'>";
+        xml2 += "</ns1:attribute>";
+        xml2 += "</ns1:element>";
+        xml2 += "</ns1:form>";
+        FormDefinitions formDefinitions2 = createFormDefinitionsFromXml(xml2);
+        FormBinder formBinder2 = new FormBinder(formDefinitions2, new FormInstanceBinderImpl());
+        Document document2 = formBinder2.bind(new BindingSourceImpl("source"), "fid");
+        List<Element> elements2 = DocumentLookup.getDocumentLookup().getElementsWithId(document2, "id");
+        Assertions.assertThat(elements2).hasSize(4);
+        Assertions.assertThat(elements2.get(0).getAttribute("repr")).isEqualTo("repr1");
+        Assertions.assertThat(elements2.get(1).getAttribute("repr")).isEqualTo("repr2");
+        Assertions.assertThat(elements2.get(2).getAttribute("repr")).isEqualTo("repr3");
+        Assertions.assertThat(elements2.get(3).getAttribute("repr")).isEqualTo("repr4");
     }
 
     /**
