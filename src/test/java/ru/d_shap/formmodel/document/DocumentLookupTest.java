@@ -19,8 +19,15 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.formmodel.document;
 
-import org.junit.Test;
+import java.util.List;
 
+import javax.xml.xpath.XPathExpressionException;
+
+import org.junit.Test;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
+import ru.d_shap.assertions.Assertions;
 import ru.d_shap.formmodel.BaseFormModelTest;
 
 /**
@@ -42,7 +49,7 @@ public final class DocumentLookupTest extends BaseFormModelTest {
      */
     @Test
     public void createNewObjectTest() {
-
+        Assertions.assertThat(new DocumentLookup()).isNotNull();
     }
 
     /**
@@ -50,7 +57,8 @@ public final class DocumentLookupTest extends BaseFormModelTest {
      */
     @Test
     public void getDocumentLookupTest() {
-
+        Assertions.assertThat(DocumentLookup.getDocumentLookup()).isNotNull();
+        Assertions.assertThat(DocumentLookup.getDocumentLookup()).isNotSameAs(DocumentLookup.getDocumentLookup());
     }
 
     /**
@@ -58,7 +66,63 @@ public final class DocumentLookupTest extends BaseFormModelTest {
      */
     @Test
     public void getElementsTest() {
+        String xml = "<?xml version='1.0'?>\n";
+        xml += "<document>";
+        xml += "<element>value1</element>";
+        xml += "<element>value2</element>";
+        xml += "</document>";
+        Document document = parse(xml);
+        List<Element> elements1 = DocumentLookup.getDocumentLookup().getElements(document, "/document");
+        Assertions.assertThat(elements1).hasSize(1);
+        Assertions.assertThat(elements1.get(0).getTextContent()).isEqualTo("value1value2");
 
+        List<Element> elements2 = DocumentLookup.getDocumentLookup().getElements(document, "//element");
+        Assertions.assertThat(elements2).hasSize(2);
+        Assertions.assertThat(elements2.get(0).getTextContent()).isEqualTo("value1");
+        Assertions.assertThat(elements2.get(1).getTextContent()).isEqualTo("value2");
+    }
+
+    /**
+     * {@link DocumentLookup} class test.
+     */
+    @Test
+    public void getElementsWrongReturnTypeTest() {
+        String xml1 = "<?xml version='1.0'?>\n";
+        xml1 += "<document>";
+        xml1 += "<element attr='val'>value</element>";
+        xml1 += "<!--COMMENT TEXT-->";
+        xml1 += "</document>";
+        Document document1 = parse(xml1);
+        List<Element> elements1 = DocumentLookup.getDocumentLookup().getElements(document1, "//element/@attr");
+        Assertions.assertThat(elements1).hasSize(0);
+
+        String xml2 = "<?xml version='1.0'?>\n";
+        xml2 += "<document>";
+        xml2 += "<element>value</element>";
+        xml2 += "<!--COMMENT TEXT-->";
+        xml2 += "</document>";
+        Document document2 = parse(xml2);
+        List<Element> elements2 = DocumentLookup.getDocumentLookup().getElements(document2, "//element/following::comment()[1]");
+        Assertions.assertThat(elements2).hasSize(0);
+    }
+
+    /**
+     * {@link DocumentLookup} class test.
+     */
+    @Test
+    public void getElementsWrongXPathFailTest() {
+        try {
+            String xml = "<?xml version='1.0'?>\n";
+            xml += "<document>";
+            xml += "<element>value</element>";
+            xml += "<!--COMMENT TEXT-->";
+            xml += "</document>";
+            Document document = parse(xml);
+            DocumentLookup.getDocumentLookup().getElements(document, "//element/wrongaxisname::comment()[1]");
+            Assertions.fail("DocumentLookup test fail");
+        } catch (DocumentLookupException ex) {
+            Assertions.assertThat(ex).hasCause(XPathExpressionException.class);
+        }
     }
 
     /**
