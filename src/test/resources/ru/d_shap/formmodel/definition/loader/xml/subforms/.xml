@@ -1,0 +1,4 @@
+<?xml version='1.0'?>
+<ns1:form group='subforms' id='noFileNameForm' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>
+    <ns1:element id='id' lookup='lookup' />
+</ns1:form>
