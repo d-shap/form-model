@@ -48,8 +48,6 @@ public interface FormXmlDefinitionBuilder {
 
     Set<String> FORM_DEFINITION_CHILD_ELEMENT_NAMES = FormDefinition.CHILD_ELEMENT_NAMES;
 
-    Set<String> FORM_DEFINITION_ATTRIBUTE_NAMES = FormDefinition.ATTRIBUTE_NAMES;
-
     String ATTRIBUTE_DEFINITION_ELEMENT_NAME = AttributeDefinition.ELEMENT_NAME;
 
     String ATTRIBUTE_DEFINITION_ATTRIBUTE_ID = AttributeDefinition.ATTRIBUTE_ID;
@@ -59,8 +57,6 @@ public interface FormXmlDefinitionBuilder {
     String ATTRIBUTE_DEFINITION_ATTRIBUTE_TYPE = AttributeDefinition.ATTRIBUTE_TYPE;
 
     Set<String> ATTRIBUTE_DEFINITION_CHILD_ELEMENT_NAMES = AttributeDefinition.CHILD_ELEMENT_NAMES;
-
-    Set<String> ATTRIBUTE_DEFINITION_ATTRIBUTE_NAMES = AttributeDefinition.ATTRIBUTE_NAMES;
 
     String ELEMENT_DEFINITION_ELEMENT_NAME = ElementDefinition.ELEMENT_NAME;
 
@@ -72,8 +68,6 @@ public interface FormXmlDefinitionBuilder {
 
     Set<String> ELEMENT_DEFINITION_CHILD_ELEMENT_NAMES = ElementDefinition.CHILD_ELEMENT_NAMES;
 
-    Set<String> ELEMENT_DEFINITION_ATTRIBUTE_NAMES = ElementDefinition.ATTRIBUTE_NAMES;
-
     String SINGLE_ELEMENT_DEFINITION_ELEMENT_NAME = SingleElementDefinition.ELEMENT_NAME;
 
     String SINGLE_ELEMENT_DEFINITION_ATTRIBUTE_ID = SingleElementDefinition.ATTRIBUTE_ID;
@@ -82,8 +76,6 @@ public interface FormXmlDefinitionBuilder {
 
     Set<String> SINGLE_ELEMENT_DEFINITION_CHILD_ELEMENT_NAMES = SingleElementDefinition.CHILD_ELEMENT_NAMES;
 
-    Set<String> SINGLE_ELEMENT_DEFINITION_ATTRIBUTE_NAMES = SingleElementDefinition.ATTRIBUTE_NAMES;
-
     String FORM_REFERENCE_DEFINITION_ELEMENT_NAME = FormReferenceDefinition.ELEMENT_NAME;
 
     String FORM_REFERENCE_DEFINITION_ATTRIBUTE_GROUP = FormReferenceDefinition.ATTRIBUTE_GROUP;
@@ -91,8 +83,6 @@ public interface FormXmlDefinitionBuilder {
     String FORM_REFERENCE_DEFINITION_ATTRIBUTE_ID = FormReferenceDefinition.ATTRIBUTE_ID;
 
     Set<String> FORM_REFERENCE_DEFINITION_CHILD_ELEMENT_NAMES = FormReferenceDefinition.CHILD_ELEMENT_NAMES;
-
-    Set<String> FORM_REFERENCE_DEFINITION_ATTRIBUTE_NAMES = FormReferenceDefinition.ATTRIBUTE_NAMES;
 
     /**
      * Check if the specified XML element is the attribute definition.
