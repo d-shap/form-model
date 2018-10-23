@@ -33,14 +33,14 @@ import ru.d_shap.formmodel.definition.model.ElementDefinition;
 import ru.d_shap.formmodel.definition.model.FormDefinition;
 
 /**
- * Form instance binder to bind the form definition with the binding source.
+ * Form instance binder to bind the binding source with the form definition.
  *
  * @author Dmitry Shapovalov
  */
 public interface FormInstanceBinder {
 
     /**
-     * Callback method is called before the form definition is binded with the binding source.
+     * Callback method is called before the binding source is binded with the form definition.
      *
      * @param bindingSource  the binding source.
      * @param formDefinition the form definition.
@@ -48,7 +48,7 @@ public interface FormInstanceBinder {
     void preBind(BindingSource bindingSource, FormDefinition formDefinition);
 
     /**
-     * Callback method is called after the form definition is binded with the binding source.
+     * Callback method is called after the binding source is binded with the form definition.
      *
      * @param bindingSource  the binding source.
      * @param formDefinition the form definition.
@@ -57,7 +57,7 @@ public interface FormInstanceBinder {
     void postBind(BindingSource bindingSource, FormDefinition formDefinition, Document document);
 
     /**
-     * Bind the form definition with the binding source.
+     * Bind the binding source with the form definition.
      *
      * @param bindingSource     the binding source.
      * @param lastBindedForm    the last binded form.
@@ -70,7 +70,7 @@ public interface FormInstanceBinder {
     BindedForm bindFormDefinition(BindingSource bindingSource, BindedForm lastBindedForm, BindedElement lastBindedElement, Element parentElement, FormDefinition formDefinition);
 
     /**
-     * Bind the element definition with the binding source.
+     * Bind the binding source with the element definition.
      *
      * @param bindingSource     the binding source.
      * @param lastBindedForm    the last binded form.
@@ -83,7 +83,7 @@ public interface FormInstanceBinder {
     List<BindedElement> bindElementDefinition(BindingSource bindingSource, BindedForm lastBindedForm, BindedElement lastBindedElement, Element parentElement, ElementDefinition elementDefinition);
 
     /**
-     * Bind the attribute definition with the binding source.
+     * Bind the binding source with the attribute definition.
      *
      * @param bindingSource       the binding source.
      * @param lastBindedForm      the last binded form.
