@@ -24,9 +24,11 @@ import java.util.List;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.xml.sax.SAXParseException;
 
 import ru.d_shap.assertions.Assertions;
 import ru.d_shap.formmodel.BaseFormModelTest;
+import ru.d_shap.formmodel.definition.FormDefinitionValidationException;
 import ru.d_shap.formmodel.definition.model.FormDefinition;
 
 /**
@@ -81,39 +83,51 @@ public final class FormXmlDefinitionsElementLoaderTest extends BaseFormModelTest
         xml2 += "</ns1:form>";
         xml2 += "<form id='id4'>";
         xml2 += "</form>";
+        xml2 += "<ns1:form id='id5'>";
+        xml2 += "<ns1:wrongElement>";
+        xml2 += "</ns1:wrongElement>";
+        xml2 += "</ns1:form>";
         xml2 += "</root>";
         Document document2 = parse(xml2);
 
-        FormXmlDefinitionsElementLoader formXmlDefinitionsElementLoader21 = new FormXmlDefinitionsElementLoader((Element) document2.getDocumentElement().getChildNodes().item(0), "source11");
+        FormXmlDefinitionsElementLoader formXmlDefinitionsElementLoader21 = new FormXmlDefinitionsElementLoader((Element) document2.getDocumentElement().getChildNodes().item(0), "source21");
         List<FormDefinition> formDefinitions21 = formXmlDefinitionsElementLoader21.load();
         Assertions.assertThat(formDefinitions21).hasSize(1);
         Assertions.assertThat(formDefinitions21.get(0).getGroup()).isEqualTo("");
         Assertions.assertThat(formDefinitions21.get(0).getId()).isEqualTo("id1");
         Assertions.assertThat(formDefinitions21.get(0).getAllNodeDefinitions()).isEmpty();
         Assertions.assertThat(formDefinitions21.get(0).getOtherAttributeNames()).isEmpty();
-        Assertions.assertThat(formDefinitions21.get(0).getSource()).isEqualTo("source11");
+        Assertions.assertThat(formDefinitions21.get(0).getSource()).isEqualTo("source21");
 
-        FormXmlDefinitionsElementLoader formXmlDefinitionsElementLoader22 = new FormXmlDefinitionsElementLoader((Element) document2.getDocumentElement().getChildNodes().item(1), "source12");
+        FormXmlDefinitionsElementLoader formXmlDefinitionsElementLoader22 = new FormXmlDefinitionsElementLoader((Element) document2.getDocumentElement().getChildNodes().item(1), "source22");
         List<FormDefinition> formDefinitions22 = formXmlDefinitionsElementLoader22.load();
         Assertions.assertThat(formDefinitions22).hasSize(1);
         Assertions.assertThat(formDefinitions22.get(0).getGroup()).isEqualTo("");
         Assertions.assertThat(formDefinitions22.get(0).getId()).isEqualTo("id2");
         Assertions.assertThat(formDefinitions22.get(0).getAllNodeDefinitions()).isEmpty();
         Assertions.assertThat(formDefinitions22.get(0).getOtherAttributeNames()).isEmpty();
-        Assertions.assertThat(formDefinitions22.get(0).getSource()).isEqualTo("source12");
+        Assertions.assertThat(formDefinitions22.get(0).getSource()).isEqualTo("source22");
 
-        FormXmlDefinitionsElementLoader formXmlDefinitionsElementLoader23 = new FormXmlDefinitionsElementLoader((Element) document2.getDocumentElement().getChildNodes().item(2), "source13");
+        FormXmlDefinitionsElementLoader formXmlDefinitionsElementLoader23 = new FormXmlDefinitionsElementLoader((Element) document2.getDocumentElement().getChildNodes().item(2), "source23");
         List<FormDefinition> formDefinitions23 = formXmlDefinitionsElementLoader23.load();
         Assertions.assertThat(formDefinitions23).hasSize(1);
         Assertions.assertThat(formDefinitions23.get(0).getGroup()).isEqualTo("");
         Assertions.assertThat(formDefinitions23.get(0).getId()).isEqualTo("id3");
         Assertions.assertThat(formDefinitions23.get(0).getAllNodeDefinitions()).isEmpty();
         Assertions.assertThat(formDefinitions23.get(0).getOtherAttributeNames()).isEmpty();
-        Assertions.assertThat(formDefinitions23.get(0).getSource()).isEqualTo("source13");
+        Assertions.assertThat(formDefinitions23.get(0).getSource()).isEqualTo("source23");
 
-        FormXmlDefinitionsElementLoader formXmlDefinitionsElementLoader24 = new FormXmlDefinitionsElementLoader((Element) document2.getDocumentElement().getChildNodes().item(3), "source14");
+        FormXmlDefinitionsElementLoader formXmlDefinitionsElementLoader24 = new FormXmlDefinitionsElementLoader((Element) document2.getDocumentElement().getChildNodes().item(3), "source24");
         List<FormDefinition> formDefinitions24 = formXmlDefinitionsElementLoader24.load();
         Assertions.assertThat(formDefinitions24).hasSize(0);
+
+        try {
+            FormXmlDefinitionsElementLoader formXmlDefinitionsElementLoader25 = new FormXmlDefinitionsElementLoader((Element) document2.getDocumentElement().getChildNodes().item(4), "source25");
+            formXmlDefinitionsElementLoader25.load();
+            Assertions.fail("FormXmlDefinitionsElementLoader test fail");
+        } catch (FormDefinitionValidationException ex) {
+            Assertions.assertThat(ex).hasCause(SAXParseException.class);
+        }
     }
 
 }
