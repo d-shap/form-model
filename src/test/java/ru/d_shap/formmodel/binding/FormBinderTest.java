@@ -27,7 +27,6 @@ import org.xml.sax.SAXException;
 
 import ru.d_shap.assertions.Assertions;
 import ru.d_shap.formmodel.BaseFormModelTest;
-import ru.d_shap.formmodel.ServiceFinder;
 import ru.d_shap.formmodel.binding.model.BindingSourceImpl;
 import ru.d_shap.formmodel.definition.FormDefinitionNotFoundException;
 import ru.d_shap.formmodel.definition.model.FormDefinitions;
@@ -243,9 +242,47 @@ public final class FormBinderTest extends BaseFormModelTest {
         }
     }
 
-    private FormInstanceBuilderImpl createBinder(final FormDefinitions formDefinitions) {
-        List<OtherNodeInstanceBuilder> otherNodeInstanceBuilders = ServiceFinder.find(OtherNodeInstanceBuilder.class);
-        return new FormInstanceBuilderImpl(formDefinitions, new FormInstanceBinderImpl(), otherNodeInstanceBuilders);
+    /**
+     * {@link FormBinder} class test.
+     */
+    @Test
+    public void formInstanceBuilderCallbackEventsTest() {
+        String xml1 = "<?xml version='1.0'?>\n";
+        xml1 += "<ns1:form group='group' id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml1 += "<ns1:element id='el-id' lookup='lookup' type='required+' repr='repr1' count='3'>";
+        xml1 += "</ns1:element>";
+        xml1 += "</ns1:form>";
+        FormDefinitions formDefinitions1 = createFormDefinitionsFromXml(xml1);
+        FormInstanceBinderImpl formInstanceBinder1 = new FormInstanceBinderImpl();
+        FormBinder formBinder1 = new FormBinder(formDefinitions1, formInstanceBinder1);
+        Assertions.assertThat(formInstanceBinder1.getFormDefinition()).isNull();
+        Assertions.assertThat(formInstanceBinder1.getFormDefinition()).isNull();
+        Assertions.assertThat(formInstanceBinder1.getDocument()).isNull();
+        Document document1 = formBinder1.bind(new BindingSourceImpl("source"), "group", "id");
+        Assertions.assertThat(formInstanceBinder1.getFormDefinition()).isNull();
+        Assertions.assertThat(formInstanceBinder1.getFormDefinition()).isNull();
+        Assertions.assertThat(formInstanceBinder1.getDocument()).isSameAs(document1);
+
+        FormInstanceBinderImpl formInstanceBinder2 = new FormInstanceBinderImpl();
+        try {
+            String xml2 = "<?xml version='1.0'?>\n";
+            xml2 += "<ns1:form group='group' id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+            xml2 += "<ns1:element id='el-id' lookup='lookup' type='required+' repr='repr1' count='0'>";
+            xml2 += "</ns1:element>";
+            xml2 += "</ns1:form>";
+            FormDefinitions formDefinitions2 = createFormDefinitionsFromXml(xml2);
+            FormBinder formBinder2 = new FormBinder(formDefinitions2, formInstanceBinder2);
+            Assertions.assertThat(formInstanceBinder2.getFormDefinition()).isNull();
+            Assertions.assertThat(formInstanceBinder2.getFormDefinition()).isNull();
+            Assertions.assertThat(formInstanceBinder2.getDocument()).isNull();
+            formBinder2.bind(new BindingSourceImpl("source"), "group", "id");
+            Assertions.fail("FormBinder test fail");
+        } catch (FormBindingException ex) {
+            Assertions.assertThat(ex).hasMessage("[Required element is not present: element[@el-id]], {source}form[@group:id]");
+        }
+        Assertions.assertThat(formInstanceBinder2.getFormDefinition()).isNull();
+        Assertions.assertThat(formInstanceBinder2.getFormDefinition()).isNull();
+        Assertions.assertThat(formInstanceBinder2.getDocument()).isNull();
     }
 
 }
