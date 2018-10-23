@@ -68,7 +68,7 @@ final class FormXmlDefinitionBuilderImpl implements FormXmlDefinitionBuilder {
             String id = getAttributeValue(element, FORM_DEFINITION_ATTRIBUTE_ID);
             NodePath currentNodePath = new NodePath(Messages.Representation.getFormDefinitionRepresentation(source, group, id));
             List<NodeDefinition> nodeDefinitions = getNodeDefinitions(element, FORM_DEFINITION_CHILD_ELEMENT_NAMES, currentNodePath);
-            Map<String, String> otherAttributes = getOtherAttributes(element, FORM_DEFINITION_ATTRIBUTE_NAMES);
+            Map<String, String> otherAttributes = getOtherAttributes(element);
             return new FormDefinition(group, id, nodeDefinitions, otherAttributes, source);
         } else {
             throw new FormDefinitionValidationException(Messages.Validation.getFormDefinitionIsNotValidMessage(element));
@@ -89,7 +89,7 @@ final class FormXmlDefinitionBuilderImpl implements FormXmlDefinitionBuilder {
             CardinalityDefinition cardinalityDefinition = getCardinalityDefinition(element, ATTRIBUTE_DEFINITION_ATTRIBUTE_TYPE, defaultCardinalityDefinition);
             NodePath currentNodePath = new NodePath(nodePath, Messages.Representation.getAttributeDefinitionRepresentation(id));
             List<NodeDefinition> nodeDefinitions = getNodeDefinitions(element, ATTRIBUTE_DEFINITION_CHILD_ELEMENT_NAMES, currentNodePath);
-            Map<String, String> otherAttributes = getOtherAttributes(element, ATTRIBUTE_DEFINITION_ATTRIBUTE_NAMES);
+            Map<String, String> otherAttributes = getOtherAttributes(element);
             return new AttributeDefinition(id, lookup, cardinalityDefinition, nodeDefinitions, otherAttributes);
         } else {
             throw new FormDefinitionValidationException(Messages.Validation.getAttributeDefinitionIsNotValidMessage(element), nodePath);
@@ -123,7 +123,7 @@ final class FormXmlDefinitionBuilderImpl implements FormXmlDefinitionBuilder {
             CardinalityDefinition cardinalityDefinition = getCardinalityDefinition(element, ELEMENT_DEFINITION_ATTRIBUTE_TYPE, defaultCardinalityDefinition);
             NodePath currentNodePath = new NodePath(nodePath, Messages.Representation.getElementDefinitionRepresentation(id));
             List<NodeDefinition> nodeDefinitions = getNodeDefinitions(element, ELEMENT_DEFINITION_CHILD_ELEMENT_NAMES, currentNodePath);
-            Map<String, String> otherAttributes = getOtherAttributes(element, ELEMENT_DEFINITION_ATTRIBUTE_NAMES);
+            Map<String, String> otherAttributes = getOtherAttributes(element);
             return new ElementDefinition(id, lookup, cardinalityDefinition, nodeDefinitions, otherAttributes);
         } else {
             throw new FormDefinitionValidationException(Messages.Validation.getElementDefinitionIsNotValidMessage(element), nodePath);
@@ -160,7 +160,7 @@ final class FormXmlDefinitionBuilderImpl implements FormXmlDefinitionBuilder {
             CardinalityDefinition cardinalityDefinition = getCardinalityDefinition(element, SINGLE_ELEMENT_DEFINITION_ATTRIBUTE_TYPE, defaultCardinalityDefinition);
             NodePath currentNodePath = new NodePath(nodePath, Messages.Representation.getSingleElementDefinitionRepresentation(id));
             List<NodeDefinition> nodeDefinitions = getNodeDefinitions(element, SINGLE_ELEMENT_DEFINITION_CHILD_ELEMENT_NAMES, currentNodePath);
-            Map<String, String> otherAttributes = getOtherAttributes(element, SINGLE_ELEMENT_DEFINITION_ATTRIBUTE_NAMES);
+            Map<String, String> otherAttributes = getOtherAttributes(element);
             return new SingleElementDefinition(id, cardinalityDefinition, nodeDefinitions, otherAttributes);
         } else {
             throw new FormDefinitionValidationException(Messages.Validation.getSingleElementDefinitionIsNotValidMessage(element), nodePath);
@@ -196,7 +196,7 @@ final class FormXmlDefinitionBuilderImpl implements FormXmlDefinitionBuilder {
             String id = getAttributeValue(element, FORM_REFERENCE_DEFINITION_ATTRIBUTE_ID);
             NodePath currentNodePath = new NodePath(nodePath, Messages.Representation.getFormReferenceDefinitionRepresentation(group, id));
             List<NodeDefinition> nodeDefinitions = getNodeDefinitions(element, FORM_REFERENCE_DEFINITION_CHILD_ELEMENT_NAMES, currentNodePath);
-            Map<String, String> otherAttributes = getOtherAttributes(element, FORM_REFERENCE_DEFINITION_ATTRIBUTE_NAMES);
+            Map<String, String> otherAttributes = getOtherAttributes(element);
             return new FormReferenceDefinition(group, id, nodeDefinitions, otherAttributes);
         } else {
             throw new FormDefinitionValidationException(Messages.Validation.getFormReferenceDefinitionIsNotValidMessage(element), nodePath);
@@ -286,7 +286,7 @@ final class FormXmlDefinitionBuilderImpl implements FormXmlDefinitionBuilder {
         throw new FormDefinitionValidationException(Messages.Validation.getChildElementIsNotValidMessage(element), nodePath);
     }
 
-    private Map<String, String> getOtherAttributes(final Element element, final Set<String> skipAttributeNames) {
+    private Map<String, String> getOtherAttributes(final Element element) {
         Map<String, String> additionalAttributes = new HashMap<>();
         NamedNodeMap namedNodeMap = element.getAttributes();
         for (int i = 0; i < namedNodeMap.getLength(); i++) {
@@ -295,9 +295,6 @@ final class FormXmlDefinitionBuilderImpl implements FormXmlDefinitionBuilder {
                 continue;
             }
             String attributeName = Messages.Representation.getNodeRepresentation(node);
-            if (skipAttributeNames.contains(attributeName)) {
-                continue;
-            }
             String attributeValue = node.getNodeValue();
             additionalAttributes.put(attributeName, attributeValue);
         }
