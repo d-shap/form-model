@@ -253,23 +253,24 @@ final class FormXmlDefinitionBuilderImpl implements FormXmlDefinitionBuilder {
     }
 
     private void processChildElement(final Element parentElement, final Element element, final List<NodeDefinition> nodeDefinitions, final Set<String> childElementNames, final NodePath nodePath) {
-        if (NAMESPACE.equals(element.getNamespaceURI()) && childElementNames.contains(element.getLocalName())) {
-            if (ATTRIBUTE_DEFINITION_ELEMENT_NAME.equals(element.getLocalName())) {
+        if (NAMESPACE.equals(element.getNamespaceURI())) {
+            String localName = element.getLocalName();
+            if (ATTRIBUTE_DEFINITION_ELEMENT_NAME.equals(localName) && childElementNames.contains(localName)) {
                 NodeDefinition nodeDefinition = createAttributeDefinition(parentElement, element, nodePath);
                 nodeDefinitions.add(nodeDefinition);
                 return;
             }
-            if (ELEMENT_DEFINITION_ELEMENT_NAME.equals(element.getLocalName())) {
+            if (ELEMENT_DEFINITION_ELEMENT_NAME.equals(localName) && childElementNames.contains(localName)) {
                 NodeDefinition nodeDefinition = createElementDefinition(parentElement, element, nodePath);
                 nodeDefinitions.add(nodeDefinition);
                 return;
             }
-            if (SINGLE_ELEMENT_DEFINITION_ELEMENT_NAME.equals(element.getLocalName())) {
+            if (SINGLE_ELEMENT_DEFINITION_ELEMENT_NAME.equals(localName) && childElementNames.contains(localName)) {
                 NodeDefinition nodeDefinition = createSingleElementDefinition(parentElement, element, nodePath);
                 nodeDefinitions.add(nodeDefinition);
                 return;
             }
-            if (FORM_REFERENCE_DEFINITION_ELEMENT_NAME.equals(element.getLocalName())) {
+            if (FORM_REFERENCE_DEFINITION_ELEMENT_NAME.equals(localName) && childElementNames.contains(localName)) {
                 NodeDefinition nodeDefinition = createFormReferenceDefinition(parentElement, element, nodePath);
                 nodeDefinitions.add(nodeDefinition);
                 return;
