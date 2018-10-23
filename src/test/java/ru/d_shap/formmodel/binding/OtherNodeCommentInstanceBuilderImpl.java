@@ -36,21 +36,32 @@ import ru.d_shap.formmodel.definition.model.OtherNodeDefinition;
  */
 public final class OtherNodeCommentInstanceBuilderImpl implements OtherNodeInstanceBuilder {
 
-    private final boolean _compatible;
+    public static final String COPMATIBLE_BUILDER = "__COPMATIBLE_BUILDER__";
 
     /**
      * Create new object.
-     *
-     * @param compatible true if this builder is compatible with the binder.
      */
-    public OtherNodeCommentInstanceBuilderImpl(final boolean compatible) {
+    public OtherNodeCommentInstanceBuilderImpl() {
         super();
-        _compatible = compatible;
+    }
+
+    /**
+     * Set system property to make this instance builder compatible with any binder.
+     */
+    public static void setCopmatibleBuilder() {
+        System.setProperty(COPMATIBLE_BUILDER, "true");
+    }
+
+    /**
+     * Clear system property to make this instance builder compatible with any binder.
+     */
+    public static void clearCopmatibleBuilder() {
+        System.getProperties().remove(COPMATIBLE_BUILDER);
     }
 
     @Override
     public boolean isCompatible(final Class<? extends FormInstanceBinder> clazz) {
-        return _compatible;
+        return "true".equalsIgnoreCase(System.getProperty(COPMATIBLE_BUILDER));
     }
 
     @Override
