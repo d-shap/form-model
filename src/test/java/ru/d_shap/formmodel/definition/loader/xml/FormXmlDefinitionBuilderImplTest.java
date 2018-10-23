@@ -260,7 +260,7 @@ public final class FormXmlDefinitionBuilderImplTest extends BaseFormModelTest {
     @Test
     public void createFormDefinitionAttributeOtherTest() {
         String xml1 = "<?xml version='1.0'?>\n";
-        xml1 += "<ns1:form xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml1 += "<ns1:form id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
         xml1 += "</ns1:form>";
         Document document1 = parse(xml1);
         Element element1 = document1.getDocumentElement();
@@ -268,7 +268,7 @@ public final class FormXmlDefinitionBuilderImplTest extends BaseFormModelTest {
         Assertions.assertThat(formDefinition1.getOtherAttributeNames()).containsExactly();
 
         String xml2 = "<?xml version='1.0'?>\n";
-        xml2 += "<ns1:form attr='value' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml2 += "<ns1:form id='id' attr='value' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
         xml2 += "</ns1:form>";
         Document document2 = parse(xml2);
         Element element2 = document2.getDocumentElement();
@@ -277,7 +277,7 @@ public final class FormXmlDefinitionBuilderImplTest extends BaseFormModelTest {
         Assertions.assertThat(formDefinition2.getOtherAttributeValue("attr")).isEqualTo("value");
 
         String xml3 = "<?xml version='1.0'?>\n";
-        xml3 += "<ns1:form ns2:xmlns='value' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0' xmlns:ns2='http://example.com'>";
+        xml3 += "<ns1:form id='id' ns2:xmlns='value' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0' xmlns:ns2='http://example.com'>";
         xml3 += "</ns1:form>";
         Document document3 = parse(xml3);
         Element element3 = document3.getDocumentElement();
