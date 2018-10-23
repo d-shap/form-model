@@ -42,15 +42,31 @@ import ru.d_shap.formmodel.definition.model.SingleElementDefinition;
  */
 public final class OtherNodeXmlDefinitionBuilderImpl implements OtherNodeXmlDefinitionBuilder {
 
-    private static final String NAMESPACE = "http://d-shap.ru/schema/form-model-other-node/1.0";
+    public static final String NAMESPACE = "http://d-shap.ru/schema/form-model-other-node/1.0";
 
-    private static final String LOCAL_NAME = "otherNode";
+    public static final String LOCAL_NAME = "otherNode";
+
+    public static final String RETURN_NOT_NULL_CARDINALITY = "__RETURN_NOT_NULL_CARDINALITY__";
 
     /**
      * Create new object.
      */
     public OtherNodeXmlDefinitionBuilderImpl() {
         super();
+    }
+
+    /**
+     * Set system property to return not null cardinality definition for other nodes.
+     */
+    public static void setReturnNotNullCardinality() {
+        System.setProperty(RETURN_NOT_NULL_CARDINALITY, "true");
+    }
+
+    /**
+     * Clear system property to return not null cardinality definition for other nodes.
+     */
+    public static void clearReturnNotNullCardinality() {
+        System.getProperties().remove(RETURN_NOT_NULL_CARDINALITY);
     }
 
     @Override
@@ -120,25 +136,37 @@ public final class OtherNodeXmlDefinitionBuilderImpl implements OtherNodeXmlDefi
     @Override
     public CardinalityDefinition getAttributeDefinitionCardinality(final Element parentElement) {
         if (NAMESPACE.equals(parentElement.getNamespaceURI()) && LOCAL_NAME.equals(parentElement.getLocalName())) {
-            return CardinalityDefinition.PROHIBITED;
+            return getThisNodeCardinality();
         } else {
-            return null;
+            return getThatNodeCardinality();
         }
     }
 
     @Override
     public CardinalityDefinition getElementDefinitionCardinality(final Element parentElement) {
         if (NAMESPACE.equals(parentElement.getNamespaceURI()) && LOCAL_NAME.equals(parentElement.getLocalName())) {
-            return CardinalityDefinition.PROHIBITED;
+            return getThisNodeCardinality();
         } else {
-            return null;
+            return getThatNodeCardinality();
         }
     }
 
     @Override
     public CardinalityDefinition getSingleElementDefinitionCardinality(final Element parentElement) {
         if (NAMESPACE.equals(parentElement.getNamespaceURI()) && LOCAL_NAME.equals(parentElement.getLocalName())) {
-            return CardinalityDefinition.PROHIBITED;
+            return getThisNodeCardinality();
+        } else {
+            return getThatNodeCardinality();
+        }
+    }
+
+    private CardinalityDefinition getThisNodeCardinality() {
+        return CardinalityDefinition.PROHIBITED;
+    }
+
+    private CardinalityDefinition getThatNodeCardinality() {
+        if ("true".equalsIgnoreCase(System.getProperty(RETURN_NOT_NULL_CARDINALITY))) {
+            return CardinalityDefinition.REQUIRED_MULTIPLE;
         } else {
             return null;
         }
