@@ -40,6 +40,8 @@ public final class OtherNodeInstanceBuilderImpl implements OtherNodeInstanceBuil
 
     private static final String LOCAL_NAME = "otherNode";
 
+    private static final String FAIL_ON_BIND = "failOnBind";
+
     private static final String INSERT_INVALID_ELEMENT_REPRESENTATION = "insertInvalidElement";
 
     private static final String INSERT_INVALID_NODE_DEFINITION = "insertInvalidNodeDefinition";
@@ -60,6 +62,9 @@ public final class OtherNodeInstanceBuilderImpl implements OtherNodeInstanceBuil
     public void buildOtherNodeInstance(final BindingSource bindingSource, final Document document, final BindedForm lastBindedForm, final BindedElement lastBindedElement, final Element parentElement, final OtherNodeDefinition otherNodeDefinition, final FormInstanceBuilder formInstanceBuilder, final NodePath nodePath) {
         if (otherNodeDefinition instanceof OtherNodeDefinitionImpl) {
             String representation = ((OtherNodeDefinitionImpl) otherNodeDefinition).getRepresentation();
+            if (FAIL_ON_BIND.equalsIgnoreCase(representation)) {
+                throw new FormBindingException("[Fail on bind]", nodePath);
+            }
             Element element;
             if (INSERT_INVALID_ELEMENT_REPRESENTATION.equalsIgnoreCase(representation)) {
                 element = document.createElementNS(FormInstanceBuilder.NAMESPACE, LOCAL_NAME);
