@@ -205,7 +205,7 @@ final class FormXmlDefinitionBuilderImpl implements FormXmlDefinitionBuilder {
 
     @Override
     public boolean isOtherNodeDefinition(final Element element) {
-        return !NAMESPACE.equals(element.getNamespaceURI());
+        return element.getNamespaceURI() != null && !NAMESPACE.equals(element.getNamespaceURI());
     }
 
     @Override
