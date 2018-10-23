@@ -253,37 +253,24 @@ final class FormXmlDefinitionBuilderImpl implements FormXmlDefinitionBuilder {
     }
 
     private void processChildElement(final Element parentElement, final Element element, final List<NodeDefinition> nodeDefinitions, final Set<String> childElementNames, final NodePath nodePath) {
+        NodeDefinition nodeDefinition;
         if (isOtherNodeDefinition(element)) {
-            OtherNodeDefinition otherNodeDefinition = createOtherNodeDefinition(parentElement, element, nodePath);
-            nodeDefinitions.add(otherNodeDefinition);
+            nodeDefinition = createOtherNodeDefinition(parentElement, element, nodePath);
         } else {
-            addNodeDefinition(parentElement, element, nodeDefinitions, childElementNames, nodePath);
+            String localName = element.getLocalName();
+            if (ATTRIBUTE_DEFINITION_ELEMENT_NAME.equals(localName) && childElementNames.contains(localName)) {
+                nodeDefinition = createAttributeDefinition(parentElement, element, nodePath);
+            } else if (ELEMENT_DEFINITION_ELEMENT_NAME.equals(localName) && childElementNames.contains(localName)) {
+                nodeDefinition = createElementDefinition(parentElement, element, nodePath);
+            } else if (SINGLE_ELEMENT_DEFINITION_ELEMENT_NAME.equals(localName) && childElementNames.contains(localName)) {
+                nodeDefinition = createSingleElementDefinition(parentElement, element, nodePath);
+            } else if (FORM_REFERENCE_DEFINITION_ELEMENT_NAME.equals(localName) && childElementNames.contains(localName)) {
+                nodeDefinition = createFormReferenceDefinition(parentElement, element, nodePath);
+            } else {
+                throw new FormDefinitionValidationException(Messages.Validation.getChildElementIsNotValidMessage(element), nodePath);
+            }
         }
-    }
-
-    private void addNodeDefinition(final Element parentElement, final Element element, final List<NodeDefinition> nodeDefinitions, final Set<String> childElementNames, final NodePath nodePath) {
-        String localName = element.getLocalName();
-        if (ATTRIBUTE_DEFINITION_ELEMENT_NAME.equals(localName) && childElementNames.contains(localName)) {
-            NodeDefinition nodeDefinition = createAttributeDefinition(parentElement, element, nodePath);
-            nodeDefinitions.add(nodeDefinition);
-            return;
-        }
-        if (ELEMENT_DEFINITION_ELEMENT_NAME.equals(localName) && childElementNames.contains(localName)) {
-            NodeDefinition nodeDefinition = createElementDefinition(parentElement, element, nodePath);
-            nodeDefinitions.add(nodeDefinition);
-            return;
-        }
-        if (SINGLE_ELEMENT_DEFINITION_ELEMENT_NAME.equals(localName) && childElementNames.contains(localName)) {
-            NodeDefinition nodeDefinition = createSingleElementDefinition(parentElement, element, nodePath);
-            nodeDefinitions.add(nodeDefinition);
-            return;
-        }
-        if (FORM_REFERENCE_DEFINITION_ELEMENT_NAME.equals(localName) && childElementNames.contains(localName)) {
-            NodeDefinition nodeDefinition = createFormReferenceDefinition(parentElement, element, nodePath);
-            nodeDefinitions.add(nodeDefinition);
-            return;
-        }
-        throw new FormDefinitionValidationException(Messages.Validation.getChildElementIsNotValidMessage(element), nodePath);
+        nodeDefinitions.add(nodeDefinition);
     }
 
     private Map<String, String> getOtherAttributes(final Element element) {
