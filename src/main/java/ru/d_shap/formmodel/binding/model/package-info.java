@@ -18,6 +18,17 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 /**
+ * <p>
  * Form-model binding model.
+ * </p>
+ * <p>
+ * The {@link ru.d_shap.formmodel.binding.FormInstanceBinder} binds the
+ * {@link ru.d_shap.formmodel.binding.model.BindingSource} instance with the
+ * {@link ru.d_shap.formmodel.definition.model.FormDefinition} instance.
+ * The {@link ru.d_shap.formmodel.binding.FormInstanceBinder} creates the instances of the
+ * {@link ru.d_shap.formmodel.binding.model.BindedForm}, the {@link ru.d_shap.formmodel.binding.model.BindedElement}
+ * and the {@link ru.d_shap.formmodel.binding.model.BindedAttribute}. This instances are
+ * attached as the user data to the elements of the result XML DOM Document.
+ * </p>
  */
 package ru.d_shap.formmodel.binding.model;
