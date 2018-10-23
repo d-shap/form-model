@@ -253,11 +253,6 @@ final class FormXmlDefinitionBuilderImpl implements FormXmlDefinitionBuilder {
     }
 
     private void processChildElement(final Element parentElement, final Element element, final List<NodeDefinition> nodeDefinitions, final Set<String> childElementNames, final NodePath nodePath) {
-        if (isOtherNodeDefinition(element)) {
-            NodeDefinition nodeDefinition = createOtherNodeDefinition(parentElement, element, nodePath);
-            nodeDefinitions.add(nodeDefinition);
-            return;
-        }
         if (NAMESPACE.equals(element.getNamespaceURI()) && childElementNames.contains(element.getLocalName())) {
             if (ATTRIBUTE_DEFINITION_ELEMENT_NAME.equals(element.getLocalName())) {
                 NodeDefinition nodeDefinition = createAttributeDefinition(parentElement, element, nodePath);
@@ -279,6 +274,11 @@ final class FormXmlDefinitionBuilderImpl implements FormXmlDefinitionBuilder {
                 nodeDefinitions.add(nodeDefinition);
                 return;
             }
+        }
+        if (isOtherNodeDefinition(element)) {
+            NodeDefinition nodeDefinition = createOtherNodeDefinition(parentElement, element, nodePath);
+            nodeDefinitions.add(nodeDefinition);
+            return;
         }
         throw new FormDefinitionValidationException(Messages.Validation.getChildElementIsNotValidMessage(element), nodePath);
     }
