@@ -225,6 +225,27 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
      * {@link FormInstanceBuilderImpl} class test.
      */
     @Test
+    public void buildFormInstanceOtherNodeFailTest() {
+        try {
+            String xml = "<?xml version='1.0'?>\n";
+            xml += "<ns1:form id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0' xmlns:ns2='http://d-shap.ru/schema/form-model-other-node/1.0'>";
+            xml += "<ns2:otherNode repr='failOnBind' valid='true'>";
+            xml += "</ns2:otherNode>";
+            xml += "</ns1:form>";
+            FormDefinitions formDefinitions = createFormDefinitionsFromXml(xml);
+            FormInstanceBuilderImpl formInstanceBuilder = createBinder(formDefinitions);
+            Document document = newDocument();
+            formInstanceBuilder.buildFormInstance(new BindingSourceImpl("source"), document, formDefinitions.getFormDefinition("id"));
+            Assertions.fail("FormInstanceBuilderImpl test fail");
+        } catch (FormBindingException ex) {
+            Assertions.assertThat(ex).hasMessage("[Fail on bind], {source}form[@:id]");
+        }
+    }
+
+    /**
+     * {@link FormInstanceBuilderImpl} class test.
+     */
+    @Test
     public void buildAttributeInstanceDefaultTest() {
         String xml = "<?xml version='1.0'?>\n";
         xml += "<ns1:form id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
@@ -384,6 +405,31 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
         Assertions.assertThat(document2.getDocumentElement().getChildNodes().item(0).getChildNodes().item(1).getUserData(FormInstanceBuilder.USER_DATA_BINDED_OBJECT)).isInstanceOf(BindedAttributeImpl.class);
         Assertions.assertThat(document2.getDocumentElement().getChildNodes().item(0).getChildNodes().item(1).getUserData(FormInstanceBuilder.USER_DATA_BINDED_OBJECT)).hasToString("Attribute: repr2");
         Assertions.assertThat(document2.getDocumentElement().getChildNodes().item(0).getChildNodes().item(1).getUserData(FormInstanceBuilder.USER_DATA_BINDED_OBJECT)).isNotSameAs(document1.getDocumentElement().getChildNodes().item(0).getChildNodes().item(1).getUserData(FormInstanceBuilder.USER_DATA_BINDED_OBJECT));
+    }
+
+    /**
+     * {@link FormInstanceBuilderImpl} class test.
+     */
+    @Test
+    public void buildAttributeInstanceOtherNodeFailTest() {
+        try {
+            String xml = "<?xml version='1.0'?>\n";
+            xml += "<ns1:form id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0' xmlns:ns2='http://d-shap.ru/schema/form-model-other-node/1.0'>";
+            xml += "<ns1:element id='id' lookup='lookup'>";
+            xml += "<ns1:attribute id='id' lookup='lookup'>";
+            xml += "<ns2:otherNode repr='failOnBind' valid='true'>";
+            xml += "</ns2:otherNode>";
+            xml += "</ns1:attribute>";
+            xml += "</ns1:element>";
+            xml += "</ns1:form>";
+            FormDefinitions formDefinitions = createFormDefinitionsFromXml(xml);
+            FormInstanceBuilderImpl formInstanceBuilder = createBinder(formDefinitions);
+            Document document = newDocument();
+            formInstanceBuilder.buildFormInstance(new BindingSourceImpl("source"), document, formDefinitions.getFormDefinition("id"));
+            Assertions.fail("FormInstanceBuilderImpl test fail");
+        } catch (FormBindingException ex) {
+            Assertions.assertThat(ex).hasMessage("[Fail on bind], {source}form[@:id]/element[@id]/attribute[@id]");
+        }
     }
 
     /**
@@ -741,6 +787,29 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
         Assertions.assertThat(document2.getDocumentElement().getChildNodes().item(3).getUserData(FormInstanceBuilder.USER_DATA_BINDED_OBJECT)).isInstanceOf(BindedElementImpl.class);
         Assertions.assertThat(document2.getDocumentElement().getChildNodes().item(3).getUserData(FormInstanceBuilder.USER_DATA_BINDED_OBJECT)).hasToString("Element: repr2[0]");
         Assertions.assertThat(document2.getDocumentElement().getChildNodes().item(3).getUserData(FormInstanceBuilder.USER_DATA_BINDED_OBJECT)).isNotSameAs(document1.getDocumentElement().getChildNodes().item(3).getUserData(FormInstanceBuilder.USER_DATA_BINDED_OBJECT));
+    }
+
+    /**
+     * {@link FormInstanceBuilderImpl} class test.
+     */
+    @Test
+    public void buildElementInstanceOtherNodeFailTest() {
+        try {
+            String xml = "<?xml version='1.0'?>\n";
+            xml += "<ns1:form id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0' xmlns:ns2='http://d-shap.ru/schema/form-model-other-node/1.0'>";
+            xml += "<ns1:element id='id' lookup='lookup'>";
+            xml += "<ns2:otherNode repr='failOnBind' valid='true'>";
+            xml += "</ns2:otherNode>";
+            xml += "</ns1:element>";
+            xml += "</ns1:form>";
+            FormDefinitions formDefinitions = createFormDefinitionsFromXml(xml);
+            FormInstanceBuilderImpl formInstanceBuilder = createBinder(formDefinitions);
+            Document document = newDocument();
+            formInstanceBuilder.buildFormInstance(new BindingSourceImpl("source"), document, formDefinitions.getFormDefinition("id"));
+            Assertions.fail("FormInstanceBuilderImpl test fail");
+        } catch (FormBindingException ex) {
+            Assertions.assertThat(ex).hasMessage("[Fail on bind], {source}form[@:id]/element[@id]");
+        }
     }
 
     /**
@@ -2352,6 +2421,29 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
      * {@link FormInstanceBuilderImpl} class test.
      */
     @Test
+    public void buildSingleElementInstanceOtherNodeFailTest() {
+        try {
+            String xml = "<?xml version='1.0'?>\n";
+            xml += "<ns1:form id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0' xmlns:ns2='http://d-shap.ru/schema/form-model-other-node/1.0'>";
+            xml += "<ns1:single-element id='id'>";
+            xml += "<ns2:otherNode repr='failOnBind' valid='true'>";
+            xml += "</ns2:otherNode>";
+            xml += "</ns1:single-element>";
+            xml += "</ns1:form>";
+            FormDefinitions formDefinitions = createFormDefinitionsFromXml(xml);
+            FormInstanceBuilderImpl formInstanceBuilder = createBinder(formDefinitions);
+            Document document = newDocument();
+            formInstanceBuilder.buildFormInstance(new BindingSourceImpl("source"), document, formDefinitions.getFormDefinition("id"));
+            Assertions.fail("FormInstanceBuilderImpl test fail");
+        } catch (FormBindingException ex) {
+            Assertions.assertThat(ex).hasMessage("[Fail on bind], {source}form[@:id]/single-element[@id]");
+        }
+    }
+
+    /**
+     * {@link FormInstanceBuilderImpl} class test.
+     */
+    @Test
     public void buildFormReferenceInstanceTest() {
         String xml11 = "<?xml version='1.0'?>\n";
         xml11 += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
@@ -2466,6 +2558,30 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
         } catch (FormBindingException ex) {
             Assertions.assertThat(ex).hasMessage("[Form is not present: {source}form[@:id1]]");
         }
+
+        String xml61 = "<?xml version='1.0'?>\n";
+        xml61 += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+        xml61 += "<ns1:element id='id1' lookup='lookup'>";
+        xml61 += "</ns1:element>";
+        xml61 += "</ns1:form>";
+
+        String xml62 = "<?xml version='1.0'?>\n";
+        xml62 += "<ns1:form id='id2' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0' xmlns:ns2='http://d-shap.ru/schema/form-model-other-node/1.0'>";
+        xml62 += "<ns1:form-reference id='id1'>";
+        xml62 += "<ns2:otherNode repr='repr1' valid='true'>";
+        xml62 += "</ns2:otherNode>";
+        xml62 += "<ns2:otherNode repr='repr2' valid='true'>";
+        xml62 += "</ns2:otherNode>";
+        xml62 += "</ns1:form-reference>";
+        xml62 += "<ns1:element id='id2' lookup='lookup'>";
+        xml62 += "</ns1:element>";
+        xml62 += "</ns1:form>";
+
+        FormDefinitions formDefinitions6 = createFormDefinitionsFromXml(xml61, xml62);
+        FormInstanceBuilderImpl formInstanceBuilder6 = createBinder(formDefinitions6);
+        Document document6 = newDocument();
+        formInstanceBuilder6.buildFormInstance(new BindingSourceImpl("repr"), document6, formDefinitions6.getFormDefinition("id2"));
+        Assertions.assertThat(DocumentWriter.getAsString(document6)).isEqualTo("<form id=\"id2\" xmlns=\"http://d-shap.ru/schema/form-instance/1.0\"><form-reference id=\"id1\"><element id=\"id1\"/><otherNode repr=\"repr1\" xmlns=\"http://d-shap.ru/schema/form-instance-other-node/1.0\"/><otherNode repr=\"repr2\" xmlns=\"http://d-shap.ru/schema/form-instance-other-node/1.0\"/></form-reference><element id=\"id2\"/></form>");
     }
 
     /**
@@ -2575,6 +2691,36 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
         Assertions.assertThat(document2.getDocumentElement().getChildNodes().item(0).getChildNodes().item(0).getChildNodes().item(1).getChildNodes().item(0).getUserData(FormInstanceBuilder.USER_DATA_BINDED_OBJECT)).isInstanceOf(BindedElementImpl.class);
         Assertions.assertThat(document2.getDocumentElement().getChildNodes().item(0).getChildNodes().item(0).getChildNodes().item(1).getChildNodes().item(0).getUserData(FormInstanceBuilder.USER_DATA_BINDED_OBJECT)).hasToString("Element: repr1[0]");
         Assertions.assertThat(document2.getDocumentElement().getChildNodes().item(0).getChildNodes().item(0).getChildNodes().item(1).getChildNodes().item(0).getUserData(FormInstanceBuilder.USER_DATA_BINDED_OBJECT)).isNotSameAs(document1.getDocumentElement().getChildNodes().item(0).getChildNodes().item(0).getChildNodes().item(1).getChildNodes().item(0).getUserData(FormInstanceBuilder.USER_DATA_BINDED_OBJECT));
+    }
+
+    /**
+     * {@link FormInstanceBuilderImpl} class test.
+     */
+    @Test
+    public void buildFormReferenceInstanceOtherNodeFailTest() {
+        try {
+            String xml11 = "<?xml version='1.0'?>\n";
+            xml11 += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
+            xml11 += "<ns1:element id='id1' lookup='lookup'>";
+            xml11 += "</ns1:element>";
+            xml11 += "</ns1:form>";
+            String xml12 = "<?xml version='1.0'?>\n";
+            xml12 += "<ns1:form id='id2' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0' xmlns:ns2='http://d-shap.ru/schema/form-model-other-node/1.0'>";
+            xml12 += "<ns1:form-reference id='id1'>";
+            xml12 += "<ns2:otherNode repr='failOnBind' valid='true'>";
+            xml12 += "</ns2:otherNode>";
+            xml12 += "</ns1:form-reference>";
+            xml12 += "<ns1:element id='id2' lookup='lookup'>";
+            xml12 += "</ns1:element>";
+            xml12 += "</ns1:form>";
+            FormDefinitions formDefinitions = createFormDefinitionsFromXml(xml11, xml12);
+            FormInstanceBuilderImpl formInstanceBuilder = createBinder(formDefinitions);
+            Document document = newDocument();
+            formInstanceBuilder.buildFormInstance(new BindingSourceImpl("source"), document, formDefinitions.getFormDefinition("id2"));
+            Assertions.fail("FormInstanceBuilderImpl test fail");
+        } catch (FormBindingException ex) {
+            Assertions.assertThat(ex).hasMessage("[Fail on bind], {source}form[@:id2]/form-reference[@:id1]");
+        }
     }
 
     /**
@@ -2863,6 +3009,29 @@ public final class FormInstanceBuilderImplTest extends BaseFormModelTest {
         Assertions.assertThat(document1.getDocumentElement().getChildNodes().item(0).getChildNodes().item(4).getUserData(FormInstanceBuilder.USER_DATA_FORM_DEFINITION)).isSameAs(formDefinitions.getFormDefinition("id2"));
         Assertions.assertThat(document1.getDocumentElement().getChildNodes().item(0).getChildNodes().item(4).getUserData(FormInstanceBuilder.USER_DATA_NODE_DEFINITION)).isSameAs(((OtherNodeDefinitionImpl) formDefinitions.getFormDefinition("id2").getOtherNodeDefinitions().get(0)).getOtherNodeDefinition());
         Assertions.assertThat(document1.getDocumentElement().getChildNodes().item(0).getChildNodes().item(4).getUserData(FormInstanceBuilder.USER_DATA_BINDED_OBJECT)).isNull();
+    }
+
+    /**
+     * {@link FormInstanceBuilderImpl} class test.
+     */
+    @Test
+    public void buildOtherNodeInstanceOtherNodeFailTest() {
+        try {
+            String xml = "<?xml version='1.0'?>\n";
+            xml += "<ns1:form id='id' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0' xmlns:ns2='http://d-shap.ru/schema/form-model-other-node/1.0'>";
+            xml += "<ns2:otherNode repr='other' valid='true'>";
+            xml += "<ns2:otherNode repr='failOnBind' valid='true'>";
+            xml += "</ns2:otherNode>";
+            xml += "</ns2:otherNode>";
+            xml += "</ns1:form>";
+            FormDefinitions formDefinitions = createFormDefinitionsFromXml(xml);
+            FormInstanceBuilderImpl formInstanceBuilder = createBinder(formDefinitions);
+            Document document = newDocument();
+            formInstanceBuilder.buildFormInstance(new BindingSourceImpl("source"), document, formDefinitions.getFormDefinition("id"));
+            Assertions.fail("FormInstanceBuilderImpl test fail");
+        } catch (FormBindingException ex) {
+            Assertions.assertThat(ex).hasMessage("[Fail on bind], other");
+        }
     }
 
     /**
