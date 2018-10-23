@@ -233,6 +233,7 @@ final class FormInstanceBuilderImpl implements FormInstanceBuilder {
         Element element = createFormReferenceInstanceElement(document, formDefinition, formReferenceDefinition);
         NodePath currentNodePath = new NodePath(nodePath, formReferenceDefinition);
         bindNodeDefinitions(bindingSource, document, bindedForm, lastBindedElement, element, formDefinition.getAllNodeDefinitions(), currentNodePath);
+        bindNodeDefinitions(bindingSource, document, bindedForm, lastBindedElement, element, formReferenceDefinition.getAllNodeDefinitions(), currentNodePath);
         if (element.hasChildNodes()) {
             parentElement.appendChild(element);
         }
