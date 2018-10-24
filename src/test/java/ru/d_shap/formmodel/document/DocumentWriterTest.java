@@ -86,7 +86,7 @@ public final class DocumentWriterTest extends BaseFormModelTest {
             Document document = parse(xml);
             document.setXmlStandalone(true);
             DocumentWriter.writeTo(document, new WriteErrorWriter());
-            Assertions.fail("XmlDocumentBuilder test fail");
+            Assertions.fail("DocumentWriterTest test fail");
         } catch (OutputResultException ex) {
             Assertions.assertThat(ex).hasCause(TransformerException.class);
         }
@@ -247,7 +247,7 @@ public final class DocumentWriterTest extends BaseFormModelTest {
             document.setXmlStandalone(true);
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
             DocumentWriter.writeTo(document, byteArrayOutputStream, "wrong encoding");
-            Assertions.fail("XmlDocumentBuilder test fail");
+            Assertions.fail("DocumentWriterTest test fail");
         } catch (OutputResultException ex) {
             Assertions.assertThat(ex).hasCause(UnsupportedEncodingException.class);
         }
