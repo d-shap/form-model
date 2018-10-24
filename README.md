@@ -48,13 +48,28 @@ Possible values are:
 * ```required+``` - there should be at least one element.
 * ```optional``` - there could be one element or no element at all.
 * ```optional+``` - there could be more then one element or no element at all.
-* ```prohibited``` - there should not be any one element.
+* ```prohibited``` - there should not be any element.
 
 Child elements:
 * ```attribute```
 * ```element```
 * ```single-element```
 * ```form-reference```
+
+attribute
+---------
+The element's attribute.
+
+Attributes:
+* ```id``` - the attribute's ID, optional
+* ```lookup``` - the attribute's lookup string, used by the binding extension, mandatory
+* ```type``` - the attribute's type, optional
+
+Valid values for the ```type``` attribute depend on the parent element.
+Possible values are:
+* ```required``` - there should be exactly one element.
+* ```optional``` - there could be one element or no element at all.
+* ```prohibited``` - there should not be any element.
 
 single-element
 --------------
@@ -69,11 +84,20 @@ Valid values for the ```type``` attribute depend on the parent element.
 Possible values are:
 * ```required``` - there should be exactly one element.
 * ```optional``` - there could be one element or no element at all.
-* ```prohibited``` - there should not be any one element.
+* ```prohibited``` - there should not be any element.
 
 Child elements:
 * ```element```
 * ```single-element```
+
+form-reference
+--------------
+The reference to another form definition.
+The elements of the referenced form are included in the current form as child elements of the ```form-reference``` element.
+
+Attributes:
+* ```group``` - the form's group, optional
+* ```id``` - the form's ID, mandatory
 
 Donation
 ========
