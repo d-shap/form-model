@@ -18,6 +18,25 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 /**
+ * <p>
  * Form model library is a form definition API and a form binding API.
+ * </p>
+ * <p>
+ * Form model represents the essential part of the GUI or any other source.
+ * For example, HTML page can contain many elements, but only some of them make sence
+ * for an application. Form model is a description of this essential elements. Then the source HTML
+ * page is binded with this description. The result of binding is the binded elements.
+ * An application can use this binded elements and do not care about how this elements were
+ * obtained from the source HTML page.
+ * </p>
+ * <p>
+ * So form model library mediates between the source and the application and encapsulates the
+ * complexity of the source.
+ * </p>
+ * <p>
+ * Form model library provides a form binding API, but does not bind the source with the form
+ * description itself. Additional libraries are needed to bind specific sources with the form
+ * description.
+ * </p>
  */
 package ru.d_shap.formmodel;
