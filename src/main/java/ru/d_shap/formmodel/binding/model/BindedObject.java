@@ -20,10 +20,10 @@
 package ru.d_shap.formmodel.binding.model;
 
 /**
- * The binded node.
+ * The binded object.
  *
  * @author Dmitry Shapovalov
  */
-public interface BindedNode {
+public interface BindedObject {
 
 }
