@@ -1224,9 +1224,19 @@ public final class FormDefinitionValidatorImplTest extends BaseFormModelTest {
             Assertions.assertThat(ex).hasMessage("[Cardinality definition is empty], element[@id]/single-element[@id]");
         }
         createValidator().validateSingleElementDefinition(parentNodeDefinition1, new SingleElementDefinition("id", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes()), new NodePath(parentNodeDefinition1));
-        createValidator().validateSingleElementDefinition(parentNodeDefinition1, new SingleElementDefinition("id", CardinalityDefinition.REQUIRED_MULTIPLE, createNodeDefinitions(), createOtherAttributes()), new NodePath(parentNodeDefinition1));
+        try {
+            createValidator().validateSingleElementDefinition(parentNodeDefinition1, new SingleElementDefinition("id", CardinalityDefinition.REQUIRED_MULTIPLE, createNodeDefinitions(), createOtherAttributes()), new NodePath(parentNodeDefinition1));
+            Assertions.fail("FormDefinitionValidatorImpl test fail");
+        } catch (FormDefinitionValidationException ex) {
+            Assertions.assertThat(ex).hasMessage("[Cardinality definition is not valid: required+], element[@id]/single-element[@id]");
+        }
         createValidator().validateSingleElementDefinition(parentNodeDefinition1, new SingleElementDefinition("id", CardinalityDefinition.OPTIONAL, createNodeDefinitions(), createOtherAttributes()), new NodePath(parentNodeDefinition1));
-        createValidator().validateSingleElementDefinition(parentNodeDefinition1, new SingleElementDefinition("id", CardinalityDefinition.OPTIONAL_MULTIPLE, createNodeDefinitions(), createOtherAttributes()), new NodePath(parentNodeDefinition1));
+        try {
+            createValidator().validateSingleElementDefinition(parentNodeDefinition1, new SingleElementDefinition("id", CardinalityDefinition.OPTIONAL_MULTIPLE, createNodeDefinitions(), createOtherAttributes()), new NodePath(parentNodeDefinition1));
+            Assertions.fail("FormDefinitionValidatorImpl test fail");
+        } catch (FormDefinitionValidationException ex) {
+            Assertions.assertThat(ex).hasMessage("[Cardinality definition is not valid: optional+], element[@id]/single-element[@id]");
+        }
         createValidator().validateSingleElementDefinition(parentNodeDefinition1, new SingleElementDefinition("id", CardinalityDefinition.PROHIBITED, createNodeDefinitions(), createOtherAttributes()), new NodePath(parentNodeDefinition1));
 
         try {
@@ -1248,7 +1258,12 @@ public final class FormDefinitionValidatorImplTest extends BaseFormModelTest {
             Assertions.assertThat(ex).hasMessage("[Cardinality definition is not valid: required+], single-element[@id]/single-element[@id]");
         }
         createValidator().validateSingleElementDefinition(parentNodeDefinition2, new SingleElementDefinition("id", CardinalityDefinition.OPTIONAL, createNodeDefinitions(), createOtherAttributes()), new NodePath(parentNodeDefinition2));
-        createValidator().validateSingleElementDefinition(parentNodeDefinition2, new SingleElementDefinition("id", CardinalityDefinition.OPTIONAL_MULTIPLE, createNodeDefinitions(), createOtherAttributes()), new NodePath(parentNodeDefinition2));
+        try {
+            createValidator().validateSingleElementDefinition(parentNodeDefinition2, new SingleElementDefinition("id", CardinalityDefinition.OPTIONAL_MULTIPLE, createNodeDefinitions(), createOtherAttributes()), new NodePath(parentNodeDefinition2));
+            Assertions.fail("FormDefinitionValidatorImpl test fail");
+        } catch (FormDefinitionValidationException ex) {
+            Assertions.assertThat(ex).hasMessage("[Cardinality definition is not valid: optional+], single-element[@id]/single-element[@id]");
+        }
         try {
             createValidator().validateSingleElementDefinition(parentNodeDefinition2, new SingleElementDefinition("id", CardinalityDefinition.PROHIBITED, createNodeDefinitions(), createOtherAttributes()), new NodePath(parentNodeDefinition2));
             Assertions.fail("FormDefinitionValidatorImpl test fail");
@@ -1290,9 +1305,19 @@ public final class FormDefinitionValidatorImplTest extends BaseFormModelTest {
             Assertions.assertThat(ex).hasMessage("[Cardinality definition is empty], another/single-element[@id]");
         }
         createValidator().validateSingleElementDefinition(parentNodeDefinition4, new SingleElementDefinition("id", CardinalityDefinition.REQUIRED, createNodeDefinitions(), createOtherAttributes()), new NodePath(parentNodeDefinition4));
-        createValidator().validateSingleElementDefinition(parentNodeDefinition4, new SingleElementDefinition("id", CardinalityDefinition.REQUIRED_MULTIPLE, createNodeDefinitions(), createOtherAttributes()), new NodePath(parentNodeDefinition4));
+        try {
+            createValidator().validateSingleElementDefinition(parentNodeDefinition4, new SingleElementDefinition("id", CardinalityDefinition.REQUIRED_MULTIPLE, createNodeDefinitions(), createOtherAttributes()), new NodePath(parentNodeDefinition4));
+            Assertions.fail("FormDefinitionValidatorImpl test fail");
+        } catch (FormDefinitionValidationException ex) {
+            Assertions.assertThat(ex).hasMessage("[Cardinality definition is not valid: required+], another/single-element[@id]");
+        }
         createValidator().validateSingleElementDefinition(parentNodeDefinition4, new SingleElementDefinition("id", CardinalityDefinition.OPTIONAL, createNodeDefinitions(), createOtherAttributes()), new NodePath(parentNodeDefinition4));
-        createValidator().validateSingleElementDefinition(parentNodeDefinition4, new SingleElementDefinition("id", CardinalityDefinition.OPTIONAL_MULTIPLE, createNodeDefinitions(), createOtherAttributes()), new NodePath(parentNodeDefinition4));
+        try {
+            createValidator().validateSingleElementDefinition(parentNodeDefinition4, new SingleElementDefinition("id", CardinalityDefinition.OPTIONAL_MULTIPLE, createNodeDefinitions(), createOtherAttributes()), new NodePath(parentNodeDefinition4));
+            Assertions.fail("FormDefinitionValidatorImpl test fail");
+        } catch (FormDefinitionValidationException ex) {
+            Assertions.assertThat(ex).hasMessage("[Cardinality definition is not valid: optional+], another/single-element[@id]");
+        }
         createValidator().validateSingleElementDefinition(parentNodeDefinition4, new SingleElementDefinition("id", CardinalityDefinition.PROHIBITED, createNodeDefinitions(), createOtherAttributes()), new NodePath(parentNodeDefinition4));
     }
 
