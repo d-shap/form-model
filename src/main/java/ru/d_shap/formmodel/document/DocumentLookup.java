@@ -35,6 +35,7 @@ import org.w3c.dom.NodeList;
 import ru.d_shap.formmodel.binding.FormInstanceBuilder;
 import ru.d_shap.formmodel.binding.model.BindedAttribute;
 import ru.d_shap.formmodel.binding.model.BindedElement;
+import ru.d_shap.formmodel.binding.model.BindedObject;
 import ru.d_shap.formmodel.utils.IdentityHelper;
 
 /**
@@ -126,62 +127,34 @@ public final class DocumentLookup {
     }
 
     /**
-     * Obtain the binded elements from the specified XML elements.
+     * Obtain the binded objects from the specified XML elements.
      *
      * @param elements the specified XML elements.
      *
-     * @return the binded elements.
+     * @return the binded objects.
      */
-    public List<BindedElement> getBindedElements(final List<Element> elements) {
-        return getBindedElements(elements, BindedElement.class);
+    public List<BindedObject> getBindedObjects(final List<Element> elements) {
+        return getBindedObjects(elements, BindedObject.class);
     }
 
     /**
-     * Obtain the binded elements from the specified XML elements.
+     * Obtain the binded objects from the specified XML elements.
      *
      * @param elements the specified XML elements.
-     * @param clazz    the specified class of the binded element.
-     * @param <T>      the generic type of the specified class of the binded element.
+     * @param clazz    the specified class of the binded object.
+     * @param <T>      the generic type of the specified class of the binded object.
      *
-     * @return the binded elements.
+     * @return the binded objects.
      */
-    public <T extends BindedElement> List<T> getBindedElements(final List<Element> elements, final Class<T> clazz) {
-        List<T> bindedElements = new ArrayList<>();
+    public <T extends BindedObject> List<T> getBindedObjects(final List<Element> elements, final Class<T> clazz) {
+        List<T> bindedObjects = new ArrayList<>();
         for (Element element : elements) {
-            getBindedObjects(element, bindedElements, clazz);
+            getBindedObjects(element, bindedObjects, clazz);
         }
-        return bindedElements;
+        return bindedObjects;
     }
 
-    /**
-     * Obtain the binded attributes from the specified XML elements.
-     *
-     * @param elements the specified XML elements.
-     *
-     * @return the binded attributes.
-     */
-    public List<BindedAttribute> getBindedAttributes(final List<Element> elements) {
-        return getBindedAttributes(elements, BindedAttribute.class);
-    }
-
-    /**
-     * Obtain the binded attributes from the specified XML elements.
-     *
-     * @param elements the specified XML elements.
-     * @param clazz    the specified class of the binded attribute.
-     * @param <T>      the generic type of the specified class of the binded attribute.
-     *
-     * @return the binded attributes.
-     */
-    public <T extends BindedAttribute> List<T> getBindedAttributes(final List<Element> elements, final Class<T> clazz) {
-        List<T> bindedAttributes = new ArrayList<>();
-        for (Element element : elements) {
-            getBindedObjects(element, bindedAttributes, clazz);
-        }
-        return bindedAttributes;
-    }
-
-    private <T> void getBindedObjects(final Element element, final List<T> bindedObjects, final Class<T> bindedObjectClass) {
+    private <T extends BindedObject> void getBindedObjects(final Element element, final List<T> bindedObjects, final Class<T> bindedObjectClass) {
         Object bindedObject = element.getUserData(FormInstanceBuilder.USER_DATA_BINDED_OBJECT);
         if (bindedObject != null) {
             if (bindedObjectClass.isInstance(bindedObject)) {
@@ -199,6 +172,54 @@ public final class DocumentLookup {
                 getBindedObjects((Element) item, bindedObjects, bindedObjectClass);
             }
         }
+    }
+
+    /**
+     * Obtain the binded elements from the specified XML elements.
+     *
+     * @param elements the specified XML elements.
+     *
+     * @return the binded elements.
+     */
+    public List<BindedElement> getBindedElements(final List<Element> elements) {
+        return getBindedObjects(elements, BindedElement.class);
+    }
+
+    /**
+     * Obtain the binded elements from the specified XML elements.
+     *
+     * @param elements the specified XML elements.
+     * @param clazz    the specified class of the binded element.
+     * @param <T>      the generic type of the specified class of the binded element.
+     *
+     * @return the binded elements.
+     */
+    public <T extends BindedElement> List<T> getBindedElements(final List<Element> elements, final Class<T> clazz) {
+        return getBindedObjects(elements, clazz);
+    }
+
+    /**
+     * Obtain the binded attributes from the specified XML elements.
+     *
+     * @param elements the specified XML elements.
+     *
+     * @return the binded attributes.
+     */
+    public List<BindedAttribute> getBindedAttributes(final List<Element> elements) {
+        return getBindedObjects(elements, BindedAttribute.class);
+    }
+
+    /**
+     * Obtain the binded attributes from the specified XML elements.
+     *
+     * @param elements the specified XML elements.
+     * @param clazz    the specified class of the binded attribute.
+     * @param <T>      the generic type of the specified class of the binded attribute.
+     *
+     * @return the binded attributes.
+     */
+    public <T extends BindedAttribute> List<T> getBindedAttributes(final List<Element> elements, final Class<T> clazz) {
+        return getBindedObjects(elements, clazz);
     }
 
 }
