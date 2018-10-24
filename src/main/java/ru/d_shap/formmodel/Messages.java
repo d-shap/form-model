@@ -340,7 +340,7 @@ public final class Messages {
     }
 
     /**
-     * Helper class to create form binding messages.
+     * Helper class to create form instance binding messages.
      *
      * @author Dmitry Shapovalov
      */
