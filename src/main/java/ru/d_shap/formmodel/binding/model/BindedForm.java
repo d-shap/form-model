@@ -24,6 +24,6 @@ package ru.d_shap.formmodel.binding.model;
  *
  * @author Dmitry Shapovalov
  */
-public interface BindedForm {
+public interface BindedForm extends BindedNode {
 
 }
