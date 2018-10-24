@@ -24,13 +24,13 @@
  * <p>
  * Classes provide the framework for binding the binding source with the form definition.
  * The form definition is represented with the {@link ru.d_shap.formmodel.definition.model.FormDefinition} class.
- * The binding extension defines the binding source, the binding result and the binding process itself.
+ * The binding extension defines the binding source, the binding result and the binding process.
  * The binding source is represented with the {@link ru.d_shap.formmodel.binding.model.BindingSource} instance.
  * The binding result is represented with the {@link ru.d_shap.formmodel.binding.model.BindedForm},
  * the {@link ru.d_shap.formmodel.binding.model.BindedElement} and the {@link ru.d_shap.formmodel.binding.model.BindedAttribute}
  * instances.
  * The binding extension should also provide an instance of the {@link ru.d_shap.formmodel.binding.FormInstanceBinder}
- * class. This instance defines the binding process, how to match the binding source with the definition]
+ * class. This instance defines the binding process, how to match the binding source with the definition
  * and provide the binding result.
  * </p>
  */
