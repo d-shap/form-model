@@ -19,7 +19,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 /**
  * <p>
- * Form model library is a form definition API and a form binding API.
+ * Form-model definition API and form-model binding API.
  * </p>
  * <p>
  * Form model represents the essential part of the GUI or any other source.
