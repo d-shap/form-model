@@ -19,7 +19,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 /**
  * <p>
- * Form-model binding.
+ * Form-model binding API.
  * </p>
  * <p>
  * Classes provide the framework for binding the binding source with the form definition.
