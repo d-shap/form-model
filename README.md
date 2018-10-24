@@ -20,6 +20,8 @@ Namespace: ```http://d-shap.ru/schema/form-model/1.0```
 
 form
 ----
+The top-level element. Defines the form.
+
 Attributes:
 * ```group``` - the form's group, optional
 * ```id``` - the form's ID, mandatory
@@ -33,6 +35,8 @@ Child elements:
 
 element
 -------
+Element is a form part, that make sence for the application.
+
 Attributes:
 * ```id``` - the element's ID, optional
 * ```lookup``` - the element's lookup string, used by the binding extension, mandatory
@@ -52,6 +56,24 @@ Child elements:
 * ```single-element```
 * ```form-reference```
 
+single-element
+--------------
+Single element is a container for other elements.
+Only one child element should present (but child element could be ```optional+```).
+
+Attributes:
+* ```id``` - the single element's ID, optional
+* ```type``` - the single element's type, optional
+
+Valid values for the ```type``` attribute depend on the parent element.
+Possible values are:
+* ```required``` - there should be exactly one element.
+* ```optional``` - there could be one element or no element at all.
+* ```prohibited``` - there should not be any one element.
+
+Child elements:
+* ```element```
+* ```single-element```
 
 Donation
 ========
