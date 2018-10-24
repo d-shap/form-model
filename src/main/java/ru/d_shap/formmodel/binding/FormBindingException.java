@@ -23,7 +23,7 @@ import ru.d_shap.formmodel.FormModelException;
 import ru.d_shap.formmodel.definition.model.NodePath;
 
 /**
- * Exception is thrown when the binding source can not be binded to the form definition.
+ * Exception is thrown when the binding source can not be binded with the form definition.
  *
  * @author Dmitry Shapovalov
  */
