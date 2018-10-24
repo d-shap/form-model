@@ -30,12 +30,12 @@
  * obtained from the source HTML page.
  * </p>
  * <p>
- * So form model library mediates between the source and the application and encapsulates the
+ * Form model library mediates between the source and the application and encapsulates the
  * complexity of the source.
  * </p>
  * <p>
  * Form model library provides a form binding API, but does not bind the source with the form
- * description itself. Additional libraries are needed to bind specific sources with the form
+ * description itself. The binding extension is needed to bind specific source with the form
  * description.
  * </p>
  */
