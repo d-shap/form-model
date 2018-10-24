@@ -20,7 +20,7 @@
 package ru.d_shap.formmodel;
 
 /**
- * Exception is thrown when there are some configuration problems with the XML document validator.
+ * Exception is thrown when there is a configuration problem with the XML document validator.
  *
  * @author Dmitry Shapovalov
  */
