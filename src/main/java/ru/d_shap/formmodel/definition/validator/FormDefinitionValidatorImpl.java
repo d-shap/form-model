@@ -70,11 +70,11 @@ final class FormDefinitionValidatorImpl implements FormDefinitionValidator {
 
     private static final CardinalityDefinition[] ELEMENT_DEFAULT_CARDINALITY = CardinalityDefinition.values();
 
-    private static final CardinalityDefinition[] ELEMENT_SINGLE_ELEMENT_CARDINALITY = new CardinalityDefinition[]{CardinalityDefinition.OPTIONAL, CardinalityDefinition.OPTIONAL_MULTIPLE};
+    private static final CardinalityDefinition[] ELEMENT_WITHIN_SINGLE_ELEMENT_CARDINALITY = new CardinalityDefinition[]{CardinalityDefinition.OPTIONAL, CardinalityDefinition.OPTIONAL_MULTIPLE};
 
-    private static final CardinalityDefinition[] SINGLE_ELEMENT_DEFAULT_CARDINALITY = CardinalityDefinition.values();
+    private static final CardinalityDefinition[] SINGLE_ELEMENT_DEFAULT_CARDINALITY = new CardinalityDefinition[]{CardinalityDefinition.REQUIRED, CardinalityDefinition.OPTIONAL, CardinalityDefinition.PROHIBITED};
 
-    private static final CardinalityDefinition[] SINGLE_ELEMENT_SINGLE_ELEMENT_CARDINALITY = new CardinalityDefinition[]{CardinalityDefinition.OPTIONAL, CardinalityDefinition.OPTIONAL_MULTIPLE};
+    private static final CardinalityDefinition[] SINGLE_ELEMENT_WITHIN_SINGLE_ELEMENT_CARDINALITY = new CardinalityDefinition[]{CardinalityDefinition.OPTIONAL};
 
     private final Set<FormDefinitionKey> _allFormDefinitionKeys;
 
@@ -258,7 +258,7 @@ final class FormDefinitionValidatorImpl implements FormDefinitionValidator {
             }
         }
         if (parentNodeDefinition instanceof SingleElementDefinition) {
-            return ELEMENT_SINGLE_ELEMENT_CARDINALITY;
+            return ELEMENT_WITHIN_SINGLE_ELEMENT_CARDINALITY;
         } else {
             return ELEMENT_DEFAULT_CARDINALITY;
         }
@@ -294,7 +294,7 @@ final class FormDefinitionValidatorImpl implements FormDefinitionValidator {
             }
         }
         if (parentNodeDefinition instanceof SingleElementDefinition) {
-            return SINGLE_ELEMENT_SINGLE_ELEMENT_CARDINALITY;
+            return SINGLE_ELEMENT_WITHIN_SINGLE_ELEMENT_CARDINALITY;
         } else {
             return SINGLE_ELEMENT_DEFAULT_CARDINALITY;
         }
