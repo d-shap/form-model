@@ -18,6 +18,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 /**
- * Form-model document.
+ * Form-model utility classes to process the binded document.
  */
 package ru.d_shap.formmodel.document;
