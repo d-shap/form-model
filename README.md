@@ -99,11 +99,11 @@ Attributes:
 * ```group``` - the form's group, optional
 * ```id``` - the form's ID, mandatory
 
-Maven artifact
+Latest release
 ==============
-* **groupId**: ru.d-shap
-* **artifactId**: form-model
-* **version**: 1.0
+* **&lt;groupId&gt;**: ru.d-shap
+* **&lt;artifactId&gt;**: form-model
+* **&lt;version&gt;**: 1.0
 
 Donation
 ========
