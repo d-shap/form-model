@@ -1,5 +1,4 @@
-Form model library
-==================
+# Form model library
 Form model library is a form definition API and a form binding API.
 
 Form model represents the essential part of the GUI or any other source.
@@ -14,12 +13,10 @@ Form model library mediates between the source and the application and encapsula
 Form model library provides a form binding API, but does not bind the source with the form description itself.
 The binding extension is needed to bind specific source with the form description.
 
-XML definition
-==============
+# XML definition
 Namespace: ```http://d-shap.ru/schema/form-model/1.0```
 
-form
-----
+## form
 The top-level element. Defines the form.
 
 Attributes:
@@ -33,8 +30,7 @@ Child elements:
 * ```single-element```
 * ```form-reference```
 
-element
--------
+## element
 Element is a form part, that make sence for the application.
 
 Attributes:
@@ -56,8 +52,7 @@ Child elements:
 * ```single-element```
 * ```form-reference```
 
-attribute
----------
+## attribute
 The element's attribute.
 
 Attributes:
@@ -71,8 +66,7 @@ Possible values are:
 * ```optional``` - there could be one element or no element at all.
 * ```prohibited``` - there should not be any element.
 
-single-element
---------------
+## single-element
 Single element is a container for other elements.
 Only one child element should present (but child element could be ```optional+```).
 
@@ -90,8 +84,7 @@ Child elements:
 * ```element```
 * ```single-element```
 
-form-reference
---------------
+## form-reference
 The reference to another form definition.
 The elements of the referenced form are included in the current form as child elements of the ```form-reference``` element.
 
@@ -99,12 +92,10 @@ Attributes:
 * ```group``` - the form's group, optional
 * ```id``` - the form's ID, mandatory
 
-Latest release
-==============
+# Latest release
 * **&lt;groupId&gt;**: ru.d-shap
 * **&lt;artifactId&gt;**: form-model
 * **&lt;version&gt;**: 1.0
 
-Donation
-========
+# Donation
 If you find my code useful, you can [bye me a coffee](https://www.paypal.me/dshapovalov)
