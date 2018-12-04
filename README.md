@@ -93,6 +93,7 @@ Attributes:
 * ```id``` - the form's ID, mandatory
 
 # Latest release
+Form model library:
 * **&lt;groupId&gt;**: ru.d-shap
 * **&lt;artifactId&gt;**: form-model
 * **&lt;version&gt;**: 1.0
