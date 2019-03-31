@@ -24,6 +24,7 @@ import java.io.FileFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
+import java.nio.file.InvalidPathException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -159,7 +160,7 @@ public final class FormXmlDefinitionsFileLoader extends FormXmlDefinitionsLoader
                 FormXmlDefinitionsInputStreamLoader formXmlDefinitionsInputStreamLoader = new FormXmlDefinitionsInputStreamLoader(this, inputStream, source);
                 formDefinitions.addAll(formXmlDefinitionsInputStreamLoader.load());
             }
-        } catch (IOException ex) {
+        } catch (IOException | InvalidPathException ex) {
             throw new InputSourceException(ex);
         }
     }
