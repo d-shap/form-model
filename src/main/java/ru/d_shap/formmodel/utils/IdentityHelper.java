@@ -42,8 +42,8 @@ public final class IdentityHelper {
      * @return true if the list contains the specified item.
      */
     public static <T> boolean contains(final List<T> list, final T item) {
-        for (int i = 0; i < list.size(); i++) {
-            if (list.get(i) == item) {
+        for (T element : list) {
+            if (element == item) {
                 return true;
             }
         }
