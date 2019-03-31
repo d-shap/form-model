@@ -21,8 +21,8 @@ package ru.d_shap.formmodel.definition.loader.xml;
 
 import java.io.File;
 import java.io.FileFilter;
-import java.io.FileNotFoundException;
 import java.net.URL;
+import java.nio.file.InvalidPathException;
 import java.util.List;
 
 import org.junit.Test;
@@ -271,7 +271,7 @@ public final class FormXmlDefinitionsFileLoaderTest extends BaseFormModelTest {
             formXmlDefinitionsFileLoader.load();
             Assertions.fail("FormXmlDefinitionsFileLoader test fail");
         } catch (InputSourceException ex) {
-            Assertions.assertThat(ex).hasCause(FileNotFoundException.class);
+            Assertions.assertThat(ex).hasCause(InvalidPathException.class);
         }
     }
 
