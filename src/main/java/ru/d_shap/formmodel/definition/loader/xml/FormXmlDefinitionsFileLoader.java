@@ -21,9 +21,10 @@ package ru.d_shap.formmodel.definition.loader.xml;
 
 import java.io.File;
 import java.io.FileFilter;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -154,9 +155,10 @@ public final class FormXmlDefinitionsFileLoader extends FormXmlDefinitionsLoader
     private void processFile(final File file, final List<FormDefinition> formDefinitions) {
         try {
             String source = file.getAbsolutePath();
-            InputStream inputStream = new FileInputStream(file);
-            FormXmlDefinitionsInputStreamLoader formXmlDefinitionsInputStreamLoader = new FormXmlDefinitionsInputStreamLoader(this, inputStream, source);
-            formDefinitions.addAll(formXmlDefinitionsInputStreamLoader.load());
+            try (InputStream inputStream = Files.newInputStream(Paths.get(source))) {
+                FormXmlDefinitionsInputStreamLoader formXmlDefinitionsInputStreamLoader = new FormXmlDefinitionsInputStreamLoader(this, inputStream, source);
+                formDefinitions.addAll(formXmlDefinitionsInputStreamLoader.load());
+            }
         } catch (IOException ex) {
             throw new InputSourceException(ex);
         }
