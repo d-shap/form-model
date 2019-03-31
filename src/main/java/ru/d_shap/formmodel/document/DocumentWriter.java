@@ -136,19 +136,19 @@ public final class DocumentWriter {
      */
     public static final class DocumentWriterImpl {
 
-        private boolean _xmlDeclaration;
+        boolean _xmlDeclaration;
 
-        private String _encoding;
+        String _encoding;
 
-        private boolean _standalone;
+        boolean _standalone;
 
-        private boolean _indent;
+        boolean _indent;
 
         DocumentWriterImpl() {
             super();
         }
 
-        private DocumentWriterImpl(final DocumentWriterImpl documentWriter) {
+        DocumentWriterImpl(final DocumentWriterImpl documentWriter) {
             super();
             _xmlDeclaration = documentWriter._xmlDeclaration;
             _encoding = documentWriter._encoding;
