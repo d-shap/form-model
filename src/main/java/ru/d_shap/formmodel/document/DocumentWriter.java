@@ -44,8 +44,37 @@ import ru.d_shap.formmodel.OutputResultException;
  */
 public final class DocumentWriter {
 
+    private boolean _xmlDeclaration;
+
+    private String _encoding;
+
+    private boolean _standalone;
+
+    private boolean _indent;
+
     private DocumentWriter() {
         super();
+        _xmlDeclaration = false;
+        _encoding = null;
+        _standalone = false;
+        _indent = false;
+    }
+
+    private DocumentWriter(final DocumentWriter documentWriter) {
+        super();
+        _xmlDeclaration = documentWriter._xmlDeclaration;
+        _encoding = documentWriter._encoding;
+        _standalone = documentWriter._standalone;
+        _indent = documentWriter._indent;
+    }
+
+    /**
+     * Create new document writer.
+     *
+     * @return new document writer.
+     */
+    public static DocumentWriter newInstance() {
+        return new DocumentWriter();
     }
 
     /**
@@ -53,8 +82,8 @@ public final class DocumentWriter {
      *
      * @return document writer for the next invocation.
      */
-    public static DocumentWriterImpl withXmlDeclaration() {
-        DocumentWriterImpl documentWriter = new DocumentWriterImpl();
+    public DocumentWriter addXmlDeclaration() {
+        DocumentWriter documentWriter = new DocumentWriter(this);
         documentWriter._xmlDeclaration = true;
         return documentWriter;
     }
@@ -66,8 +95,8 @@ public final class DocumentWriter {
      *
      * @return document writer for the next invocation.
      */
-    public static DocumentWriterImpl withEncoding(final String encoding) {
-        DocumentWriterImpl documentWriter = new DocumentWriterImpl();
+    public DocumentWriter addEncoding(final String encoding) {
+        DocumentWriter documentWriter = new DocumentWriter(this);
         documentWriter._encoding = encoding;
         return documentWriter;
     }
@@ -77,8 +106,8 @@ public final class DocumentWriter {
      *
      * @return document writer for the next invocation.
      */
-    public static DocumentWriterImpl withStandalone() {
-        DocumentWriterImpl documentWriter = new DocumentWriterImpl();
+    public DocumentWriter addStandalone() {
+        DocumentWriter documentWriter = new DocumentWriter(this);
         documentWriter._standalone = true;
         return documentWriter;
     }
@@ -88,8 +117,8 @@ public final class DocumentWriter {
      *
      * @return document writer for the next invocation.
      */
-    public static DocumentWriterImpl withIndent() {
-        DocumentWriterImpl documentWriter = new DocumentWriterImpl();
+    public DocumentWriter addIndent() {
+        DocumentWriter documentWriter = new DocumentWriter(this);
         documentWriter._indent = true;
         return documentWriter;
     }
@@ -100,9 +129,31 @@ public final class DocumentWriter {
      * @param node   the XML node.
      * @param writer the specified writer
      */
-    public static void writeTo(final Node node, final Writer writer) {
-        DocumentWriterImpl documentWriter = new DocumentWriterImpl();
-        documentWriter.writeTo(node, writer);
+    public void writeTo(final Node node, final Writer writer) {
+        try {
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
+            transformer.setErrorListener(new SkipErrorListener());
+
+            if (!_xmlDeclaration) {
+                transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+            }
+            if (_encoding != null) {
+                transformer.setOutputProperty(OutputKeys.ENCODING, _encoding);
+            }
+            if (_standalone) {
+                transformer.setOutputProperty(OutputKeys.STANDALONE, "yes");
+            } else {
+                transformer.setOutputProperty(OutputKeys.STANDALONE, "no");
+            }
+            if (_indent) {
+                transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            }
+
+            transformer.transform(new DOMSource(node), new StreamResult(writer));
+        } catch (TransformerException ex) {
+            throw new OutputResultException(ex);
+        }
     }
 
     /**
@@ -112,9 +163,12 @@ public final class DocumentWriter {
      * @param outputStream the specified output stream.
      * @param encoding     the encoding the specified output stream.
      */
-    public static void writeTo(final Node node, final OutputStream outputStream, final String encoding) {
-        DocumentWriterImpl documentWriter = new DocumentWriterImpl();
-        documentWriter.writeTo(node, outputStream, encoding);
+    public void writeTo(final Node node, final OutputStream outputStream, final String encoding) {
+        try {
+            addEncoding(encoding).writeTo(node, new OutputStreamWriter(outputStream, encoding));
+        } catch (IOException ex) {
+            throw new OutputResultException(ex);
+        }
     }
 
     /**
@@ -124,145 +178,10 @@ public final class DocumentWriter {
      *
      * @return the string representation of the XML node.
      */
-    public static String getAsString(final Node node) {
-        DocumentWriterImpl documentWriter = new DocumentWriterImpl();
-        return documentWriter.getAsString(node);
-    }
-
-    /**
-     * Document writer implementation.
-     *
-     * @author Dmitry Shapovalov
-     */
-    public static final class DocumentWriterImpl {
-
-        private boolean _xmlDeclaration;
-
-        private String _encoding;
-
-        private boolean _standalone;
-
-        private boolean _indent;
-
-        DocumentWriterImpl() {
-            super();
-        }
-
-        private DocumentWriterImpl(final DocumentWriterImpl documentWriter) {
-            super();
-            _xmlDeclaration = documentWriter._xmlDeclaration;
-            _encoding = documentWriter._encoding;
-            _standalone = documentWriter._standalone;
-            _indent = documentWriter._indent;
-        }
-
-        /**
-         * Create new document writer with the XML declaration.
-         *
-         * @return document writer for the next invocation.
-         */
-        public DocumentWriterImpl andXmlDeclaration() {
-            DocumentWriterImpl documentWriter = new DocumentWriterImpl(this);
-            documentWriter._xmlDeclaration = true;
-            return documentWriter;
-        }
-
-        /**
-         * Create new document writer with the specified encoding.
-         *
-         * @param encoding the specified encoding.
-         *
-         * @return document writer for the next invocation.
-         */
-        public DocumentWriterImpl andEncoding(final String encoding) {
-            DocumentWriterImpl documentWriter = new DocumentWriterImpl(this);
-            documentWriter._encoding = encoding;
-            return documentWriter;
-        }
-
-        /**
-         * Create new document writer with the standalone declaration.
-         *
-         * @return document writer for the next invocation.
-         */
-        public DocumentWriterImpl andStandalone() {
-            DocumentWriterImpl documentWriter = new DocumentWriterImpl(this);
-            documentWriter._standalone = true;
-            return documentWriter;
-        }
-
-        /**
-         * Create new document writer with the indentation.
-         *
-         * @return document writer for the next invocation.
-         */
-        public DocumentWriterImpl andIndent() {
-            DocumentWriterImpl documentWriter = new DocumentWriterImpl(this);
-            documentWriter._indent = true;
-            return documentWriter;
-        }
-
-        /**
-         * Write the XML node to the specified writer.
-         *
-         * @param node   the XML node.
-         * @param writer the specified writer
-         */
-        public void writeTo(final Node node, final Writer writer) {
-            try {
-                TransformerFactory transformerFactory = TransformerFactory.newInstance();
-                Transformer transformer = transformerFactory.newTransformer();
-                transformer.setErrorListener(new SkipErrorListener());
-
-                if (!_xmlDeclaration) {
-                    transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
-                }
-                if (_encoding != null) {
-                    transformer.setOutputProperty(OutputKeys.ENCODING, _encoding);
-                }
-                if (_standalone) {
-                    transformer.setOutputProperty(OutputKeys.STANDALONE, "yes");
-                } else {
-                    transformer.setOutputProperty(OutputKeys.STANDALONE, "no");
-                }
-                if (_indent) {
-                    transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-                }
-
-                transformer.transform(new DOMSource(node), new StreamResult(writer));
-            } catch (TransformerException ex) {
-                throw new OutputResultException(ex);
-            }
-        }
-
-        /**
-         * Write the XML node to the specified output stream.
-         *
-         * @param node         the XML node.
-         * @param outputStream the specified output stream.
-         * @param encoding     the encoding the specified output stream.
-         */
-        public void writeTo(final Node node, final OutputStream outputStream, final String encoding) {
-            try {
-                andEncoding(encoding).writeTo(node, new OutputStreamWriter(outputStream, encoding));
-            } catch (IOException ex) {
-                throw new OutputResultException(ex);
-            }
-        }
-
-        /**
-         * Get the string representation of the XML node.
-         *
-         * @param node the XML node.
-         *
-         * @return the string representation of the XML node.
-         */
-        public String getAsString(final Node node) {
-            Writer writer = new StringWriter();
-            writeTo(node, writer);
-            return writer.toString();
-        }
-
+    public String getAsString(final Node node) {
+        Writer writer = new StringWriter();
+        writeTo(node, writer);
+        return writer.toString();
     }
 
     /**
