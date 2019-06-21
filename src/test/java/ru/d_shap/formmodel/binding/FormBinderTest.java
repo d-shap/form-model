@@ -57,7 +57,7 @@ public final class FormBinderTest extends BaseFormModelTest {
         FormDefinitions formDefinitions1 = createFormDefinitionsFromXml(xml1);
         FormBinder formBinder1 = new FormBinder(formDefinitions1, new FormInstanceBinderImpl());
         Document document1 = formBinder1.bind(new BindingSourceImpl("source"), "id");
-        Assertions.assertThat(DocumentWriter.getAsString(document1)).isEqualTo("<form id=\"id\" xmlns=\"http://d-shap.ru/schema/form-instance/1.0\"/>");
+        Assertions.assertThat(DocumentWriter.newInstance().getAsString(document1)).isEqualTo("<form id=\"id\" xmlns=\"http://d-shap.ru/schema/form-instance/1.0\"/>");
 
         try {
             formBinder1.bind(new BindingSourceImpl("source"), "wrong id");
@@ -90,7 +90,7 @@ public final class FormBinderTest extends BaseFormModelTest {
         FormDefinitions formDefinitions3 = createFormDefinitionsFromXml(xml3);
         FormBinder formBinder3 = new FormBinder(formDefinitions3, new FormInstanceBinderImpl());
         Document document3 = formBinder3.bind(new BindingSourceImpl("source"), "id");
-        Assertions.assertThat(DocumentWriter.getAsString(document3)).isEqualTo("<form id=\"id\" xmlns=\"http://d-shap.ru/schema/form-instance/1.0\"><element id=\"id\"/><otherNode repr=\"other\" xmlns=\"http://d-shap.ru/schema/form-instance-other-node/1.0\"/></form>");
+        Assertions.assertThat(DocumentWriter.newInstance().getAsString(document3)).isEqualTo("<form id=\"id\" xmlns=\"http://d-shap.ru/schema/form-instance/1.0\"><element id=\"id\"/><otherNode repr=\"other\" xmlns=\"http://d-shap.ru/schema/form-instance-other-node/1.0\"/></form>");
 
         try {
             String xml4 = "<?xml version='1.0'?>\n";
@@ -120,7 +120,7 @@ public final class FormBinderTest extends BaseFormModelTest {
         FormDefinitions formDefinitions1 = createFormDefinitionsFromXml(xml1);
         FormBinder formBinder1 = new FormBinder(formDefinitions1, new FormInstanceBinderImpl());
         Document document1 = formBinder1.bind(new BindingSourceImpl("source"), "group", "id");
-        Assertions.assertThat(DocumentWriter.getAsString(document1)).isEqualTo("<form group=\"group\" id=\"id\" xmlns=\"http://d-shap.ru/schema/form-instance/1.0\"/>");
+        Assertions.assertThat(DocumentWriter.newInstance().getAsString(document1)).isEqualTo("<form group=\"group\" id=\"id\" xmlns=\"http://d-shap.ru/schema/form-instance/1.0\"/>");
 
         try {
             formBinder1.bind(new BindingSourceImpl("source"), "group", "wrong id");
