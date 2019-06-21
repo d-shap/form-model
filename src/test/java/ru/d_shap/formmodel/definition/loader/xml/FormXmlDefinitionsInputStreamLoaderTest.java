@@ -113,10 +113,10 @@ public final class FormXmlDefinitionsInputStreamLoaderTest extends BaseFormModel
     /**
      * {@link FormXmlDefinitionsInputStreamLoader} class test.
      *
-     * @throws IOException IO exception.
+     * @throws Exception exception in test.
      */
     @Test
-    public void closeTest() throws IOException {
+    public void closeTest() throws Exception {
         String xml = "<?xml version='1.0'?>\n";
         xml += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
         xml += "</ns1:form>";

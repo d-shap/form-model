@@ -201,10 +201,10 @@ public final class DocumentWriterTest extends BaseFormModelTest {
     /**
      * {@link DocumentWriter} class test.
      *
-     * @throws UnsupportedEncodingException unsupported encoding exception.
+     * @throws Exception exception in test.
      */
     @Test
-    public void writeToOutputStreamDefaultTest() throws UnsupportedEncodingException {
+    public void writeToOutputStreamDefaultTest() throws Exception {
         String xml = "<?xml version='1.0'?>\n";
         xml += "<document>";
         xml += "<element>value</element>";
@@ -248,10 +248,10 @@ public final class DocumentWriterTest extends BaseFormModelTest {
     /**
      * {@link DocumentWriter} class test.
      *
-     * @throws UnsupportedEncodingException unsupported encoding exception.
+     * @throws Exception exception in test.
      */
     @Test
-    public void writeToOutputStreamAddXmlDeclarationTest() throws UnsupportedEncodingException {
+    public void writeToOutputStreamAddXmlDeclarationTest() throws Exception {
         String xml = "<?xml version='1.0'?>\n";
         xml += "<document>";
         xml += "<element>value</element>";
@@ -275,10 +275,10 @@ public final class DocumentWriterTest extends BaseFormModelTest {
     /**
      * {@link DocumentWriter} class test.
      *
-     * @throws UnsupportedEncodingException unsupported encoding exception.
+     * @throws Exception exception in test.
      */
     @Test
-    public void writeToOutputStreamAddEncodingTest() throws UnsupportedEncodingException {
+    public void writeToOutputStreamAddEncodingTest() throws Exception {
         String xml = "<?xml version='1.0'?>\n";
         xml += "<document>";
         xml += "<element>value</element>";
@@ -302,10 +302,10 @@ public final class DocumentWriterTest extends BaseFormModelTest {
     /**
      * {@link DocumentWriter} class test.
      *
-     * @throws UnsupportedEncodingException unsupported encoding exception.
+     * @throws Exception exception in test.
      */
     @Test
-    public void writeToOutputStreamAddStandaloneTest() throws UnsupportedEncodingException {
+    public void writeToOutputStreamAddStandaloneTest() throws Exception {
         String xml = "<?xml version='1.0'?>\n";
         xml += "<document>";
         xml += "<element>value</element>";
@@ -329,10 +329,10 @@ public final class DocumentWriterTest extends BaseFormModelTest {
     /**
      * {@link DocumentWriter} class test.
      *
-     * @throws UnsupportedEncodingException unsupported encoding exception.
+     * @throws Exception exception in test.
      */
     @Test
-    public void writeToOutputStreamAddIndentTest() throws UnsupportedEncodingException {
+    public void writeToOutputStreamAddIndentTest() throws Exception {
         String xml = "<?xml version='1.0'?>\n";
         xml += "<document>";
         xml += "<element>value</element>";
@@ -490,10 +490,10 @@ public final class DocumentWriterTest extends BaseFormModelTest {
     /**
      * {@link DocumentWriter} class test.
      *
-     * @throws TransformerException transformer exception.
+     * @throws Exception exception in test.
      */
     @Test
-    public void skipErrorListenerMethodsTest() throws TransformerException {
+    public void skipErrorListenerMethodsTest() throws Exception {
         DocumentWriter.SkipErrorListener skipErrorListener = new DocumentWriter.SkipErrorListener();
 
         skipErrorListener.warning(new TransformerException("Message"));
