@@ -26,6 +26,7 @@ import java.io.InputStream;
 import java.io.Reader;
 import java.io.StringReader;
 import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -65,9 +66,9 @@ import ru.d_shap.formmodel.document.DocumentProcessor;
  */
 public class BaseFormModelTest {
 
-    public static final String ENCODING_UTF_8 = "UTF-8";
+    public static final String ENCODING_UTF_8 = StandardCharsets.UTF_8.name();
 
-    public static final String ENCODING_UTF_16 = "UTF-16";
+    public static final String ENCODING_UTF_16 = StandardCharsets.UTF_16.name();
 
     /**
      * Create new object.
