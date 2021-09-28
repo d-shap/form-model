@@ -66,15 +66,15 @@ final class FormDefinitionValidatorImpl implements FormDefinitionValidator {
         VALID_CHARACTERS.add('-');
     }
 
-    private static final CardinalityDefinition[] ATTRIBUTE_DEFAULT_CARDINALITY = new CardinalityDefinition[]{CardinalityDefinition.REQUIRED, CardinalityDefinition.OPTIONAL, CardinalityDefinition.PROHIBITED};
+    private static final CardinalityDefinition[] ATTRIBUTE_DEFAULT_CARDINALITY = {CardinalityDefinition.REQUIRED, CardinalityDefinition.OPTIONAL, CardinalityDefinition.PROHIBITED};
 
     private static final CardinalityDefinition[] ELEMENT_DEFAULT_CARDINALITY = CardinalityDefinition.values();
 
-    private static final CardinalityDefinition[] ELEMENT_WITHIN_SINGLE_ELEMENT_CARDINALITY = new CardinalityDefinition[]{CardinalityDefinition.OPTIONAL, CardinalityDefinition.OPTIONAL_MULTIPLE};
+    private static final CardinalityDefinition[] ELEMENT_WITHIN_SINGLE_ELEMENT_CARDINALITY = {CardinalityDefinition.OPTIONAL, CardinalityDefinition.OPTIONAL_MULTIPLE};
 
-    private static final CardinalityDefinition[] SINGLE_ELEMENT_DEFAULT_CARDINALITY = new CardinalityDefinition[]{CardinalityDefinition.REQUIRED, CardinalityDefinition.OPTIONAL, CardinalityDefinition.PROHIBITED};
+    private static final CardinalityDefinition[] SINGLE_ELEMENT_DEFAULT_CARDINALITY = {CardinalityDefinition.REQUIRED, CardinalityDefinition.OPTIONAL, CardinalityDefinition.PROHIBITED};
 
-    private static final CardinalityDefinition[] SINGLE_ELEMENT_WITHIN_SINGLE_ELEMENT_CARDINALITY = new CardinalityDefinition[]{CardinalityDefinition.OPTIONAL};
+    private static final CardinalityDefinition[] SINGLE_ELEMENT_WITHIN_SINGLE_ELEMENT_CARDINALITY = {CardinalityDefinition.OPTIONAL};
 
     private final Set<FormDefinitionKey> _allFormDefinitionKeys;
 
