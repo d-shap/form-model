@@ -6,7 +6,7 @@ For example, HTML page can contain many elements, but only some of them make sen
 Form model is a description of this essential elements.
 Then the source HTML page is binded with this description.
 The result of binding is the binded elements.
-An application can use this binded elements and do not care about how this elements were obtained from the source HTML page.
+An application can use this binded elements and do not care about how these elements were obtained from the source HTML page.
 
 Form model library mediates between the source and the application and encapsulates the complexity of the source.
 
@@ -43,7 +43,7 @@ Possible values are:
 * ```required``` - there should be exactly one element.
 * ```required+``` - there should be at least one element.
 * ```optional``` - there could be one element or no element at all.
-* ```optional+``` - there could be more then one element or no element at all.
+* ```optional+``` - there could be more than one element or no element at all.
 * ```prohibited``` - there should not be any element.
 
 Child elements:
@@ -92,7 +92,7 @@ Attributes:
 * ```group``` - the form's group, optional
 * ```id``` - the form's ID, mandatory
 
-# Latest release
+# The latest release
 Form model library:
 * **&lt;groupId&gt;**: ru.d-shap
 * **&lt;artifactId&gt;**: form-model
