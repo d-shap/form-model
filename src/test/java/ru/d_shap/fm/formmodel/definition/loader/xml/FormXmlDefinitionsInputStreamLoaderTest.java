@@ -27,6 +27,7 @@ import java.util.List;
 import org.junit.Test;
 
 import ru.d_shap.assertions.Assertions;
+import ru.d_shap.assertions.util.DataHelper;
 import ru.d_shap.fm.formmodel.BaseFormModelTest;
 import ru.d_shap.fm.formmodel.InputSourceException;
 import ru.d_shap.fm.formmodel.definition.model.FormDefinition;
@@ -91,7 +92,7 @@ public final class FormXmlDefinitionsInputStreamLoaderTest extends BaseFormModel
     @Test
     public void loadFailTest() {
         try {
-            InputStream inputStream = new ReadErrorInputStream();
+            InputStream inputStream = DataHelper.createInputStreamBuilder().setReadException("READ ERROR!").buildInputStream();
             FormXmlDefinitionsInputStreamLoader formXmlDefinitionsInputStreamLoader = new FormXmlDefinitionsInputStreamLoader(inputStream, "source");
             formXmlDefinitionsInputStreamLoader.load();
             Assertions.fail("FormXmlDefinitionsInputStreamLoader test fail");
@@ -100,7 +101,7 @@ public final class FormXmlDefinitionsInputStreamLoaderTest extends BaseFormModel
             Assertions.assertThat(ex).hasCause(IOException.class);
         }
         try {
-            InputStream inputStream = new CloseErrorInputStream();
+            InputStream inputStream = DataHelper.createInputStreamBuilder().setCloseException("CLOSE ERROR!").buildInputStream();
             FormXmlDefinitionsInputStreamLoader formXmlDefinitionsInputStreamLoader = new FormXmlDefinitionsInputStreamLoader(inputStream, "source");
             formXmlDefinitionsInputStreamLoader.load();
             Assertions.fail("FormXmlDefinitionsInputStreamLoader test fail");

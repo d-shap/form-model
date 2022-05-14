@@ -21,6 +21,7 @@ package ru.d_shap.fm.formmodel;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintStream;
 import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
@@ -34,6 +35,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import ru.d_shap.assertions.Assertions;
+import ru.d_shap.assertions.util.DataHelper;
 
 /**
  * Tests for {@link XmlDocumentBuilder}.
@@ -127,7 +129,8 @@ public final class XmlDocumentBuilderTest extends BaseFormModelTest {
     @Test
     public void parseFailTest() {
         try {
-            XmlDocumentBuilder.getDocumentBuilder().parse(new InputSource(new ReadErrorInputStream()));
+            InputStream inputStream = DataHelper.createInputStreamBuilder().setReadException("READ ERROR!").buildInputStream();
+            XmlDocumentBuilder.getDocumentBuilder().parse(new InputSource(inputStream));
             Assertions.fail("XmlDocumentBuilder test fail");
         } catch (InputSourceException ex) {
             Assertions.assertThat(ex).hasMessage("READ ERROR!");

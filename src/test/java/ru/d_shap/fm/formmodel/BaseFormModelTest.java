@@ -236,53 +236,6 @@ public class BaseFormModelTest {
      *
      * @author Dmitry Shapovalov
      */
-    public static final class ReadErrorInputStream extends InputStream {
-
-        /**
-         * Create new object.
-         */
-        public ReadErrorInputStream() {
-            super();
-        }
-
-        @Override
-        public int read() throws IOException {
-            throw new IOException("READ ERROR!");
-        }
-
-    }
-
-    /**
-     * Test class.
-     *
-     * @author Dmitry Shapovalov
-     */
-    public static final class CloseErrorInputStream extends InputStream {
-
-        /**
-         * Create new object.
-         */
-        public CloseErrorInputStream() {
-            super();
-        }
-
-        @Override
-        public int read() throws IOException {
-            return -1;
-        }
-
-        @Override
-        public void close() throws IOException {
-            throw new IOException("CLOSE ERROR!");
-        }
-
-    }
-
-    /**
-     * Test class.
-     *
-     * @author Dmitry Shapovalov
-     */
     public static final class CloseableInputStream extends InputStream {
 
         private final InputStream _inputStream;

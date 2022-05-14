@@ -30,6 +30,7 @@ import org.junit.Test;
 import org.xml.sax.SAXException;
 
 import ru.d_shap.assertions.Assertions;
+import ru.d_shap.assertions.util.DataHelper;
 
 /**
  * Tests for {@link XmlDocumentValidator}.
@@ -69,7 +70,8 @@ public final class XmlDocumentValidatorTest extends BaseFormModelTest {
         }
 
         try {
-            new XmlDocumentValidator(new ReadErrorInputStream());
+            InputStream inputStream = DataHelper.createInputStreamBuilder().setReadException("READ ERROR!").buildInputStream();
+            new XmlDocumentValidator(inputStream);
             Assertions.fail("XmlDocumentValidator test fail");
         } catch (XmlDocumentValidatorConfigurationException ex) {
             Assertions.assertThat(ex).hasCause(SAXException.class);
@@ -157,7 +159,8 @@ public final class XmlDocumentValidatorTest extends BaseFormModelTest {
         }
         try {
             try {
-                XmlDocumentValidator.getFormModelDocumentValidator().validate(new StreamSource(new ReadErrorInputStream()));
+                InputStream inputStream = DataHelper.createInputStreamBuilder().setReadException("READ ERROR!").buildInputStream();
+                XmlDocumentValidator.getFormModelDocumentValidator().validate(new StreamSource(inputStream));
                 Assertions.fail("XmlDocumentValidator test fail");
             } catch (SAXException ex) {
                 Assertions.fail("XmlDocumentValidator test fail");
