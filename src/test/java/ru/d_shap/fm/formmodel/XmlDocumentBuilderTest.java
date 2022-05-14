@@ -170,31 +170,6 @@ public final class XmlDocumentBuilderTest extends BaseFormModelTest {
      * {@link XmlDocumentBuilder} class test.
      */
     @Test
-    public void ignoringElementContentWhitespaceTest() {
-        String xml = "<?xml version='1.0'?>\n";
-        xml += "<!DOCTYPE document [\n";
-        xml += "<!ELEMENT document (element)>\n";
-        xml += "<!ELEMENT element (#PCDATA)>\n";
-        xml += "]>\n";
-        xml += "<document>\n";
-        xml += "    <element>a</element>\n";
-        xml += "</document>";
-        Document document = XmlDocumentBuilder.getDocumentBuilder().parse(new InputSource(new StringReader(xml)));
-        Assertions.assertThat(document).isNotNull();
-        Assertions.assertThat(document.getDocumentElement().getNodeName()).isEqualTo("document");
-        Assertions.assertThat(document.getDocumentElement().getNamespaceURI()).isNull();
-        Assertions.assertThat(document.getDocumentElement().getLocalName()).isEqualTo("document");
-        Assertions.assertThat(document.getDocumentElement().getChildNodes().getLength()).isEqualTo(1);
-        Assertions.assertThat(document.getDocumentElement().getChildNodes().item(0).getNodeName()).isEqualTo("element");
-        Assertions.assertThat(document.getDocumentElement().getChildNodes().item(0).getNamespaceURI()).isNull();
-        Assertions.assertThat(document.getDocumentElement().getChildNodes().item(0).getLocalName()).isEqualTo("element");
-        Assertions.assertThat(document.getDocumentElement().getChildNodes().item(0).getTextContent()).isEqualTo("a");
-    }
-
-    /**
-     * {@link XmlDocumentBuilder} class test.
-     */
-    @Test
     public void stderrTest() {
         PrintStream stderr = System.err;
         try {
