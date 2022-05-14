@@ -21,6 +21,7 @@ package ru.d_shap.fm.formmodel;
 
 import java.io.IOException;
 
+import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -60,6 +61,9 @@ public final class XmlDocumentBuilder {
             documentBuilderFactory.setCoalescing(true);
             documentBuilderFactory.setIgnoringElementContentWhitespace(true);
             documentBuilderFactory.setNamespaceAware(true);
+            documentBuilderFactory.setXIncludeAware(true);
+            documentBuilderFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+            documentBuilderFactory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
             _documentBuilder = documentBuilderFactory.newDocumentBuilder();
             _documentBuilder.setErrorHandler(null);
         } catch (ParserConfigurationException ex) {
