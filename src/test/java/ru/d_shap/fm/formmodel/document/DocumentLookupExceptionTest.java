@@ -45,7 +45,7 @@ public final class DocumentLookupExceptionTest extends BaseFormModelTest {
      */
     @Test
     public void errorMessageTest() {
-        Assertions.assertThat(new DocumentLookupException(null)).toMessage().isNull();
+        Assertions.assertThat(new DocumentLookupException(null)).messageIsNull();
         Assertions.assertThat(new DocumentLookupException(new XPathExpressionException(""))).hasMessage("");
         Assertions.assertThat(new DocumentLookupException(new XPathExpressionException(" "))).hasMessage(" ");
         Assertions.assertThat(new DocumentLookupException(new XPathExpressionException("io error"))).hasMessage("io error");
@@ -56,7 +56,7 @@ public final class DocumentLookupExceptionTest extends BaseFormModelTest {
      */
     @Test
     public void errorCauseTest() {
-        Assertions.assertThat(new DocumentLookupException(null)).toCause().isNull();
+        Assertions.assertThat(new DocumentLookupException(null)).causeIsNull();
         Assertions.assertThat(new DocumentLookupException(new XPathExpressionException(""))).hasCause(XPathExpressionException.class);
         Assertions.assertThat(new DocumentLookupException(new XPathExpressionException(""))).hasCauseMessage("");
         Assertions.assertThat(new DocumentLookupException(new XPathExpressionException(" "))).hasCause(XPathExpressionException.class);

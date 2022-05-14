@@ -44,8 +44,8 @@ public final class XmlDocumentBuilderConfigurationExceptionTest extends BaseForm
      */
     @Test
     public void errorMessageTest() {
-        Assertions.assertThat(new XmlDocumentBuilderConfigurationException(null)).toMessage().isNull();
-        Assertions.assertThat(new XmlDocumentBuilderConfigurationException(new IOException())).toMessage().isNull();
+        Assertions.assertThat(new XmlDocumentBuilderConfigurationException(null)).messageIsNull();
+        Assertions.assertThat(new XmlDocumentBuilderConfigurationException(new IOException())).messageIsNull();
         Assertions.assertThat(new XmlDocumentBuilderConfigurationException(new IOException(""))).hasMessage("");
         Assertions.assertThat(new XmlDocumentBuilderConfigurationException(new IOException(" "))).hasMessage(" ");
         Assertions.assertThat(new XmlDocumentBuilderConfigurationException(new IOException("io error"))).hasMessage("io error");
@@ -56,9 +56,9 @@ public final class XmlDocumentBuilderConfigurationExceptionTest extends BaseForm
      */
     @Test
     public void errorCauseTest() {
-        Assertions.assertThat(new XmlDocumentBuilderConfigurationException(null)).toCause().isNull();
+        Assertions.assertThat(new XmlDocumentBuilderConfigurationException(null)).causeIsNull();
         Assertions.assertThat(new XmlDocumentBuilderConfigurationException(new IOException())).hasCause(IOException.class);
-        Assertions.assertThat(new XmlDocumentBuilderConfigurationException(new IOException())).toCause().toMessage().isNull();
+        Assertions.assertThat(new XmlDocumentBuilderConfigurationException(new IOException())).causeMessageIsNull();
         Assertions.assertThat(new XmlDocumentBuilderConfigurationException(new IOException(""))).hasCause(IOException.class);
         Assertions.assertThat(new XmlDocumentBuilderConfigurationException(new IOException(""))).hasCauseMessage("");
         Assertions.assertThat(new XmlDocumentBuilderConfigurationException(new IOException(" "))).hasCause(IOException.class);

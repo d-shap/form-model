@@ -44,8 +44,8 @@ public final class XmlDocumentValidatorConfigurationExceptionTest extends BaseFo
      */
     @Test
     public void errorMessageTest() {
-        Assertions.assertThat(new XmlDocumentValidatorConfigurationException(null)).toMessage().isNull();
-        Assertions.assertThat(new XmlDocumentValidatorConfigurationException(new IOException())).toMessage().isNull();
+        Assertions.assertThat(new XmlDocumentValidatorConfigurationException(null)).messageIsNull();
+        Assertions.assertThat(new XmlDocumentValidatorConfigurationException(new IOException())).messageIsNull();
         Assertions.assertThat(new XmlDocumentValidatorConfigurationException(new IOException(""))).hasMessage("");
         Assertions.assertThat(new XmlDocumentValidatorConfigurationException(new IOException(" "))).hasMessage(" ");
         Assertions.assertThat(new XmlDocumentValidatorConfigurationException(new IOException("io error"))).hasMessage("io error");
@@ -56,9 +56,9 @@ public final class XmlDocumentValidatorConfigurationExceptionTest extends BaseFo
      */
     @Test
     public void errorCauseTest() {
-        Assertions.assertThat(new XmlDocumentValidatorConfigurationException(null)).toCause().isNull();
+        Assertions.assertThat(new XmlDocumentValidatorConfigurationException(null)).causeIsNull();
         Assertions.assertThat(new XmlDocumentValidatorConfigurationException(new IOException())).hasCause(IOException.class);
-        Assertions.assertThat(new XmlDocumentValidatorConfigurationException(new IOException())).toCause().toMessage().isNull();
+        Assertions.assertThat(new XmlDocumentValidatorConfigurationException(new IOException())).causeMessageIsNull();
         Assertions.assertThat(new XmlDocumentValidatorConfigurationException(new IOException(""))).hasCause(IOException.class);
         Assertions.assertThat(new XmlDocumentValidatorConfigurationException(new IOException(""))).hasCauseMessage("");
         Assertions.assertThat(new XmlDocumentValidatorConfigurationException(new IOException(" "))).hasCause(IOException.class);

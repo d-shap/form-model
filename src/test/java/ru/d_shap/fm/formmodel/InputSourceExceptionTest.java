@@ -44,8 +44,8 @@ public final class InputSourceExceptionTest extends BaseFormModelTest {
      */
     @Test
     public void errorMessageTest() {
-        Assertions.assertThat(new InputSourceException(null)).toMessage().isNull();
-        Assertions.assertThat(new InputSourceException(new IOException())).toMessage().isNull();
+        Assertions.assertThat(new InputSourceException(null)).messageIsNull();
+        Assertions.assertThat(new InputSourceException(new IOException())).messageIsNull();
         Assertions.assertThat(new InputSourceException(new IOException(""))).hasMessage("");
         Assertions.assertThat(new InputSourceException(new IOException(" "))).hasMessage(" ");
         Assertions.assertThat(new InputSourceException(new IOException("io error"))).hasMessage("io error");
@@ -56,9 +56,9 @@ public final class InputSourceExceptionTest extends BaseFormModelTest {
      */
     @Test
     public void errorCauseTest() {
-        Assertions.assertThat(new InputSourceException(null)).toCause().isNull();
+        Assertions.assertThat(new InputSourceException(null)).causeIsNull();
         Assertions.assertThat(new InputSourceException(new IOException())).hasCause(IOException.class);
-        Assertions.assertThat(new InputSourceException(new IOException())).toCause().toMessage().isNull();
+        Assertions.assertThat(new InputSourceException(new IOException())).causeMessageIsNull();
         Assertions.assertThat(new InputSourceException(new IOException(""))).hasCause(IOException.class);
         Assertions.assertThat(new InputSourceException(new IOException(""))).hasCauseMessage("");
         Assertions.assertThat(new InputSourceException(new IOException(" "))).hasCause(IOException.class);
