@@ -27,6 +27,7 @@ import java.util.List;
 import org.junit.Test;
 
 import ru.d_shap.assertions.Assertions;
+import ru.d_shap.assertions.mock.IsCloseable;
 import ru.d_shap.assertions.util.DataHelper;
 import ru.d_shap.fm.formmodel.BaseFormModelTest;
 import ru.d_shap.fm.formmodel.InputSourceException;
@@ -122,18 +123,18 @@ public final class FormXmlDefinitionsInputStreamLoaderTest extends BaseFormModel
         xml += "<ns1:form id='id1' xmlns:ns1='http://d-shap.ru/schema/form-model/1.0'>";
         xml += "</ns1:form>";
 
-        CloseableInputStream inputStream1 = new CloseableInputStream(new ByteArrayInputStream(xml.getBytes()));
-        Assertions.assertThat(inputStream1.isClosed()).isFalse();
+        InputStream inputStream1 = DataHelper.createInputStreamBuilder().setContent(xml.getBytes()).buildInputStream();
+        Assertions.assertThat(((IsCloseable) inputStream1).isClosed()).isFalse();
         FormXmlDefinitionsInputStreamLoader formXmlDefinitionsInputStreamLoader1 = new FormXmlDefinitionsInputStreamLoader(inputStream1, "source1");
         formXmlDefinitionsInputStreamLoader1.close();
-        Assertions.assertThat(inputStream1.isClosed()).isTrue();
+        Assertions.assertThat(((IsCloseable) inputStream1).isClosed()).isTrue();
 
-        CloseableInputStream inputStream2 = new CloseableInputStream(new ByteArrayInputStream(xml.getBytes()));
-        Assertions.assertThat(inputStream2.isClosed()).isFalse();
+        InputStream inputStream2 = DataHelper.createInputStreamBuilder().setContent(xml.getBytes()).buildInputStream();
+        Assertions.assertThat(((IsCloseable) inputStream2).isClosed()).isFalse();
         FormXmlDefinitionsInputStreamLoader formXmlDefinitionsInputStreamLoader2 = new FormXmlDefinitionsInputStreamLoader(inputStream2, "source1");
         List<FormDefinition> formDefinitions2 = formXmlDefinitionsInputStreamLoader2.load();
         Assertions.assertThat(formDefinitions2).hasSize(1);
-        Assertions.assertThat(inputStream2.isClosed()).isTrue();
+        Assertions.assertThat(((IsCloseable) inputStream2).isClosed()).isTrue();
     }
 
 }

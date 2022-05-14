@@ -30,6 +30,7 @@ import org.junit.Test;
 import org.xml.sax.SAXException;
 
 import ru.d_shap.assertions.Assertions;
+import ru.d_shap.assertions.mock.IsCloseable;
 import ru.d_shap.assertions.util.DataHelper;
 
 /**
@@ -180,11 +181,10 @@ public final class XmlDocumentValidatorTest extends BaseFormModelTest {
         xml += "<xs:schema xmlns:xs='http://www.w3.org/2001/XMLSchema'>";
         xml += "<xs:element name='element' type='xs:string' />";
         xml += "</xs:schema>";
-        InputStream inputStream = new ByteArrayInputStream(xml.getBytes());
-        CloseableInputStream closeableInputStream = new CloseableInputStream(inputStream);
-        Assertions.assertThat(closeableInputStream.isClosed()).isFalse();
-        new XmlDocumentValidator(closeableInputStream);
-        Assertions.assertThat(closeableInputStream.isClosed()).isTrue();
+        InputStream inputStream = DataHelper.createInputStreamBuilder().setContent(xml.getBytes()).buildInputStream();
+        Assertions.assertThat(((IsCloseable) inputStream).isClosed()).isFalse();
+        new XmlDocumentValidator(inputStream);
+        Assertions.assertThat(((IsCloseable) inputStream).isClosed()).isTrue();
     }
 
 }

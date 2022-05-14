@@ -21,11 +21,8 @@ package ru.d_shap.fm.formmodel;
 
 import java.io.File;
 import java.io.FileFilter;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.Reader;
 import java.io.StringReader;
-import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -227,130 +224,6 @@ public class BaseFormModelTest {
         public void configure(final DocumentBuilderFactory documentBuilderFactory) throws ParserConfigurationException {
             documentBuilderFactory.setNamespaceAware(true);
             documentBuilderFactory.setFeature("some fake feature", true);
-        }
-
-    }
-
-    /**
-     * Test class.
-     *
-     * @author Dmitry Shapovalov
-     */
-    public static final class CloseableInputStream extends InputStream {
-
-        private final InputStream _inputStream;
-
-        private boolean _closed;
-
-        /**
-         * Create new object.
-         *
-         * @param inputStream input stream.
-         */
-        public CloseableInputStream(final InputStream inputStream) {
-            super();
-            _inputStream = inputStream;
-            _closed = false;
-        }
-
-        @Override
-        public int read() throws IOException {
-            return _inputStream.read();
-        }
-
-        @Override
-        public void close() throws IOException {
-            _inputStream.close();
-            _closed = true;
-        }
-
-        /**
-         * Check if input stream is closed.
-         *
-         * @return true if input stream is closed.
-         */
-        public boolean isClosed() {
-            return _closed;
-        }
-
-    }
-
-    /**
-     * Test class.
-     *
-     * @author Dmitry Shapovalov
-     */
-    public static final class WriteErrorWriter extends Writer {
-
-        /**
-         * Create new object.
-         */
-        public WriteErrorWriter() {
-            super();
-        }
-
-        @Override
-        public void write(final char[] cbuf, final int off, final int len) throws IOException {
-            throw new IOException("WRITE ERROR!");
-        }
-
-        @Override
-        public void flush() throws IOException {
-            // Ignore
-        }
-
-        @Override
-        public void close() throws IOException {
-            // Ignore
-        }
-
-    }
-
-    /**
-     * Test class.
-     *
-     * @author Dmitry Shapovalov
-     */
-    public static final class CloseableWriter extends Writer {
-
-        private final Writer _writer;
-
-        private boolean _closed;
-
-        /**
-         * Create new object.
-         *
-         * @param writer writer
-         */
-        public CloseableWriter(final Writer writer) {
-            super();
-            _writer = writer;
-            _closed = false;
-        }
-
-        @Override
-        public void write(final char[] cbuf, final int off, final int len) throws IOException {
-            _writer.write(cbuf, off, len);
-        }
-
-        @Override
-        public void flush() throws IOException {
-            _writer.flush();
-        }
-
-        @Override
-        public void close() throws IOException {
-            _writer.close();
-            _closed = true;
-        }
-
-        /**
-         * Check if input stream is closed.
-         *
-         * @return true if input stream is closed.
-         */
-        public boolean isClosed() {
-            return _closed;
         }
 
     }

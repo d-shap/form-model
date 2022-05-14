@@ -23,6 +23,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
+import java.io.Writer;
 
 import javax.xml.transform.TransformerException;
 
@@ -30,6 +31,8 @@ import org.junit.Test;
 import org.w3c.dom.Document;
 
 import ru.d_shap.assertions.Assertions;
+import ru.d_shap.assertions.mock.IsCloseable;
+import ru.d_shap.assertions.util.DataHelper;
 import ru.d_shap.fm.formmodel.BaseFormModelTest;
 import ru.d_shap.fm.formmodel.OutputResultException;
 
@@ -77,7 +80,8 @@ public final class DocumentWriterTest extends BaseFormModelTest {
             xml += "</document>";
             Document document = parse(xml);
             document.setXmlStandalone(true);
-            DocumentWriter.newInstance().writeTo(document, new WriteErrorWriter());
+            Writer writer = DataHelper.createWriterBuilder().setWriteException("WRITE ERROR!").buildWriter();
+            DocumentWriter.newInstance().writeTo(document, writer);
             Assertions.fail("DocumentWriterTest test fail");
         } catch (OutputResultException ex) {
             Assertions.assertThat(ex).hasCause(TransformerException.class);
@@ -160,10 +164,10 @@ public final class DocumentWriterTest extends BaseFormModelTest {
         Document document = parse(xml);
         document.setXmlStandalone(true);
         StringWriter stringWriter = new StringWriter();
-        CloseableWriter closeableWriter = new CloseableWriter(stringWriter);
-        Assertions.assertThat(closeableWriter.isClosed()).isFalse();
-        DocumentWriter.newInstance().writeTo(document, closeableWriter);
-        Assertions.assertThat(closeableWriter.isClosed()).isFalse();
+        Writer writer = DataHelper.createWriterBuilder().buildWriter();
+        Assertions.assertThat(((IsCloseable) writer).isClosed()).isFalse();
+        DocumentWriter.newInstance().writeTo(document, writer);
+        Assertions.assertThat(((IsCloseable) writer).isClosed()).isFalse();
     }
 
     /**
@@ -184,7 +188,8 @@ public final class DocumentWriterTest extends BaseFormModelTest {
                     xml += "</document>";
                     Document document = parse(xml);
                     document.setXmlStandalone(true);
-                    DocumentWriter.newInstance().writeTo(document, new WriteErrorWriter());
+                    Writer writer = DataHelper.createWriterBuilder().setWriteException("WRITE ERROR!").buildWriter();
+                    DocumentWriter.newInstance().writeTo(document, writer);
                 } catch (OutputResultException ex) {
                     Assertions.assertThat(ex).hasCause(TransformerException.class);
                 }
