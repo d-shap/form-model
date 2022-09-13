@@ -1,4 +1,12 @@
-Total - 0
+Total - 22
 ===========================================================================
-ru.d_shap.xxx - 0
+ru.d_shap.fm.formmodel - 8
+ru.d_shap.fm.formmodel.binding - 1
+ru.d_shap.fm.formmodel.definition - 0
+ru.d_shap.fm.formmodel.definition.loader - 0
+ru.d_shap.fm.formmodel.definition.loader.xml - 2
+ru.d_shap.fm.formmodel.definition.model - 4
+ru.d_shap.fm.formmodel.definition.validator - 1
+ru.d_shap.fm.formmodel.document - 6
+ru.d_shap.fm.formmodel.utils - 0
 ===========================================================================
