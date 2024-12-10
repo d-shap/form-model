@@ -91,12 +91,3 @@ The elements of the referenced form are included in the current form as child el
 Attributes:
 * ```group``` - the form's group, optional
 * ```id``` - the form's ID, mandatory
-
-# The latest release
-Form model library:
-* **&lt;groupId&gt;**: ru.d-shap.fm
-* **&lt;artifactId&gt;**: form-model
-* **&lt;version&gt;**: 1.0
-
-# Donation
-If you find my code useful, you can [bye me a coffee](https://www.paypal.me/dshapovalov)
